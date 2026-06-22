@@ -1,0 +1,189 @@
+{
+  "nodes": [
+    {
+      "id": "industry-photovoltaic",
+      "name": "光伏",
+      "node_type": "industry",
+      "coordinate_systems": ["A"],
+      "description": "太阳能光伏发电产业",
+      "created_at": "2026-06-22T00:00:00Z",
+      "updated_at": "2026-06-22T00:00:00Z"
+    },
+    {
+      "id": "product-energy-storage-equipment",
+      "name": "储能设备",
+      "node_type": "product",
+      "coordinate_systems": ["A"],
+      "description": "用于电能存储的设备系统，光伏产业的重要配套环节",
+      "created_at": "2026-06-22T00:00:00Z",
+      "updated_at": "2026-06-22T00:00:00Z"
+    },
+    {
+      "id": "product-battery-separator",
+      "name": "电池隔膜",
+      "node_type": "product",
+      "coordinate_systems": ["A", "B"],
+      "description": "锂电池内部隔离正负极、允许离子通过的关键功能膜材料。同时是储能设备产业链的上游环节，也是聚乙烯/聚丙烯材料的一种已知应用形态——这是本图谱A/B坐标系交汇的示范节点。",
+      "attributes": {
+        "physical": {
+          "孔径范围": "0.03-0.1 μm",
+          "厚度": "5-40 μm"
+        }
+      },
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "锂电池隔膜行业技术参数综述",
+          "retrieved_at": "2026-06-22T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-22T00:00:00Z",
+      "updated_at": "2026-06-22T00:00:00Z"
+    },
+    {
+      "id": "material-polyethylene",
+      "name": "聚乙烯",
+      "node_type": "material",
+      "coordinate_systems": ["B"],
+      "aliases": [
+        { "term": "PE", "context": "化工行业通用简称" },
+        { "term": "聚乙烯料", "context": "塑料加工行业口语" }
+      ],
+      "attributes": {
+        "physical": {
+          "密度范围": "0.91-0.96 g/cm³",
+          "耐温范围": "-50°C ~ 80°C"
+        },
+        "chemical": {
+          "耐腐蚀性": "耐大多数酸碱，不耐强氧化性酸"
+        },
+        "cost_tier": "低"
+      },
+      "description": "一种常见热塑性聚合物，按密度可分高密度(HDPE)、低密度(LDPE)等亚型",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "塑料材料国家标准 GB/T 系列（具体标准号需在数据生产阶段核实补全）",
+          "retrieved_at": "2026-06-22T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-22T00:00:00Z",
+      "updated_at": "2026-06-22T00:00:00Z"
+    },
+    {
+      "id": "product-plastic-pipe",
+      "name": "塑料管道",
+      "node_type": "product",
+      "coordinate_systems": ["B"],
+      "description": "聚乙烯延伸应用之一，常见于给水、燃气管道",
+      "created_at": "2026-06-22T00:00:00Z",
+      "updated_at": "2026-06-22T00:00:00Z"
+    },
+    {
+      "id": "product-packaging-film",
+      "name": "包装薄膜/袋",
+      "node_type": "product",
+      "coordinate_systems": ["B"],
+      "description": "聚乙烯延伸应用之一，常见于食品、电商包装",
+      "created_at": "2026-06-22T00:00:00Z",
+      "updated_at": "2026-06-22T00:00:00Z"
+    }
+  ],
+
+  "edges": [
+    {
+      "id": "edge-001",
+      "source": "product-battery-separator",
+      "target": "product-energy-storage-equipment",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "储能设备产业链上游材料分析报告，明确将电池隔膜列为上游核心材料环节",
+          "retrieved_at": "2026-06-22T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-22T00:00:00Z",
+      "updated_at": "2026-06-22T00:00:00Z"
+    },
+    {
+      "id": "edge-002",
+      "source": "product-energy-storage-equipment",
+      "target": "industry-photovoltaic",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "光伏配套储能产业链分析",
+          "retrieved_at": "2026-06-22T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-22T00:00:00Z",
+      "updated_at": "2026-06-22T00:00:00Z"
+    },
+    {
+      "id": "edge-003",
+      "source": "material-polyethylene",
+      "target": "product-battery-separator",
+      "relation_type": "made_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "锂电隔膜材料构成分析：聚乙烯(PE)、聚丙烯(PP)为主流基材",
+          "retrieved_at": "2026-06-22T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-22T00:00:00Z",
+      "updated_at": "2026-06-22T00:00:00Z"
+    },
+    {
+      "id": "edge-004",
+      "source": "material-polyethylene",
+      "target": "product-plastic-pipe",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "standard",
+          "description": "聚乙烯管道相关国家标准",
+          "retrieved_at": "2026-06-22T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-22T00:00:00Z",
+      "updated_at": "2026-06-22T00:00:00Z"
+    },
+    {
+      "id": "edge-005",
+      "source": "material-polyethylene",
+      "target": "product-packaging-film",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "聚乙烯薄膜包装应用行业概述",
+          "retrieved_at": "2026-06-22T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-22T00:00:00Z",
+      "updated_at": "2026-06-22T00:00:00Z"
+    },
+    {
+      "id": "edge-006",
+      "source": "product-plastic-pipe",
+      "target": "product-packaging-film",
+      "relation_type": "structurally_similar_to",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "两者均依赖聚乙烯的热塑成型特性，加工设备存在重叠的可能性（示例性占位，实际是否具备设备级互通性待核实）",
+        "proposed_at": "2026-06-22T00:00:00Z"
+      },
+      "created_at": "2026-06-22T00:00:00Z",
+      "updated_at": "2026-06-22T00:00:00Z"
+    }
+  ]
+}
