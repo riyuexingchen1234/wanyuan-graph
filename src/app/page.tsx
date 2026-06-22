@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import cytoscape from 'cytoscape';
 import GraphCanvas from '../components/GraphCanvas';
 import NodeDetail from '../components/NodeDetail';
@@ -8,8 +8,12 @@ import SearchBar from '../components/SearchBar';
 import Legend from '../components/Legend';
 import DataCounter from '../components/DataCounter';
 import PathGuide from '../components/PathGuide';
+import IntroOverlay from '../components/IntroOverlay';
+import KeyboardShortcuts from '../components/KeyboardShortcuts';
 import type { GraphData, GraphNode, NodeWithNeighbors } from '../lib/types';
-import { SAMPLE_PATH_NODE_IDS } from '../lib/sample-path';
+import { SAMPLE_PATH_NODE_IDS, SAMPLE_PATH } from '../lib/sample-path';
+
+const INTRO_SHOWN_KEY = 'wanyuan-intro-shown';
 
 export default function Home() {
   const [graphData, setGraphData] = useState<GraphData | null>(null);
@@ -23,6 +27,16 @@ export default function Home() {
   const [isGuiding, setIsGuiding] = useState(false);
   const [neighborsMap, setNeighborsMap] = useState<Map<string, NodeWithNeighbors>>(new Map());
   const [isLoadingNeighbors, setIsLoadingNeighbors] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchBarRef = useRef<{ focus: () => void } | null>(null);
+
+  useEffect(() => {
+    const hasShown = sessionStorage.getItem(INTRO_SHOWN_KEY);
+    if (hasShown) {
+      setShowIntro(false);
+    }
+  }, []);
 
   useEffect(() => {
     async function fetchGraphData() {
@@ -108,6 +122,11 @@ export default function Home() {
   }, []);
 
   const handleStartGuide = useCallback(async () => {
+    setShowIntro(false);
+    sessionStorage.setItem(INTRO_SHOWN_KEY, 'true');
+    
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
     setIsLoadingNeighbors(true);
     
     try {
@@ -133,6 +152,11 @@ export default function Home() {
     }
   }, []);
 
+  const handleExplore = useCallback(() => {
+    setShowIntro(false);
+    sessionStorage.setItem(INTRO_SHOWN_KEY, 'true');
+  }, []);
+
   const handleExitGuide = useCallback(() => {
     setIsGuiding(false);
     if (cyInstance) {
@@ -142,7 +166,46 @@ export default function Home() {
     }
   }, [cyInstance]);
 
-  if (!graphData) {
+  const handleSearchFocus = useCallback(() => {
+    setSearchOpen(true);
+  }, []);
+
+  const handleEscape = useCallback(() => {
+    if (showIntro) return;
+    
+    if (selectedNodeId) {
+      setSelectedNodeId(null);
+      if (cyInstance) {
+        cyInstance.elements().animate({
+          style: { opacity: 1 },
+        }, { duration: 200 });
+      }
+    } else if (isGuiding) {
+      handleExitGuide();
+    }
+    
+    setSearchOpen(false);
+  }, [showIntro, selectedNodeId, isGuiding, cyInstance, handleExitGuide]);
+
+  const handlePrevStep = useCallback(() => {
+    if (!isGuiding) return;
+    
+    const currentIndex = SAMPLE_PATH.findIndex(s => s.nodeId === selectedNodeId);
+    if (currentIndex > 0) {
+      handleNodeJump(SAMPLE_PATH[currentIndex - 1].nodeId);
+    }
+  }, [isGuiding, selectedNodeId, handleNodeJump]);
+
+  const handleNextStep = useCallback(() => {
+    if (!isGuiding) return;
+    
+    const currentIndex = SAMPLE_PATH.findIndex(s => s.nodeId === selectedNodeId);
+    if (currentIndex < SAMPLE_PATH.length - 1) {
+      handleNodeJump(SAMPLE_PATH[currentIndex + 1].nodeId);
+    }
+  }, [isGuiding, selectedNodeId, handleNodeJump]);
+
+  if (!graphData && !showIntro) {
     return (
       <div className="h-screen w-full bg-canvas-900 flex items-center justify-center">
         {loading ? (
@@ -176,6 +239,10 @@ export default function Home() {
 
   return (
     <div className="h-screen w-full flex overflow-hidden">
+      {showIntro && graphData && (
+        <IntroOverlay onStart={handleStartGuide} onExplore={handleExplore} />
+      )}
+      
       <div className="flex-1 relative">
         <header className="absolute top-4 left-4 z-30 flex items-center gap-3">
           <div className="bg-white/95 backdrop-blur rounded-arco-lg shadow-arco-1 px-5 py-3 flex items-center gap-3">
@@ -188,10 +255,10 @@ export default function Home() {
           
           <button
             onClick={handleStartGuide}
-            disabled={isLoadingNeighbors || isGuiding}
+            disabled={isLoadingNeighbors || isGuiding || !graphData}
             className={`
               flex items-center gap-2 px-4 py-2 rounded-arco-md text-sm font-medium transition-all
-              ${isLoadingNeighbors || isGuiding
+              ${isLoadingNeighbors || isGuiding || !graphData
                 ? 'bg-coord-ab/50 text-white/70 cursor-not-allowed'
                 : 'bg-coord-ab hover:bg-coord-ab/80 text-white shadow-arco-1 cursor-pointer'
               }
@@ -207,11 +274,11 @@ export default function Home() {
         <SearchBar onNodeSelect={handleNodeSelect} />
         
         <GraphCanvas
-          data={graphData}
+          data={graphData!}
           selectedNodeId={selectedNodeId}
           onNodeSelect={handleNodeSelect}
           onCyReady={setCyInstance}
-          loading={loading}
+          loading={loading || !graphData}
           error={error}
           onRetry={handleRetry}
         />
@@ -219,9 +286,18 @@ export default function Home() {
         <Legend isHidden={isGuiding} />
         
         <DataCounter 
-          nodeCount={graphData.nodes.length} 
-          edgeCount={graphData.edges.length} 
-          isLoading={loading}
+          nodeCount={graphData?.nodes.length || 0} 
+          edgeCount={graphData?.edges.length || 0} 
+          isLoading={loading || !graphData}
+        />
+        
+        <KeyboardShortcuts
+          onSearchFocus={handleSearchFocus}
+          onEscape={handleEscape}
+          onPrevStep={handlePrevStep}
+          onNextStep={handleNextStep}
+          isGuiding={isGuiding}
+          isSearchOpen={searchOpen}
         />
         
         <PathGuide
