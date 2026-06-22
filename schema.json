@@ -1,8 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "万源图谱 - 数据本体 Schema",
-  "description": "定义图谱核心数据资产的结构，呈现层（网站/API/分支产品）应消费此结构，而非自行定义数据格式。",
-  "version": "0.1.0",
+  "description": "定义图谱核心数据资产的结构，呈现层（网站/API/分支产品）应消费此结构，而非自行定义数据格式。版本：0.1.0",
 
   "definitions": {
 

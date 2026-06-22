@@ -1,8 +1,15 @@
+'use client';
+
 import { useState, useEffect, useCallback } from 'react';
 import cytoscape from 'cytoscape';
 import GraphCanvas from '../components/GraphCanvas';
 import NodeDetail from '../components/NodeDetail';
+import SearchBar from '../components/SearchBar';
+import Legend from '../components/Legend';
+import DataCounter from '../components/DataCounter';
+import PathGuide from '../components/PathGuide';
 import type { GraphData, GraphNode, NodeWithNeighbors } from '../lib/types';
+import { SAMPLE_PATH_NODE_IDS } from '../lib/sample-path';
 
 export default function Home() {
   const [graphData, setGraphData] = useState<GraphData | null>(null);
@@ -13,6 +20,9 @@ export default function Home() {
   const [loadingNode, setLoadingNode] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [cyInstance, setCyInstance] = useState<cytoscape.Core | null>(null);
+  const [isGuiding, setIsGuiding] = useState(false);
+  const [neighborsMap, setNeighborsMap] = useState<Map<string, NodeWithNeighbors>>(new Map());
+  const [isLoadingNeighbors, setIsLoadingNeighbors] = useState(false);
 
   useEffect(() => {
     async function fetchGraphData() {
@@ -72,7 +82,7 @@ export default function Home() {
     if (cyInstance) {
       const node = cyInstance.getElementById(id);
       if (node.length > 0) {
-        node.center();
+        cyInstance.center(node);
         cyInstance.animate({ zoom: 1.5 }, { duration: 500 });
       }
     }
@@ -96,6 +106,41 @@ export default function Home() {
         setLoading(false);
       });
   }, []);
+
+  const handleStartGuide = useCallback(async () => {
+    setIsLoadingNeighbors(true);
+    
+    try {
+      const promises = SAMPLE_PATH_NODE_IDS.map(nodeId => 
+        fetch(`/api/graph/${nodeId}`).then(res => res.json())
+      );
+      
+      const results = await Promise.all(promises);
+      const newMap = new Map<string, NodeWithNeighbors>();
+      
+      results.forEach((data, index) => {
+        if (data && data.node) {
+          newMap.set(SAMPLE_PATH_NODE_IDS[index], data);
+        }
+      });
+      
+      setNeighborsMap(newMap);
+      setIsGuiding(true);
+    } catch (err) {
+      console.error('Error preloading neighbors:', err);
+    } finally {
+      setIsLoadingNeighbors(false);
+    }
+  }, []);
+
+  const handleExitGuide = useCallback(() => {
+    setIsGuiding(false);
+    if (cyInstance) {
+      cyInstance.elements().animate({
+        style: { opacity: 1 },
+      }, { duration: 300 });
+    }
+  }, [cyInstance]);
 
   if (!graphData) {
     return (
@@ -132,7 +177,7 @@ export default function Home() {
   return (
     <div className="h-screen w-full flex overflow-hidden">
       <div className="flex-1 relative">
-        <header className="absolute top-4 left-4 z-10">
+        <header className="absolute top-4 left-4 z-30 flex items-center gap-3">
           <div className="bg-white/95 backdrop-blur rounded-arco-lg shadow-arco-1 px-5 py-3 flex items-center gap-3">
             <div className="w-1 h-6 bg-coord-ab rounded-full" />
             <div>
@@ -140,7 +185,26 @@ export default function Home() {
               <p className="text-arco-xs text-ink-3">看见被行业分类切断的连接</p>
             </div>
           </div>
+          
+          <button
+            onClick={handleStartGuide}
+            disabled={isLoadingNeighbors || isGuiding}
+            className={`
+              flex items-center gap-2 px-4 py-2 rounded-arco-md text-sm font-medium transition-all
+              ${isLoadingNeighbors || isGuiding
+                ? 'bg-coord-ab/50 text-white/70 cursor-not-allowed'
+                : 'bg-coord-ab hover:bg-coord-ab/80 text-white shadow-arco-1 cursor-pointer'
+              }
+            `}
+          >
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+            {isLoadingNeighbors ? '加载中…' : '查看示范路径'}
+          </button>
         </header>
+        
+        <SearchBar onNodeSelect={handleNodeSelect} />
         
         <GraphCanvas
           data={graphData}
@@ -151,9 +215,25 @@ export default function Home() {
           error={error}
           onRetry={handleRetry}
         />
+        
+        <Legend isHidden={isGuiding} />
+        
+        <DataCounter 
+          nodeCount={graphData.nodes.length} 
+          edgeCount={graphData.edges.length} 
+          isLoading={loading}
+        />
+        
+        <PathGuide
+          cyInstance={cyInstance}
+          neighborsMap={neighborsMap}
+          onNodeSelect={handleNodeSelect}
+          isActive={isGuiding}
+          onExit={handleExitGuide}
+        />
       </div>
 
-      {selectedNodeId && (
+      {selectedNodeId && !isGuiding && (
         <NodeDetail
           node={selectedNode}
           neighbors={neighbors}

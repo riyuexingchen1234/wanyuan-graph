@@ -1,5 +1,5 @@
-import { useEffect, useRef, useCallback } from 'react';
-import cytoscape from 'cytoscape';
+import { useEffect, useRef, useCallback, useState } from 'react';
+import cytoscape, { NodeDefinition, EdgeDefinition } from 'cytoscape';
 import type { GraphData, GraphNode, GraphEdge } from '../lib/types';
 import {
   getNodeStyle,
@@ -11,6 +11,7 @@ import {
   getNodeColor,
   RELATION_LABELS,
 } from '../lib/cytoscape-config';
+import { GHOST_NODES } from '../lib/ghost-nodes';
 
 interface GraphCanvasProps {
   data: GraphData;
@@ -34,39 +35,70 @@ export default function GraphCanvas({
   const containerRef = useRef<HTMLDivElement>(null);
   const cyRef = useRef<cytoscape.Core | null>(null);
   const pulseIntervalRef = useRef<number | null>(null);
+  const [tooltip, setTooltip] = useState({ show: false, x: 0, y: 0, text: '' });
 
-  const createElements = useCallback((nodes: GraphNode[], edges: GraphEdge[]) => {
+  const getGhostNodeColor = (coordSystem: string) => {
+    switch (coordSystem) {
+      case 'A': return '#165DFF';
+      case 'B': return '#00B42A';
+      case 'AB': return '#FF7D00';
+      default: return '#4E5969';
+    }
+  };
+
+  const createElements = useCallback((nodes: GraphNode[], edges: GraphEdge[]): Array<NodeDefinition | EdgeDefinition> => {
     const degrees = calculateNodeDegrees({ nodes, edges });
     
-    const cyNodes = nodes.map(node => ({
+    const cyNodes: NodeDefinition[] = nodes.map(node => ({
       group: 'nodes',
       data: {
-        id: node.id,
+        ...node,
         label: node.name,
-        node_type: node.node_type,
-        coordinate_systems: node.coordinate_systems,
         degree: degrees[node.id],
         color: getNodeColor(node.coordinate_systems),
-        ...node,
+        isGhost: false,
       },
       style: getNodeStyle(node.coordinate_systems, degrees[node.id]),
     }));
 
-    const cyEdges = edges.map(edge => ({
+    const ghostNodes: NodeDefinition[] = GHOST_NODES.map(ghost => ({
+      group: 'nodes',
+      data: {
+        id: ghost.id,
+        label: ghost.name,
+        isGhost: true,
+        coordinate_system: ghost.coordinate_system,
+        hint: ghost.hint,
+      },
+      position: { x: ghost.x, y: ghost.y },
+      style: {
+        'background-color': getGhostNodeColor(ghost.coordinate_system),
+        'background-opacity': 0.15,
+        'border-width': '1px',
+        'border-style': 'dashed',
+        'border-color': getGhostNodeColor(ghost.coordinate_system),
+        'width': '20px',
+        'height': '20px',
+        'overlay-opacity': 0,
+        'label': ghost.name,
+        'font-size': '10px',
+        'color': '#4E5969',
+        'text-opacity': 0.5,
+        'text-valign': 'bottom',
+        'text-margin-y': '4px',
+      },
+    }));
+
+    const cyEdges: EdgeDefinition[] = edges.map(edge => ({
       group: 'edges',
       data: {
-        id: edge.id,
-        source: edge.source,
-        target: edge.target,
-        relation_type: edge.relation_type,
-        relation_label: RELATION_LABELS[edge.relation_type] || '',
-        verification_status: edge.verification_status,
         ...edge,
+        relation_label: RELATION_LABELS[edge.relation_type] || '',
       },
       style: getEdgeStyle(edge.relation_type, edge.verification_status),
     }));
 
-    return [...cyNodes, ...cyEdges];
+    return [...cyNodes, ...ghostNodes, ...cyEdges] as Array<NodeDefinition | EdgeDefinition>;
   }, []);
 
   useEffect(() => {
@@ -112,6 +144,20 @@ export default function GraphCanvas({
           },
         },
         {
+          selector: 'node[isGhost="true"]',
+          style: {
+            'shadow-blur': 0,
+            'shadow-opacity': 0,
+          },
+        },
+        {
+          selector: 'node[isGhost="true"]:hover',
+          style: {
+            'background-opacity': 0.3,
+            'border-width': '2px',
+          },
+        },
+        {
           selector: 'edge',
           style: {
             'target-arrow-shape': 'none',
@@ -127,10 +173,22 @@ export default function GraphCanvas({
             'label': 'data(relation_label)',
           },
         },
-      ],
-      layout: COSE_LAYOUT,
+      ] as any,
+      layout: {
+        name: 'preset',
+        positions: (node: any) => {
+          if (node.data('isGhost')) {
+            return { x: node.data('x') || 0, y: node.data('y') || 0 };
+          }
+          return { x: 0, y: 0 };
+        },
+        fit: true,
+        padding: 50,
+      } as any,
       ...CYTOSCAPE_CONFIG,
     });
+
+    cy.layout(COSE_LAYOUT).run();
 
     cyRef.current = cy;
     
@@ -138,20 +196,30 @@ export default function GraphCanvas({
       onCyReady(cy);
     }
 
-    let selectedNode: cytoscape.Node | null = null;
+    let selectedNode: any | null = null;
 
     cy.on('tap', 'node', (event) => {
       const node = event.target;
       const nodeId = node.data('id');
+      const isGhost = node.data('isGhost');
+
+      if (isGhost) {
+        alert('此节点为预览，完整图谱开发中');
+        return;
+      }
       
       onNodeSelect(nodeId);
       
       selectedNode = node;
       node.select();
       
-      cy.elements().not(node).not(`edge[source="${nodeId}"], edge[target="${nodeId}"]`).animate({
-        style: { opacity: 0.15 },
-      }, { duration: 200 });
+      cy.elements()
+        .not(node)
+        .not(`edge[source="${nodeId}"], edge[target="${nodeId}"]`)
+        .not('[isGhost="true"]')
+        .animate({
+          style: { opacity: 0.15 },
+        }, { duration: 200 });
       
       node.animate({
         position: {
@@ -181,12 +249,29 @@ export default function GraphCanvas({
 
     cy.on('mouseover', 'node', (event) => {
       const node = event.target;
-      node.style({ 'color': '#FFFFFF' });
+      const isGhost = node.data('isGhost');
+      
+      if (isGhost) {
+        const hint = node.data('hint');
+        const position = node.renderedPosition();
+        setTooltip({
+          show: true,
+          x: position.x + 15,
+          y: position.y - 10,
+          text: hint || '',
+        });
+      } else {
+        node.style({ 'color': '#FFFFFF' });
+      }
     });
 
     cy.on('mouseout', 'node', (event) => {
       const node = event.target;
-      if (!node.selected()) {
+      const isGhost = node.data('isGhost');
+      
+      if (isGhost) {
+        setTooltip({ show: false, x: 0, y: 0, text: '' });
+      } else if (!node.selected()) {
         node.style({ 'color': '#C9CDD4' });
       }
     });
@@ -210,6 +295,10 @@ export default function GraphCanvas({
 
     cy.on('dbltap', 'node', (event) => {
       const node = event.target;
+      const isGhost = node.data('isGhost');
+      
+      if (isGhost) return;
+      
       cy.animate({
         zoom: 1.5,
         pan: {
@@ -221,6 +310,7 @@ export default function GraphCanvas({
 
     pulseIntervalRef.current = window.setInterval(() => {
       const intersectionNodes = cy.nodes().filter((node) => {
+        if (node.data('isGhost')) return false;
         const coords = node.data('coordinate_systems');
         return isIntersectionNode(coords);
       });
@@ -247,7 +337,7 @@ export default function GraphCanvas({
       const node = cyRef.current.getElementById(selectedNodeId);
       if (node.length > 0) {
         node.select();
-        node.center();
+        cyRef.current.center(node);
       }
     } else {
       cyRef.current.elements().deselect();
@@ -329,6 +419,19 @@ export default function GraphCanvas({
       />
       
       <div ref={containerRef} className="w-full h-full" />
+      
+      {tooltip.show && (
+        <div
+          className="absolute z-50 px-3 py-1.5 bg-canvas-900/95 backdrop-blur rounded-arco-sm shadow-arco-2 pointer-events-none"
+          style={{
+            left: tooltip.x,
+            top: tooltip.y,
+            border: '1px solid rgba(255,255,255,0.1)',
+          }}
+        >
+          <span className="text-arco-xs text-white/80">{tooltip.text}</span>
+        </div>
+      )}
     </div>
   );
 }

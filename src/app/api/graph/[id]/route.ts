@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getNodeWithNeighbors } from '../../../lib/graph-data';
+import { getNodeWithNeighbors } from '@/lib/graph-data';
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   const { id } = params;

@@ -1,6 +1,6 @@
 import sampleData from '../data/sample-data.json';
 import { validateGraphData } from './schema-validator';
-import type { GraphData, GraphNode, NodeWithNeighbors, NeighborNode } from './types';
+import type { GraphData, GraphNode, NodeWithNeighbors, NeighborNode, GraphEdge } from './types';
 
 let graphData: GraphData;
 
