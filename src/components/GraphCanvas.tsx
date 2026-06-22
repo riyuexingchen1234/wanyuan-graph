@@ -35,6 +35,7 @@ export default function GraphCanvas({
   const containerRef = useRef<HTMLDivElement>(null);
   const cyRef = useRef<cytoscape.Core | null>(null);
   const pulseIntervalRef = useRef<number | null>(null);
+  const isMountedRef = useRef(false);
   const [tooltip, setTooltip] = useState({ show: false, x: 0, y: 0, text: '' });
 
   const getGhostNodeColor = (coordSystem: string) => {
@@ -102,14 +103,14 @@ export default function GraphCanvas({
   }, []);
 
   useEffect(() => {
+    if (!data || data.nodes.length === 0) return;
     if (!containerRef.current) return;
 
-    if (cyRef.current) {
-      cyRef.current.destroy();
-    }
+    isMountedRef.current = true;
 
     if (pulseIntervalRef.current) {
       clearInterval(pulseIntervalRef.current);
+      pulseIntervalRef.current = null;
     }
 
     const cy = cytoscape({
@@ -122,8 +123,8 @@ export default function GraphCanvas({
             'background-color': 'data(color)',
             'background-opacity': 1,
             'shadow-blur': 20,
-            'shadow-color': 'data(color)',
-            'shadow-opacity': 0.5,
+            'overlay-color': 'data(color)',
+            'overlay-opacity': 0.5,
           },
         },
         {
@@ -147,7 +148,7 @@ export default function GraphCanvas({
           selector: 'node[isGhost="true"]',
           style: {
             'shadow-blur': 0,
-            'shadow-opacity': 0,
+            'overlay-opacity': 0,
           },
         },
         {
@@ -199,6 +200,7 @@ export default function GraphCanvas({
     let selectedNode: any | null = null;
 
     cy.on('tap', 'node', (event) => {
+      if (!isMountedRef.current || !cyRef.current) return;
       const node = event.target;
       const nodeId = node.data('id');
       const isGhost = node.data('isGhost');
@@ -235,6 +237,7 @@ export default function GraphCanvas({
     });
 
     cy.on('tap', (event) => {
+      if (!isMountedRef.current || !cyRef.current) return;
       if (event.target === cy) {
         onNodeSelect('');
         
@@ -248,6 +251,7 @@ export default function GraphCanvas({
     });
 
     cy.on('mouseover', 'node', (event) => {
+      if (!isMountedRef.current || !cyRef.current) return;
       const node = event.target;
       const isGhost = node.data('isGhost');
       
@@ -266,6 +270,7 @@ export default function GraphCanvas({
     });
 
     cy.on('mouseout', 'node', (event) => {
+      if (!isMountedRef.current || !cyRef.current) return;
       const node = event.target;
       const isGhost = node.data('isGhost');
       
@@ -277,6 +282,7 @@ export default function GraphCanvas({
     });
 
     cy.on('mouseover', 'edge', (event) => {
+      if (!isMountedRef.current || !cyRef.current) return;
       const edge = event.target;
       edge.style({
         'line-width': 3,
@@ -285,6 +291,7 @@ export default function GraphCanvas({
     });
 
     cy.on('mouseout', 'edge', (event) => {
+      if (!isMountedRef.current || !cyRef.current) return;
       const edge = event.target;
       const isVerified = edge.data('verification_status') === 'verified';
       edge.style({
@@ -294,6 +301,7 @@ export default function GraphCanvas({
     });
 
     cy.on('dbltap', 'node', (event) => {
+      if (!isMountedRef.current || !cyRef.current) return;
       const node = event.target;
       const isGhost = node.data('isGhost');
       
@@ -309,6 +317,8 @@ export default function GraphCanvas({
     });
 
     pulseIntervalRef.current = window.setInterval(() => {
+      if (!isMountedRef.current || !cyRef.current) return;
+      
       const intersectionNodes = cy.nodes().filter((node) => {
         if (node.data('isGhost')) return false;
         const coords = node.data('coordinate_systems');
@@ -323,15 +333,29 @@ export default function GraphCanvas({
     }, 2000);
 
     return () => {
-      cy.destroy();
+      isMountedRef.current = false;
+      
       if (pulseIntervalRef.current) {
         clearInterval(pulseIntervalRef.current);
+        pulseIntervalRef.current = null;
+      }
+      
+      if (cyRef.current) {
+        const cyInstance = cyRef.current;
+        try {
+          cyInstance.stop(true, true);
+          cyInstance.removeAllListeners();
+          cyInstance.destroy();
+        } catch (e) {
+          // 实例可能已部分销毁，忽略错误
+        }
+        cyRef.current = null;
       }
     };
   }, [data, onNodeSelect, onCyReady, createElements]);
 
   useEffect(() => {
-    if (!cyRef.current) return;
+    if (!isMountedRef.current || !cyRef.current) return;
 
     if (selectedNodeId) {
       const node = cyRef.current.getElementById(selectedNodeId);

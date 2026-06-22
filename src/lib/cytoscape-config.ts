@@ -60,8 +60,8 @@ export function getNodeStyle(coordinateSystems: string[], degree: number): Recor
     height: size,
     'background-color': color,
     'border-width': 0,
-    'overlay-color': overlayColor,
-    'overlay-opacity': isAB ? 0.35 : 0.25,
+    'overlay-color': color,
+    'overlay-opacity': isAB ? 0.5 : 0.35,
     'text-valign': 'bottom',
     'text-halign': 'center',
     'text-margin-y': 8,
@@ -72,8 +72,6 @@ export function getNodeStyle(coordinateSystems: string[], degree: number): Recor
     'font-weight': 500,
     'z-index': 10,
     'shadow-blur': 20,
-    'shadow-color': color,
-    'shadow-opacity': 0.5,
   };
 }
 
