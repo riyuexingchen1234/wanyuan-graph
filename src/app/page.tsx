@@ -1,35 +1,35 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
-import cytoscape from 'cytoscape';
+import { useState, useEffect, useCallback } from 'react';
 import GraphCanvas from '../components/GraphCanvas';
 import NodeDetail from '../components/NodeDetail';
 import SearchBar from '../components/SearchBar';
-import Legend from '../components/Legend';
-import DataCounter from '../components/DataCounter';
-import PathGuide from '../components/PathGuide';
 import IntroOverlay from '../components/IntroOverlay';
 import KeyboardShortcuts from '../components/KeyboardShortcuts';
-import type { GraphData, GraphNode, NodeWithNeighbors } from '../lib/types';
-import { SAMPLE_PATH_NODE_IDS, SAMPLE_PATH } from '../lib/sample-path';
+import type { GraphData, GraphNode, NodeChainInfo, ChainView } from '../lib/types';
 
 const INTRO_SHOWN_KEY = 'wanyuan-intro-shown';
 
+interface BreadcrumbItem {
+  nodeId: string;
+  nodeName: string;
+  chainLabel?: string;
+}
+
 export default function Home() {
   const [graphData, setGraphData] = useState<GraphData | null>(null);
-  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
-  const [neighbors, setNeighbors] = useState<NodeWithNeighbors | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [chainInfo, setChainInfo] = useState<NodeChainInfo | null>(null);
+  const [chainView, setChainView] = useState<ChainView | null>(null);
+  const [selectedChain, setSelectedChain] = useState<string | null>(null);
+
   const [loadingNode, setLoadingNode] = useState(false);
+  const [loadingChain, setLoadingChain] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [cyInstance, setCyInstance] = useState<cytoscape.Core | null>(null);
-  const [isGuiding, setIsGuiding] = useState(false);
-  const [neighborsMap, setNeighborsMap] = useState<Map<string, NodeWithNeighbors>>(new Map());
-  const [isLoadingNeighbors, setIsLoadingNeighbors] = useState(false);
+
+  const [breadcrumb, setBreadcrumb] = useState<BreadcrumbItem[]>([]);
   const [showIntro, setShowIntro] = useState(true);
   const [searchOpen, setSearchOpen] = useState(false);
-  const searchBarRef = useRef<{ focus: () => void } | null>(null);
 
   useEffect(() => {
     const hasShown = sessionStorage.getItem(INTRO_SHOWN_KEY);
@@ -38,284 +38,288 @@ export default function Home() {
     }
   }, []);
 
+  // 预加载完整图数据（用于本地节点查找）
   useEffect(() => {
-    async function fetchGraphData() {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await fetch('/api/graph');
-        if (!response.ok) {
-          throw new Error('Failed to fetch graph data');
-        }
-        const data = await response.json();
-        setGraphData(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchGraphData();
+    let mounted = true;
+    fetch('/api/graph')
+      .then((res) => res.json())
+      .then((data: GraphData) => {
+        if (mounted) setGraphData(data);
+      })
+      .catch((err) => {
+        console.error('Failed to preload graph data:', err);
+      });
+    return () => {
+      mounted = false;
+    };
   }, []);
 
-  useEffect(() => {
-    if (!selectedNodeId) {
-      setSelectedNode(null);
-      setNeighbors(null);
-      return;
-    }
-
-    async function fetchNodeDetails() {
+  // 获取节点链路信息
+  const fetchNodeChains = useCallback(
+    async (nodeId: string) => {
       try {
         setLoadingNode(true);
-        const response = await fetch(`/api/graph/${selectedNodeId}`);
+        setError(null);
+        const response = await fetch(`/api/graph?node=${encodeURIComponent(nodeId)}`);
         if (!response.ok) {
-          throw new Error('Failed to fetch node details');
+          throw new Error('Failed to fetch node chains');
         }
-        const data = await response.json();
-        setSelectedNode(data.node);
-        setNeighbors(data);
+        const data: NodeChainInfo = await response.json();
+        setChainInfo(data);
+        // 从已缓存的图数据中查找节点
+        const nodeObj = graphData?.nodes.find((n) => n.id === nodeId) || null;
+        setSelectedNode(nodeObj);
       } catch (err) {
-        console.error('Error fetching node details:', err);
+        setError(err instanceof Error ? err.message : 'Unknown error');
       } finally {
         setLoadingNode(false);
       }
-    }
+    },
+    [graphData]
+  );
 
-    fetchNodeDetails();
-  }, [selectedNodeId]);
+  // 获取链路视图
+  const fetchChainView = useCallback(
+    async (nodeId: string, relationType: string, depth: number = 3) => {
+      try {
+        setLoadingChain(true);
+        setError(null);
+        const response = await fetch(
+          `/api/graph?node=${encodeURIComponent(nodeId)}&chain=${encodeURIComponent(
+            relationType
+          )}&depth=${depth}`
+        );
+        if (!response.ok) {
+          throw new Error('Failed to fetch chain view');
+        }
+        const data: ChainView = await response.json();
+        setChainView(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error');
+      } finally {
+        setLoadingChain(false);
+      }
+    },
+    []
+  );
 
-  const handleNodeSelect = useCallback((id: string) => {
-    setSelectedNodeId(id || null);
+  // 用户从搜索选择节点
+  const handleNodeSelect = useCallback(
+    (id: string) => {
+      if (!id) return;
+      // 重置状态
+      setChainView(null);
+      setSelectedChain(null);
+      setChainInfo(null);
+      // 重置面包屑
+      setBreadcrumb([]);
+      // 加载节点链路信息
+      fetchNodeChains(id);
+    },
+    [fetchNodeChains]
+  );
+
+  // 用户从 NodeDetail 选择一条链路
+  const handleChainSelect = useCallback(
+    (relationType: string) => {
+      if (!selectedNode) return;
+      setSelectedChain(relationType);
+      fetchChainView(selectedNode.id, relationType, 3);
+
+      // 更新当前面包屑项的 chainLabel
+      const chainLabel = chainInfo?.chains.find(
+        (c) => c.relation_type === relationType
+      )?.chain_label;
+      if (chainLabel) {
+        setBreadcrumb((prev) => {
+          if (prev.length === 0) {
+            return [
+              { nodeId: selectedNode.id, nodeName: selectedNode.name },
+            ];
+          }
+          // 更新最后一项的 chainLabel
+          const last = prev[prev.length - 1];
+          if (last.nodeId === selectedNode.id) {
+            return [
+              ...prev.slice(0, -1),
+              { ...last, chainLabel },
+            ];
+          }
+          return prev;
+        });
+      }
+    },
+    [selectedNode, chainInfo, fetchChainView]
+  );
+
+  // 用户在图谱中点击非中心节点 → 切换中心
+  const handleGraphNodeSelect = useCallback(
+    (id: string) => {
+      if (!id) return;
+      // 记录面包屑：从当前节点跳到新节点
+      if (selectedNode) {
+        setBreadcrumb((prev) => {
+          // 确保当前节点在面包屑中
+          const last = prev[prev.length - 1];
+          if (!last || last.nodeId !== selectedNode.id) {
+            return [
+              ...prev,
+              { nodeId: selectedNode.id, nodeName: selectedNode.name },
+            ];
+          }
+          return prev;
+        });
+      }
+      // 重置链路视图，等待用户选择新视角
+      setChainView(null);
+      setSelectedChain(null);
+      setChainInfo(null);
+      fetchNodeChains(id);
+    },
+    [selectedNode, fetchNodeChains]
+  );
+
+  // 点击面包屑回退
+  const handleBreadcrumbClick = useCallback(
+    (index: number) => {
+      const item = breadcrumb[index];
+      if (!item) return;
+      // 截断面包屑到该位置
+      setBreadcrumb((prev) => prev.slice(0, index + 1));
+      // 重置链路视图
+      setChainView(null);
+      setSelectedChain(null);
+      setChainInfo(null);
+      fetchNodeChains(item.nodeId);
+    },
+    [breadcrumb, fetchNodeChains]
+  );
+
+  // 关闭详情面板
+  const handleCloseDetail = useCallback(() => {
+    setSelectedNode(null);
+    setChainInfo(null);
+    setChainView(null);
+    setSelectedChain(null);
+    setBreadcrumb([]);
   }, []);
 
-  const handleNodeJump = useCallback((id: string) => {
-    setSelectedNodeId(id);
-    
-    if (cyInstance) {
-      const node = cyInstance.getElementById(id);
-      if (node.length > 0) {
-        cyInstance.center(node);
-        cyInstance.animate({ zoom: 1.5 }, { duration: 500 });
+  // 重试
+  const handleRetry = useCallback(() => {
+    if (selectedNode) {
+      if (selectedChain) {
+        fetchChainView(selectedNode.id, selectedChain, 3);
+      } else {
+        fetchNodeChains(selectedNode.id);
       }
     }
-  }, [cyInstance]);
+  }, [selectedNode, selectedChain, fetchChainView, fetchNodeChains]);
 
-  const handleCloseDetail = useCallback(() => {
-    setSelectedNodeId(null);
-  }, []);
-
-  const handleRetry = useCallback(() => {
-    setLoading(true);
-    setError(null);
-    fetch('/api/graph')
-      .then(response => response.json())
-      .then(data => {
-        setGraphData(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err instanceof Error ? err.message : 'Unknown error');
-        setLoading(false);
-      });
-  }, []);
-
-  const handleStartGuide = useCallback(async () => {
-    setShowIntro(false);
-    sessionStorage.setItem(INTRO_SHOWN_KEY, 'true');
-    
-    await new Promise(resolve => setTimeout(resolve, 300));
-    
-    setIsLoadingNeighbors(true);
-    
-    try {
-      const promises = SAMPLE_PATH_NODE_IDS.map(nodeId => 
-        fetch(`/api/graph/${nodeId}`).then(res => res.json())
-      );
-      
-      const results = await Promise.all(promises);
-      const newMap = new Map<string, NodeWithNeighbors>();
-      
-      results.forEach((data, index) => {
-        if (data && data.node) {
-          newMap.set(SAMPLE_PATH_NODE_IDS[index], data);
-        }
-      });
-      
-      setNeighborsMap(newMap);
-      setIsGuiding(true);
-    } catch (err) {
-      console.error('Error preloading neighbors:', err);
-    } finally {
-      setIsLoadingNeighbors(false);
-    }
-  }, []);
-
-  const handleExplore = useCallback(() => {
+  // 引导覆盖层
+  const handleStartExplore = useCallback(() => {
     setShowIntro(false);
     sessionStorage.setItem(INTRO_SHOWN_KEY, 'true');
   }, []);
 
-  const handleExitGuide = useCallback(() => {
-    setIsGuiding(false);
-    if (cyInstance) {
-      cyInstance.elements().animate({
-        style: { opacity: 1 },
-      }, { duration: 300 });
-    }
-  }, [cyInstance]);
-
+  // 搜索聚焦
   const handleSearchFocus = useCallback(() => {
     setSearchOpen(true);
   }, []);
 
+  // ESC 关闭
   const handleEscape = useCallback(() => {
     if (showIntro) return;
-    
-    if (selectedNodeId) {
-      setSelectedNodeId(null);
-      if (cyInstance) {
-        cyInstance.elements().animate({
-          style: { opacity: 1 },
-        }, { duration: 200 });
-      }
-    } else if (isGuiding) {
-      handleExitGuide();
+    if (selectedNode) {
+      handleCloseDetail();
     }
-    
     setSearchOpen(false);
-  }, [showIntro, selectedNodeId, isGuiding, cyInstance, handleExitGuide]);
-
-  const handlePrevStep = useCallback(() => {
-    if (!isGuiding) return;
-    
-    const currentIndex = SAMPLE_PATH.findIndex(s => s.nodeId === selectedNodeId);
-    if (currentIndex > 0) {
-      handleNodeJump(SAMPLE_PATH[currentIndex - 1].nodeId);
-    }
-  }, [isGuiding, selectedNodeId, handleNodeJump]);
-
-  const handleNextStep = useCallback(() => {
-    if (!isGuiding) return;
-    
-    const currentIndex = SAMPLE_PATH.findIndex(s => s.nodeId === selectedNodeId);
-    if (currentIndex < SAMPLE_PATH.length - 1) {
-      handleNodeJump(SAMPLE_PATH[currentIndex + 1].nodeId);
-    }
-  }, [isGuiding, selectedNodeId, handleNodeJump]);
-
-  if (!graphData && !showIntro) {
-    return (
-      <div className="h-screen w-full bg-canvas-900 flex items-center justify-center">
-        {loading ? (
-          <div className="flex flex-col items-center gap-4">
-            <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-warning animate-bounce" style={{ animationDelay: '0ms' }} />
-              <div className="w-3 h-3 rounded-full bg-warning animate-bounce" style={{ animationDelay: '150ms' }} />
-              <div className="w-3 h-3 rounded-full bg-warning animate-bounce" style={{ animationDelay: '300ms' }} />
-            </div>
-            <span className="text-ink-4 text-sm">正在加载图谱数据…</span>
-          </div>
-        ) : error ? (
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-error/20 flex items-center justify-center">
-              <svg className="w-6 h-6 text-error" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <span className="text-ink-4 text-sm">{error}</span>
-            <button
-              onClick={handleRetry}
-              className="px-4 py-2 bg-arco-primary hover:bg-arco-primary-hover text-white rounded-arco-md text-sm transition-colors"
-            >
-              重试
-            </button>
-          </div>
-        ) : null}
-      </div>
-    );
-  }
+  }, [showIntro, selectedNode, handleCloseDetail]);
 
   return (
     <div className="h-screen w-full flex overflow-hidden">
-      {showIntro && graphData && (
-        <IntroOverlay onStart={handleStartGuide} onExplore={handleExplore} />
+      {showIntro && (
+        <IntroOverlay onStart={handleStartExplore} onExplore={handleStartExplore} />
       )}
-      
+
       <div className="flex-1 relative">
-        <header className="absolute top-4 left-4 z-30 flex items-center gap-3">
-          <div className="bg-white/95 backdrop-blur rounded-arco-lg shadow-arco-1 px-5 py-3 flex items-center gap-3">
-            <div className="w-1 h-6 bg-coord-ab rounded-full" />
+        {/* 顶部标题 + 面包屑 */}
+        <header className="absolute top-4 left-4 z-30 flex items-center gap-3 max-w-[calc(100%-340px)]">
+          <div className="bg-white/95 backdrop-blur rounded-arco-lg shadow-arco-1 px-5 py-3 flex items-center gap-3 flex-shrink-0">
+            <div className="w-1 h-6 bg-arco-primary rounded-full" />
             <div>
               <h1 className="text-arco-2xl font-semibold text-ink-1">万源图谱</h1>
-              <p className="text-arco-xs text-ink-3">看见被行业分类切断的连接</p>
+              <p className="text-arco-xs text-ink-3">多关系类型产业链探索</p>
             </div>
           </div>
-          
-          <button
-            onClick={handleStartGuide}
-            disabled={isLoadingNeighbors || isGuiding || !graphData}
-            className={`
-              flex items-center gap-2 px-4 py-2 rounded-arco-md text-sm font-medium transition-all
-              ${isLoadingNeighbors || isGuiding || !graphData
-                ? 'bg-coord-ab/50 text-white/70 cursor-not-allowed'
-                : 'bg-coord-ab hover:bg-coord-ab/80 text-white shadow-arco-1 cursor-pointer'
-              }
-            `}
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-            {isLoadingNeighbors ? '加载中…' : '查看示范路径'}
-          </button>
+
+          {/* 面包屑导航 */}
+          {breadcrumb.length > 0 && (
+            <nav className="bg-white/95 backdrop-blur rounded-arco-lg shadow-arco-1 px-4 py-2 flex items-center gap-1 flex-wrap min-w-0">
+              {breadcrumb.map((item, index) => (
+                <div key={`${item.nodeId}-${index}`} className="flex items-center gap-1 min-w-0">
+                  {index > 0 && (
+                    <svg
+                      className="w-3 h-3 text-ink-4 flex-shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  )}
+                  <button
+                    onClick={() => handleBreadcrumbClick(index)}
+                    className="text-arco-sm text-ink-2 hover:text-arco-primary transition-colors truncate max-w-[120px]"
+                    title={item.nodeName}
+                  >
+                    {item.nodeName}
+                  </button>
+                  {item.chainLabel && index < breadcrumb.length - 1 && (
+                    <span className="px-1.5 py-0.5 bg-arco-primary/10 text-arco-primary rounded-arco-sm text-arco-xs flex-shrink-0">
+                      [{item.chainLabel}]
+                    </span>
+                  )}
+                  {item.chainLabel && index === breadcrumb.length - 1 && selectedChain && (
+                    <span className="px-1.5 py-0.5 bg-arco-primary/10 text-arco-primary rounded-arco-sm text-arco-xs flex-shrink-0">
+                      [{item.chainLabel}]
+                    </span>
+                  )}
+                </div>
+              ))}
+            </nav>
+          )}
         </header>
-        
+
         <SearchBar onNodeSelect={handleNodeSelect} />
-        
+
         <GraphCanvas
-          data={graphData!}
-          selectedNodeId={selectedNodeId}
-          onNodeSelect={handleNodeSelect}
-          onCyReady={setCyInstance}
-          loading={loading || !graphData}
+          chainView={chainView}
+          onNodeSelect={handleGraphNodeSelect}
+          loading={loadingChain}
           error={error}
           onRetry={handleRetry}
         />
-        
-        <Legend isHidden={isGuiding} />
-        
-        <DataCounter 
-          nodeCount={graphData?.nodes.length || 0} 
-          edgeCount={graphData?.edges.length || 0} 
-          isLoading={loading || !graphData}
-        />
-        
+
         <KeyboardShortcuts
           onSearchFocus={handleSearchFocus}
           onEscape={handleEscape}
-          onPrevStep={handlePrevStep}
-          onNextStep={handleNextStep}
-          isGuiding={isGuiding}
           isSearchOpen={searchOpen}
-        />
-        
-        <PathGuide
-          cyInstance={cyInstance}
-          neighborsMap={neighborsMap}
-          onNodeSelect={handleNodeSelect}
-          isActive={isGuiding}
-          onExit={handleExitGuide}
         />
       </div>
 
-      {selectedNodeId && !isGuiding && (
+      {selectedNode && (
         <NodeDetail
           node={selectedNode}
-          neighbors={neighbors}
+          chainInfo={chainInfo}
           loading={loadingNode}
           onClose={handleCloseDetail}
-          onNodeJump={handleNodeJump}
+          onChainSelect={handleChainSelect}
+          selectedChain={selectedChain}
         />
       )}
     </div>

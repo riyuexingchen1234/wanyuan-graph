@@ -1,293 +1,218 @@
-import { useEffect, useRef, useCallback, useState } from 'react';
+'use client';
+
+import { useEffect, useRef } from 'react';
 import cytoscape, { NodeDefinition, EdgeDefinition } from 'cytoscape';
-import type { GraphData, GraphNode, GraphEdge } from '../lib/types';
+import dagre from 'dagre';
+import cytoscapeDagre from 'cytoscape-dagre';
+import type { ChainView } from '../lib/types';
 import {
   getNodeStyle,
   getEdgeStyle,
-  COSE_LAYOUT,
-  CYTOSCAPE_CONFIG,
-  isIntersectionNode,
-  calculateNodeDegrees,
   getNodeColor,
-  RELATION_LABELS,
+  DAGRE_LAYOUT,
+  BFS_LAYOUT,
+  CYTOSCAPE_CONFIG,
 } from '../lib/cytoscape-config';
-import { GHOST_NODES } from '../lib/ghost-nodes';
+
+// 注册 dagre 扩展（仅一次，仅在客户端）
+let useDagre = true;
+if (typeof window !== 'undefined') {
+  try {
+    cytoscape.use(cytoscapeDagre as unknown as cytoscape.Ext);
+  } catch (e) {
+    useDagre = false;
+    console.warn('dagre 注册失败，降级为 breadthfirst 布局', e);
+  }
+}
 
 interface GraphCanvasProps {
-  data: GraphData;
-  selectedNodeId: string | null;
+  chainView: ChainView | null;
   onNodeSelect: (id: string) => void;
-  onCyReady?: (cy: cytoscape.Core) => void;
   loading?: boolean;
   error?: string | null;
   onRetry?: () => void;
 }
 
 export default function GraphCanvas({
-  data,
-  selectedNodeId,
+  chainView,
   onNodeSelect,
-  onCyReady,
   loading,
   error,
   onRetry,
 }: GraphCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const cyRef = useRef<cytoscape.Core | null>(null);
-  const pulseIntervalRef = useRef<number | null>(null);
   const isMountedRef = useRef(false);
-  const [tooltip, setTooltip] = useState({ show: false, x: 0, y: 0, text: '' });
-
-  const getGhostNodeColor = (coordSystem: string) => {
-    switch (coordSystem) {
-      case 'A': return '#165DFF';
-      case 'B': return '#00B42A';
-      case 'AB': return '#FF7D00';
-      default: return '#4E5969';
-    }
-  };
-
-  const createElements = useCallback((nodes: GraphNode[], edges: GraphEdge[]): Array<NodeDefinition | EdgeDefinition> => {
-    const degrees = calculateNodeDegrees({ nodes, edges });
-    
-    const cyNodes: NodeDefinition[] = nodes.map(node => ({
-      group: 'nodes',
-      data: {
-        ...node,
-        label: node.name,
-        degree: degrees[node.id],
-        color: getNodeColor(node.coordinate_systems),
-        isGhost: false,
-      },
-      style: getNodeStyle(node.coordinate_systems, degrees[node.id]),
-    }));
-
-    const ghostNodes: NodeDefinition[] = GHOST_NODES.map(ghost => ({
-      group: 'nodes',
-      data: {
-        id: ghost.id,
-        label: ghost.name,
-        isGhost: true,
-        coordinate_system: ghost.coordinate_system,
-        hint: ghost.hint,
-      },
-      position: { x: ghost.x, y: ghost.y },
-      style: {
-        'background-color': getGhostNodeColor(ghost.coordinate_system),
-        'background-opacity': 0.15,
-        'border-width': '1px',
-        'border-style': 'dashed',
-        'border-color': getGhostNodeColor(ghost.coordinate_system),
-        'width': '20px',
-        'height': '20px',
-        'overlay-opacity': 0,
-        'label': ghost.name,
-        'font-size': '10px',
-        'color': '#4E5969',
-        'text-opacity': 0.5,
-        'text-valign': 'bottom',
-        'text-margin-y': '4px',
-      },
-    }));
-
-    const cyEdges: EdgeDefinition[] = edges.map(edge => ({
-      group: 'edges',
-      data: {
-        ...edge,
-        relation_label: RELATION_LABELS[edge.relation_type] || '',
-      },
-      style: getEdgeStyle(edge.relation_type, edge.verification_status),
-    }));
-
-    return [...cyNodes, ...ghostNodes, ...cyEdges] as Array<NodeDefinition | EdgeDefinition>;
-  }, []);
 
   useEffect(() => {
-    if (!data || data.nodes.length === 0) return;
+    if (!chainView || chainView.nodes.length === 0) return;
     if (!containerRef.current) return;
 
     isMountedRef.current = true;
 
-    if (pulseIntervalRef.current) {
-      clearInterval(pulseIntervalRef.current);
-      pulseIntervalRef.current = null;
+    // 清理旧实例
+    if (cyRef.current) {
+      try {
+        cyRef.current.stop(true, true);
+        cyRef.current.removeAllListeners();
+        cyRef.current.destroy();
+      } catch {
+        // 忽略
+      }
+      cyRef.current = null;
     }
+
+    const centerId = chainView.center_node.id;
+    const crossIndustryIds = new Set(
+      chainView.cross_industry_nodes.map((n) => n.id)
+    );
+    const chainTypes = [chainView.chain_type];
+
+    // 构建节点
+    const cyNodes: NodeDefinition[] = chainView.nodes.map((node) => {
+      const isCenter = node.id === centerId;
+      const isCrossIndustry = crossIndustryIds.has(node.id);
+      return {
+        group: 'nodes',
+        data: {
+          id: node.id,
+          label: node.name,
+          nodeType: node.type,
+          color: getNodeColor(node.type),
+          isCenter,
+          isCrossIndustry,
+          description: node.description || '',
+        },
+        style: getNodeStyle(node.type, isCenter, isCrossIndustry),
+      };
+    });
+
+    // 构建边
+    const cyEdges: EdgeDefinition[] = chainView.edges.map((edge) => ({
+      group: 'edges',
+      data: {
+        id: edge.id,
+        source: edge.source,
+        target: edge.target,
+        relation_type: edge.relation_type,
+        verification_status: edge.verification_status,
+        evidence: edge.evidence || '',
+      },
+      style: getEdgeStyle(
+        edge.relation_type,
+        edge.verification_status,
+        chainTypes
+      ),
+    }));
 
     const cy = cytoscape({
       container: containerRef.current,
-      elements: createElements(data.nodes, data.edges),
+      elements: [...cyNodes, ...cyEdges],
       style: [
         {
           selector: 'node',
           style: {
             'background-color': 'data(color)',
             'background-opacity': 1,
-            'shadow-blur': 20,
             'overlay-color': 'data(color)',
+            'overlay-opacity': 0.35,
+            'shadow-blur': 20,
+            'label': 'data(label)',
+          },
+        },
+        {
+          selector: 'node[isCenter="true"]',
+          style: {
             'overlay-opacity': 0.5,
+            'shadow-blur': 30,
+            'font-weight': 700,
+            'font-size': 14,
+          },
+        },
+        {
+          selector: 'node[isCrossIndustry="true"]',
+          style: {
+            'border-width': 4,
+            'border-style': 'double',
+            'border-color': '#FFFFFF',
           },
         },
         {
           selector: 'node:selected',
           style: {
-            'overlay-opacity': 0.5,
-            width: 52,
-            height: 52,
-            'shadow-blur': 30,
+            'overlay-opacity': 0.6,
           },
         },
         {
           selector: 'node:hover',
           style: {
-            'overlay-opacity': 0.4,
-            'color': '#FFFFFF',
-            'shadow-blur': 25,
-          },
-        },
-        {
-          selector: 'node[isGhost="true"]',
-          style: {
-            'shadow-blur': 0,
-            'overlay-opacity': 0,
-          },
-        },
-        {
-          selector: 'node[isGhost="true"]:hover',
-          style: {
-            'background-opacity': 0.3,
-            'border-width': '2px',
+            'overlay-opacity': 0.6,
           },
         },
         {
           selector: 'edge',
           style: {
-            'target-arrow-shape': 'none',
             'curve-style': 'bezier',
+            'target-arrow-shape': 'none',
+            'width': 1.5,
             'label': '',
           },
         },
         {
           selector: 'edge:hover',
           style: {
-            'line-width': 3,
+            'width': 3,
             'line-opacity': 1,
-            'label': 'data(relation_label)',
           },
         },
       ] as any,
-      layout: {
-        name: 'preset',
-        positions: (node: any) => {
-          if (node.data('isGhost')) {
-            return { x: node.data('x') || 0, y: node.data('y') || 0 };
-          }
-          return { x: 0, y: 0 };
-        },
-        fit: true,
-        padding: 50,
-      } as any,
+      layout: (useDagre ? DAGRE_LAYOUT : BFS_LAYOUT) as any,
       ...CYTOSCAPE_CONFIG,
     });
 
-    cy.layout(COSE_LAYOUT).run();
-
     cyRef.current = cy;
-    
-    if (onCyReady) {
-      onCyReady(cy);
-    }
 
-    let selectedNode: any | null = null;
+    // 居中显示
+    cy.fit(undefined, 50);
 
+    // 点击非中心节点 → 触发 onNodeSelect
     cy.on('tap', 'node', (event) => {
       if (!isMountedRef.current || !cyRef.current) return;
       const node = event.target;
       const nodeId = node.data('id');
-      const isGhost = node.data('isGhost');
+      const isCenter = node.data('isCenter');
 
-      if (isGhost) {
-        alert('此节点为预览，完整图谱开发中');
-        return;
-      }
-      
+      if (isCenter) return;
+
       onNodeSelect(nodeId);
-      
-      selectedNode = node;
-      node.select();
-      
-      cy.elements()
-        .not(node)
-        .not(`edge[source="${nodeId}"], edge[target="${nodeId}"]`)
-        .not('[isGhost="true"]')
-        .animate({
-          style: { opacity: 0.15 },
-        }, { duration: 200 });
-      
-      node.animate({
-        position: {
-          x: cy.width() / 2,
-          y: cy.height() / 2,
-        },
-      }, {
-        duration: 500,
-        easing: 'ease-out',
-      });
-      
-      cy.animate({ zoom: 1.5 }, { duration: 500 });
     });
 
+    // 点击空白 → 取消选择
     cy.on('tap', (event) => {
       if (!isMountedRef.current || !cyRef.current) return;
       if (event.target === cy) {
-        onNodeSelect('');
-        
-        cy.elements().animate({
-          style: { opacity: 1 },
-        }, { duration: 200 });
-        
         cy.elements().deselect();
-        selectedNode = null;
       }
     });
 
+    // 鼠标悬停高亮
     cy.on('mouseover', 'node', (event) => {
       if (!isMountedRef.current || !cyRef.current) return;
       const node = event.target;
-      const isGhost = node.data('isGhost');
-      
-      if (isGhost) {
-        const hint = node.data('hint');
-        const position = node.renderedPosition();
-        setTooltip({
-          show: true,
-          x: position.x + 15,
-          y: position.y - 10,
-          text: hint || '',
-        });
-      } else {
-        node.style({ 'color': '#FFFFFF' });
-      }
+      node.style({ 'overlay-opacity': 0.6 });
     });
 
     cy.on('mouseout', 'node', (event) => {
       if (!isMountedRef.current || !cyRef.current) return;
       const node = event.target;
-      const isGhost = node.data('isGhost');
-      
-      if (isGhost) {
-        setTooltip({ show: false, x: 0, y: 0, text: '' });
-      } else if (!node.selected()) {
-        node.style({ 'color': '#C9CDD4' });
-      }
+      const isCenter = node.data('isCenter');
+      node.style({ 'overlay-opacity': isCenter ? 0.5 : 0.35 });
     });
 
     cy.on('mouseover', 'edge', (event) => {
       if (!isMountedRef.current || !cyRef.current) return;
       const edge = event.target;
-      edge.style({
-        'line-width': 3,
-        'line-opacity': 1,
-      });
+      edge.style({ width: 3, 'line-opacity': 1 });
     });
 
     cy.on('mouseout', 'edge', (event) => {
@@ -295,78 +220,25 @@ export default function GraphCanvas({
       const edge = event.target;
       const isVerified = edge.data('verification_status') === 'verified';
       edge.style({
-        'line-width': 1.5,
-        'line-opacity': isVerified ? 0.5 : 0.4,
+        width: 1.5,
+        'line-opacity': isVerified ? 0.6 : 0.4,
       });
     });
-
-    cy.on('dbltap', 'node', (event) => {
-      if (!isMountedRef.current || !cyRef.current) return;
-      const node = event.target;
-      const isGhost = node.data('isGhost');
-      
-      if (isGhost) return;
-      
-      cy.animate({
-        zoom: 1.5,
-        pan: {
-          x: cy.width() / 2 - node.position().x,
-          y: cy.height() / 2 - node.position().y,
-        },
-      }, { duration: 500 });
-    });
-
-    pulseIntervalRef.current = window.setInterval(() => {
-      if (!isMountedRef.current || !cyRef.current) return;
-      
-      const intersectionNodes = cy.nodes().filter((node) => {
-        if (node.data('isGhost')) return false;
-        const coords = node.data('coordinate_systems');
-        return isIntersectionNode(coords);
-      });
-
-      intersectionNodes.forEach((node) => {
-        const currentOpacity = node.style('overlay-opacity');
-        const newOpacity = currentOpacity === '0.35' ? 0.6 : 0.35;
-        node.animate({ style: { 'overlay-opacity': newOpacity } }, { duration: 1000 });
-      });
-    }, 2000);
 
     return () => {
       isMountedRef.current = false;
-      
-      if (pulseIntervalRef.current) {
-        clearInterval(pulseIntervalRef.current);
-        pulseIntervalRef.current = null;
-      }
-      
       if (cyRef.current) {
-        const cyInstance = cyRef.current;
         try {
-          cyInstance.stop(true, true);
-          cyInstance.removeAllListeners();
-          cyInstance.destroy();
-        } catch (e) {
-          // 实例可能已部分销毁，忽略错误
+          cyRef.current.stop(true, true);
+          cyRef.current.removeAllListeners();
+          cyRef.current.destroy();
+        } catch {
+          // 忽略
         }
         cyRef.current = null;
       }
     };
-  }, [data, onNodeSelect, onCyReady, createElements]);
-
-  useEffect(() => {
-    if (!isMountedRef.current || !cyRef.current) return;
-
-    if (selectedNodeId) {
-      const node = cyRef.current.getElementById(selectedNodeId);
-      if (node.length > 0) {
-        node.select();
-        cyRef.current.center(node);
-      }
-    } else {
-      cyRef.current.elements().deselect();
-    }
-  }, [selectedNodeId]);
+  }, [chainView, onNodeSelect]);
 
   if (loading) {
     return (
@@ -376,7 +248,7 @@ export default function GraphCanvas({
           <div className="w-3 h-3 rounded-full bg-warning animate-bounce" style={{ animationDelay: '150ms' }} />
           <div className="w-3 h-3 rounded-full bg-warning animate-bounce" style={{ animationDelay: '300ms' }} />
         </div>
-        <span className="text-ink-4 text-sm">正在构建图谱…</span>
+        <span className="text-ink-4 text-sm">正在构建链路视图…</span>
       </div>
     );
   }
@@ -402,11 +274,27 @@ export default function GraphCanvas({
     );
   }
 
+  if (!chainView) {
+    return (
+      <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-canvas-900 via-canvas-800 to-canvas-900">
+        <div className="text-center">
+          <div className="w-16 h-16 rounded-full bg-canvas-800 flex items-center justify-center mb-4 mx-auto">
+            <svg className="w-8 h-8 text-ink-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <p className="text-ink-3 text-sm">搜索并选择一个节点开始探索</p>
+          <p className="text-ink-4 text-xs mt-1">选择链路类型后查看链路视图</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full h-full overflow-hidden">
+      {/* 星空背景 */}
       <div className="absolute inset-0 bg-gradient-to-br from-canvas-900 via-canvas-800 to-canvas-900" />
-      
-      <div 
+      <div
         className="absolute inset-0 opacity-60 pointer-events-none animate-starfield"
         style={{
           backgroundImage: `
@@ -423,8 +311,9 @@ export default function GraphCanvas({
           backgroundRepeat: 'repeat',
         }}
       />
-      
-      <div 
+
+      {/* 光晕装饰 */}
+      <div
         className="absolute top-0 left-0 w-[400px] h-[400px] pointer-events-none"
         style={{
           background: 'radial-gradient(circle, rgba(22,93,255,0.08) 0%, transparent 70%)',
@@ -432,8 +321,7 @@ export default function GraphCanvas({
           transform: 'translate(-25%, -25%)',
         }}
       />
-      
-      <div 
+      <div
         className="absolute bottom-0 right-0 w-[400px] h-[400px] pointer-events-none"
         style={{
           background: 'radial-gradient(circle, rgba(0,180,42,0.06) 0%, transparent 70%)',
@@ -441,21 +329,8 @@ export default function GraphCanvas({
           transform: 'translate(25%, 25%)',
         }}
       />
-      
+
       <div ref={containerRef} className="w-full h-full" />
-      
-      {tooltip.show && (
-        <div
-          className="absolute z-50 px-3 py-1.5 bg-canvas-900/95 backdrop-blur rounded-arco-sm shadow-arco-2 pointer-events-none"
-          style={{
-            left: tooltip.x,
-            top: tooltip.y,
-            border: '1px solid rgba(255,255,255,0.1)',
-          }}
-        >
-          <span className="text-arco-xs text-white/80">{tooltip.text}</span>
-        </div>
-      )}
     </div>
   );
 }

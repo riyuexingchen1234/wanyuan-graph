@@ -24,57 +24,60 @@ export default function IntroOverlay({ onStart, onExplore }: IntroOverlayProps) 
     >
       <div className="max-w-[680px] mx-6 text-center animate-fade-in">
         <h1 className="text-4xl font-bold text-white mb-4">万源图谱</h1>
-        
-        <div className="w-12 h-0.5 bg-coord-ab mx-auto mb-4" />
-        
-        <p className="text-arco-lg text-coord-ab mb-8">
-          看见被行业分类切断的连接
+
+        <div className="w-12 h-0.5 bg-arco-primary mx-auto mb-4" />
+
+        <p className="text-arco-lg text-arco-primary mb-8">
+          多关系类型产业链探索
         </p>
 
         <div className="text-left space-y-4 mb-8">
           <p className="text-arco-sm text-white/70 leading-relaxed">
-            一种材料、一种工艺、一台设备，往往本可以服务多个互不相关的行业，但人们习惯按<span className="text-coord-ab">行业</span>认识世界，导致这些真实存在的连接被切断、被忽视。
+            一个节点（如<span className="text-arco-primary">注塑机</span>）可能同时参与产品链、原料链、设备链、耗材链等多条链路。本图谱把节点作为唯一实体，用<span className="text-arco-primary">关系类型</span>区分不同的链路。
           </p>
           <p className="text-arco-sm text-white/70 leading-relaxed">
-            本项目把这些被<span className="text-coord-ab">行业语言</span>分散开的信息，重新整理、用统一的客观语言描述，并排放在一起，让原本看不见的连接重新被看见。
+            选择一个节点后，可以<span className="text-arco-primary">切换视角</span>查看它在不同链路中的上下游关系。跨行业的交叉点会被特别标记，揭示被行业分类切断的真实连接。
           </p>
           <p className="text-arco-sm text-white/70 leading-relaxed">
-            从这里开始，体验从<span className="text-coord-ab">光伏</span>到<span className="text-coord-ab">快递包装</span>的跨界之旅。
+            从这里开始，搜索一个节点，选择一条链路，沿着产业链探索下去。
           </p>
         </div>
 
         <div className="bg-canvas-800/50 rounded-arco-lg p-4 mb-8 border border-canvas-700">
-          <div className="text-arco-xs text-white/50 mb-3">示范路径</div>
+          <div className="text-arco-xs text-white/50 mb-3">链路类型</div>
           <div className="flex items-center justify-center gap-2 flex-wrap">
-            <span className="px-2 py-1 bg-coord-a/20 text-coord-a rounded-arco-sm text-sm">光伏</span>
-            <span className="text-white/40">→</span>
-            <span className="px-2 py-1 bg-coord-a/20 text-coord-a rounded-arco-sm text-sm">储能</span>
-            <span className="text-white/40">→</span>
-            <span className="px-2 py-1 bg-coord-ab/20 text-coord-ab rounded-arco-sm text-sm border border-coord-ab/30">电池隔膜</span>
-            <span className="text-white/40">→</span>
-            <span className="px-2 py-1 bg-coord-b/20 text-coord-b rounded-arco-sm text-sm">聚乙烯</span>
-            <span className="text-white/40">→</span>
-            <span className="px-2 py-1 bg-coord-b/20 text-coord-b rounded-arco-sm text-sm">塑料管道 / 包装薄膜</span>
+            <span className="px-2 py-1 rounded-arco-sm text-sm text-white" style={{ backgroundColor: '#165DFF' }}>
+              产品链
+            </span>
+            <span className="px-2 py-1 rounded-arco-sm text-sm text-white" style={{ backgroundColor: '#00B42A' }}>
+              原料链
+            </span>
+            <span className="px-2 py-1 rounded-arco-sm text-sm text-white" style={{ backgroundColor: '#722ED1' }}>
+              设备链
+            </span>
+            <span className="px-2 py-1 rounded-arco-sm text-sm text-white" style={{ backgroundColor: '#FF7D00' }}>
+              耗材链
+            </span>
           </div>
         </div>
 
         <div className="flex justify-center gap-4">
           <button
             onClick={onStart}
-            className="px-6 py-3 bg-coord-ab hover:bg-coord-ab/80 text-white rounded-arco-md text-sm font-medium transition-all hover:scale-105"
+            className="px-6 py-3 bg-arco-primary hover:bg-arco-primary-hover text-white rounded-arco-md text-sm font-medium transition-all hover:scale-105"
           >
-            查看示范路径
+            开始探索
           </button>
           <button
             onClick={onExplore}
             className="px-6 py-3 bg-transparent border border-white/30 hover:border-white/50 text-white/80 hover:text-white rounded-arco-md text-sm font-medium transition-all"
           >
-            自由探索
+            自由浏览
           </button>
         </div>
 
         <div className="mt-8 text-arco-xs text-white/40">
-          样板路径 Demo · 6 个节点 · 6 条连接
+          多关系类型产业链图谱 Demo
         </div>
       </div>
     </div>
