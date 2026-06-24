@@ -1,143 +1,225 @@
-import type { NodeType, ChainType, VerificationStatus } from './types';
+import {
+  NODE_TYPE_COLORS,
+  NODE_TYPE_LABELS,
+  RELATION_TYPE_COLORS,
+  RELATION_TYPE_LABELS,
+} from './graph-data';
+import type { NodeType, RelationType, VerificationStatus } from './types';
 
-/** 节点类型 → 颜色映射 */
-export const NODE_TYPE_COLORS: Record<NodeType, string> = {
-  industry: '#165DFF',
-  material: '#00B42A',
-  product: '#0FC6C2',
-  equipment: '#722ED1',
-  consumable: '#FF7D00',
-  service: '#86909C',
-  endpoint: '#C9CDD4',
-};
-
-/** 节点类型 → 中文标签 */
-export const NODE_TYPE_LABELS: Record<NodeType, string> = {
-  industry: '行业',
-  material: '材料',
-  product: '产品',
-  equipment: '设备',
-  consumable: '耗材',
-  service: '服务',
-  endpoint: '终端',
-};
-
-/** 节点尺寸常量 */
 export const NODE_SIZES = {
   center: 60,
   normal: 40,
   crossIndustry: 50,
 } as const;
 
-/** 获取节点颜色 */
 export function getNodeColor(type: NodeType): string {
   return NODE_TYPE_COLORS[type] || '#86909C';
 }
 
-/** 获取边颜色（按 relation_type 从 chain_types 取色） */
-export function getEdgeColor(
-  relationType: string,
-  chainTypes: ChainType[]
-): string {
-  const chainType = chainTypes.find((ct) => ct.type === relationType);
-  return chainType?.color || '#4E5969';
+export function getEdgeColor(relationType: RelationType): string {
+  return RELATION_TYPE_COLORS[relationType] || '#86909C';
 }
 
-/** 获取节点尺寸 */
-export function getNodeSize(
-  isCenter: boolean,
-  isCrossIndustry: boolean
-): number {
-  if (isCenter) return NODE_SIZES.center;
-  if (isCrossIndustry) return NODE_SIZES.crossIndustry;
-  return NODE_SIZES.normal;
+export function getNodeSize(isCenter: boolean): number {
+  return isCenter ? NODE_SIZES.center : NODE_SIZES.normal;
 }
 
-/** 获取节点样式 */
-export function getNodeStyle(
-  type: NodeType,
-  isCenter: boolean,
-  isCrossIndustry: boolean
-): Record<string, unknown> {
-  const color = getNodeColor(type);
-  const size = getNodeSize(isCenter, isCrossIndustry);
-
-  return {
-    shape: 'ellipse',
-    width: size,
-    height: size,
-    'background-color': color,
-    'border-width': isCrossIndustry ? 4 : 0,
-    'border-style': isCrossIndustry ? 'double' : 'solid',
-    'border-color': isCrossIndustry ? '#FFFFFF' : color,
-    'overlay-color': color,
-    'overlay-opacity': isCenter ? 0.5 : 0.35,
-    'text-valign': 'bottom',
-    'text-halign': 'center',
-    'text-margin-y': 8,
-    'font-size': isCenter ? 14 : 11,
-    'color': '#C9CDD4',
-    'text-outline-width': 3,
-    'text-outline-color': '#0a0f1c',
-    'font-weight': isCenter ? 700 : 500,
-    'z-index': isCenter ? 20 : 10,
-    'shadow-blur': isCenter ? 30 : 20,
-  };
-}
-
-/** 获取边样式 */
-export function getEdgeStyle(
-  relationType: string,
-  verificationStatus: VerificationStatus,
-  chainTypes: ChainType[]
-): Record<string, unknown> {
-  const isVerified = verificationStatus === 'verified';
-  const color = getEdgeColor(relationType, chainTypes);
-
-  const style: Record<string, unknown> = {
-    width: 1.5,
-    'curve-style': 'bezier',
-    'target-arrow-shape': 'none',
-    'line-color': color,
-    'line-style': isVerified ? 'solid' : 'dashed',
-    'line-opacity': isVerified ? 0.6 : 0.4,
-    'font-size': 10,
-    'color': '#86909C',
-    'text-outline-width': 2,
-    'text-outline-color': '#1D2129',
-    'z-index': 1,
-  };
-
-  if (!isVerified) {
-    style['line-dash-pattern'] = [8, 6];
-  }
-
-  return style;
-}
-
-/** Dagre 层次有向布局（左→右，上游在左下游在右） */
 export const DAGRE_LAYOUT = {
   name: 'dagre',
   rankDir: 'LR',
   rankSep: 120,
-  nodeSep: 50,
+  nodeSep: 60,
   animate: true,
-  animationDuration: 800,
+  animationDuration: 600,
 };
 
-/** Breadthfirst 降级布局 */
-export const BFS_LAYOUT = {
-  name: 'breadthfirst',
-  directed: true,
-  spacingFactor: 1.2,
-  animate: true,
-  animationDuration: 800,
-};
-
-/** Cytoscape 全局配置 */
 export const CYTOSCAPE_CONFIG = {
   minZoom: 0.3,
   maxZoom: 3,
   wheelSensitivity: 0.1,
   autounselectify: false,
 };
+
+export const CYTOSCAPE_STYLESHEET = [
+  {
+    selector: 'node',
+    style: {
+      shape: 'ellipse',
+      width: NODE_SIZES.normal,
+      height: NODE_SIZES.normal,
+      'background-color': (ele: any) => {
+        const type = ele.data('node_type') as NodeType;
+        return getNodeColor(type);
+      },
+      'background-opacity': 1,
+      'border-width': 2,
+      'border-color': '#0a0f1c',
+      'overlay-opacity': 0,
+      'text-valign': 'bottom',
+      'text-halign': 'center',
+      'text-margin-y': 8,
+      'font-size': 11,
+      color: '#C9CDD4',
+      'text-outline-width': 3,
+      'text-outline-color': '#0a0f1c',
+      'font-weight': 500,
+      label: 'data(name)',
+      'z-index': 10,
+      'text-wrap': 'wrap',
+      'text-max-width': 80,
+    },
+  },
+  {
+    selector: 'node.center',
+    style: {
+      width: NODE_SIZES.center,
+      height: NODE_SIZES.center,
+      'font-size': 14,
+      'font-weight': 700,
+      'z-index': 20,
+      'overlay-color': (ele: any) => {
+        const type = ele.data('node_type') as NodeType;
+        return getNodeColor(type);
+      },
+      'overlay-opacity': 0.4,
+      'overlay-padding': 8,
+      'border-width': 3,
+      'border-color': '#FFFFFF',
+    },
+  },
+  {
+    selector: 'node.cross-industry',
+    style: {
+      width: NODE_SIZES.crossIndustry,
+      height: NODE_SIZES.crossIndustry,
+      'border-width': 4,
+      'border-style': 'double',
+      'border-color': '#FFFFFF',
+    },
+  },
+  {
+    selector: 'node.material-extension-center',
+    style: {
+      shape: 'diamond',
+      width: 70,
+      height: 70,
+      'background-color': '#EB2F96',
+      'background-gradient-stop-colors': '#EB2F96 #FF85C0',
+      'background-gradient-stop-positions': '0% 100%',
+      'background-gradient-direction': 'diagonal',
+      'border-width': 3,
+      'border-color': '#FF85C0',
+      'overlay-color': '#EB2F96',
+      'overlay-opacity': 0.4,
+      'overlay-padding': 16,
+      'font-size': 14,
+      'font-weight': 700,
+      color: '#FFE4F0',
+      'text-outline-color': '#1a0a15',
+      'text-outline-width': 4,
+      'z-index': 25,
+      'text-margin-y': 12,
+    },
+  },
+  {
+    selector: 'node.material-extension-app',
+    style: {
+      shape: 'ellipse',
+      width: 48,
+      height: 48,
+      'background-color': '#722ED1',
+      'background-gradient-stop-colors': '#722ED1 #9254DE',
+      'background-gradient-stop-positions': '0% 100%',
+      'background-gradient-direction': 'diagonal',
+      'border-width': 2,
+      'border-color': '#EB2F96',
+      'overlay-color': '#EB2F96',
+      'overlay-opacity': 0.15,
+      'overlay-padding': 8,
+      color: '#E9D7FF',
+      'text-outline-color': '#0f0a20',
+      'text-outline-width': 3,
+      'font-size': 11,
+    },
+  },
+  {
+    selector: 'node.material-extension-app:selected',
+    style: {
+      'border-width': 3,
+      'border-color': '#FF85C0',
+      'overlay-opacity': 0.4,
+      'overlay-padding': 10,
+    },
+  },
+  {
+    selector: 'edge',
+    style: {
+      width: 2,
+      'curve-style': 'bezier',
+      'target-arrow-shape': 'triangle',
+      'target-arrow-color': '#4E5969',
+      'arrow-scale': 0.8,
+      'line-color': '#4E5969',
+      'line-opacity': 0.6,
+      'z-index': 1,
+    },
+  },
+  {
+    selector: 'edge.verified',
+    style: {
+      'line-style': 'solid',
+      width: 2.5,
+      'line-opacity': 0.7,
+    },
+  },
+  {
+    selector: 'edge.proposed',
+    style: {
+      'line-style': 'dashed',
+      'line-dash-pattern': [8, 6],
+      width: 2,
+      'line-color': '#FF7D00',
+      'target-arrow-color': '#FF7D00',
+      'line-opacity': 0.5,
+    },
+  },
+  {
+    selector: 'edge.material-extension',
+    style: {
+      'line-color': '#EB2F96',
+      'target-arrow-color': '#EB2F96',
+      'source-arrow-color': '#EB2F96',
+      width: 2.5,
+      'line-opacity': 0.7,
+      'line-style': 'dashed',
+      'line-dash-pattern': [8, 5],
+      'arrow-scale': 1,
+      'curve-style': 'bezier',
+      'target-arrow-shape': 'triangle',
+      'target-arrow-fill': 'filled',
+    },
+  },
+  {
+    selector: 'edge.material-extension.verified',
+    style: {
+      'line-color': '#EB2F96',
+      'target-arrow-color': '#EB2F96',
+      'line-style': 'solid',
+      width: 3,
+      'line-opacity': 0.8,
+    },
+  },
+  {
+    selector: 'edge.material-extension.proposed',
+    style: {
+      'line-color': '#FF7D00',
+      'target-arrow-color': '#FF7D00',
+      'line-style': 'dashed',
+      'line-dash-pattern': [8, 6],
+      width: 2,
+      'line-opacity': 0.6,
+    },
+  },
+];
+
+export { NODE_TYPE_LABELS, RELATION_TYPE_LABELS };

@@ -1,204 +1,248 @@
-import sampleData from '../data/sample-data.json';
-import { validateGraphData } from './schema-validator';
+import nodesDraft from '../data/nodes-draft.json';
 import type {
   GraphData,
   GraphNode,
   GraphEdge,
-  ChainType,
-  NodeChainInfo,
+  GraphDataProvider,
   ChainView,
+  NodeChainSummary,
   RelationType,
 } from './types';
 
-let graphData: GraphData;
+class JsonDataProvider implements GraphDataProvider {
+  private data: GraphData;
+  private nodeMap: Map<string, GraphNode>;
+  private adjacencyList: Map<string, GraphEdge[]>;
+  private childrenMap: Map<string, GraphNode[]>;
 
-const validationResult = validateGraphData(sampleData);
-if (!validationResult.valid) {
-  console.error('Graph data validation failed:', validationResult.errors);
-  throw new Error('Invalid graph data');
-}
-graphData = sampleData as GraphData;
-
-// 预构建查找索引
-const nodeMap = new Map<string, GraphNode>();
-graphData.nodes.forEach((node) => nodeMap.set(node.id, node));
-
-const chainTypeMap = new Map<string, ChainType>();
-graphData.chain_types.forEach((ct) => chainTypeMap.set(ct.type, ct));
-
-/** 返回完整图数据 */
-export function getGraphData(): GraphData {
-  return graphData;
-}
-
-/** 获取单个节点 */
-export function getNodeById(id: string): GraphNode | undefined {
-  return nodeMap.get(id);
-}
-
-/** 返回该节点参与的所有链路信息 */
-export function getNodeChains(nodeId: string): NodeChainInfo | undefined {
-  const node = nodeMap.get(nodeId);
-  if (!node) return undefined;
-
-  // 按 relation_type 分组统计上下游数量
-  const chainCounts = new Map<string, { upstream: number; downstream: number }>();
-
-  for (const edge of graphData.edges) {
-    if (edge.source !== nodeId && edge.target !== nodeId) continue;
-
-    const rt = edge.relation_type;
-    if (!chainCounts.has(rt)) {
-      chainCounts.set(rt, { upstream: 0, downstream: 0 });
-    }
-    const counts = chainCounts.get(rt)!;
-
-    if (edge.source === nodeId) {
-      counts.downstream++;
-    }
-    if (edge.target === nodeId) {
-      counts.upstream++;
-    }
+  constructor(rawData: GraphData) {
+    this.data = rawData;
+    this.nodeMap = new Map();
+    this.adjacencyList = new Map();
+    this.childrenMap = new Map();
+    this.buildIndexes();
   }
 
-  const chains = Array.from(chainCounts.entries()).map(([rt, counts]) => {
-    const chainType = chainTypeMap.get(rt);
-    return {
-      relation_type: rt,
-      chain_label: chainType?.label || rt,
-      chain_color: chainType?.color || '#86909C',
-      upstream_count: counts.upstream,
-      downstream_count: counts.downstream,
-    };
-  });
+  private buildIndexes(): void {
+    for (const node of this.data.nodes) {
+      this.nodeMap.set(node.id, node);
+      this.adjacencyList.set(node.id, []);
 
-  // 检测跨行业交叉
-  const crossIndustryNodes = getCrossIndustryNodes(nodeId);
-  const connectedIndustries = new Set<string>();
-  node.industry_tags.forEach((t) => connectedIndustries.add(t));
-  crossIndustryNodes.forEach((n) => {
-    n.industry_tags.forEach((t) => connectedIndustries.add(t));
-  });
-
-  return {
-    node_id: nodeId,
-    chains,
-    cross_industry: crossIndustryNodes.length > 0,
-    connected_industries: Array.from(connectedIndustries),
-  };
-}
-
-/** 返回指定节点在指定关系类型下的链路视图 */
-export function getChainView(
-  nodeId: string,
-  relationType: RelationType,
-  depth: number = 3
-): ChainView | undefined {
-  const centerNode = nodeMap.get(nodeId);
-  if (!centerNode) return undefined;
-
-  const chainType = chainTypeMap.get(relationType);
-
-  // BFS 遍历：仅沿指定 relation_type 的边扩展
-  const visitedNodes = new Set<string>([nodeId]);
-  const queue: Array<{ id: string; currentDepth: number }> = [
-    { id: nodeId, currentDepth: 0 },
-  ];
-
-  while (queue.length > 0) {
-    const { id, currentDepth } = queue.shift()!;
-    if (currentDepth >= depth) continue;
-
-    for (const edge of graphData.edges) {
-      if (edge.relation_type !== relationType) continue;
-
-      let neighborId: string | null = null;
-      if (edge.source === id) {
-        neighborId = edge.target;
-      } else if (edge.target === id) {
-        neighborId = edge.source;
+      if (node.parent_type) {
+        if (!this.childrenMap.has(node.parent_type)) {
+          this.childrenMap.set(node.parent_type, []);
+        }
+        this.childrenMap.get(node.parent_type)!.push(node);
       }
+    }
 
-      if (neighborId && !visitedNodes.has(neighborId)) {
-        visitedNodes.add(neighborId);
-        queue.push({ id: neighborId, currentDepth: currentDepth + 1 });
+    for (const edge of this.data.edges) {
+      if (this.adjacencyList.has(edge.source)) {
+        this.adjacencyList.get(edge.source)!.push(edge);
+      }
+      if (this.adjacencyList.has(edge.target)) {
+        this.adjacencyList.get(edge.target)!.push(edge);
       }
     }
   }
 
-  // 收集所有连接已访问节点的边
-  const edges = graphData.edges.filter(
-    (edge) =>
-      edge.relation_type === relationType &&
-      visitedNodes.has(edge.source) &&
-      visitedNodes.has(edge.target)
-  );
+  getGraphData(): GraphData {
+    return this.data;
+  }
 
-  const nodes = Array.from(visitedNodes)
-    .map((id) => nodeMap.get(id))
-    .filter((n): n is GraphNode => n !== undefined);
+  getNodeById(id: string): GraphNode | undefined {
+    return this.nodeMap.get(id);
+  }
 
-  // 标记跨行业交叉点：industry_tags 与中心节点无交集
-  const centerTags = new Set(centerNode.industry_tags);
-  const crossIndustryNodes = nodes.filter(
-    (n) => n.id !== nodeId && !n.industry_tags.some((tag) => centerTags.has(tag))
-  );
+  searchNodes(query: string): GraphNode[] {
+    const lowerQuery = query.toLowerCase().trim();
+    if (!lowerQuery) return [];
 
-  return {
-    center_node: centerNode,
-    relation_type: relationType,
-    chain_type: chainType || {
-      type: relationType,
-      label: relationType,
-      description: '',
-      color: '#86909C',
-    },
-    nodes,
-    edges,
-    cross_industry_nodes: crossIndustryNodes,
-  };
-}
-
-/** 按名称和别名搜索节点 */
-export function searchNodes(query: string): GraphNode[] {
-  const lowerQuery = query.toLowerCase();
-  return graphData.nodes
-    .filter((node) => {
+    const results: GraphNode[] = [];
+    for (const node of this.data.nodes) {
       const nameMatch = node.name.toLowerCase().includes(lowerQuery);
       const aliasMatch =
-        node.aliases?.some((alias) =>
-          alias.toLowerCase().includes(lowerQuery)
-        ) ?? false;
-      return nameMatch || aliasMatch;
-    })
-    .slice(0, 20);
-}
-
-/** 找出与该节点连接但属于不同行业的节点 */
-export function getCrossIndustryNodes(nodeId: string): GraphNode[] {
-  const node = nodeMap.get(nodeId);
-  if (!node) return [];
-
-  const nodeTags = new Set(node.industry_tags);
-  const result: GraphNode[] = [];
-  const seen = new Set<string>();
-
-  for (const edge of graphData.edges) {
-    if (edge.source !== nodeId && edge.target !== nodeId) continue;
-
-    const neighborId = edge.source === nodeId ? edge.target : edge.source;
-    if (seen.has(neighborId)) continue;
-    seen.add(neighborId);
-
-    const neighbor = nodeMap.get(neighborId);
-    if (!neighbor) continue;
-
-    // industry_tags 无交集即为跨行业
-    const hasOverlap = neighbor.industry_tags.some((tag) => nodeTags.has(tag));
-    if (!hasOverlap) {
-      result.push(neighbor);
+        node.aliases?.some((a) => a.term.toLowerCase().includes(lowerQuery)) ??
+        false;
+      if (nameMatch || aliasMatch) {
+        results.push(node);
+      }
+      if (results.length >= 20) break;
     }
+    return results;
   }
 
-  return result;
+  getNodeChildren(parentId: string): GraphNode[] {
+    return this.childrenMap.get(parentId) ?? [];
+  }
+
+  getNodeParent(childId: string): GraphNode | undefined {
+    const child = this.nodeMap.get(childId);
+    if (!child || !child.parent_type) return undefined;
+    return this.nodeMap.get(child.parent_type);
+  }
+
+  getNodeNeighbors(
+    nodeId: string,
+    relationType?: RelationType
+  ): GraphNode[] {
+    const edges = this.adjacencyList.get(nodeId);
+    if (!edges) return [];
+
+    const neighborIds = new Set<string>();
+    for (const edge of edges) {
+      if (relationType && edge.relation_type !== relationType) continue;
+      const neighborId = edge.source === nodeId ? edge.target : edge.source;
+      neighborIds.add(neighborId);
+    }
+
+    return Array.from(neighborIds)
+      .map((id) => this.nodeMap.get(id))
+      .filter((n): n is GraphNode => n !== undefined);
+  }
+
+  getChainView(
+    nodeId: string,
+    relationType: RelationType,
+    depth: number
+  ): ChainView | undefined {
+    const centerNode = this.nodeMap.get(nodeId);
+    if (!centerNode) return undefined;
+
+    const visitedNodes = new Set<string>([nodeId]);
+    const queue: Array<{ id: string; currentDepth: number }> = [
+      { id: nodeId, currentDepth: 0 },
+    ];
+
+    while (queue.length > 0) {
+      const { id, currentDepth } = queue.shift()!;
+      if (currentDepth >= depth) continue;
+
+      const edges = this.adjacencyList.get(id) ?? [];
+      for (const edge of edges) {
+        if (edge.relation_type !== relationType) continue;
+
+        let neighborId: string | null = null;
+        if (edge.source === id) {
+          neighborId = edge.target;
+        } else if (edge.target === id) {
+          neighborId = edge.source;
+        }
+
+        if (neighborId && !visitedNodes.has(neighborId)) {
+          visitedNodes.add(neighborId);
+          queue.push({ id: neighborId, currentDepth: currentDepth + 1 });
+        }
+      }
+    }
+
+    const edges = this.data.edges.filter(
+      (edge) =>
+        edge.relation_type === relationType &&
+        visitedNodes.has(edge.source) &&
+        visitedNodes.has(edge.target)
+    );
+
+    const nodes = Array.from(visitedNodes)
+      .map((id) => this.nodeMap.get(id))
+      .filter((n): n is GraphNode => n !== undefined);
+
+    return {
+      center_node: centerNode,
+      relation_type: relationType,
+      nodes,
+      edges,
+    };
+  }
+
+  getNodeChainSummary(nodeId: string): NodeChainSummary | undefined {
+    const node = this.nodeMap.get(nodeId);
+    if (!node) return undefined;
+
+    const chainCounts = new Map<string, { upstream: number; downstream: number }>();
+    const edges = this.adjacencyList.get(nodeId) ?? [];
+
+    for (const edge of edges) {
+      const rt = edge.relation_type;
+      if (!chainCounts.has(rt)) {
+        chainCounts.set(rt, { upstream: 0, downstream: 0 });
+      }
+      const counts = chainCounts.get(rt)!;
+
+      if (edge.source === nodeId) {
+        counts.downstream++;
+      }
+      if (edge.target === nodeId) {
+        counts.upstream++;
+      }
+    }
+
+    const chains = Array.from(chainCounts.entries()).map(
+      ([rt, counts]) => ({
+        relation_type: rt as RelationType,
+        upstream_count: counts.upstream,
+        downstream_count: counts.downstream,
+      })
+    );
+
+    return {
+      node_id: nodeId,
+      chains,
+    };
+  }
 }
+
+let dataProvider: GraphDataProvider | null = null;
+
+export function getDataProvider(): GraphDataProvider {
+  if (!dataProvider) {
+    dataProvider = new JsonDataProvider(nodesDraft as unknown as GraphData);
+  }
+  return dataProvider;
+}
+
+export function setDataProvider(provider: GraphDataProvider): void {
+  dataProvider = provider;
+}
+
+export const NODE_TYPE_COLORS: Record<string, string> = {
+  material: '#00B42A',
+  process: '#FF7D00',
+  equipment: '#722ED1',
+  product: '#0FC6C2',
+  industry: '#165DFF',
+  entity: '#86909C',
+};
+
+export const NODE_TYPE_LABELS: Record<string, string> = {
+  material: '材料',
+  process: '工艺',
+  equipment: '设备',
+  product: '产品',
+  industry: '行业',
+  entity: '实体',
+};
+
+export const RELATION_TYPE_LABELS: Record<string, string> = {
+  upstream_of: '上游',
+  downstream_of: '下游',
+  raw_material_for: '原料供给',
+  equipment_for: '设备供给',
+  consumable_for: '耗材供给',
+  can_be_processed_into: '可加工为',
+  applied_in: '应用于',
+  structurally_similar_to: '结构相似',
+  made_of: '由...构成',
+};
+
+export const RELATION_TYPE_COLORS: Record<string, string> = {
+  upstream_of: '#86909C',
+  downstream_of: '#86909C',
+  raw_material_for: '#00B42A',
+  equipment_for: '#722ED1',
+  consumable_for: '#FF7D00',
+  can_be_processed_into: '#0FC6C2',
+  applied_in: '#EB2F96',
+  structurally_similar_to: '#F53F3F',
+  made_of: '#86909C',
+};

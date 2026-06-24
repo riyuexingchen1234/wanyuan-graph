@@ -1,99 +1,118 @@
-// 万源图谱 - TypeScript 类型定义
-// 多关系类型产业链图谱数据模型
+export type NodeType = 'material' | 'process' | 'equipment' | 'product' | 'industry' | 'entity';
 
-/** 节点类型 */
-export type NodeType =
-  | 'industry'    // 行业
-  | 'material'    // 原料/材料
-  | 'product'     // 产品
-  | 'equipment'   // 设备
-  | 'consumable'  // 耗材
-  | 'service'     // 服务
-  | 'endpoint';   // 终端（消费者等）
+export type NodeStage = 'draft' | 'reviewed';
 
-/** 验证状态 */
-export type VerificationStatus = 'proposed' | 'verified';
+export type VerificationStatus = 'verified' | 'proposed';
 
-/** 数据来源类型 */
 export type SourceType =
-  | 'ai_generated'       // AI 生成
-  | 'manual_entry'        // 人工录入
-  | 'third_party_import'  // 第三方导入
-  | 'user_submitted'      // 用户提交
-  | 'field_research';     // 实地调研
+  | 'patent'
+  | 'standard'
+  | 'industry_report'
+  | 'news'
+  | 'expert_interview'
+  | 'official_data'
+  | 'encyclopedia'
+  | 'other';
 
-/** 关系类型标识 */
-export type RelationType = string;
+export type RelationType =
+  | 'upstream_of'
+  | 'downstream_of'
+  | 'raw_material_for'
+  | 'equipment_for'
+  | 'consumable_for'
+  | 'can_be_processed_into'
+  | 'applied_in'
+  | 'structurally_similar_to'
+  | 'made_of';
 
-/** 链路类型配置 */
-export interface ChainType {
-  type: RelationType;
-  label: string;
+export type ProposedByMethod =
+  | 'expert_submission'
+  | 'user_submission'
+  | 'ai_pattern_match'
+  | 'editorial_research';
+
+export interface Source {
+  source_type: SourceType;
   description: string;
-  color: string;
+  url?: string;
+  retrieved_at?: string;
 }
 
-/** 节点 */
+export interface Alias {
+  term: string;
+  context?: string;
+  note?: string;
+}
+
+export interface NodeAttributes {
+  physical?: Record<string, string>;
+  chemical?: Record<string, string>;
+  process_capability?: Record<string, string>;
+  cost_tier?: string;
+}
+
+export interface ProposedBy {
+  method: ProposedByMethod;
+  reasoning: string;
+  proposed_at: string;
+}
+
 export interface GraphNode {
   id: string;
   name: string;
-  aliases?: string[];
-  type: NodeType;
+  definition: string;
+  node_type: NodeType;
+  stage: NodeStage;
+  parent_type: string | null;
+  aliases?: Alias[];
+  attributes?: NodeAttributes;
   description?: string;
-  industry_tags: string[];
-  metadata?: Record<string, unknown>;
-}
-
-/** 关系（边） */
-export interface GraphEdge {
-  id: string;
-  source: string;          // 上游节点 ID
-  target: string;          // 下游节点 ID
-  relation_type: RelationType;
-  verification_status: VerificationStatus;
-  source_type: SourceType;
-  evidence?: string;
-  source_url?: string;
+  sources?: Source[];
   created_at: string;
   updated_at: string;
-  verified_at: string | null;
-  verified_by: string | null;
 }
 
-/** 完整图谱数据 */
+export interface GraphEdge {
+  id: string;
+  source: string;
+  target: string;
+  relation_type: RelationType;
+  verification_status: VerificationStatus;
+  evidence?: Source[];
+  proposed_by?: ProposedBy;
+  note?: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface GraphData {
   nodes: GraphNode[];
   edges: GraphEdge[];
-  chain_types: ChainType[];
 }
 
-/** 节点参与的链路信息（用于视角切换 UI） */
-export interface NodeChainInfo {
-  node_id: string;
-  chains: Array<{
-    relation_type: RelationType;
-    chain_label: string;
-    chain_color: string;
-    upstream_count: number;   // 该链路上游节点数
-    downstream_count: number; // 该链路下游节点数
-  }>;
-  cross_industry: boolean;    // 是否跨行业交叉点
-  connected_industries: string[]; // 连接的行业列表
-}
-
-/** API 查询参数：按节点 + 关系类型获取链路 */
-export interface ChainQuery {
-  node_id: string;
-  relation_type?: RelationType;  // 不传则返回该节点所有链路
-  depth?: number;                // 遍历深度，默认 3
-}
-
-/** API 返回：链路视图 */
 export interface ChainView {
   center_node: GraphNode;
   relation_type: RelationType;
-  chain_type: ChainType;
   nodes: GraphNode[];
   edges: GraphEdge[];
-  cross_industry_nodes: GraphNode[]; // 该链路中的跨行业交叉点
+}
+
+export interface NodeChainSummary {
+  node_id: string;
+  chains: Array<{
+    relation_type: RelationType;
+    upstream_count: number;
+    downstream_count: number;
+  }>;
+}
+
+export interface GraphDataProvider {
+  getGraphData(): GraphData;
+  getNodeById(id: string): GraphNode | undefined;
+  searchNodes(query: string): GraphNode[];
+  getNodeChildren(parentId: string): GraphNode[];
+  getNodeParent(childId: string): GraphNode | undefined;
+  getNodeNeighbors(nodeId: string, relationType?: RelationType): GraphNode[];
+  getChainView(nodeId: string, relationType: RelationType, depth: number): ChainView | undefined;
+  getNodeChainSummary(nodeId: string): NodeChainSummary | undefined;
 }

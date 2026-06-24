@@ -6,22 +6,39 @@ import NodeDetail from '../components/NodeDetail';
 import SearchBar from '../components/SearchBar';
 import IntroOverlay from '../components/IntroOverlay';
 import KeyboardShortcuts from '../components/KeyboardShortcuts';
-import type { GraphData, GraphNode, NodeChainInfo, ChainView } from '../lib/types';
+import type { GraphNode, ChainView, RelationType } from '../lib/types';
 
 const INTRO_SHOWN_KEY = 'wanyuan-intro-shown';
 
 interface BreadcrumbItem {
   nodeId: string;
   nodeName: string;
-  chainLabel?: string;
+  relationType?: RelationType;
+  mode?: 'default' | 'material-extension';
 }
 
+const RECOMMENDED_NODES = [
+  { id: 'material-polyethylene', name: '聚乙烯', desc: '从最通用的塑料出发，看它能延伸到哪里' },
+  { id: 'industry-photovoltaic', name: '光伏行业', desc: '看看新能源产业链上都有什么' },
+  { id: 'equipment-injection-molding-machine', name: '注塑机', desc: '从一台设备开始，探索它连接的世界' },
+];
+
 export default function Home() {
-  const [graphData, setGraphData] = useState<GraphData | null>(null);
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
-  const [chainInfo, setChainInfo] = useState<NodeChainInfo | null>(null);
+  const [parentNode, setParentNode] = useState<GraphNode | null>(null);
+  const [childNodes, setChildNodes] = useState<GraphNode[]>([]);
+  const [chains, setChains] = useState<
+    Array<{
+      relation_type: RelationType;
+      upstream_count: number;
+      downstream_count: number;
+    }>
+  >([]);
   const [chainView, setChainView] = useState<ChainView | null>(null);
-  const [selectedChain, setSelectedChain] = useState<string | null>(null);
+  const [selectedChain, setSelectedChain] = useState<RelationType | null>(null);
+  const [canvasMode, setCanvasMode] = useState<'default' | 'material-extension'>(
+    'default'
+  );
 
   const [loadingNode, setLoadingNode] = useState(false);
   const [loadingChain, setLoadingChain] = useState(false);
@@ -38,64 +55,45 @@ export default function Home() {
     }
   }, []);
 
-  // 预加载完整图数据（用于本地节点查找）
-  useEffect(() => {
-    let mounted = true;
-    fetch('/api/graph')
-      .then((res) => res.json())
-      .then((data: GraphData) => {
-        if (mounted) setGraphData(data);
-      })
-      .catch((err) => {
-        console.error('Failed to preload graph data:', err);
-      });
-    return () => {
-      mounted = false;
-    };
+  const fetchNodeDetail = useCallback(async (nodeId: string) => {
+    try {
+      setLoadingNode(true);
+      setError(null);
+      const response = await fetch(
+        `/api/graph?node=${encodeURIComponent(nodeId)}&mode=detail`
+      );
+      if (!response.ok) {
+        throw new Error('节点不存在');
+      }
+      const data = await response.json();
+      setSelectedNode(data.node);
+      setParentNode(data.parent || null);
+      setChildNodes(data.children || []);
+      setChains(data.chain_summary || []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '未知错误');
+    } finally {
+      setLoadingNode(false);
+    }
   }, []);
 
-  // 获取节点链路信息
-  const fetchNodeChains = useCallback(
-    async (nodeId: string) => {
-      try {
-        setLoadingNode(true);
-        setError(null);
-        const response = await fetch(`/api/graph?node=${encodeURIComponent(nodeId)}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch node chains');
-        }
-        const data: NodeChainInfo = await response.json();
-        setChainInfo(data);
-        // 从已缓存的图数据中查找节点
-        const nodeObj = graphData?.nodes.find((n) => n.id === nodeId) || null;
-        setSelectedNode(nodeObj);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
-      } finally {
-        setLoadingNode(false);
-      }
-    },
-    [graphData]
-  );
-
-  // 获取链路视图
   const fetchChainView = useCallback(
-    async (nodeId: string, relationType: string, depth: number = 3) => {
+    async (nodeId: string, relationType: RelationType, depth: number = 1) => {
       try {
         setLoadingChain(true);
         setError(null);
         const response = await fetch(
-          `/api/graph?node=${encodeURIComponent(nodeId)}&chain=${encodeURIComponent(
-            relationType
-          )}&depth=${depth}`
+          `/api/graph?node=${encodeURIComponent(
+            nodeId
+          )}&chain=${encodeURIComponent(relationType)}&depth=${depth}`
         );
         if (!response.ok) {
-          throw new Error('Failed to fetch chain view');
+          throw new Error('获取链路视图失败');
         }
         const data: ChainView = await response.json();
         setChainView(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
+        setError(err instanceof Error ? err.message : '未知错误');
       } finally {
         setLoadingChain(false);
       }
@@ -103,130 +101,153 @@ export default function Home() {
     []
   );
 
-  // 用户从搜索选择节点
   const handleNodeSelect = useCallback(
     (id: string) => {
       if (!id) return;
-      // 重置状态
       setChainView(null);
       setSelectedChain(null);
-      setChainInfo(null);
-      // 重置面包屑
+      setChains([]);
       setBreadcrumb([]);
-      // 加载节点链路信息
-      fetchNodeChains(id);
+      setCanvasMode('default');
+      fetchNodeDetail(id);
     },
-    [fetchNodeChains]
+    [fetchNodeDetail]
   );
 
-  // 用户从 NodeDetail 选择一条链路
   const handleChainSelect = useCallback(
-    (relationType: string) => {
+    (relationType: RelationType) => {
       if (!selectedNode) return;
       setSelectedChain(relationType);
-      fetchChainView(selectedNode.id, relationType, 3);
+      setCanvasMode('default');
+      fetchChainView(selectedNode.id, relationType, 1);
 
-      // 更新当前面包屑项的 chainLabel
-      const chainLabel = chainInfo?.chains.find(
-        (c) => c.relation_type === relationType
-      )?.chain_label;
-      if (chainLabel) {
-        setBreadcrumb((prev) => {
-          if (prev.length === 0) {
-            return [
-              { nodeId: selectedNode.id, nodeName: selectedNode.name },
-            ];
-          }
-          // 更新最后一项的 chainLabel
-          const last = prev[prev.length - 1];
-          if (last.nodeId === selectedNode.id) {
-            return [
-              ...prev.slice(0, -1),
-              { ...last, chainLabel },
-            ];
-          }
-          return prev;
-        });
-      }
+      setBreadcrumb((prev) => {
+        const last = prev[prev.length - 1];
+        if (last && last.nodeId === selectedNode.id) {
+          return [...prev.slice(0, -1), { ...last, relationType, mode: 'default' }];
+        }
+        return [
+          ...prev,
+          {
+            nodeId: selectedNode.id,
+            nodeName: selectedNode.name,
+            relationType,
+            mode: 'default',
+          },
+        ];
+      });
     },
-    [selectedNode, chainInfo, fetchChainView]
+    [selectedNode, fetchChainView]
   );
 
-  // 用户在图谱中点击非中心节点 → 切换中心
+  const handleMaterialExtensionClick = useCallback(() => {
+    if (!selectedNode) return;
+    setSelectedChain(null);
+    setCanvasMode('material-extension');
+    fetchChainView(selectedNode.id, 'applied_in', 1);
+
+    setBreadcrumb((prev) => {
+      const last = prev[prev.length - 1];
+      if (last && last.nodeId === selectedNode.id) {
+        return [...prev.slice(0, -1), { ...last, mode: 'material-extension' }];
+      }
+      return [
+        ...prev,
+        {
+          nodeId: selectedNode.id,
+          nodeName: selectedNode.name,
+          mode: 'material-extension',
+        },
+      ];
+    });
+  }, [selectedNode, fetchChainView]);
+
   const handleGraphNodeSelect = useCallback(
     (id: string) => {
       if (!id) return;
-      // 记录面包屑：从当前节点跳到新节点
       if (selectedNode) {
         setBreadcrumb((prev) => {
-          // 确保当前节点在面包屑中
           const last = prev[prev.length - 1];
           if (!last || last.nodeId !== selectedNode.id) {
             return [
               ...prev,
-              { nodeId: selectedNode.id, nodeName: selectedNode.name },
+              {
+                nodeId: selectedNode.id,
+                nodeName: selectedNode.name,
+                relationType: selectedChain || undefined,
+                mode: canvasMode,
+              },
             ];
           }
           return prev;
         });
       }
-      // 重置链路视图，等待用户选择新视角
       setChainView(null);
       setSelectedChain(null);
-      setChainInfo(null);
-      fetchNodeChains(id);
+      setChains([]);
+      setCanvasMode('default');
+      fetchNodeDetail(id);
     },
-    [selectedNode, fetchNodeChains]
+    [selectedNode, selectedChain, canvasMode, fetchNodeDetail]
   );
 
-  // 点击面包屑回退
+  const handleParentClick = useCallback(() => {
+    if (parentNode) {
+      handleNodeSelect(parentNode.id);
+    }
+  }, [parentNode, handleNodeSelect]);
+
+  const handleChildClick = useCallback(
+    (childId: string) => {
+      handleNodeSelect(childId);
+    },
+    [handleNodeSelect]
+  );
+
   const handleBreadcrumbClick = useCallback(
     (index: number) => {
       const item = breadcrumb[index];
       if (!item) return;
-      // 截断面包屑到该位置
       setBreadcrumb((prev) => prev.slice(0, index + 1));
-      // 重置链路视图
       setChainView(null);
       setSelectedChain(null);
-      setChainInfo(null);
-      fetchNodeChains(item.nodeId);
+      setChains([]);
+      setCanvasMode(item.mode || 'default');
+      fetchNodeDetail(item.nodeId);
     },
-    [breadcrumb, fetchNodeChains]
+    [breadcrumb, fetchNodeDetail]
   );
 
-  // 关闭详情面板
   const handleCloseDetail = useCallback(() => {
     setSelectedNode(null);
-    setChainInfo(null);
+    setParentNode(null);
+    setChildNodes([]);
+    setChains([]);
     setChainView(null);
     setSelectedChain(null);
     setBreadcrumb([]);
+    setCanvasMode('default');
   }, []);
 
-  // 重试
   const handleRetry = useCallback(() => {
     if (selectedNode) {
       if (selectedChain) {
-        fetchChainView(selectedNode.id, selectedChain, 3);
+        fetchChainView(selectedNode.id, selectedChain, 1);
       } else {
-        fetchNodeChains(selectedNode.id);
+        fetchNodeDetail(selectedNode.id);
       }
     }
-  }, [selectedNode, selectedChain, fetchChainView, fetchNodeChains]);
+  }, [selectedNode, selectedChain, fetchChainView, fetchNodeDetail]);
 
-  // 引导覆盖层
   const handleStartExplore = useCallback(() => {
     setShowIntro(false);
     sessionStorage.setItem(INTRO_SHOWN_KEY, 'true');
   }, []);
 
-  // 搜索聚焦
   const handleSearchFocus = useCallback(() => {
     setSearchOpen(true);
   }, []);
 
-  // ESC 关闭
   const handleEscape = useCallback(() => {
     if (showIntro) return;
     if (selectedNode) {
@@ -235,28 +256,34 @@ export default function Home() {
     setSearchOpen(false);
   }, [showIntro, selectedNode, handleCloseDetail]);
 
+  const hasSelection = selectedNode !== null;
+
   return (
     <div className="h-screen w-full flex overflow-hidden">
       {showIntro && (
-        <IntroOverlay onStart={handleStartExplore} onExplore={handleStartExplore} />
+        <IntroOverlay
+          onStart={handleStartExplore}
+          onExplore={handleStartExplore}
+        />
       )}
 
       <div className="flex-1 relative">
-        {/* 顶部标题 + 面包屑 */}
         <header className="absolute top-4 left-4 z-30 flex items-center gap-3 max-w-[calc(100%-340px)]">
           <div className="bg-white/95 backdrop-blur rounded-arco-lg shadow-arco-1 px-5 py-3 flex items-center gap-3 flex-shrink-0">
             <div className="w-1 h-6 bg-arco-primary rounded-full" />
             <div>
-              <h1 className="text-arco-2xl font-semibold text-ink-1">万源图谱</h1>
-              <p className="text-arco-xs text-ink-3">多关系类型产业链探索</p>
+              <h1 className="text-arco-xl font-semibold text-ink-1">万源图谱</h1>
+              <p className="text-arco-xs text-ink-3">发现真实世界的连接</p>
             </div>
           </div>
 
-          {/* 面包屑导航 */}
           {breadcrumb.length > 0 && (
             <nav className="bg-white/95 backdrop-blur rounded-arco-lg shadow-arco-1 px-4 py-2 flex items-center gap-1 flex-wrap min-w-0">
               {breadcrumb.map((item, index) => (
-                <div key={`${item.nodeId}-${index}`} className="flex items-center gap-1 min-w-0">
+                <div
+                  key={`${item.nodeId}-${index}`}
+                  className="flex items-center gap-1 min-w-0"
+                >
                   {index > 0 && (
                     <svg
                       className="w-3 h-3 text-ink-4 flex-shrink-0"
@@ -279,14 +306,14 @@ export default function Home() {
                   >
                     {item.nodeName}
                   </button>
-                  {item.chainLabel && index < breadcrumb.length - 1 && (
+                  {item.relationType && (
                     <span className="px-1.5 py-0.5 bg-arco-primary/10 text-arco-primary rounded-arco-sm text-arco-xs flex-shrink-0">
-                      [{item.chainLabel}]
+                      {item.relationType}
                     </span>
                   )}
-                  {item.chainLabel && index === breadcrumb.length - 1 && selectedChain && (
-                    <span className="px-1.5 py-0.5 bg-arco-primary/10 text-arco-primary rounded-arco-sm text-arco-xs flex-shrink-0">
-                      [{item.chainLabel}]
+                  {item.mode === 'material-extension' && (
+                    <span className="px-1.5 py-0.5 bg-pink-500/10 text-pink-400 rounded-arco-sm text-arco-xs flex-shrink-0">
+                      材料延伸
                     </span>
                   )}
                 </div>
@@ -295,15 +322,125 @@ export default function Home() {
           )}
         </header>
 
-        <SearchBar onNodeSelect={handleNodeSelect} />
+        <div className="absolute top-4 right-4 z-40 w-[320px]">
+          <SearchBar onNodeSelect={handleNodeSelect} />
+        </div>
+
+        {!hasSelection && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none">
+            <div className="text-center pointer-events-auto">
+              <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur flex items-center justify-center mb-6 mx-auto border border-white/20">
+                <svg
+                  className="w-10 h-10 text-white/70"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                  />
+                </svg>
+              </div>
+              <h2 className="text-2xl font-semibold text-white mb-2">
+                从一个节点出发，探索真实世界的连接
+              </h2>
+              <p className="text-white/60 text-sm mb-8 max-w-md mx-auto">
+                搜索任意节点，沿着不同类型的关系逐步游走，发现被行业分类遮蔽的真实连接
+              </p>
+
+              <div className="flex flex-col items-center gap-3">
+                <p className="text-white/40 text-xs">或者从这些节点开始：</p>
+                <div className="flex gap-3 flex-wrap justify-center">
+                  {RECOMMENDED_NODES.map((node) => (
+                    <button
+                      key={node.id}
+                      onClick={() => handleNodeSelect(node.id)}
+                      className="px-4 py-3 bg-white/10 hover:bg-white/20 backdrop-blur border border-white/20 hover:border-white/40 rounded-arco-md transition-all text-left max-w-[200px] group"
+                    >
+                      <div className="text-white text-sm font-medium group-hover:text-white/90">
+                        {node.name}
+                      </div>
+                      <div className="text-white/50 text-xs mt-1">{node.desc}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <GraphCanvas
+          centerNode={selectedNode}
           chainView={chainView}
+          mode={canvasMode}
           onNodeSelect={handleGraphNodeSelect}
           loading={loadingChain}
           error={error}
           onRetry={handleRetry}
         />
+
+        {hasSelection && (
+          <div className="absolute bottom-4 left-4 z-30 bg-white/95 backdrop-blur rounded-arco-md shadow-arco-1 px-4 py-3">
+            {canvasMode === 'material-extension' ? (
+              <>
+                <div className="text-xs text-ink-3 mb-2 font-medium">材料延伸视图</div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rotate-45 bg-gradient-to-br from-pink-500 to-pink-300 border border-pink-300" />
+                    <span className="text-xs text-ink-2">中心材料</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-gradient-to-br from-purple-600 to-purple-400 border border-pink-500" />
+                    <span className="text-xs text-ink-2">延伸应用</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-0.5 bg-pink-500 rounded" />
+                    <span className="text-xs text-ink-2">已验证应用</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-6 h-0.5 rounded"
+                      style={{
+                        backgroundImage:
+                          'repeating-linear-gradient(to right, #FF7D00 0, #FF7D00 4px, transparent 4px, transparent 7px)',
+                      }}
+                    />
+                    <span className="text-xs text-ink-2">潜在应用（待验证）</span>
+                  </div>
+                </div>
+                <div className="text-ink-4 text-[10px] mt-2">
+                  基于材料底层属性的跨行业应用探索
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="text-xs text-ink-3 mb-2 font-medium">可信度图例</div>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-0.5 bg-success rounded" />
+                    <span className="text-xs text-ink-2">已验证</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-6 h-0.5 rounded"
+                      style={{
+                        backgroundImage:
+                          'repeating-linear-gradient(to right, #FF7D00 0, #FF7D00 4px, transparent 4px, transparent 7px)',
+                      }}
+                    />
+                    <span className="text-xs text-ink-2">待验证</span>
+                  </div>
+                </div>
+                <div className="text-ink-4 text-[10px] mt-2">
+                  第一阶段：节点录入中，关系数据逐步补充
+                </div>
+              </>
+            )}
+          </div>
+        )}
 
         <KeyboardShortcuts
           onSearchFocus={handleSearchFocus}
@@ -315,10 +452,15 @@ export default function Home() {
       {selectedNode && (
         <NodeDetail
           node={selectedNode}
-          chainInfo={chainInfo}
+          parent={parentNode}
+          childNodes={childNodes}
+          chains={chains}
           loading={loadingNode}
           onClose={handleCloseDetail}
           onChainSelect={handleChainSelect}
+          onParentClick={handleParentClick}
+          onChildClick={handleChildClick}
+          onMaterialExtensionClick={handleMaterialExtensionClick}
           selectedChain={selectedChain}
         />
       )}
