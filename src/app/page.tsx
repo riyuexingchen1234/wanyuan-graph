@@ -1,330 +1,87 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import GraphCanvas from '../components/GraphCanvas';
-import NodeDetail from '../components/NodeDetail';
+import { useState, useCallback, useEffect, useMemo } from 'react';
+import dynamic from 'next/dynamic';
 import SearchBar from '../components/SearchBar';
-import IntroOverlay from '../components/IntroOverlay';
-import KeyboardShortcuts from '../components/KeyboardShortcuts';
-import type { GraphNode, ChainView, RelationType } from '../lib/types';
+import { useGraphStore } from '../store/graphStore';
+import type { GraphNode, RelationType } from '../lib/types';
+import nodesDraft from '../data/nodes-draft.json';
 
-const INTRO_SHOWN_KEY = 'wanyuan-intro-shown';
-
-interface BreadcrumbItem {
-  nodeId: string;
-  nodeName: string;
-  relationType?: RelationType;
-  mode?: 'default' | 'material-extension';
-}
+const GraphScene = dynamic(
+  () => import('../components/Graph3D/GraphScene'),
+  { ssr: false }
+);
 
 const RECOMMENDED_NODES = [
-  { id: 'material-polyethylene', name: '聚乙烯', desc: '从最通用的塑料出发' },
-  { id: 'industry-photovoltaic', name: '光伏行业', desc: '看看新能源产业链' },
-  { id: 'equipment-injection-molding-machine', name: '注塑机', desc: '从一台设备开始探索' },
+  { id: 'material-polyethylene', name: '聚乙烯', desc: '最通用的塑料材料' },
+  { id: 'industry-photovoltaic', name: '光伏行业', desc: '新能源产业链' },
+  { id: 'equipment-injection-molding-machine', name: '注塑机', desc: '塑料加工核心设备' },
+  { id: 'industry-lithium-battery', name: '锂电池行业', desc: '动力电池产业链' },
 ];
+
+const NODE_TYPE_LABELS: Record<string, string> = {
+  material: '材料',
+  product: '产品',
+  equipment: '设备',
+  process: '工艺',
+  industry: '行业',
+  entity: '实体',
+};
 
 export default function Home() {
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
-  const [parentNode, setParentNode] = useState<GraphNode | null>(null);
-  const [childNodes, setChildNodes] = useState<GraphNode[]>([]);
-  const [chains, setChains] = useState<
-    Array<{
-      relation_type: RelationType;
-      upstream_count: number;
-      downstream_count: number;
-    }>
-  >([]);
-  const [chainView, setChainView] = useState<ChainView | null>(null);
-  const [selectedChain, setSelectedChain] = useState<RelationType | null>(null);
-  const [canvasMode, setCanvasMode] = useState<'default' | 'material-extension'>(
-    'default'
-  );
+  const [mode, setMode] = useState<'ambient' | 'focus'>('ambient');
 
-  const [loadingNode, setLoadingNode] = useState(false);
-  const [loadingChain, setLoadingChain] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { flyToNode, resetView, setNodes, setEdges, selectedNodeId } = useGraphStore();
 
-  const [breadcrumb, setBreadcrumb] = useState<BreadcrumbItem[]>([]);
-  const [showIntro, setShowIntro] = useState(true);
-  const [searchOpen, setSearchOpen] = useState(false);
+  const allNodes = useMemo(() => nodesDraft.nodes as GraphNode[], []);
+  const allEdges = useMemo(() => nodesDraft.edges as any[], []);
 
   useEffect(() => {
-    const hasShown = sessionStorage.getItem(INTRO_SHOWN_KEY);
-    if (hasShown) {
-      setShowIntro(false);
-    }
-  }, []);
-
-  const fetchNodeDetail = useCallback(async (nodeId: string) => {
-    try {
-      setLoadingNode(true);
-      setError(null);
-      const response = await fetch(
-        `/api/graph?node=${encodeURIComponent(nodeId)}&mode=detail`
-      );
-      if (!response.ok) {
-        throw new Error('节点不存在');
-      }
-      const data = await response.json();
-      setSelectedNode(data.node);
-      setParentNode(data.parent || null);
-      setChildNodes(data.children || []);
-      setChains(data.chain_summary || []);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : '未知错误');
-    } finally {
-      setLoadingNode(false);
-    }
-  }, []);
-
-  const fetchChainView = useCallback(
-    async (nodeId: string, relationType: RelationType, depth: number = 1) => {
-      try {
-        setLoadingChain(true);
-        setError(null);
-        const response = await fetch(
-          `/api/graph?node=${encodeURIComponent(
-            nodeId
-          )}&chain=${encodeURIComponent(relationType)}&depth=${depth}`
-        );
-        if (!response.ok) {
-          throw new Error('获取链路视图失败');
-        }
-        const data: ChainView = await response.json();
-        setChainView(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : '未知错误');
-      } finally {
-        setLoadingChain(false);
-      }
-    },
-    []
-  );
+    setNodes(allNodes);
+    setEdges(allEdges);
+  }, [allNodes, allEdges, setNodes, setEdges]);
 
   const handleNodeSelect = useCallback(
     (id: string) => {
-      if (!id) return;
-      setChainView(null);
-      setSelectedChain(null);
-      setChains([]);
-      setBreadcrumb([]);
-      setCanvasMode('default');
-      fetchNodeDetail(id);
+      const node = allNodes.find((n) => n.id === id);
+      if (!node) return;
+      setSelectedNode(node);
+      setMode('focus');
+      flyToNode(id);
     },
-    [fetchNodeDetail]
-  );
-
-  const handleChainSelect = useCallback(
-    (relationType: RelationType) => {
-      if (!selectedNode) return;
-      setSelectedChain(relationType);
-      setCanvasMode('default');
-      fetchChainView(selectedNode.id, relationType, 1);
-
-      setBreadcrumb((prev) => {
-        const last = prev[prev.length - 1];
-        if (last && last.nodeId === selectedNode.id) {
-          return [...prev.slice(0, -1), { ...last, relationType, mode: 'default' }];
-        }
-        return [
-          ...prev,
-          {
-            nodeId: selectedNode.id,
-            nodeName: selectedNode.name,
-            relationType,
-            mode: 'default',
-          },
-        ];
-      });
-    },
-    [selectedNode, fetchChainView]
-  );
-
-  const handleMaterialExtensionClick = useCallback(() => {
-    if (!selectedNode) return;
-    setSelectedChain(null);
-    setCanvasMode('material-extension');
-    fetchChainView(selectedNode.id, 'applied_in', 1);
-
-    setBreadcrumb((prev) => {
-      const last = prev[prev.length - 1];
-      if (last && last.nodeId === selectedNode.id) {
-        return [...prev.slice(0, -1), { ...last, mode: 'material-extension' }];
-      }
-      return [
-        ...prev,
-        {
-          nodeId: selectedNode.id,
-          nodeName: selectedNode.name,
-          mode: 'material-extension',
-        },
-      ];
-    });
-  }, [selectedNode, fetchChainView]);
-
-  const handleGraphNodeSelect = useCallback(
-    (id: string) => {
-      if (!id) return;
-      if (selectedNode) {
-        setBreadcrumb((prev) => {
-          const last = prev[prev.length - 1];
-          if (!last || last.nodeId !== selectedNode.id) {
-            return [
-              ...prev,
-              {
-                nodeId: selectedNode.id,
-                nodeName: selectedNode.name,
-                relationType: selectedChain || undefined,
-                mode: canvasMode,
-              },
-            ];
-          }
-          return prev;
-        });
-      }
-      setChainView(null);
-      setSelectedChain(null);
-      setChains([]);
-      setCanvasMode('default');
-      fetchNodeDetail(id);
-    },
-    [selectedNode, selectedChain, canvasMode, fetchNodeDetail]
-  );
-
-  const handleParentClick = useCallback(() => {
-    if (parentNode) {
-      handleNodeSelect(parentNode.id);
-    }
-  }, [parentNode, handleNodeSelect]);
-
-  const handleChildClick = useCallback(
-    (childId: string) => {
-      handleNodeSelect(childId);
-    },
-    [handleNodeSelect]
-  );
-
-  const handleBreadcrumbClick = useCallback(
-    (index: number) => {
-      const item = breadcrumb[index];
-      if (!item) return;
-      setBreadcrumb((prev) => prev.slice(0, index + 1));
-      setChainView(null);
-      setSelectedChain(null);
-      setChains([]);
-      setCanvasMode(item.mode || 'default');
-      fetchNodeDetail(item.nodeId);
-    },
-    [breadcrumb, fetchNodeDetail]
+    [allNodes, flyToNode]
   );
 
   const handleCloseDetail = useCallback(() => {
     setSelectedNode(null);
-    setParentNode(null);
-    setChildNodes([]);
-    setChains([]);
-    setChainView(null);
-    setSelectedChain(null);
-    setBreadcrumb([]);
-    setCanvasMode('default');
-  }, []);
+    setMode('ambient');
+    resetView();
+  }, [resetView]);
 
-  const handleRetry = useCallback(() => {
-    if (selectedNode) {
-      if (selectedChain) {
-        fetchChainView(selectedNode.id, selectedChain, 1);
-      } else {
-        fetchNodeDetail(selectedNode.id);
-      }
-    }
-  }, [selectedNode, selectedChain, fetchChainView, fetchNodeDetail]);
+  const selectedNodeData = useMemo(() => {
+    if (!selectedNodeId) return null;
+    return allNodes.find((n) => n.id === selectedNodeId) || null;
+  }, [selectedNodeId, allNodes]);
 
-  const handleStartExplore = useCallback(() => {
-    setShowIntro(false);
-    sessionStorage.setItem(INTRO_SHOWN_KEY, 'true');
-  }, []);
-
-  const handleSearchFocus = useCallback(() => {
-    setSearchOpen(true);
-  }, []);
-
-  const handleEscape = useCallback(() => {
-    if (showIntro) return;
-    if (selectedNode) {
-      handleCloseDetail();
-    }
-    setSearchOpen(false);
-  }, [showIntro, selectedNode, handleCloseDetail]);
-
-  const hasSelection = selectedNode !== null;
+  const displayNode = selectedNode || selectedNodeData;
 
   return (
     <div className="h-screen w-full flex overflow-hidden bg-white">
-      {showIntro && (
-        <IntroOverlay
-          onStart={handleStartExplore}
-          onExplore={handleStartExplore}
-        />
-      )}
-
       <div className="flex-1 relative">
-        <header className="absolute top-4 left-4 z-30 flex items-center gap-3 max-w-[calc(100%-340px)]">
+        <header className="absolute top-4 left-4 z-30 flex items-center gap-3">
           <div className="bg-white border border-gray-200 rounded px-5 py-3">
             <h1 className="text-lg font-semibold text-black">万源图谱</h1>
             <p className="text-xs text-gray-500">发现真实世界的连接</p>
           </div>
-
-          {breadcrumb.length > 0 && (
-            <nav className="bg-white border border-gray-200 rounded px-4 py-2 flex items-center gap-1 flex-wrap min-w-0">
-              {breadcrumb.map((item, index) => (
-                <div
-                  key={`${item.nodeId}-${index}`}
-                  className="flex items-center gap-1 min-w-0"
-                >
-                  {index > 0 && (
-                    <svg
-                      className="w-3 h-3 text-gray-400 flex-shrink-0"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  )}
-                  <button
-                    onClick={() => handleBreadcrumbClick(index)}
-                    className="text-sm text-gray-700 hover:text-black truncate max-w-[120px]"
-                    title={item.nodeName}
-                  >
-                    {item.nodeName}
-                  </button>
-                  {item.relationType && (
-                    <span className="px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded text-xs flex-shrink-0">
-                      {item.relationType}
-                    </span>
-                  )}
-                  {item.mode === 'material-extension' && (
-                    <span className="px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded text-xs flex-shrink-0">
-                      材料延伸
-                    </span>
-                  )}
-                </div>
-              ))}
-            </nav>
-          )}
         </header>
 
         <div className="absolute top-4 right-4 z-40 w-[320px]">
           <SearchBar onNodeSelect={handleNodeSelect} />
         </div>
 
-        {!hasSelection && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
+        {mode === 'ambient' && !displayNode && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none">
             <div className="text-center">
               <h2 className="text-2xl font-semibold text-black mb-2">
                 从一个节点出发，探索真实世界的连接
@@ -333,14 +90,14 @@ export default function Home() {
                 搜索任意节点，沿着不同类型的关系逐步游走
               </p>
 
-              <div className="flex flex-col items-center gap-3">
+              <div className="flex flex-col items-center gap-3 pointer-events-auto">
                 <p className="text-gray-400 text-xs">或者从这些节点开始：</p>
                 <div className="flex gap-3 flex-wrap justify-center">
                   {RECOMMENDED_NODES.map((node) => (
                     <button
                       key={node.id}
                       onClick={() => handleNodeSelect(node.id)}
-                      className="px-4 py-3 border border-gray-300 rounded hover:bg-gray-50 transition-colors text-left max-w-[200px]"
+                      className="px-4 py-3 border border-gray-300 rounded hover:bg-gray-50 transition-colors text-left max-w-[200px] bg-white/80"
                     >
                       <div className="text-black text-sm font-medium">
                         {node.name}
@@ -354,17 +111,17 @@ export default function Home() {
           </div>
         )}
 
-        <GraphCanvas
-          centerNode={selectedNode}
-          chainView={chainView}
-          mode={canvasMode}
-          onNodeSelect={handleGraphNodeSelect}
-          loading={loadingChain}
-          error={error}
-          onRetry={handleRetry}
-        />
+        <div className="w-full h-full">
+          <GraphScene
+            nodes={allNodes}
+            edges={allEdges}
+            centerNodeId={selectedNodeId}
+            relationType="raw_material_for"
+            mode={mode}
+          />
+        </div>
 
-        {hasSelection && (
+        {displayNode && (
           <div className="absolute bottom-4 left-4 z-30 bg-white border border-gray-200 rounded px-4 py-3">
             <div className="text-xs text-gray-500 mb-2">图例</div>
             <div className="flex items-center gap-4">
@@ -385,28 +142,100 @@ export default function Home() {
             </div>
           </div>
         )}
-
-        <KeyboardShortcuts
-          onSearchFocus={handleSearchFocus}
-          onEscape={handleEscape}
-          isSearchOpen={searchOpen}
-        />
       </div>
 
-      {selectedNode && (
-        <NodeDetail
-          node={selectedNode}
-          parent={parentNode}
-          childNodes={childNodes}
-          chains={chains}
-          loading={loadingNode}
-          onClose={handleCloseDetail}
-          onChainSelect={handleChainSelect}
-          onParentClick={handleParentClick}
-          onChildClick={handleChildClick}
-          onMaterialExtensionClick={handleMaterialExtensionClick}
-          selectedChain={selectedChain}
-        />
+      {displayNode && (
+        <div className="w-[360px] h-full bg-white border-l border-gray-200 flex flex-col">
+          <div className="flex items-center justify-between p-4 border-b border-gray-200">
+            <div className="flex items-center gap-2">
+              <span
+                className="inline-flex items-center px-2 py-0.5 rounded text-xs text-gray-700 bg-gray-100"
+              >
+                {NODE_TYPE_LABELS[displayNode.node_type] || displayNode.node_type}
+              </span>
+            </div>
+            <button
+              onClick={handleCloseDetail}
+              className="text-gray-400 hover:text-black transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto p-4">
+            <h2 className="text-xl font-semibold text-black mb-3">
+              {displayNode.name}
+            </h2>
+
+            <div className="mb-4">
+              <div className="text-sm font-medium text-black mb-2">定义</div>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                {displayNode.definition}
+              </p>
+            </div>
+
+            {displayNode.parent_type && (
+              <div className="pt-4 border-t border-gray-200">
+                <div className="text-sm font-medium text-black mb-2">父类型</div>
+                <button
+                  onClick={() => handleNodeSelect(displayNode.parent_type!)}
+                  className="text-sm text-blue-600 hover:underline"
+                >
+                  {allNodes.find((n) => n.id === displayNode.parent_type)?.name ||
+                    displayNode.parent_type}
+                </button>
+              </div>
+            )}
+
+            <div className="pt-4 border-t border-gray-200">
+              <div className="text-sm font-medium text-black mb-2">相关关系</div>
+              <div className="space-y-2">
+                {allEdges
+                  .filter(
+                    (e) =>
+                      e.source === displayNode.id || e.target === displayNode.id
+                  )
+                  .slice(0, 10)
+                  .map((edge) => {
+                    const otherId =
+                      edge.source === displayNode.id
+                        ? edge.target
+                        : edge.source;
+                    const otherNode = allNodes.find((n) => n.id === otherId);
+                    if (!otherNode) return null;
+                    const direction =
+                      edge.source === displayNode.id ? '→' : '←';
+                    return (
+                      <button
+                        key={edge.id}
+                        onClick={() => handleNodeSelect(otherId)}
+                        className="w-full text-left p-2 rounded hover:bg-gray-50 transition-colors"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-gray-400 w-6 text-center">
+                            {direction}
+                          </span>
+                          <span className="text-sm text-black">
+                            {otherNode.name}
+                          </span>
+                          <span className="text-xs text-gray-400 ml-auto">
+                            {edge.relation_type}
+                          </span>
+                        </div>
+                        {edge.verification_status === 'proposed' && (
+                          <div className="text-xs text-gray-400 ml-8 mt-0.5">
+                            待验证
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

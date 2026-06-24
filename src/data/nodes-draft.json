@@ -558,6 +558,177 @@
       "note": "PP塑料杯透明度高、耐高温，是高端塑料杯的主要材质。",
       "created_at": "2026-06-24T00:00:00Z",
       "updated_at": "2026-06-24T00:00:00Z"
+    },
+    {
+      "id": "edge-ethylene-raw-pe",
+      "source": "material-ethylene",
+      "target": "material-polyethylene",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚乙烯由乙烯单体聚合而成",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E4%B9%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-24T00:00:00Z",
+      "updated_at": "2026-06-24T00:00:00Z"
+    },
+    {
+      "id": "edge-propylene-raw-pp",
+      "source": "material-propylene",
+      "target": "material-polypropylene",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚丙烯由丙烯单体聚合而成",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E4%B8%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-24T00:00:00Z",
+      "updated_at": "2026-06-24T00:00:00Z"
+    },
+    {
+      "id": "edge-pe-raw-packaging-film",
+      "source": "material-polyethylene",
+      "target": "product-packaging-film",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "PE薄膜是包装薄膜的主要品种",
+          "url": "https://baike.baidu.com/item/%E5%A1%91%E6%96%99%E5%8C%85%E8%A3%85%E8%96%84%E8%86%9C",
+          "retrieved_at": "2026-06-24T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-24T00:00:00Z",
+      "updated_at": "2026-06-24T00:00:00Z"
+    },
+    {
+      "id": "edge-pe-raw-plastic-pipe",
+      "source": "material-polyethylene",
+      "target": "product-plastic-pipe",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "HDPE是塑料管道的主要原料之一",
+          "url": "https://baike.baidu.com/item/%E5%A1%91%E6%96%99%E7%AE%A1%E9%81%93",
+          "retrieved_at": "2026-06-24T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-24T00:00:00Z",
+      "updated_at": "2026-06-24T00:00:00Z"
+    },
+    {
+      "id": "edge-injection-machine-process",
+      "source": "equipment-injection-molding-machine",
+      "target": "process-injection-molding",
+      "relation_type": "equipment_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "注塑机是实现注塑成型工艺的核心设备",
+          "url": "https://baike.baidu.com/item/%E6%B3%A8%E5%A1%91%E6%9C%BA",
+          "retrieved_at": "2026-06-24T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-24T00:00:00Z",
+      "updated_at": "2026-06-24T00:00:00Z"
+    },
+    {
+      "id": "edge-injection-molding-make-cup",
+      "source": "process-injection-molding",
+      "target": "product-plastic-cup",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "塑料杯通过注塑工艺成型",
+          "url": "https://baike.baidu.com/item/%E5%A1%91%E6%96%99%E6%9D%AF",
+          "retrieved_at": "2026-06-24T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-24T00:00:00Z",
+      "updated_at": "2026-06-24T00:00:00Z"
+    },
+    {
+      "id": "edge-battery-separator-to-lithium",
+      "source": "product-battery-separator",
+      "target": "industry-lithium-battery",
+      "relation_type": "downstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "隔膜是锂电池四大关键材料之一",
+          "url": "https://baike.baidu.com/item/%E9%9A%94%E8%86%9C/8034319",
+          "retrieved_at": "2026-06-24T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-24T00:00:00Z",
+      "updated_at": "2026-06-24T00:00:00Z"
+    },
+    {
+      "id": "edge-lithium-to-energy-storage",
+      "source": "industry-lithium-battery",
+      "target": "industry-energy-storage",
+      "relation_type": "downstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "电化学储能是储能行业的重要组成部分，以锂电池为主",
+          "url": "https://baike.baidu.com/item/%E5%82%A8%E8%83%BD",
+          "retrieved_at": "2026-06-24T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-24T00:00:00Z",
+      "updated_at": "2026-06-24T00:00:00Z"
+    },
+    {
+      "id": "edge-petrochemical-upstream-pe",
+      "source": "industry-petrochemical",
+      "target": "material-polyethylene",
+      "relation_type": "downstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "乙烯和聚乙烯是石油化工的基础产品",
+          "url": "https://baike.baidu.com/item/%E7%9F%B3%E6%B2%B9%E5%8C%96%E5%B7%A5",
+          "retrieved_at": "2026-06-24T00:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-24T00:00:00Z",
+      "updated_at": "2026-06-24T00:00:00Z"
+    },
+    {
+      "id": "edge-plastic-processing-industry",
+      "source": "product-plastic-cup",
+      "target": "industry-plastic-processing",
+      "relation_type": "downstream_of",
+      "verification_status": "verified",
+      "created_at": "2026-06-24T00:00:00Z",
+      "updated_at": "2026-06-24T00:00:00Z"
+    },
+    {
+      "id": "edge-packaging-film-industry",
+      "source": "product-packaging-film",
+      "target": "industry-plastic-processing",
+      "relation_type": "downstream_of",
+      "verification_status": "verified",
+      "created_at": "2026-06-24T00:00:00Z",
+      "updated_at": "2026-06-24T00:00:00Z"
     }
   ]
 }

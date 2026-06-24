@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-three/drei": "^9.122.0",
+    "@react-three/fiber": "^8.18.0",
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1",
     "critters": "^0.0.23",
@@ -17,7 +19,9 @@
     "dagre": "^0.8.5",
     "next": "14.2.5",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "three": "^0.184.0",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@types/cytoscape": "^3.21.9",
