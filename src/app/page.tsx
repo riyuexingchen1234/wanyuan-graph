@@ -18,9 +18,9 @@ interface BreadcrumbItem {
 }
 
 const RECOMMENDED_NODES = [
-  { id: 'material-polyethylene', name: '聚乙烯', desc: '从最通用的塑料出发，看它能延伸到哪里' },
-  { id: 'industry-photovoltaic', name: '光伏行业', desc: '看看新能源产业链上都有什么' },
-  { id: 'equipment-injection-molding-machine', name: '注塑机', desc: '从一台设备开始，探索它连接的世界' },
+  { id: 'material-polyethylene', name: '聚乙烯', desc: '从最通用的塑料出发' },
+  { id: 'industry-photovoltaic', name: '光伏行业', desc: '看看新能源产业链' },
+  { id: 'equipment-injection-molding-machine', name: '注塑机', desc: '从一台设备开始探索' },
 ];
 
 export default function Home() {
@@ -259,7 +259,7 @@ export default function Home() {
   const hasSelection = selectedNode !== null;
 
   return (
-    <div className="h-screen w-full flex overflow-hidden">
+    <div className="h-screen w-full flex overflow-hidden bg-white">
       {showIntro && (
         <IntroOverlay
           onStart={handleStartExplore}
@@ -269,16 +269,13 @@ export default function Home() {
 
       <div className="flex-1 relative">
         <header className="absolute top-4 left-4 z-30 flex items-center gap-3 max-w-[calc(100%-340px)]">
-          <div className="bg-white/95 backdrop-blur rounded-arco-lg shadow-arco-1 px-5 py-3 flex items-center gap-3 flex-shrink-0">
-            <div className="w-1 h-6 bg-arco-primary rounded-full" />
-            <div>
-              <h1 className="text-arco-xl font-semibold text-ink-1">万源图谱</h1>
-              <p className="text-arco-xs text-ink-3">发现真实世界的连接</p>
-            </div>
+          <div className="bg-white border border-gray-200 rounded px-5 py-3">
+            <h1 className="text-lg font-semibold text-black">万源图谱</h1>
+            <p className="text-xs text-gray-500">发现真实世界的连接</p>
           </div>
 
           {breadcrumb.length > 0 && (
-            <nav className="bg-white/95 backdrop-blur rounded-arco-lg shadow-arco-1 px-4 py-2 flex items-center gap-1 flex-wrap min-w-0">
+            <nav className="bg-white border border-gray-200 rounded px-4 py-2 flex items-center gap-1 flex-wrap min-w-0">
               {breadcrumb.map((item, index) => (
                 <div
                   key={`${item.nodeId}-${index}`}
@@ -286,7 +283,7 @@ export default function Home() {
                 >
                   {index > 0 && (
                     <svg
-                      className="w-3 h-3 text-ink-4 flex-shrink-0"
+                      className="w-3 h-3 text-gray-400 flex-shrink-0"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -301,18 +298,18 @@ export default function Home() {
                   )}
                   <button
                     onClick={() => handleBreadcrumbClick(index)}
-                    className="text-arco-sm text-ink-2 hover:text-arco-primary transition-colors truncate max-w-[120px]"
+                    className="text-sm text-gray-700 hover:text-black truncate max-w-[120px]"
                     title={item.nodeName}
                   >
                     {item.nodeName}
                   </button>
                   {item.relationType && (
-                    <span className="px-1.5 py-0.5 bg-arco-primary/10 text-arco-primary rounded-arco-sm text-arco-xs flex-shrink-0">
+                    <span className="px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded text-xs flex-shrink-0">
                       {item.relationType}
                     </span>
                   )}
                   {item.mode === 'material-extension' && (
-                    <span className="px-1.5 py-0.5 bg-pink-500/10 text-pink-400 rounded-arco-sm text-arco-xs flex-shrink-0">
+                    <span className="px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded text-xs flex-shrink-0">
                       材料延伸
                     </span>
                   )}
@@ -327,43 +324,28 @@ export default function Home() {
         </div>
 
         {!hasSelection && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none">
-            <div className="text-center pointer-events-auto">
-              <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur flex items-center justify-center mb-6 mx-auto border border-white/20">
-                <svg
-                  className="w-10 h-10 text-white/70"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                  />
-                </svg>
-              </div>
-              <h2 className="text-2xl font-semibold text-white mb-2">
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
+            <div className="text-center">
+              <h2 className="text-2xl font-semibold text-black mb-2">
                 从一个节点出发，探索真实世界的连接
               </h2>
-              <p className="text-white/60 text-sm mb-8 max-w-md mx-auto">
-                搜索任意节点，沿着不同类型的关系逐步游走，发现被行业分类遮蔽的真实连接
+              <p className="text-gray-500 text-sm mb-8 max-w-md mx-auto">
+                搜索任意节点，沿着不同类型的关系逐步游走
               </p>
 
               <div className="flex flex-col items-center gap-3">
-                <p className="text-white/40 text-xs">或者从这些节点开始：</p>
+                <p className="text-gray-400 text-xs">或者从这些节点开始：</p>
                 <div className="flex gap-3 flex-wrap justify-center">
                   {RECOMMENDED_NODES.map((node) => (
                     <button
                       key={node.id}
                       onClick={() => handleNodeSelect(node.id)}
-                      className="px-4 py-3 bg-white/10 hover:bg-white/20 backdrop-blur border border-white/20 hover:border-white/40 rounded-arco-md transition-all text-left max-w-[200px] group"
+                      className="px-4 py-3 border border-gray-300 rounded hover:bg-gray-50 transition-colors text-left max-w-[200px]"
                     >
-                      <div className="text-white text-sm font-medium group-hover:text-white/90">
+                      <div className="text-black text-sm font-medium">
                         {node.name}
                       </div>
-                      <div className="text-white/50 text-xs mt-1">{node.desc}</div>
+                      <div className="text-gray-500 text-xs mt-1">{node.desc}</div>
                     </button>
                   ))}
                 </div>
@@ -383,62 +365,24 @@ export default function Home() {
         />
 
         {hasSelection && (
-          <div className="absolute bottom-4 left-4 z-30 bg-white/95 backdrop-blur rounded-arco-md shadow-arco-1 px-4 py-3">
-            {canvasMode === 'material-extension' ? (
-              <>
-                <div className="text-xs text-ink-3 mb-2 font-medium">材料延伸视图</div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rotate-45 bg-gradient-to-br from-pink-500 to-pink-300 border border-pink-300" />
-                    <span className="text-xs text-ink-2">中心材料</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full bg-gradient-to-br from-purple-600 to-purple-400 border border-pink-500" />
-                    <span className="text-xs text-ink-2">延伸应用</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-0.5 bg-pink-500 rounded" />
-                    <span className="text-xs text-ink-2">已验证应用</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div
-                      className="w-6 h-0.5 rounded"
-                      style={{
-                        backgroundImage:
-                          'repeating-linear-gradient(to right, #FF7D00 0, #FF7D00 4px, transparent 4px, transparent 7px)',
-                      }}
-                    />
-                    <span className="text-xs text-ink-2">潜在应用（待验证）</span>
-                  </div>
-                </div>
-                <div className="text-ink-4 text-[10px] mt-2">
-                  基于材料底层属性的跨行业应用探索
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="text-xs text-ink-3 mb-2 font-medium">可信度图例</div>
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-0.5 bg-success rounded" />
-                    <span className="text-xs text-ink-2">已验证</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div
-                      className="w-6 h-0.5 rounded"
-                      style={{
-                        backgroundImage:
-                          'repeating-linear-gradient(to right, #FF7D00 0, #FF7D00 4px, transparent 4px, transparent 7px)',
-                      }}
-                    />
-                    <span className="text-xs text-ink-2">待验证</span>
-                  </div>
-                </div>
-                <div className="text-ink-4 text-[10px] mt-2">
-                  第一阶段：节点录入中，关系数据逐步补充
-                </div>
-              </>
-            )}
+          <div className="absolute bottom-4 left-4 z-30 bg-white border border-gray-200 rounded px-4 py-3">
+            <div className="text-xs text-gray-500 mb-2">图例</div>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-0.5 bg-black" />
+                <span className="text-xs text-gray-700">已验证</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div
+                  className="w-6 h-0.5"
+                  style={{
+                    backgroundImage:
+                      'repeating-linear-gradient(to right, #000 0, #000 4px, transparent 4px, transparent 7px)',
+                  }}
+                />
+                <span className="text-xs text-gray-700">待验证</span>
+              </div>
+            </div>
           </div>
         )}
 
