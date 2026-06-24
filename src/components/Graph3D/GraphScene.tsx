@@ -1,22 +1,12 @@
 'use client';
 
-import { useEffect, useMemo, useState, Component, ReactNode } from 'react';
+import { useState, Component, ReactNode } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import GraphNode3D from './GraphNode3D';
 import GraphEdge3D from './GraphEdge3D';
 import { useCameraFlight } from './useCameraFlight';
 import { useGraphStore } from '../../store/graphStore';
-import { computeChainLayout, computeAmbientLayout } from '../../lib/graph-layout';
-import type { GraphNode, GraphEdge, RelationType } from '../../lib/types';
-
-interface GraphSceneProps {
-  nodes: GraphNode[];
-  edges: GraphEdge[];
-  centerNodeId?: string | null;
-  relationType?: RelationType;
-  mode?: 'ambient' | 'focus';
-}
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -52,30 +42,18 @@ class SceneErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundar
   }
 }
 
-function SceneContent({ nodes, edges, centerNodeId, relationType = 'raw_material_for', mode = 'ambient' }: GraphSceneProps) {
+function SceneContent() {
   const {
-    setSelectedNodeId,
+    nodes,
+    edges,
+    positions,
+    focusNodeId,
     selectedNodeId,
     hoveredNodeId,
     setHoveredNodeId,
     flyToNode,
+    setSelectedNodeId,
   } = useGraphStore();
-
-  const positions = useMemo(() => {
-    if (mode === 'focus' && centerNodeId) {
-      const centerNode = nodes.find((n) => n.id === centerNodeId);
-      if (centerNode) {
-        return computeChainLayout(centerNode, nodes, edges, relationType, {
-          centerX: 0,
-          centerY: 0,
-          centerZ: 0,
-          rankSep: 5,
-          nodeSep: 2.5,
-        });
-      }
-    }
-    return computeAmbientLayout(nodes, { radius: 25 });
-  }, [nodes, edges, centerNodeId, relationType, mode]);
 
   useCameraFlight();
 
@@ -84,11 +62,9 @@ function SceneContent({ nodes, edges, centerNodeId, relationType = 'raw_material
     setSelectedNodeId(nodeId);
   };
 
-  const visibleEdges = useMemo(() => {
-    return edges.filter(
-      (e) => positions.has(e.source) && positions.has(e.target)
-    );
-  }, [edges, positions]);
+  const visibleEdges = edges.filter(
+    (e) => positions.has(e.source) && positions.has(e.target)
+  );
 
   return (
     <>
@@ -102,7 +78,7 @@ function SceneContent({ nodes, edges, centerNodeId, relationType = 'raw_material
             key={node.id}
             node={node}
             position={pos}
-            isCenter={node.id === centerNodeId}
+            isCenter={node.id === focusNodeId}
             isSelected={node.id === selectedNodeId}
             isHovered={node.id === hoveredNodeId}
             onClick={() => handleNodeClick(node.id)}
@@ -137,21 +113,8 @@ function SceneContent({ nodes, edges, centerNodeId, relationType = 'raw_material
   );
 }
 
-export default function GraphScene(props: GraphSceneProps) {
+export default function GraphScene() {
   const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoaded(true), 100);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (!isLoaded) {
-    return (
-      <div className="w-full h-full flex items-center justify-center bg-white">
-        <div className="text-gray-400 text-sm">加载中...</div>
-      </div>
-    );
-  }
 
   return (
     <SceneErrorBoundary>
@@ -159,10 +122,16 @@ export default function GraphScene(props: GraphSceneProps) {
         camera={{ position: [0, 0, 30], fov: 60 }}
         gl={{ antialias: true, powerPreference: 'default' }}
         dpr={[1, 2]}
+        onCreated={() => setIsLoaded(true)}
       >
         <color attach="background" args={['#ffffff']} />
-        <SceneContent {...props} />
+        <SceneContent />
       </Canvas>
+      {!isLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center bg-white pointer-events-none">
+          <div className="text-gray-400 text-sm">加载中...</div>
+        </div>
+      )}
     </SceneErrorBoundary>
   );
 }

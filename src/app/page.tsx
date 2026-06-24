@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import SearchBar from '../components/SearchBar';
 import { useGraphStore } from '../store/graphStore';
@@ -29,10 +29,14 @@ const NODE_TYPE_LABELS: Record<string, string> = {
 };
 
 export default function Home() {
-  const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
-  const [mode, setMode] = useState<'ambient' | 'focus'>('ambient');
-
-  const { flyToNode, resetView, setNodes, setEdges, selectedNodeId } = useGraphStore();
+  const {
+    setNodes,
+    setEdges,
+    flyToNode,
+    resetView,
+    selectedNodeId,
+    mode,
+  } = useGraphStore();
 
   const allNodes = useMemo(() => nodesDraft.nodes as GraphNode[], []);
   const allEdges = useMemo(() => nodesDraft.edges as any[], []);
@@ -44,27 +48,21 @@ export default function Home() {
 
   const handleNodeSelect = useCallback(
     (id: string) => {
-      const node = allNodes.find((n) => n.id === id);
-      if (!node) return;
-      setSelectedNode(node);
-      setMode('focus');
       flyToNode(id);
     },
-    [allNodes, flyToNode]
+    [flyToNode]
   );
 
   const handleCloseDetail = useCallback(() => {
-    setSelectedNode(null);
-    setMode('ambient');
     resetView();
   }, [resetView]);
 
-  const selectedNodeData = useMemo(() => {
+  const displayNode = useMemo(() => {
     if (!selectedNodeId) return null;
     return allNodes.find((n) => n.id === selectedNodeId) || null;
   }, [selectedNodeId, allNodes]);
 
-  const displayNode = selectedNode || selectedNodeData;
+  const showWelcome = mode === 'ambient' && !displayNode;
 
   return (
     <div className="h-screen w-full flex overflow-hidden bg-white">
@@ -80,7 +78,7 @@ export default function Home() {
           <SearchBar onNodeSelect={handleNodeSelect} />
         </div>
 
-        {mode === 'ambient' && !displayNode && (
+        {showWelcome && (
           <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none">
             <div className="text-center">
               <h2 className="text-2xl font-semibold text-black mb-2">
@@ -97,7 +95,7 @@ export default function Home() {
                     <button
                       key={node.id}
                       onClick={() => handleNodeSelect(node.id)}
-                      className="px-4 py-3 border border-gray-300 rounded hover:bg-gray-50 transition-colors text-left max-w-[200px] bg-white/80"
+                      className="px-4 py-3 border border-gray-300 rounded hover:bg-gray-50 transition-colors text-left max-w-[200px] bg-white"
                     >
                       <div className="text-black text-sm font-medium">
                         {node.name}
@@ -111,14 +109,8 @@ export default function Home() {
           </div>
         )}
 
-        <div className="w-full h-full">
-          <GraphScene
-            nodes={allNodes}
-            edges={allEdges}
-            centerNodeId={selectedNodeId}
-            relationType="raw_material_for"
-            mode={mode}
-          />
+        <div className="w-full h-full relative">
+          <GraphScene />
         </div>
 
         {displayNode && (

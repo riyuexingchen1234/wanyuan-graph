@@ -1,7 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import type { NodePosition } from '../../store/graphStore';
 import { useGraphStore } from '../../store/graphStore';
 
 export function useCameraFlight() {
@@ -11,35 +10,57 @@ export function useCameraFlight() {
   const focusNodeId = useGraphStore((state) => state.focusNodeId);
 
   const targetPos = useRef(new THREE.Vector3(0, 0, 0));
-  const targetDistance = useRef(20);
+  const targetDistance = useRef(30);
+  const animationProgress = useRef(0);
+  const startPos = useRef(new THREE.Vector3(0, 0, 0));
+  const startTarget = useRef(new THREE.Vector3(0, 0, 0));
+  const startDistance = useRef(30);
   const isAnimating = useRef(false);
+  const lastFocusId = useRef<string | null>(null);
 
   useEffect(() => {
-    targetPos.current.set(cameraTarget.x, cameraTarget.y, cameraTarget.z);
-    targetDistance.current = cameraDistance;
-    isAnimating.current = true;
-  }, [cameraTarget, cameraDistance, focusNodeId]);
+    if (focusNodeId && focusNodeId !== lastFocusId.current) {
+      lastFocusId.current = focusNodeId;
 
-  useFrame(() => {
+      startPos.current.copy(camera.position);
+      if (controls) {
+        (controls as any).target.clone(startTarget.current);
+      }
+      startDistance.current = camera.position.distanceTo(startTarget.current);
+
+      targetPos.current.set(cameraTarget.x, cameraTarget.y, cameraTarget.z);
+      targetDistance.current = cameraDistance;
+
+      animationProgress.current = 0;
+      isAnimating.current = true;
+    }
+  }, [focusNodeId, camera, controls, cameraTarget, cameraDistance]);
+
+  const easeInOutCubic = (t: number) => {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  };
+
+  useFrame((_, delta) => {
     if (!controls) return;
 
     if (isAnimating.current) {
-      const currentTarget = new THREE.Vector3();
-      (controls as any).target.clone(currentTarget);
-
-      currentTarget.lerp(targetPos.current, 0.05);
-      (controls as any).target.copy(currentTarget);
-
-      const desiredCameraPos = targetPos.current.clone();
-      const direction = camera.position.clone().sub(currentTarget).normalize();
-      desiredCameraPos.add(direction.multiplyScalar(targetDistance.current));
-
-      camera.position.lerp(desiredCameraPos, 0.05);
-
-      const dist = currentTarget.distanceTo(targetPos.current);
-      if (dist < 0.01) {
+      animationProgress.current += delta * 0.8;
+      if (animationProgress.current >= 1) {
+        animationProgress.current = 1;
         isAnimating.current = false;
       }
+
+      const t = easeInOutCubic(animationProgress.current);
+
+      const currentTarget = new THREE.Vector3();
+      currentTarget.lerpVectors(startTarget.current, targetPos.current, t);
+      (controls as any).target.copy(currentTarget);
+
+      const direction = startPos.current.clone().sub(startTarget.current).normalize();
+      const currentDist = startDistance.current + (targetDistance.current - startDistance.current) * t;
+      const desiredCameraPos = currentTarget.clone().add(direction.multiplyScalar(currentDist));
+
+      camera.position.copy(desiredCameraPos);
     }
   });
 
