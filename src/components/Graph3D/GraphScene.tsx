@@ -157,10 +157,10 @@ export default function GraphScene(props: GraphSceneProps) {
     <SceneErrorBoundary>
       <Canvas
         camera={{ position: [0, 0, 30], fov: 60 }}
-        style={{ background: '#ffffff' }}
-        gl={{ antialias: true, alpha: false, powerPreference: 'default' }}
+        gl={{ antialias: true, powerPreference: 'default' }}
         dpr={[1, 2]}
       >
+        <color attach="background" args={['#ffffff']} />
         <SceneContent {...props} />
       </Canvas>
     </SceneErrorBoundary>
