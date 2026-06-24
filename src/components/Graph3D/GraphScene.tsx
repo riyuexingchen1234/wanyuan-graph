@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Component, ReactNode } from 'react';
+import { useState, Component, ReactNode, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import GraphNode3D from './GraphNode3D';
@@ -47,6 +47,7 @@ function SceneContent() {
     nodes,
     edges,
     positions,
+    depths,
     focusNodeId,
     selectedNodeId,
     hoveredNodeId,
@@ -62,9 +63,11 @@ function SceneContent() {
     setSelectedNodeId(nodeId);
   };
 
-  const visibleEdges = edges.filter(
-    (e) => positions.has(e.source) && positions.has(e.target)
-  );
+  const visibleEdges = useMemo(() => {
+    return edges.filter(
+      (e) => positions.has(e.source) && positions.has(e.target)
+    );
+  }, [edges, positions]);
 
   return (
     <>
@@ -72,12 +75,14 @@ function SceneContent() {
 
       {nodes.map((node) => {
         const pos = positions.get(node.id);
+        const depth = depths.get(node.id) ?? 99;
         if (!pos) return null;
         return (
           <GraphNode3D
             key={node.id}
             node={node}
             position={pos}
+            depth={depth}
             isCenter={node.id === focusNodeId}
             isSelected={node.id === selectedNodeId}
             isHovered={node.id === hoveredNodeId}
@@ -91,6 +96,9 @@ function SceneContent() {
       {visibleEdges.map((edge) => {
         const sourcePos = positions.get(edge.source);
         const targetPos = positions.get(edge.target);
+        const sourceDepth = depths.get(edge.source) ?? 99;
+        const targetDepth = depths.get(edge.target) ?? 99;
+        const edgeDepth = Math.min(sourceDepth, targetDepth);
         if (!sourcePos || !targetPos) return null;
         return (
           <GraphEdge3D
@@ -98,6 +106,7 @@ function SceneContent() {
             edge={edge}
             sourcePos={sourcePos}
             targetPos={targetPos}
+            depth={edgeDepth}
           />
         );
       })}

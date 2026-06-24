@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import type { GraphNode, GraphEdge, RelationType } from '../lib/types';
-import { computeChainLayout, computeAmbientLayout } from '../lib/graph-layout';
+import { computeFocusLayout, computeAmbientLayout } from '../lib/graph-layout';
 
 export interface NodePosition {
   x: number;
@@ -12,6 +12,7 @@ interface GraphState {
   nodes: GraphNode[];
   edges: GraphEdge[];
   positions: Map<string, NodePosition>;
+  depths: Map<string, number>;
   selectedNodeId: string | null;
   hoveredNodeId: string | null;
   focusNodeId: string | null;
@@ -38,6 +39,7 @@ export const useGraphStore = create<GraphState>((set, get) => ({
   nodes: [],
   edges: [],
   positions: new Map(),
+  depths: new Map(),
   selectedNodeId: null,
   hoveredNodeId: null,
   focusNodeId: null,
@@ -68,32 +70,33 @@ export const useGraphStore = create<GraphState>((set, get) => ({
   setCameraDistance: (d) => set({ cameraDistance: d }),
 
   computeLayout: () => {
-    const { nodes, edges, mode, focusNodeId, relationType } = get();
+    const { nodes, edges, mode, focusNodeId } = get();
     if (nodes.length === 0) {
-      set({ positions: new Map() });
+      set({ positions: new Map(), depths: new Map() });
       return;
     }
 
-    let positions: Map<string, NodePosition>;
+    let result;
 
     if (mode === 'focus' && focusNodeId) {
       const centerNode = nodes.find((n) => n.id === focusNodeId);
       if (centerNode) {
-        positions = computeChainLayout(centerNode, nodes, edges, relationType, {
+        result = computeFocusLayout(centerNode, nodes, edges, {
           centerX: 0,
           centerY: 0,
           centerZ: 0,
           rankSep: 5,
           nodeSep: 2.5,
+          layerSep: 4,
         });
       } else {
-        positions = computeAmbientLayout(nodes, { radius: 25 });
+        result = computeAmbientLayout(nodes, { radius: 25 });
       }
     } else {
-      positions = computeAmbientLayout(nodes, { radius: 25 });
+      result = computeAmbientLayout(nodes, { radius: 25 });
     }
 
-    set({ positions });
+    set({ positions: result.positions, depths: result.depths });
   },
 
   flyToNode: (id) => {
@@ -112,13 +115,16 @@ export const useGraphStore = create<GraphState>((set, get) => ({
     }
   },
 
-  resetView: () =>
+  resetView: () => {
+    const result = computeAmbientLayout(get().nodes, { radius: 25 });
     set({
       cameraTarget: { x: 0, y: 0, z: 0 },
       cameraDistance: 30,
       focusNodeId: null,
       selectedNodeId: null,
       mode: 'ambient',
-      positions: computeAmbientLayout(get().nodes, { radius: 25 }),
-    }),
+      positions: result.positions,
+      depths: result.depths,
+    });
+  },
 }));
