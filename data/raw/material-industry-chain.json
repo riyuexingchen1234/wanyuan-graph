@@ -1,0 +1,2062 @@
+{
+  "nodes": [
+    {
+      "id": "material-petroleum",
+      "name": "石油",
+      "definition": "一种粘稠的、深褐色液体，主要由各种烷烃、环烷烃、芳香烃的混合物组成，是石油化工的基础原料。",
+      "node_type": "material",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "石油 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E7%9F%B3%E6%B2%B9",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 石油化工行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-ethylene",
+      "name": "乙烯",
+      "definition": "化学式为C2H4的不饱和烃，由石油裂解制得，是石油化工的基础原料之一，产量是衡量一个国家石油化工发展水平的重要标志。",
+      "node_type": "material",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "乙烯 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E4%B9%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 乙烯工业发展指南",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-propylene",
+      "name": "丙烯",
+      "definition": "化学式为C3H6的不饱和烃，主要来自石油催化裂化和蒸汽裂解，是重要的基础化工原料，用于生产聚丙烯、丙烯腈等。",
+      "node_type": "material",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "丙烯 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E4%B8%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 丙烯产业链分析报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-benzene",
+      "name": "苯",
+      "definition": "化学式为C6H6的芳香烃，是最简单的芳烃，主要来自石油重整和乙烯裂解，是重要的基础有机化工原料。",
+      "node_type": "material",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "苯 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E8%8B%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 芳烃产业链发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-methanol",
+      "name": "甲醇",
+      "definition": "化学式为CH3OH的饱和一元醇，又称木醇或木精，可由煤、天然气或生物质制得，是重要的基础化工原料。",
+      "node_type": "material",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "甲醇 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E7%94%B2%E9%86%87",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 甲醇行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-synthetic-resin",
+      "name": "合成树脂",
+      "definition": "由人工合成的一类高分子聚合物，是塑料的主要成分，约占塑料总重量的40%～100%，按用途分为通用塑料、工程塑料和高性能塑料。",
+      "node_type": "material",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "合成树脂 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E5%90%88%E6%88%90%E6%A0%91%E8%84%82",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 合成树脂工业发展指南",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-polyethylene",
+      "name": "聚乙烯",
+      "definition": "乙烯单体聚合而成的热塑性聚合物材料的统称，是产量最大的通用塑料品种，具有耐低温、化学稳定性好等优良特性。",
+      "node_type": "material",
+      "parent_type": "material-synthetic-resin",
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚乙烯 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E4%B9%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "GB/T 33319-2025 塑料 聚乙烯（PE）透气膜专用料",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 聚乙烯行业分析报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-polypropylene",
+      "name": "聚丙烯",
+      "definition": "丙烯单体聚合而成的热塑性聚合物，密度低、耐热性好、耐化学腐蚀，是通用塑料中增长最快的品种。",
+      "node_type": "material",
+      "parent_type": "material-synthetic-resin",
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚丙烯 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E4%B8%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 聚丙烯行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-pvc",
+      "name": "聚氯乙烯",
+      "definition": "氯乙烯单体聚合而成的热塑性聚合物，简称PVC，是世界上产量最大的通用塑料之一，具有阻燃、耐化学腐蚀等优良特性。",
+      "node_type": "material",
+      "parent_type": "material-synthetic-resin",
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚氯乙烯 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E6%B0%AF%E4%B9%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 聚氯乙烯行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-ps",
+      "name": "聚苯乙烯",
+      "definition": "苯乙烯单体聚合而成的热塑性聚合物，简称PS，包括通用级聚苯乙烯（GPPS）、高抗冲聚苯乙烯（HIPS）和发泡聚苯乙烯（EPS）。",
+      "node_type": "material",
+      "parent_type": "material-synthetic-resin",
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚苯乙烯 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E8%8B%AF%E4%B9%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 苯乙烯产业链分析报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-abs",
+      "name": "ABS树脂",
+      "definition": "丙烯腈-丁二烯-苯乙烯共聚物，是一种强度高、韧性好、易于加工成型的热塑性高分子材料，广泛应用于汽车、电子电器等领域。",
+      "node_type": "material",
+      "parent_type": "material-synthetic-resin",
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "ABS树脂 - 百度百科",
+          "url": "https://baike.baidu.com/item/ABS%E6%A0%91%E8%84%82",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - ABS树脂行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-polycarbonate",
+      "name": "聚碳酸酯",
+      "definition": "简称PC，分子链中含有碳酸酯基的高分子聚合物，是一种无色透明的无定形热塑性材料，具有优异的抗冲击性、耐热性和透光性。",
+      "node_type": "material",
+      "parent_type": "material-synthetic-resin",
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚碳酸酯 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E7%A2%B3%E9%85%B8%E9%85%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 工程塑料行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-polyamide",
+      "name": "聚酰胺",
+      "definition": "简称PA，俗称尼龙，分子主链上含有重复酰胺基团的热塑性树脂总称，具有坚韧、耐磨、自润滑等优良特性，是最重要的工程塑料品种之一。",
+      "node_type": "material",
+      "parent_type": "material-synthetic-resin",
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚酰胺 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E9%85%B0%E8%83%BA",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 工程塑料行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-pom",
+      "name": "聚甲醛",
+      "definition": "简称POM，又称聚氧化甲烯，是甲醛等聚合而成的热塑性聚合物，具有高硬度、高刚性、耐磨损等特性，被誉为\"超钢\"或\"赛钢\"。",
+      "node_type": "material",
+      "parent_type": "material-synthetic-resin",
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚甲醛 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E7%94%B2%E9%86%9B",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 工程塑料行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-pet",
+      "name": "聚对苯二甲酸乙二醇酯",
+      "definition": "简称PET，由对苯二甲酸和乙二醇缩聚而成的热塑性聚酯，具有优良的物理机械性能、耐化学腐蚀性，广泛用于纤维、薄膜和包装领域。",
+      "node_type": "material",
+      "parent_type": "material-synthetic-resin",
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚对苯二甲酸乙二醇酯 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E5%AF%B9%E8%8B%AF%E4%BA%8C%E7%94%B2%E9%85%B8%E4%B9%99%E4%BA%8C%E9%86%87%E9%85%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 聚酯行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-pbt",
+      "name": "聚对苯二甲酸丁二醇酯",
+      "definition": "简称PBT，由对苯二甲酸和1,4-丁二醇缩聚而成的热塑性聚酯，具有优良的机械性能、电绝缘性和耐化学腐蚀性，是重要的工程塑料品种。",
+      "node_type": "material",
+      "parent_type": "material-synthetic-resin",
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚对苯二甲酸丁二醇酯 - 百度百科",
+          "url": "https://baike.baidu.com/item/PBT",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 工程塑料行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-carbon-fiber",
+      "name": "碳纤维",
+      "definition": "含碳量在90%以上的高强度高模量纤维，具有耐高温、抗摩擦、导电、导热及耐腐蚀等特性，是重要的高性能增强纤维材料。",
+      "node_type": "material",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "碳纤维 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E7%A2%B3%E7%BA%A4%E7%BB%B4",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "GB/T 45473-2025 复合材料和增强纤维 碳纤维增强塑料（CFRPs）和金属组件 十字拉伸强度的测定",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 碳纤维行业发展指南",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-aramid",
+      "name": "芳纶",
+      "definition": "全称为芳香族聚酰胺纤维，是一种新型高科技合成纤维，具有超高强度、高模量和耐高温、耐酸耐碱、重量轻等优良性能。",
+      "node_type": "material",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "芳纶 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E8%8A%B3%E7%BA%AC",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 高性能纤维行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-uhmwpe",
+      "name": "超高分子量聚乙烯",
+      "definition": "简称UHMWPE，分子量在150万以上的线性结构聚乙烯，具有极高的耐磨性、抗冲击性、耐化学腐蚀性和自润滑性。",
+      "node_type": "material",
+      "parent_type": "material-polyethylene",
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "超高分子量聚乙烯 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E8%B6%85%E9%AB%98%E5%88%86%E5%AD%90%E9%87%8F%E8%81%9A%E4%B9%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "GB/T 47400-2026 石油化工用聚乙烯管道焊接接头X射线数字成像检测方法",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 高性能塑料行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-polyimide",
+      "name": "聚酰亚胺",
+      "definition": "简称PI，分子主链中含有酰亚胺环的芳杂环高分子化合物，是综合性能最佳的有机高分子材料之一，耐高温达400°C以上。",
+      "node_type": "material",
+      "parent_type": "material-synthetic-resin",
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚酰亚胺 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E9%85%B0%E4%BA%9A%E8%83%BA",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 高性能塑料行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "product-plastic-film",
+      "name": "塑料薄膜",
+      "definition": "用塑料制成的薄膜制品的统称，包括包装薄膜、农用薄膜、功能性薄膜等，是塑料加工制品中产量最大的品种之一。",
+      "node_type": "product",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "塑料薄膜 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E5%A1%91%E6%96%99%E8%96%84%E8%86%9C",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - 塑料薄膜行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "product-plastic-pipe",
+      "name": "塑料管材",
+      "definition": "以塑料为原料制成的管状制品的统称，主要包括给水管、排水管、燃气管等，具有耐腐蚀、重量轻、安装方便等优点。",
+      "node_type": "product",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "塑料管道 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E5%A1%91%E6%96%99%E7%AE%A1%E9%81%93",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - 塑料管材行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "product-plastic-sheet",
+      "name": "塑料板材",
+      "definition": "以塑料为原料制成的片状制品的统称，包括PE板、PP板、PVC板、PC板等，广泛用于建筑、化工、电子等领域。",
+      "node_type": "product",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "塑料板材 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E5%A1%91%E6%96%99%E6%9D%BF%E6%9D%90",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - 塑料板材行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "product-injection-molded-parts",
+      "name": "注塑制品",
+      "definition": "通过注塑成型工艺将熔融塑料注入模具冷却固化得到的塑料制品，是塑料加工中应用最广泛的成型方法之一。",
+      "node_type": "product",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "注塑成型 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E6%B3%A8%E5%A1%91%E6%88%90%E5%9E%8B",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - 注塑制品行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "product-extruded-parts",
+      "name": "挤出制品",
+      "definition": "通过挤出成型工艺将熔融塑料通过口模连续挤出得到的塑料制品，包括管材、型材、薄膜、板材等多种产品形式。",
+      "node_type": "product",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "挤出成型 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E6%8C%A4%E5%87%BA%E6%88%90%E5%9E%8B",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - 挤出制品行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "industry-packaging",
+      "name": "包装行业",
+      "definition": "从事包装材料、包装制品生产和包装服务的产业门类，是塑料制品最大的应用领域之一，塑料包装占包装工业总产值的30%以上。",
+      "node_type": "industry",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "包装工业 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E5%8C%85%E8%A3%85%E5%B7%A5%E4%B8%9A",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国包装联合会 - 包装行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "industry-building-materials",
+      "name": "建材行业",
+      "definition": "从事建筑材料生产和销售的产业门类，塑料建材是继钢材、木材、水泥之后的第四大类建筑材料。",
+      "node_type": "industry",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "建材工业 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E5%BB%BA%E6%9D%90%E5%B7%A5%E4%B8%9A",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国建筑材料联合会 - 建材行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "industry-automotive",
+      "name": "汽车行业",
+      "definition": "从事汽车研发、生产、销售和服务的产业门类，塑料在汽车轻量化中发挥重要作用，汽车是工程塑料最大的应用领域。",
+      "node_type": "industry",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "汽车工业 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E6%B1%BD%E8%BD%A6%E5%B7%A5%E4%B8%9A",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国汽车工业协会 - 汽车行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "industry-electronics",
+      "name": "电子电器行业",
+      "definition": "从事电子元器件、家用电器、消费电子等产品生产的产业门类，是工程塑料和通用塑料的重要应用领域。",
+      "node_type": "industry",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "电子工业 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E7%94%B5%E5%AD%90%E5%B7%A5%E4%B8%9A",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国电子信息行业联合会 - 电子信息行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "industry-medical",
+      "name": "医疗行业",
+      "definition": "从事医疗器械、医药生产和医疗服务的产业门类，医用塑料是医疗器械的重要材料，包括输液器、注射器、人工器官等。",
+      "node_type": "industry",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "医疗器械 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E5%8C%BB%E7%96%97%E5%99%A8%E6%A2%B0",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国医疗器械行业协会 - 医疗器械行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "industry-textile",
+      "name": "纺织行业",
+      "definition": "从事纺织纤维、纱线、面料、服装等生产的产业门类，合成纤维（涤纶、尼龙等）是重要的纺织原料。",
+      "node_type": "industry",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "纺织工业 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E7%BA%BA%E7%BB%87%E5%B7%A5%E4%B8%9A",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国纺织工业联合会 - 纺织行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "industry-petrochemical",
+      "name": "石油化工行业",
+      "definition": "以石油和天然气为原料，通过化学加工生产各类化工产品的产业门类，是合成树脂的上游基础产业。",
+      "node_type": "industry",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "石油化学工业 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E7%9F%B3%E6%B2%B9%E5%8C%96%E5%B7%A5",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 石油化工行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "industry-plastic-processing",
+      "name": "塑料加工行业",
+      "definition": "以合成树脂为主要原料，通过注塑、挤出、吹塑等工艺制成塑料制品的产业门类，是连接合成树脂与下游应用的中间环节。",
+      "node_type": "industry",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "塑料加工 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E5%A1%91%E6%96%99%E5%8A%A0%E5%B7%A5",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - 塑料加工行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "industry-new-chemical-materials",
+      "name": "化工新材料行业",
+      "definition": "从事高性能、功能性、专用性化工新材料研发和生产的产业门类，包括工程塑料、高性能纤维、功能性膜材料等。",
+      "node_type": "industry",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 化工新材料行业发展指南",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "official_data",
+          "description": "工信部 - 化工新材料产业发展指导意见",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-general-plastics",
+      "name": "通用塑料",
+      "definition": "产量大、用途广、价格低的一类塑料，主要包括聚乙烯（PE）、聚丙烯（PP）、聚氯乙烯（PVC）、聚苯乙烯（PS）和ABS五大品种。",
+      "node_type": "material",
+      "parent_type": "material-synthetic-resin",
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "通用塑料 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E9%80%9A%E7%94%A8%E5%A1%91%E6%96%99",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 合成树脂工业发展指南",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-engineering-plastics",
+      "name": "工程塑料",
+      "definition": "能作为结构材料，在较宽温度范围内承受机械应力和较为苛刻的环境使用的塑料，主要包括PC、PA、POM、PET、PBT等。",
+      "node_type": "material",
+      "parent_type": "material-synthetic-resin",
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "工程塑料 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E5%B7%A5%E7%A8%8B%E5%A1%91%E6%96%99",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 工程塑料行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-high-performance-plastics",
+      "name": "高性能塑料",
+      "definition": "具有优异综合性能、能在苛刻条件下长期使用的一类塑料，包括聚酰亚胺、聚醚醚酮、特种工程塑料等，是化工新材料的重要组成部分。",
+      "node_type": "material",
+      "parent_type": "material-synthetic-resin",
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 高性能塑料行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "official_data",
+          "description": "工信部 - 化工新材料产业发展指导意见",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-vinyl-chloride",
+      "name": "氯乙烯",
+      "definition": "化学式为C2H3Cl的有机化合物，主要由乙烯和氯气反应制得，是生产聚氯乙烯（PVC）的单体原料。",
+      "node_type": "material",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "氯乙烯 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E6%B0%AF%E4%B9%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 氯碱行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-styrene",
+      "name": "苯乙烯",
+      "definition": "化学式为C8H8的芳香烃，由苯和乙烯反应制得，是生产聚苯乙烯（PS）、ABS树脂、丁苯橡胶等的重要原料。",
+      "node_type": "material",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "苯乙烯 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E8%8B%AF%E4%B9%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 苯乙烯行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-acrylonitrile",
+      "name": "丙烯腈",
+      "definition": "化学式为C3H3N的有机化合物，主要由丙烯氨氧化制得，是生产ABS树脂、聚丙烯腈纤维（腈纶）等的重要原料。",
+      "node_type": "material",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "丙烯腈 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E4%B8%99%E7%83%AF%E8%85%88",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 丙烯腈行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-butadiene",
+      "name": "丁二烯",
+      "definition": "化学式为C4H6的共轭二烯烃，主要来自乙烯裂解副产碳四馏分，是生产合成橡胶和ABS树脂的重要原料。",
+      "node_type": "material",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "丁二烯 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E4%B8%81%E4%BA%8C%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 丁二烯行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-terephthalic-acid",
+      "name": "对苯二甲酸",
+      "definition": "简称PTA，化学式为C8H6O4的有机化合物，主要由对二甲苯氧化制得，是生产PET聚酯的主要原料。",
+      "node_type": "material",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "对苯二甲酸 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E5%AF%B9%E8%8B%AF%E4%BA%8C%E7%94%B2%E9%85%B8",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - PTA行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-ethylene-glycol",
+      "name": "乙二醇",
+      "definition": "简称EG，化学式为C2H6O2的有机化合物，主要由乙烯氧化水合制得，是生产PET聚酯和防冻液的重要原料。",
+      "node_type": "material",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "乙二醇 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E4%B9%99%E4%BA%8C%E9%86%87",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 乙二醇行业发展报告",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "material-polyacrylonitrile",
+      "name": "聚丙烯腈",
+      "definition": "简称PAN，由丙烯腈聚合而成的聚合物，是生产碳纤维的最主要前驱体原料，约90%以上的碳纤维由PAN基体制得。",
+      "node_type": "material",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚丙烯腈 - 百度百科",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E4%B8%99%E7%83%AF%E8%85%88",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 碳纤维行业发展指南",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "material-petroleum",
+      "target": "material-ethylene",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 乙烯主要由石油蒸汽裂解制得",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "乙烯主要通过石油蒸汽裂解工艺生产，是石油化工的龙头产品。"
+    },
+    {
+      "source": "material-petroleum",
+      "target": "material-propylene",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 丙烯主要来自石油催化裂化和蒸汽裂解",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "丙烯主要来源于炼厂催化裂化副产和乙烯裂解副产。"
+    },
+    {
+      "source": "material-petroleum",
+      "target": "material-benzene",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 苯主要来自石油重整和乙烯裂解",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "苯主要来源于催化重整汽油和乙烯裂解汽油的芳烃抽提。"
+    },
+    {
+      "source": "material-ethylene",
+      "target": "material-polyethylene",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚乙烯由乙烯单体聚合而成",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E4%B9%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "乙烯是聚乙烯的唯一单体原料，通过聚合反应生成聚乙烯。"
+    },
+    {
+      "source": "material-propylene",
+      "target": "material-polypropylene",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚丙烯由丙烯单体聚合而成",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E4%B8%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "丙烯是聚丙烯的单体原料，通过聚合反应生成聚丙烯。"
+    },
+    {
+      "source": "material-ethylene",
+      "target": "material-vinyl-chloride",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "氯乙烯主要由乙烯氧氯化法生产",
+          "url": "https://baike.baidu.com/item/%E6%B0%AF%E4%B9%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "乙烯氧氯化法是生产氯乙烯的主流工艺。"
+    },
+    {
+      "source": "material-vinyl-chloride",
+      "target": "material-pvc",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚氯乙烯由氯乙烯单体聚合而成",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E6%B0%AF%E4%B9%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "氯乙烯是聚氯乙烯的单体原料。"
+    },
+    {
+      "source": "material-ethylene",
+      "target": "material-styrene",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "苯乙烯由苯和乙烯烷基化生成乙苯后脱氢制得",
+          "url": "https://baike.baidu.com/item/%E8%8B%AF%E4%B9%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "苯和乙烯反应生成乙苯，乙苯脱氢得到苯乙烯。"
+    },
+    {
+      "source": "material-benzene",
+      "target": "material-styrene",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "苯乙烯由苯和乙烯烷基化生成乙苯后脱氢制得",
+          "url": "https://baike.baidu.com/item/%E8%8B%AF%E4%B9%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "苯是苯乙烯的重要原料之一。"
+    },
+    {
+      "source": "material-styrene",
+      "target": "material-ps",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚苯乙烯由苯乙烯单体聚合而成",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E8%8B%AF%E4%B9%99%E7%83%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "苯乙烯是聚苯乙烯的单体原料。"
+    },
+    {
+      "source": "material-styrene",
+      "target": "material-abs",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "ABS树脂由丙烯腈、丁二烯、苯乙烯三元共聚而成",
+          "url": "https://baike.baidu.com/item/ABS%E6%A0%91%E8%84%82",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "苯乙烯是ABS树脂的三种单体之一，约占40%-60%。"
+    },
+    {
+      "source": "material-propylene",
+      "target": "material-acrylonitrile",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "丙烯腈主要由丙烯氨氧化法生产",
+          "url": "https://baike.baidu.com/item/%E4%B8%99%E7%83%AF%E8%85%88",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "丙烯氨氧化法（Sohio法）是生产丙烯腈的主流工艺。"
+    },
+    {
+      "source": "material-acrylonitrile",
+      "target": "material-abs",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "ABS树脂由丙烯腈、丁二烯、苯乙烯三元共聚而成",
+          "url": "https://baike.baidu.com/item/ABS%E6%A0%91%E8%84%82",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "丙烯腈是ABS树脂的三种单体之一，约占20%-30%。"
+    },
+    {
+      "source": "material-butadiene",
+      "target": "material-abs",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "ABS树脂由丙烯腈、丁二烯、苯乙烯三元共聚而成",
+          "url": "https://baike.baidu.com/item/ABS%E6%A0%91%E8%84%82",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "丁二烯是ABS树脂的三种单体之一，约占15%-30%，赋予ABS韧性。"
+    },
+    {
+      "source": "material-ethylene",
+      "target": "material-butadiene",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 丁二烯主要来自乙烯裂解碳四馏分抽提",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "丁二烯主要从乙烯装置副产的碳四馏分中抽提得到。"
+    },
+    {
+      "source": "material-benzene",
+      "target": "material-terephthalic-acid",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "对苯二甲酸由对二甲苯氧化制得，对二甲苯来自苯的重整",
+          "url": "https://baike.baidu.com/item/%E5%AF%B9%E8%8B%AF%E4%BA%8C%E7%94%B2%E9%85%B8",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "苯经烷基化生成对二甲苯，对二甲苯氧化得到对苯二甲酸（PTA）。"
+    },
+    {
+      "source": "material-ethylene",
+      "target": "material-ethylene-glycol",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "乙二醇主要由乙烯氧化生成环氧乙烷后水合制得",
+          "url": "https://baike.baidu.com/item/%E4%B9%99%E4%BA%8C%E9%86%87",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "乙烯氧化生成环氧乙烷，环氧乙烷水合得到乙二醇。"
+    },
+    {
+      "source": "material-terephthalic-acid",
+      "target": "material-pet",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "PET由对苯二甲酸和乙二醇缩聚而成",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E5%AF%B9%E8%8B%AF%E4%BA%8C%E7%94%B2%E9%85%B8%E4%B9%99%E4%BA%8C%E9%86%87%E9%85%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "对苯二甲酸（PTA）和乙二醇（EG）是PET的两种主要原料。"
+    },
+    {
+      "source": "material-ethylene-glycol",
+      "target": "material-pet",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "PET由对苯二甲酸和乙二醇缩聚而成",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E5%AF%B9%E8%8B%AF%E4%BA%8C%E7%94%B2%E9%85%B8%E4%B9%99%E4%BA%8C%E9%86%87%E9%85%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "乙二醇和对苯二甲酸发生酯化和缩聚反应生成PET。"
+    },
+    {
+      "source": "material-terephthalic-acid",
+      "target": "material-pbt",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "PBT由对苯二甲酸和1,4-丁二醇缩聚而成",
+          "url": "https://baike.baidu.com/item/PBT",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "对苯二甲酸是PBT的原料之一。"
+    },
+    {
+      "source": "material-benzene",
+      "target": "material-polycarbonate",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚碳酸酯主要由双酚A和光气反应制得，双酚A来源于苯和丙酮",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E7%A2%B3%E9%85%B8%E9%85%AF",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "苯经异丙苯法生产苯酚和丙酮，再合成双酚A，双酚A与光气反应生成PC。"
+    },
+    {
+      "source": "material-propylene",
+      "target": "material-polyamide",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 聚酰胺6的原料己内酰胺主要来自苯和丙烯",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "聚酰胺（尼龙）的原料路线多样，PA6由己内酰胺聚合，PA66由己二胺和己二酸缩聚。"
+    },
+    {
+      "source": "material-methanol",
+      "target": "material-pom",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚甲醛由甲醛聚合而成，甲醛主要由甲醇氧化制得",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E7%94%B2%E9%86%9B",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "甲醇氧化制甲醛，甲醛聚合生成聚甲醛。"
+    },
+    {
+      "source": "material-propylene",
+      "target": "material-acrylonitrile",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 丙烯腈由丙烯氨氧化法生产",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "丙烯是生产丙烯腈的主要原料。"
+    },
+    {
+      "source": "material-acrylonitrile",
+      "target": "material-polyacrylonitrile",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "聚丙烯腈由丙烯腈单体聚合而成",
+          "url": "https://baike.baidu.com/item/%E8%81%9A%E4%B8%99%E7%83%AF%E8%85%88",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "丙烯腈是聚丙烯腈的单体原料。"
+    },
+    {
+      "source": "material-polyacrylonitrile",
+      "target": "material-carbon-fiber",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "encyclopedia",
+          "description": "碳纤维的主要制备方法是聚丙烯腈（PAN）原丝碳化法",
+          "url": "https://baike.baidu.com/item/%E7%A2%B3%E7%BA%A4%E7%BB%B4",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "约90%以上的碳纤维由PAN原丝经预氧化、碳化、石墨化制得。"
+    },
+    {
+      "source": "material-polyethylene",
+      "target": "material-general-plastics",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 聚乙烯是五大通用塑料之一",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PE是产量最大的通用塑料品种。"
+    },
+    {
+      "source": "material-polypropylene",
+      "target": "material-general-plastics",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 聚丙烯是五大通用塑料之一",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PP是增长最快的通用塑料品种。"
+    },
+    {
+      "source": "material-pvc",
+      "target": "material-general-plastics",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 聚氯乙烯是五大通用塑料之一",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PVC是产量仅次于PE的第二大通用塑料。"
+    },
+    {
+      "source": "material-ps",
+      "target": "material-general-plastics",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 聚苯乙烯是五大通用塑料之一",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PS是五大通用塑料之一。"
+    },
+    {
+      "source": "material-abs",
+      "target": "material-general-plastics",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - ABS是重要的通用塑料品种",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "ABS是产量最大的非晶态通用塑料之一。"
+    },
+    {
+      "source": "material-general-plastics",
+      "target": "material-synthetic-resin",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 合成树脂分为通用塑料、工程塑料和高性能塑料",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "通用塑料是合成树脂的最大品类，约占总产量的80%以上。"
+    },
+    {
+      "source": "material-polycarbonate",
+      "target": "material-engineering-plastics",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 聚碳酸酯是五大工程塑料之一",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PC是第二大工程塑料，产量仅次于PA。"
+    },
+    {
+      "source": "material-polyamide",
+      "target": "material-engineering-plastics",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 聚酰胺是五大工程塑料之首",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PA（尼龙）是产量最大、应用最广的工程塑料。"
+    },
+    {
+      "source": "material-pom",
+      "target": "material-engineering-plastics",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 聚甲醛是五大工程塑料之一",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "POM被誉为\"超钢\"，是重要的工程塑料品种。"
+    },
+    {
+      "source": "material-pet",
+      "target": "material-engineering-plastics",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - PET作为工程塑料使用，是五大工程塑料之一",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PET大量用于纤维和包装，工程级PET是五大工程塑料之一。"
+    },
+    {
+      "source": "material-pbt",
+      "target": "material-engineering-plastics",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - PBT是五大工程塑料之一",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PBT是重要的聚酯类工程塑料。"
+    },
+    {
+      "source": "material-engineering-plastics",
+      "target": "material-synthetic-resin",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 工程塑料是合成树脂的重要组成部分",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "工程塑料约占合成树脂总产量的10%左右，是化工新材料的重要组成部分。"
+    },
+    {
+      "source": "material-polyimide",
+      "target": "material-high-performance-plastics",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 聚酰亚胺是最重要的高性能塑料品种之一",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PI是综合性能最佳的有机高分子材料之一。"
+    },
+    {
+      "source": "material-uhmwpe",
+      "target": "material-high-performance-plastics",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 超高分子量聚乙烯是高性能聚烯烃材料",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "UHMWPE具有极高的耐磨性和抗冲击性。"
+    },
+    {
+      "source": "material-high-performance-plastics",
+      "target": "material-synthetic-resin",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 高性能塑料是合成树脂的高端品类",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "高性能塑料是化工新材料的核心组成部分。"
+    },
+    {
+      "source": "material-polyethylene",
+      "target": "product-plastic-film",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - PE是塑料薄膜的主要原料",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "LDPE和LLDPE是生产塑料薄膜的主要原料。"
+    },
+    {
+      "source": "material-polypropylene",
+      "target": "product-plastic-film",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - BOPP是重要的塑料薄膜品种",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "双向拉伸聚丙烯薄膜（BOPP）是重要的包装薄膜。"
+    },
+    {
+      "source": "material-pvc",
+      "target": "product-plastic-film",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - PVC薄膜是重要的塑料薄膜品种",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PVC薄膜主要用于包装、农用棚膜等领域。"
+    },
+    {
+      "source": "material-pet",
+      "target": "product-plastic-film",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - PET薄膜是高性能功能性薄膜",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "BOPET薄膜具有优良的力学性能和电绝缘性能。"
+    },
+    {
+      "source": "material-polyethylene",
+      "target": "product-plastic-pipe",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - PE管是塑料管材的主要品种",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "HDPE管广泛用于给排水、燃气输送等领域。"
+    },
+    {
+      "source": "material-pvc",
+      "target": "product-plastic-pipe",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - PVC管是产量最大的塑料管材品种",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PVC管是塑料管材的第一大品种，主要用于给排水。"
+    },
+    {
+      "source": "material-polypropylene",
+      "target": "product-plastic-pipe",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - PP管是重要的塑料管材品种",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PPR管广泛用于冷热水输送系统。"
+    },
+    {
+      "source": "material-pvc",
+      "target": "product-plastic-sheet",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - PVC板材是塑料板材的主要品种",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PVC板材广泛用于建筑、化工防腐等领域。"
+    },
+    {
+      "source": "material-polypropylene",
+      "target": "product-plastic-sheet",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - PP板材是重要的塑料板材品种",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PP板材具有优良的耐化学腐蚀性能。"
+    },
+    {
+      "source": "material-polycarbonate",
+      "target": "product-plastic-sheet",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - PC板材是高性能透明板材",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PC阳光板、耐力板广泛用于建筑采光。"
+    },
+    {
+      "source": "material-polypropylene",
+      "target": "product-injection-molded-parts",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - PP是注塑制品的主要原料之一",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PP是注塑加工中用量最大的塑料之一。"
+    },
+    {
+      "source": "material-abs",
+      "target": "product-injection-molded-parts",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - ABS是注塑制品的重要原料",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "ABS因优良的综合性能广泛用于注塑成型。"
+    },
+    {
+      "source": "material-polyamide",
+      "target": "product-injection-molded-parts",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - 尼龙是工程塑料注塑制品的主要原料",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PA是工程塑料中注塑用量最大的品种。"
+    },
+    {
+      "source": "material-polyethylene",
+      "target": "product-extruded-parts",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - PE是挤出制品的主要原料",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PE是挤出成型最主要的原料之一。"
+    },
+    {
+      "source": "material-pvc",
+      "target": "product-extruded-parts",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - PVC是挤出制品的重要原料",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PVC型材、管材主要通过挤出工艺生产。"
+    },
+    {
+      "source": "product-plastic-film",
+      "target": "industry-packaging",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国包装联合会 - 塑料薄膜是包装行业的重要材料",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "包装是塑料薄膜最大的应用领域，约占总产量的60%以上。"
+    },
+    {
+      "source": "product-plastic-film",
+      "target": "industry-textile",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国纺织工业联合会 - 塑料薄膜在纺织包装、功能性薄膜等方面有应用",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PET等薄膜在纺织包装、服装衬里等领域有应用。"
+    },
+    {
+      "source": "product-plastic-pipe",
+      "target": "industry-building-materials",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国建筑材料联合会 - 塑料管材是塑料建材的主要品种",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "塑料管材是建材行业的重要组成部分。"
+    },
+    {
+      "source": "product-plastic-sheet",
+      "target": "industry-building-materials",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国建筑材料联合会 - 塑料板材是塑料建材的重要品种",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PC阳光板、PVC扣板等广泛用于建筑领域。"
+    },
+    {
+      "source": "product-injection-molded-parts",
+      "target": "industry-automotive",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国汽车工业协会 - 汽车塑料件中注塑制品占比最大",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "汽车内外饰件、功能件大量使用注塑成型塑料制品。"
+    },
+    {
+      "source": "product-injection-molded-parts",
+      "target": "industry-electronics",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国电子信息行业联合会 - 电子电器外壳大量使用注塑件",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "家电外壳、电子连接器等大量使用注塑制品。"
+    },
+    {
+      "source": "product-injection-molded-parts",
+      "target": "industry-medical",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国医疗器械行业协会 - 医用塑料制品大量使用注塑工艺",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "注射器、输液器等医疗器械主要采用注塑成型。"
+    },
+    {
+      "source": "material-polyamide",
+      "target": "industry-automotive",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 汽车是聚酰胺最大的应用领域",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PA在汽车中用于发动机周边部件、电气系统等。"
+    },
+    {
+      "source": "material-polycarbonate",
+      "target": "industry-electronics",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 电子电器是聚碳酸酯的重要应用领域",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PC广泛用于电子电器外壳、光盘、手机屏等。"
+    },
+    {
+      "source": "material-polycarbonate",
+      "target": "industry-automotive",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 汽车是聚碳酸酯的重要应用领域",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PC用于汽车灯具、仪表板、车窗等。"
+    },
+    {
+      "source": "material-abs",
+      "target": "industry-electronics",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 电子电器是ABS的最大应用领域",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "ABS是家电外壳最主要的塑料材料。"
+    },
+    {
+      "source": "material-abs",
+      "target": "industry-automotive",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 汽车是ABS的重要应用领域",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "ABS用于汽车内外饰件等。"
+    },
+    {
+      "source": "material-pet",
+      "target": "industry-textile",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国纺织工业联合会 - 涤纶（PET纤维）是合成纤维的第一大品种",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PET约70%用于生产涤纶纤维，是纺织工业最重要的原料。"
+    },
+    {
+      "source": "material-pet",
+      "target": "industry-packaging",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国包装联合会 - PET瓶是包装行业的重要产品",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PET瓶广泛用于饮料、食品包装。"
+    },
+    {
+      "source": "material-polyamide",
+      "target": "industry-textile",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国纺织工业联合会 - 尼龙（聚酰胺纤维）是重要的合成纤维品种",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PA纤维（锦纶/尼龙）是第二大合成纤维品种。"
+    },
+    {
+      "source": "material-carbon-fiber",
+      "target": "industry-automotive",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 碳纤维复合材料在汽车轻量化中应用广泛",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "碳纤维复合材料是汽车轻量化的关键材料。"
+    },
+    {
+      "source": "material-carbon-fiber",
+      "target": "industry-new-chemical-materials",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 碳纤维是化工新材料的重要组成部分",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "碳纤维是高性能纤维的代表性品种。"
+    },
+    {
+      "source": "material-polyimide",
+      "target": "industry-electronics",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 电子电器是聚酰亚胺的主要应用领域",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PI膜是柔性电路板和锂电池的关键材料。"
+    },
+    {
+      "source": "material-polyimide",
+      "target": "industry-new-chemical-materials",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 聚酰亚胺是化工新材料的重要品种",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "PI被誉为\"解决问题的能手\"，是高分子材料金字塔的顶端。"
+    },
+    {
+      "source": "material-aramid",
+      "target": "industry-new-chemical-materials",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 芳纶是高性能纤维的重要品种",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "芳纶是三大高性能纤维（碳纤维、芳纶、超高分子量聚乙烯）之一。"
+    },
+    {
+      "source": "material-uhmwpe",
+      "target": "industry-new-chemical-materials",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 超高分子量聚乙烯纤维是高性能纤维的重要品种",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "UHMWPE纤维是三大高性能纤维之一，广泛用于防弹、海洋工程等领域。"
+    },
+    {
+      "source": "material-synthetic-resin",
+      "target": "industry-plastic-processing",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国塑料加工工业协会 - 合成树脂是塑料加工行业的主要原料",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "塑料加工行业以合成树脂为主要原料，生产各类塑料制品。"
+    },
+    {
+      "source": "industry-petrochemical",
+      "target": "material-synthetic-resin",
+      "relation_type": "downstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 合成树脂是石油化工的下游产品",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "合成树脂是石油化工产业链的重要终端产品。"
+    },
+    {
+      "source": "material-high-performance-plastics",
+      "target": "industry-new-chemical-materials",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 高性能塑料是化工新材料的核心组成部分",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "高性能塑料是化工新材料产业的重要组成部分。"
+    },
+    {
+      "source": "material-engineering-plastics",
+      "target": "industry-new-chemical-materials",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国石油和化学工业联合会 - 工程塑料是化工新材料的重要组成部分",
+          "retrieved_at": "2026-06-24T08:00:00Z"
+        }
+      ],
+      "note": "工程塑料是化工新材料的基础品种。"
+    }
+  ],
+  "metadata": {
+    "source": "中国石油和化学工业联合会、中国塑料加工工业协会、国家标准、行业报告",
+    "source_url": "https://www.cpcia.org.cn/",
+    "crawled_at": "2026-06-24T08:00:00Z",
+    "record_count": 130
+  }
+}

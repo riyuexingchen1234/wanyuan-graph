@@ -1,0 +1,1558 @@
+{
+  "nodes": [
+    {
+      "id": "material-quartz-sand",
+      "name": "石英砂",
+      "definition": "石英砂是一种坚硬、耐磨、化学性能稳定的硅酸盐矿物，主要矿物成分是SiO2，颜色为乳白色或无色半透明状。石英砂是工业硅生产的主要原料，在光伏产业链中处于最上游位置。",
+      "node_type": "material",
+      "parent_type": "非金属矿物",
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "GB/T 32649-2016 光伏用石英玻璃制品",
+          "url": "https://openstd.samr.gov.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "material-industrial-silicon",
+      "name": "工业硅",
+      "definition": "工业硅又称金属硅，是由石英和焦炭在电热炉内冶炼成的产品，主成分硅元素的含量在98.5%~99.5%以上。工业硅是多晶硅生产的主要原料，按用途可分为冶金级、化学级等。光伏行业主要使用化学级工业硅生产三氯氢硅并进一步制备多晶硅。",
+      "node_type": "material",
+      "parent_type": "有色金属",
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）硅冶炼（3218）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "material-trichlorosilane",
+      "name": "三氯氢硅",
+      "definition": "三氯氢硅（SiHCl3）又称三氯硅烷，是一种无色透明液体，易挥发、易水解。在光伏产业链中，三氯氢硅由工业硅与氯化氢合成制得，是改良西门子法生产多晶硅的核心中间原料。",
+      "node_type": "material",
+      "parent_type": "化工产品",
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "GB/T 28654-2018 工业三氯氢硅",
+          "url": "https://openstd.samr.gov.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "material-silver-paste",
+      "name": "银浆",
+      "definition": "银浆是由银粉、玻璃粉、有机载体等组成的电子浆料，是光伏电池片制造的关键辅材。银浆通过丝网印刷工艺印在硅片表面，经烧结形成电极，起到收集和传导电流的作用。",
+      "node_type": "material",
+      "parent_type": "电子材料",
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "GB/T 23811-2023 电子浆料用银粉",
+          "url": "https://openstd.samr.gov.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "material-aluminum-alloy",
+      "name": "铝合金",
+      "definition": "铝合金是以铝为基添加一定量其他合金化元素的合金，是轻金属材料之一。光伏行业中铝合金主要用于生产光伏组件边框，具有重量轻、强度高、耐腐蚀等特点。",
+      "node_type": "material",
+      "parent_type": "有色金属",
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "GB/T 3190-2020 变形铝及铝合金化学成分",
+          "url": "https://openstd.samr.gov.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-solar-grade-polysilicon",
+      "name": "太阳能级多晶硅",
+      "definition": "太阳能级多晶硅是指纯度达到太阳能电池生产要求的多晶硅材料，纯度一般在6N~9N（99.9999%~99.9999999%）之间。多晶硅是生产单晶硅和铸造多晶硅锭的直接原料，是光伏产业链的核心基础材料。主要生产工艺包括改良西门子法、硅烷流化床法等。",
+      "node_type": "product",
+      "parent_type": "光伏产品",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 25074-2017 太阳能级多晶硅",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=3F9FF0E03423CE2D249D234FD9617EF7",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-monocrystalline-silicon-ingot",
+      "name": "单晶硅棒",
+      "definition": "单晶硅棒是由高纯度多晶硅在单晶炉中通过直拉法（CZ法）或区熔法（FZ法）生长而成的棒状单晶硅材料。单晶硅棒经过切片加工后得到单晶硅片，是制备高效光伏电池的核心原材料。光伏行业主要使用直拉法生产P型单晶棒。",
+      "node_type": "product",
+      "parent_type": "光伏产品",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 45823-2025 光伏单晶硅生长用石英坩埚高纯内层砂",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=207451CF9FC9DA344A8FEC9F9F68FC20",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-monocrystalline-silicon-wafer",
+      "name": "单晶硅片",
+      "definition": "单晶硅片是由单晶硅棒通过多线切割技术切割而成的薄片状硅材料，是制备晶体硅光伏电池的基础片源。单晶硅片按尺寸可分为M6、M10、M12（G12）等规格，按导电类型可分为P型和N型。N型硅片是TOPCon、HJT等高效电池技术的基础。",
+      "node_type": "product",
+      "parent_type": "光伏产品",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 37051-2018 太阳能级多晶硅锭、硅片晶体缺陷密度测定方法",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=361CA53A2AA6C073FF79843286E9D89E",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-multicrystalline-silicon-ingot",
+      "name": "多晶硅锭",
+      "definition": "多晶硅锭又称铸造多晶硅锭，是将太阳能级多晶硅料在铸锭炉中熔化后定向凝固生长而成的硅锭。多晶硅锭内部由大量晶粒组成，晶界较多。多晶硅锭经过切片后得到多晶硅片，用于制备多晶硅光伏电池。",
+      "node_type": "product",
+      "parent_type": "光伏产品",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 37051-2018 太阳能级多晶硅锭、硅片晶体缺陷密度测定方法",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=361CA53A2AA6C073FF79843286E9D89E",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-multicrystalline-silicon-wafer",
+      "name": "多晶硅片",
+      "definition": "多晶硅片是由多晶硅锭通过多线切割技术切割而成的薄片状硅材料。多晶硅片内部存在大量晶界和缺陷，电池转换效率低于单晶硅片，但生产成本较低。随着单晶技术的快速发展，多晶硅片市场占比已显著下降。",
+      "node_type": "product",
+      "parent_type": "光伏产品",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 37051-2018 太阳能级多晶硅锭、硅片晶体缺陷密度测定方法",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=361CA53A2AA6C073FF79843286E9D89E",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-pv-cell",
+      "name": "光伏电池片",
+      "definition": "光伏电池片是利用光生伏特效应将太阳光能直接转化为电能的半导体器件，是光伏组件的核心发电单元。按材料可分为晶体硅电池、薄膜电池等；按技术路线可分为PERC、TOPCon、HJT、IBC等。晶体硅光伏电池是当前市场主流。",
+      "node_type": "product",
+      "parent_type": "光伏产品",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "GB/Z 46984.2-2026 光伏电池 第2部分：晶体硅光伏电池电致发光图像",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=E9C94EB6F584634E06DF0F63FAB20ECE",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-crystalline-silicon-pv-cell",
+      "name": "晶体硅光伏电池",
+      "definition": "晶体硅光伏电池是以晶体硅（单晶硅或多晶硅）片为衬底制备的光伏电池，是当前光伏市场的主流技术，占全球光伏电池产量的95%以上。晶体硅电池技术持续迭代，已从传统铝背场（BSF）发展到PERC、TOPCon、HJT、IBC等高效电池技术。",
+      "node_type": "product",
+      "parent_type": "光伏产品",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "GB/Z 46984.2-2026 光伏电池 第2部分：晶体硅光伏电池电致发光图像",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=E9C94EB6F584634E06DF0F63FAB20ECE",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-pv-module",
+      "name": "光伏组件",
+      "definition": "光伏组件又称太阳能电池板，是由若干光伏电池片通过串并联方式连接，并经封装保护后形成的具有一定输出电压和电流的发电单元。光伏组件是光伏发电系统的核心部件，可直接将太阳能转化为直流电能。组件主要由电池片、钢化玻璃、EVA胶膜、背板、边框、接线盒等组成。",
+      "node_type": "product",
+      "parent_type": "光伏产品",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "GB 47739-2026 光伏组件安全要求",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=270DE9C5316BFD82844227B628ACA4EA",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-pv-inverter",
+      "name": "光伏逆变器",
+      "definition": "光伏逆变器是光伏发电系统中的核心电力电子设备，主要功能是将光伏组件产生的直流电转换为可并入电网或供负载使用的交流电。光伏逆变器还具有最大功率点跟踪（MPPT）、电网保护、数据监控等功能。按应用场景可分为集中式、组串式、微型逆变器等。",
+      "node_type": "product",
+      "parent_type": "光伏产品",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 46340-2025 绿色产品评价 光伏组件及逆变器",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=8E1D4B551BD4D55730811BD784DF1F8D",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-pv-glass",
+      "name": "光伏玻璃",
+      "definition": "光伏玻璃又称光伏封装玻璃，是光伏组件的关键封装材料，位于组件最上层。光伏玻璃需要具备高透光率、高强度、高耐候性等特点，以保护内部电池片并保证光线透过。主要包括超白压花玻璃（盖板玻璃）和镀膜玻璃等。",
+      "node_type": "product",
+      "parent_type": "光伏产品",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 47636-2026 温室气体 产品碳足迹量化方法与要求 光伏玻璃",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=7E3F6A8D7C9B4E1A8F2D5C6E3B7A9D1C",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-eva-film",
+      "name": "EVA胶膜",
+      "definition": "EVA胶膜是由乙烯-醋酸乙烯酯共聚物（EVA）制成的热熔胶膜，是光伏组件封装的核心材料之一。EVA胶膜位于光伏玻璃与电池片、电池片与背板之间，经加热层压后起到粘结、密封和缓冲保护的作用。",
+      "node_type": "product",
+      "parent_type": "光伏产品",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 29848-2018 光伏组件封装用乙烯-醋酸乙烯酯共聚物(EVA)胶膜",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=8C906C34D1C86485AF7AD9D565889D3E",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-pv-backsheet",
+      "name": "光伏背板",
+      "definition": "光伏背板又称光伏背膜，位于光伏组件最背面，是组件封装的关键材料之一。光伏背板需要具备优异的耐候性、绝缘性、阻水性和机械强度，以保护电池片和内部电路免受环境侵蚀。常见结构有TPT、TPE、KPK等多层复合结构。",
+      "node_type": "product",
+      "parent_type": "光伏产品",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 31034-2024 晶体硅太阳电池组件用绝缘背板",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=CF67A245C14D7C34CD3081B025E2F811",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-pv-aluminum-frame",
+      "name": "光伏铝边框",
+      "definition": "光伏铝边框是由铝合金型材加工制成的光伏组件边框，用于固定和支撑光伏组件，增强组件的机械强度，并便于组件的安装和运输。铝边框具有重量轻、强度高、耐腐蚀、易加工等优点，是光伏组件的重要结构件。",
+      "node_type": "product",
+      "parent_type": "光伏产品",
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "GB/T 6892-2023 一般工业用铝及铝合金挤压型材",
+          "url": "https://openstd.samr.gov.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-pv-junction-box",
+      "name": "光伏接线盒",
+      "definition": "光伏接线盒是安装在光伏组件背部的电气连接装置，用于将组件内部的电池串引出线与外部电缆连接，并提供旁路二极管保护、绝缘密封和防水功能。接线盒是保证光伏组件安全可靠运行的关键部件。",
+      "node_type": "product",
+      "parent_type": "光伏产品",
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "GB/T 44292-2024 光伏组件用旁路二极管静电放电敏感度测试",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=0D7C3B5E8F1A4D2C9E6B7F8A5D3C1E4B",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-solar-ribbon",
+      "name": "光伏焊带",
+      "definition": "光伏焊带又称涂锡铜带，是由铜基材涂覆锡铅合金或无铅合金制成的焊接材料，用于光伏电池片之间的电连接。焊带分为互连焊带（连接电池片）和汇流焊带（连接电池串），是光伏组件封装的重要辅材。",
+      "node_type": "product",
+      "parent_type": "光伏产品",
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "GB/T 38362-2019 光伏焊带通用技术要求",
+          "url": "https://openstd.samr.gov.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-pv-bracket",
+      "name": "光伏支架",
+      "definition": "光伏支架是用于安装和支撑光伏组件的结构系统，通常由铝合金、镀锌钢等材料制成。光伏支架需要具备足够的强度、刚度和耐腐蚀性，以承受风、雪、地震等荷载。按结构形式可分为固定式、跟踪式（单轴、双轴）等。",
+      "node_type": "product",
+      "parent_type": "光伏产品",
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "GB 50797-2012 光伏发电站设计规范",
+          "url": "https://openstd.samr.gov.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-pv-power-station",
+      "name": "光伏电站",
+      "definition": "光伏电站是指利用光伏组件将太阳能直接转换为电能的发电系统，通常由光伏阵列、逆变器、汇流箱、变压器、监控系统等组成。按并网方式可分为并网光伏电站和离网光伏电站；按应用规模可分为集中式光伏电站和分布式光伏系统。",
+      "node_type": "product",
+      "parent_type": "电力系统",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 33599-2026 光伏发电站并网运行控制规范",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=1A2B3C4D5E6F7A8B9C0D1E2F3A4B5C6D",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-distributed-pv",
+      "name": "分布式光伏系统",
+      "definition": "分布式光伏系统是指在用户场地附近建设，运行方式以用户侧自发自用、多余电量上网，且在配电系统平衡调节为特征的光伏发电设施。分布式光伏系统按接入电压等级可分为户用分布式、工商业分布式等类型。",
+      "node_type": "product",
+      "parent_type": "电力系统",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 33342-2026 户用分布式光伏发电并网技术要求",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=7D8E9F0A1B2C3D4E5F6A7B8C9D0E1F2A",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-energy-storage-system",
+      "name": "储能系统",
+      "definition": "储能系统是指通过物理或化学方法将电能存储起来，在需要时再释放使用的系统。光伏+储能系统可以平抑光伏发电的波动性和间歇性，提高电力系统的稳定性和可靠性。电化学储能（以锂离子电池为主）是当前应用最广泛的储能技术路线。",
+      "node_type": "product",
+      "parent_type": "电力系统",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 36276-2023 电力储能用锂离子电池",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=866D1F702E193B6EAE5BA96D516D07B0",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国能源研究会《中国储能产业发展白皮书2024》",
+          "url": "https://www.cers.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "product-lithium-ion-battery",
+      "name": "储能用锂离子电池",
+      "definition": "储能用锂离子电池是指应用于电力储能领域的锂离子电池，具有能量密度高、循环寿命长、充放电效率高等优点。储能锂电池是电化学储能系统的核心部件，主要包括磷酸铁锂、三元锂等技术路线。",
+      "node_type": "product",
+      "parent_type": "储能产品",
+      "sources": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 36276-2023 电力储能用锂离子电池",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=866D1F702E193B6EAE5BA96D516D07B0",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国化学与物理电源行业协会《储能锂离子电池产业发展白皮书》",
+          "url": "https://www.ciaps.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "equipment-polysilicon-reduction-furnace",
+      "name": "多晶硅还原炉",
+      "definition": "多晶硅还原炉是改良西门子法生产多晶硅的核心设备，用于将三氯氢硅和氢气在高温下发生还原反应，在硅芯上沉积生长出多晶硅棒。还原炉是多晶硅生产环节投资最大、能耗最高的设备，其技术水平直接影响多晶硅的生产成本和产品质量。",
+      "node_type": "equipment",
+      "parent_type": "光伏设备",
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "JB/T 13743-2019 多晶硅还原炉",
+          "url": "https://openstd.samr.gov.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "equipment-monocrystalline-furnace",
+      "name": "单晶炉",
+      "definition": "单晶炉是生长单晶硅的核心设备，采用直拉法（CZ法）将多晶硅料熔化后，通过籽晶引晶、缩颈、放肩、等径、收尾等工艺过程生长出单晶硅棒。单晶炉的技术水平直接影响单晶硅棒的质量、成晶率和生产成本。",
+      "node_type": "equipment",
+      "parent_type": "光伏设备",
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "JB/T 13466-2018 单晶硅生长炉",
+          "url": "https://openstd.samr.gov.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "equipment-silicon-wafer-slicer",
+      "name": "硅片切割机",
+      "definition": "硅片切割机又称多线切割机，是将单晶硅棒或多晶硅锭切割成薄硅片的核心设备。多线切割技术利用高速运动的金刚线携带磨料对硅棒/硅锭进行磨削切割，具有切割效率高、切片厚度薄、材料损耗低等优点。金刚线切割是当前主流的硅片切割技术。",
+      "node_type": "equipment",
+      "parent_type": "光伏设备",
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "JB/T 13567-2018 太阳能硅片多线切割机",
+          "url": "https://openstd.samr.gov.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "equipment-pv-cell-production-line",
+      "name": "电池片生产线",
+      "definition": "电池片生产线是指将硅片加工成光伏电池片的整套生产设备和工艺线。典型的晶体硅电池生产线包括制绒、扩散、刻蚀、镀膜、丝网印刷、烧结、测试分选等工序。不同技术路线（PERC、TOPCon、HJT等）的生产设备和工艺有所差异。",
+      "node_type": "equipment",
+      "parent_type": "光伏设备",
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "GB/Z 46984.2-2026 光伏电池 第2部分：晶体硅光伏电池电致发光图像",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=E9C94EB6F584634E06DF0F63FAB20ECE",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "equipment-module-lamination-equipment",
+      "name": "组件封装设备",
+      "definition": "组件封装设备是指将电池片、玻璃、胶膜、背板、边框等材料封装成光伏组件的生产设备。主要包括串焊机、层压机、装框机、测试仪等。层压机是组件封装的核心设备，通过加热加压使EVA胶膜熔融固化，实现各层材料的粘结封装。",
+      "node_type": "equipment",
+      "parent_type": "光伏设备",
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "GB 47739-2026 光伏组件安全要求",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=270DE9C5316BFD82844227B628ACA4EA",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "equipment-glass-tempering-furnace",
+      "name": "玻璃钢化炉",
+      "definition": "玻璃钢化炉是将原片玻璃加热到接近软化点后快速冷却，使玻璃表面形成压应力从而提高强度的设备。光伏玻璃需要经过钢化处理以满足组件的机械强度和安全性要求。钢化炉是光伏玻璃加工的关键设备之一。",
+      "node_type": "equipment",
+      "parent_type": "玻璃设备",
+      "sources": [
+        {
+          "source_type": "industry_report",
+          "description": "中国建筑玻璃与工业玻璃协会《光伏玻璃行业发展报告》",
+          "url": "https://www.cnbm.net.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "GB 15763.2-2024 建筑用安全玻璃 第2部分：钢化玻璃",
+          "url": "https://openstd.samr.gov.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "industry-silicon-smelting",
+      "name": "硅冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：硅冶炼（行业代码3218）。指工业硅（金属硅）等硅产品的冶炼生产活动。硅冶炼是光伏产业链最上游的基础产业，为多晶硅生产提供工业硅原料。",
+      "node_type": "industry",
+      "parent_type": "industry_小类",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：硅冶炼（3218）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "industry-pv-equipment-manufacturing",
+      "name": "光伏设备及元器件制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：光伏设备及元器件制造（行业代码3825）。指太阳能光伏电池片、组件、逆变器等光伏设备及元器件的制造活动。光伏设备及元器件制造是光伏产业链的核心制造环节。",
+      "node_type": "industry",
+      "parent_type": "industry_小类",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：光伏设备及元器件制造（3825）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "industry-lithium-ion-battery-manufacturing",
+      "name": "锂离子电池制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：锂离子电池制造（行业代码3841）。指以锂离子嵌入化合物为正极材料的蓄电池制造活动。锂离子电池是储能系统和新能源汽车的核心部件，在光伏+储能领域应用广泛。",
+      "node_type": "industry",
+      "parent_type": "industry_小类",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：锂离子电池制造（3841）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "material-quartz-sand",
+      "target": "material-industrial-silicon",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 工业硅生产以石英砂为主要原料",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "material-industrial-silicon",
+      "target": "material-trichlorosilane",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 三氯氢硅由工业硅与氯化氢合成",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "material-trichlorosilane",
+      "target": "product-solar-grade-polysilicon",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 改良西门子法以三氯氢硅为原料生产多晶硅",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "material-industrial-silicon",
+      "target": "product-solar-grade-polysilicon",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 工业硅经过多道工序加工为多晶硅",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-solar-grade-polysilicon",
+      "target": "product-monocrystalline-silicon-ingot",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 多晶硅通过直拉法生长为单晶硅棒",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-solar-grade-polysilicon",
+      "target": "product-multicrystalline-silicon-ingot",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 多晶硅通过铸锭法生长为多晶硅锭",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-monocrystalline-silicon-ingot",
+      "target": "product-monocrystalline-silicon-wafer",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 单晶硅棒经多线切割加工为单晶硅片",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-multicrystalline-silicon-ingot",
+      "target": "product-multicrystalline-silicon-wafer",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 多晶硅锭经多线切割加工为多晶硅片",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-monocrystalline-silicon-wafer",
+      "target": "product-pv-cell",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 单晶硅片经过制绒、扩散等工序制成光伏电池片",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-multicrystalline-silicon-wafer",
+      "target": "product-pv-cell",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 多晶硅片经过制绒、扩散等工序制成光伏电池片",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-cell",
+      "target": "product-crystalline-silicon-pv-cell",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "standard",
+          "description": "GB/Z 46984.2-2026 光伏电池 第2部分：晶体硅光伏电池电致发光图像",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=E9C94EB6F584634E06DF0F63FAB20ECE",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "material-silver-paste",
+      "target": "product-pv-cell",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 银浆用于电池片电极制作",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-solar-ribbon",
+      "target": "product-pv-cell",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 焊带用于连接电池片",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-crystalline-silicon-pv-cell",
+      "target": "product-pv-module",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 电池片是光伏组件的核心发电单元",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "GB 47739-2026 光伏组件安全要求",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=270DE9C5316BFD82844227B628ACA4EA",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-glass",
+      "target": "product-pv-module",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 光伏玻璃是组件封装的关键材料",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-eva-film",
+      "target": "product-pv-module",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 29848-2018 光伏组件封装用乙烯-醋酸乙烯酯共聚物(EVA)胶膜",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=8C906C34D1C86485AF7AD9D565889D3E",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-backsheet",
+      "target": "product-pv-module",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 31034-2024 晶体硅太阳电池组件用绝缘背板",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=CF67A245C14D7C34CD3081B025E2F811",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-aluminum-frame",
+      "target": "product-pv-module",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 铝边框用于支撑和保护光伏组件",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-junction-box",
+      "target": "product-pv-module",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 接线盒是光伏组件的重要电气部件",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-solar-ribbon",
+      "target": "product-pv-module",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 焊带用于组件内电池串的电连接",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "material-aluminum-alloy",
+      "target": "product-pv-aluminum-frame",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 光伏铝边框由铝合金型材制成",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-lithium-ion-battery",
+      "target": "product-energy-storage-system",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 36276-2023 电力储能用锂离子电池",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=866D1F702E193B6EAE5BA96D516D07B0",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-module",
+      "target": "product-pv-power-station",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 光伏组件是光伏电站的核心发电设备",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "standard",
+          "description": "GB/T 33599-2026 光伏发电站并网运行控制规范",
+          "url": "https://openstd.samr.gov.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-inverter",
+      "target": "product-pv-power-station",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 逆变器是光伏电站的核心电力设备",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-bracket",
+      "target": "product-pv-power-station",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 支架用于光伏电站中支撑光伏组件",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-energy-storage-system",
+      "target": "product-pv-power-station",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 光伏+储能是新型电力系统的重要发展方向",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-module",
+      "target": "product-distributed-pv",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 33342-2026 户用分布式光伏发电并网技术要求",
+          "url": "https://openstd.samr.gov.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-inverter",
+      "target": "product-distributed-pv",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 组串式/微型逆变器广泛应用于分布式光伏",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-bracket",
+      "target": "product-distributed-pv",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 分布式光伏系统需要支架安装组件",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-energy-storage-system",
+      "target": "product-distributed-pv",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 户用光伏+储能是分布式光伏的重要发展方向",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "equipment-polysilicon-reduction-furnace",
+      "target": "product-solar-grade-polysilicon",
+      "relation_type": "equipment_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 还原炉是多晶硅生产的核心设备",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "equipment-monocrystalline-furnace",
+      "target": "product-monocrystalline-silicon-ingot",
+      "relation_type": "equipment_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 单晶炉是生长单晶硅棒的核心设备",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "equipment-silicon-wafer-slicer",
+      "target": "product-monocrystalline-silicon-wafer",
+      "relation_type": "equipment_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 多线切割机用于将硅棒切割为硅片",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "equipment-silicon-wafer-slicer",
+      "target": "product-multicrystalline-silicon-wafer",
+      "relation_type": "equipment_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 多线切割机用于将硅锭切割为硅片",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "equipment-pv-cell-production-line",
+      "target": "product-pv-cell",
+      "relation_type": "equipment_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 电池片生产线用于将硅片加工为电池片",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "equipment-module-lamination-equipment",
+      "target": "product-pv-module",
+      "relation_type": "equipment_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 组件封装设备用于生产光伏组件",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "equipment-glass-tempering-furnace",
+      "target": "product-pv-glass",
+      "relation_type": "equipment_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国建筑玻璃与工业玻璃协会《光伏玻璃行业发展报告》- 钢化炉是光伏玻璃加工的关键设备",
+          "url": "https://www.cnbm.net.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "industry-silicon-smelting",
+      "target": "industry-pv-equipment-manufacturing",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）产业关联分析",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 硅冶炼是光伏产业链最上游",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "industry-pv-equipment-manufacturing",
+      "target": "product-pv-power-station",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 光伏设备制造是电站建设的上游",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "industry-lithium-ion-battery-manufacturing",
+      "target": "product-pv-power-station",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国能源研究会《中国储能产业发展白皮书2024》- 锂电池制造是储能系统的上游，光伏+储能是重要应用场景",
+          "url": "https://www.cers.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "material-quartz-sand",
+      "target": "product-pv-glass",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国建筑玻璃与工业玻璃协会《光伏玻璃行业发展报告》- 石英砂是玻璃生产的主要原料",
+          "url": "https://www.cnbm.net.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-monocrystalline-silicon-wafer",
+      "target": "product-crystalline-silicon-pv-cell",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "standard",
+          "description": "GB/Z 46984.2-2026 光伏电池 第2部分：晶体硅光伏电池电致发光图像",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=E9C94EB6F584634E06DF0F63FAB20ECE",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-multicrystalline-silicon-wafer",
+      "target": "product-crystalline-silicon-pv-cell",
+      "relation_type": "raw_material_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "standard",
+          "description": "GB/Z 46984.2-2026 光伏电池 第2部分：晶体硅光伏电池电致发光图像",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=E9C94EB6F584634E06DF0F63FAB20ECE",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-module",
+      "target": "product-crystalline-silicon-pv-cell",
+      "relation_type": "made_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 光伏组件由电池片串并联后封装而成",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-module",
+      "target": "product-pv-glass",
+      "relation_type": "made_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 光伏玻璃是组件封装的重要组成部分",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-module",
+      "target": "product-eva-film",
+      "relation_type": "made_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 29848-2018 光伏组件封装用乙烯-醋酸乙烯酯共聚物(EVA)胶膜",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=8C906C34D1C86485AF7AD9D565889D3E",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-module",
+      "target": "product-pv-backsheet",
+      "relation_type": "made_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 31034-2024 晶体硅太阳电池组件用绝缘背板",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=CF67A245C14D7C34CD3081B025E2F811",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-module",
+      "target": "product-pv-aluminum-frame",
+      "relation_type": "made_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 铝边框是光伏组件的结构部件",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-energy-storage-system",
+      "target": "product-lithium-ion-battery",
+      "relation_type": "made_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 36276-2023 电力储能用锂离子电池",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=866D1F702E193B6EAE5BA96D516D07B0",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "material-silver-paste",
+      "target": "equipment-pv-cell-production-line",
+      "relation_type": "consumable_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 银浆是电池片生产的关键耗材",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-solar-ribbon",
+      "target": "equipment-module-lamination-equipment",
+      "relation_type": "consumable_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 焊带是组件封装的重要耗材",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-eva-film",
+      "target": "equipment-module-lamination-equipment",
+      "relation_type": "consumable_for",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "standard",
+          "description": "GB/T 29848-2018 光伏组件封装用乙烯-醋酸乙烯酯共聚物(EVA)胶膜",
+          "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=8C906C34D1C86485AF7AD9D565889D3E",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-solar-grade-polysilicon",
+      "target": "product-pv-cell",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 多晶硅是电池片的上游原材料",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-cell",
+      "target": "product-pv-module",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 电池片是组件的上游",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-module",
+      "target": "product-pv-power-station",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 组件是光伏电站的核心设备",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-pv-inverter",
+      "target": "product-pv-power-station",
+      "relation_type": "upstream_of",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "industry_report",
+          "description": "中国光伏行业协会CPIA《2024-2025年中国光伏产业发展路线图》- 逆变器是光伏电站的核心电力设备",
+          "url": "https://www.chinapv.org.cn/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "material-industrial-silicon",
+      "target": "industry-silicon-smelting",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）硅冶炼（3218）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-solar-grade-polysilicon",
+      "target": "industry-pv-equipment-manufacturing",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）光伏设备及元器件制造（3825）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "source": "product-lithium-ion-battery",
+      "target": "industry-lithium-ion-battery-manufacturing",
+      "relation_type": "applied_in",
+      "verification_status": "verified",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）锂离子电池制造（3841）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T10:00:00.000Z"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "source": "中国光伏行业协会CPIA路线图 + 国家标准 + 国家统计局行业分类",
+    "source_url": "https://www.chinapv.org.cn/",
+    "crawled_at": "2026-06-24T10:00:00.000Z",
+    "record_count": 93
+  }
+}

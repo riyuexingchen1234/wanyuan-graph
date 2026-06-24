@@ -150,6 +150,30 @@ export function mergeAndCleanData(): GraphData {
     results.push(gbStd);
   }
 
+  const pvChain = loadCrawlResult('pv-industry-chain.json');
+  if (pvChain) {
+    console.log(`  - 光伏产业链: ${pvChain.nodes.length} 个节点, ${pvChain.edges.length} 条边`);
+    results.push(pvChain);
+  }
+
+  const batteryChain = loadCrawlResult('battery-industry-chain.json');
+  if (batteryChain) {
+    console.log(`  - 锂电池产业链: ${batteryChain.nodes.length} 个节点, ${batteryChain.edges.length} 条边`);
+    results.push(batteryChain);
+  }
+
+  const materialChain = loadCrawlResult('material-industry-chain.json');
+  if (materialChain) {
+    console.log(`  - 新材料/化工产业链: ${materialChain.nodes.length} 个节点, ${materialChain.edges.length} 条边`);
+    results.push(materialChain);
+  }
+
+  const gbEdges = loadCrawlResult('gb-extracted-edges.json');
+  if (gbEdges) {
+    console.log(`  - 国家标准提取边: ${gbEdges.edges.length} 条边`);
+    results.push(gbEdges);
+  }
+
   let allNodes: CrawledNode[] = [];
   let allEdges: CrawledEdge[] = [];
 
