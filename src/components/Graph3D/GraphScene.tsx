@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState, Component, ReactNode } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import GraphNode3D from './GraphNode3D';
@@ -18,9 +18,42 @@ interface GraphSceneProps {
   mode?: 'ambient' | 'focus';
 }
 
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+}
+
+class SceneErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryState> {
+  constructor(props: { children: ReactNode }) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error) {
+    console.error('3D Scene error:', error);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="w-full h-full flex items-center justify-center bg-white">
+          <div className="text-center">
+            <p className="text-gray-600 mb-2">3D 场景加载失败</p>
+            <p className="text-xs text-gray-400">{this.state.error?.message}</p>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function SceneContent({ nodes, edges, centerNodeId, relationType = 'raw_material_for', mode = 'ambient' }: GraphSceneProps) {
   const {
-    setPositions,
     setSelectedNodeId,
     selectedNodeId,
     hoveredNodeId,
@@ -44,10 +77,6 @@ function SceneContent({ nodes, edges, centerNodeId, relationType = 'raw_material
     return computeAmbientLayout(nodes, { radius: 25 });
   }, [nodes, edges, centerNodeId, relationType, mode]);
 
-  useEffect(() => {
-    setPositions(positions);
-  }, [positions, setPositions]);
-
   useCameraFlight();
 
   const handleNodeClick = (nodeId: string) => {
@@ -55,9 +84,11 @@ function SceneContent({ nodes, edges, centerNodeId, relationType = 'raw_material
     setSelectedNodeId(nodeId);
   };
 
-  const visibleEdges = edges.filter(
-    (e) => positions.has(e.source) && positions.has(e.target)
-  );
+  const visibleEdges = useMemo(() => {
+    return edges.filter(
+      (e) => positions.has(e.source) && positions.has(e.target)
+    );
+  }, [edges, positions]);
 
   return (
     <>
@@ -107,13 +138,31 @@ function SceneContent({ nodes, edges, centerNodeId, relationType = 'raw_material
 }
 
 export default function GraphScene(props: GraphSceneProps) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoaded(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!isLoaded) {
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-white">
+        <div className="text-gray-400 text-sm">加载中...</div>
+      </div>
+    );
+  }
+
   return (
-    <Canvas
-      camera={{ position: [0, 0, 30], fov: 60 }}
-      style={{ background: '#ffffff' }}
-      gl={{ antialias: true, alpha: false }}
-    >
-      <SceneContent {...props} />
-    </Canvas>
+    <SceneErrorBoundary>
+      <Canvas
+        camera={{ position: [0, 0, 30], fov: 60 }}
+        style={{ background: '#ffffff' }}
+        gl={{ antialias: true, alpha: false, powerPreference: 'default' }}
+        dpr={[1, 2]}
+      >
+        <SceneContent {...props} />
+      </Canvas>
+    </SceneErrorBoundary>
   );
 }
