@@ -1,0 +1,749 @@
+{
+  "nodes": [
+    {
+      "id": "industry-光伏产业",
+      "name": "光伏产业",
+      "definition": "中国上市公司行业分类：光伏产业，包含多家主营业务涉及光伏的上市公司。数据来源于巨潮资讯网公开披露信息。",
+      "node_type": "industry",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 光伏产业相关上市公司公告",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:00.573Z"
+        }
+      ],
+      "raw_data": {
+        "keyword": "光伏",
+        "companyCount": 43
+      }
+    },
+    {
+      "id": "product-太阳能电池",
+      "name": "太阳能电池",
+      "definition": "光伏产业领域的重要产品/材料：太阳能电池。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "光伏产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 光伏产业相关产品：太阳能电池",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:00.574Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "光伏产业",
+        "keyword": "光伏"
+      }
+    },
+    {
+      "id": "product-光伏组件",
+      "name": "光伏组件",
+      "definition": "光伏产业领域的重要产品/材料：光伏组件。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "光伏产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 光伏产业相关产品：光伏组件",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:00.574Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "光伏产业",
+        "keyword": "光伏"
+      }
+    },
+    {
+      "id": "product-逆变器",
+      "name": "逆变器",
+      "definition": "光伏产业领域的重要产品/材料：逆变器。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "光伏产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 光伏产业相关产品：逆变器",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:00.574Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "光伏产业",
+        "keyword": "光伏"
+      }
+    },
+    {
+      "id": "product-光伏玻璃",
+      "name": "光伏玻璃",
+      "definition": "光伏产业领域的重要产品/材料：光伏玻璃。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "光伏产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 光伏产业相关产品：光伏玻璃",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:00.574Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "光伏产业",
+        "keyword": "光伏"
+      }
+    },
+    {
+      "id": "product-硅料",
+      "name": "硅料",
+      "definition": "光伏产业领域的重要产品/材料：硅料。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "光伏产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 光伏产业相关产品：硅料",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:00.574Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "光伏产业",
+        "keyword": "光伏"
+      }
+    },
+    {
+      "id": "product-硅片",
+      "name": "硅片",
+      "definition": "光伏产业领域的重要产品/材料：硅片。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "光伏产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 光伏产业相关产品：硅片",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:00.574Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "光伏产业",
+        "keyword": "光伏"
+      }
+    },
+    {
+      "id": "product-光伏电站",
+      "name": "光伏电站",
+      "definition": "光伏产业领域的重要产品/材料：光伏电站。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "光伏产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 光伏产业相关产品：光伏电站",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:00.574Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "光伏产业",
+        "keyword": "光伏"
+      }
+    },
+    {
+      "id": "industry-锂电池产业",
+      "name": "锂电池产业",
+      "definition": "中国上市公司行业分类：锂电池产业，包含多家主营业务涉及锂电池的上市公司。数据来源于巨潮资讯网公开披露信息。",
+      "node_type": "industry",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 锂电池产业相关上市公司公告",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:07.156Z"
+        }
+      ],
+      "raw_data": {
+        "keyword": "锂电池",
+        "companyCount": 117
+      }
+    },
+    {
+      "id": "product-锂离子电池",
+      "name": "锂离子电池",
+      "definition": "锂电池产业领域的重要产品/材料：锂离子电池。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "锂电池产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 锂电池产业相关产品：锂离子电池",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:07.156Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "锂电池产业",
+        "keyword": "锂电池"
+      }
+    },
+    {
+      "id": "product-正极材料",
+      "name": "正极材料",
+      "definition": "锂电池产业领域的重要产品/材料：正极材料。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "锂电池产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 锂电池产业相关产品：正极材料",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:07.156Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "锂电池产业",
+        "keyword": "锂电池"
+      }
+    },
+    {
+      "id": "product-负极材料",
+      "name": "负极材料",
+      "definition": "锂电池产业领域的重要产品/材料：负极材料。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "锂电池产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 锂电池产业相关产品：负极材料",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:07.156Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "锂电池产业",
+        "keyword": "锂电池"
+      }
+    },
+    {
+      "id": "product-电解液",
+      "name": "电解液",
+      "definition": "锂电池产业领域的重要产品/材料：电解液。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "锂电池产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 锂电池产业相关产品：电解液",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:07.156Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "锂电池产业",
+        "keyword": "锂电池"
+      }
+    },
+    {
+      "id": "product-隔膜",
+      "name": "隔膜",
+      "definition": "锂电池产业领域的重要产品/材料：隔膜。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "锂电池产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 锂电池产业相关产品：隔膜",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:07.156Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "锂电池产业",
+        "keyword": "锂电池"
+      }
+    },
+    {
+      "id": "product-动力电池",
+      "name": "动力电池",
+      "definition": "锂电池产业领域的重要产品/材料：动力电池。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "锂电池产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 锂电池产业相关产品：动力电池",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:07.156Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "锂电池产业",
+        "keyword": "锂电池"
+      }
+    },
+    {
+      "id": "product-储能电池",
+      "name": "储能电池",
+      "definition": "锂电池产业领域的重要产品/材料：储能电池。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "锂电池产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 锂电池产业相关产品：储能电池",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:07.156Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "锂电池产业",
+        "keyword": "锂电池"
+      }
+    },
+    {
+      "id": "industry-新材料产业",
+      "name": "新材料产业",
+      "definition": "中国上市公司行业分类：新材料产业，包含多家主营业务涉及新材料的上市公司。数据来源于巨潮资讯网公开披露信息。",
+      "node_type": "industry",
+      "parent_type": null,
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 新材料产业相关上市公司公告",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:13.716Z"
+        }
+      ],
+      "raw_data": {
+        "keyword": "新材料",
+        "companyCount": 64
+      }
+    },
+    {
+      "id": "product-半导体材料",
+      "name": "半导体材料",
+      "definition": "新材料产业领域的重要产品/材料：半导体材料。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "新材料产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 新材料产业相关产品：半导体材料",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:13.716Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "新材料产业",
+        "keyword": "新材料"
+      }
+    },
+    {
+      "id": "product-新能源材料",
+      "name": "新能源材料",
+      "definition": "新材料产业领域的重要产品/材料：新能源材料。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "新材料产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 新材料产业相关产品：新能源材料",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:13.716Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "新材料产业",
+        "keyword": "新材料"
+      }
+    },
+    {
+      "id": "product-高性能纤维",
+      "name": "高性能纤维",
+      "definition": "新材料产业领域的重要产品/材料：高性能纤维。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "新材料产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 新材料产业相关产品：高性能纤维",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:13.716Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "新材料产业",
+        "keyword": "新材料"
+      }
+    },
+    {
+      "id": "product-复合材料",
+      "name": "复合材料",
+      "definition": "新材料产业领域的重要产品/材料：复合材料。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "新材料产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 新材料产业相关产品：复合材料",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:13.716Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "新材料产业",
+        "keyword": "新材料"
+      }
+    },
+    {
+      "id": "product-稀土功能材料",
+      "name": "稀土功能材料",
+      "definition": "新材料产业领域的重要产品/材料：稀土功能材料。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "新材料产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 新材料产业相关产品：稀土功能材料",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:13.716Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "新材料产业",
+        "keyword": "新材料"
+      }
+    },
+    {
+      "id": "product-先进陶瓷材料",
+      "name": "先进陶瓷材料",
+      "definition": "新材料产业领域的重要产品/材料：先进陶瓷材料。数据来源于巨潮资讯网上市公司公开信息分析。",
+      "node_type": "product",
+      "parent_type": "新材料产业",
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "巨潮资讯网 - 新材料产业相关产品：先进陶瓷材料",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:13.716Z"
+        }
+      ],
+      "raw_data": {
+        "industry": "新材料产业",
+        "keyword": "新材料"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "industry-光伏产业",
+      "target": "product-太阳能电池",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "太阳能电池属于光伏产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:00.574Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-光伏产业",
+      "target": "product-光伏组件",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "光伏组件属于光伏产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:00.574Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-光伏产业",
+      "target": "product-逆变器",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "逆变器属于光伏产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:00.574Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-光伏产业",
+      "target": "product-光伏玻璃",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "光伏玻璃属于光伏产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:00.574Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-光伏产业",
+      "target": "product-硅料",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "硅料属于光伏产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:00.574Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-光伏产业",
+      "target": "product-硅片",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "硅片属于光伏产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:00.574Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-光伏产业",
+      "target": "product-光伏电站",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "光伏电站属于光伏产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:00.574Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-锂电池产业",
+      "target": "product-锂离子电池",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "锂离子电池属于锂电池产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:07.156Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-锂电池产业",
+      "target": "product-正极材料",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "正极材料属于锂电池产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:07.156Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-锂电池产业",
+      "target": "product-负极材料",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "负极材料属于锂电池产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:07.156Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-锂电池产业",
+      "target": "product-电解液",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "电解液属于锂电池产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:07.156Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-锂电池产业",
+      "target": "product-隔膜",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "隔膜属于锂电池产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:07.156Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-锂电池产业",
+      "target": "product-动力电池",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "动力电池属于锂电池产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:07.156Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-锂电池产业",
+      "target": "product-储能电池",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "储能电池属于锂电池产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:07.156Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-新材料产业",
+      "target": "product-半导体材料",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "半导体材料属于新材料产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:13.716Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-新材料产业",
+      "target": "product-新能源材料",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "新能源材料属于新材料产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:13.716Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-新材料产业",
+      "target": "product-高性能纤维",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "高性能纤维属于新材料产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:13.716Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-新材料产业",
+      "target": "product-复合材料",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "复合材料属于新材料产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:13.716Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-新材料产业",
+      "target": "product-稀土功能材料",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "稀土功能材料属于新材料产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:13.716Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    },
+    {
+      "source": "industry-新材料产业",
+      "target": "product-先进陶瓷材料",
+      "relation_type": "downstream_of",
+      "verification_status": "proposed",
+      "evidence": [
+        {
+          "source_type": "official_data",
+          "description": "先进陶瓷材料属于新材料产业产业链",
+          "url": "http://www.cninfo.com.cn",
+          "retrieved_at": "2026-06-24T07:30:13.716Z"
+        }
+      ],
+      "note": "基于行业关键词关联提取"
+    }
+  ],
+  "metadata": {
+    "source": "巨潮资讯网",
+    "source_url": "http://www.cninfo.com.cn",
+    "crawled_at": "2026-06-24T07:30:15.718Z",
+    "record_count": 43
+  }
+}

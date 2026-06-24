@@ -1,3 +1,4 @@
+import graphDataJson from '../data/graph-data.json';
 import nodesDraft from '../data/nodes-draft.json';
 import type {
   GraphData,
@@ -196,7 +197,13 @@ let dataProvider: GraphDataProvider | null = null;
 
 export function getDataProvider(): GraphDataProvider {
   if (!dataProvider) {
-    dataProvider = new JsonDataProvider(nodesDraft as unknown as GraphData);
+    const graphData = (graphDataJson?.nodes?.length > 0
+      ? graphDataJson
+      : { nodes: (nodesDraft as any).nodes || nodesDraft, edges: [] }) as GraphData;
+    if (!graphData.edges) {
+      graphData.edges = [];
+    }
+    dataProvider = new JsonDataProvider(graphData);
   }
   return dataProvider;
 }

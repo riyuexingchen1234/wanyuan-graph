@@ -1,0 +1,5456 @@
+{
+  "metadata": {
+    "source": "巨潮资讯网",
+    "source_url": "http://www.cninfo.com.cn",
+    "crawled_at": "2026-06-24T07:30:15.719Z",
+    "total_stocks": 6204
+  },
+  "industries": {
+    "光伏": {
+      "industryName": "光伏产业",
+      "companyCount": 43,
+      "companies": [
+        {
+          "code": "603105",
+          "name": "芯能科技",
+          "announcementCount": 64,
+          "announcements": [
+            {
+              "secCode": "603105",
+              "secName": "芯能科技",
+              "orgId": "gfbj0833677",
+              "announcementId": "1225332619",
+              "announcementTitle": "浙江芯能光伏科技股份有限公司2026年第一次债券持有人会议会议资料",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225332619.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603105",
+              "secName": "芯能科技",
+              "orgId": "gfbj0833677",
+              "announcementId": "1225332623",
+              "announcementTitle": "浙江芯能光伏科技股份有限公司2026年第一次临时股东会会议资料",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225332623.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603105",
+              "secName": "芯能科技",
+              "orgId": "gfbj0833677",
+              "announcementId": "1225329045",
+              "announcementTitle": "浙江芯能光伏科技股份有限公司关于召开“芯能转债”2026年第一次债券持有人会议的通知",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329045.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603105",
+              "secName": "芯能科技",
+              "orgId": "gfbj0833677",
+              "announcementId": "1225329049",
+              "announcementTitle": "浙江芯能光伏科技股份有限公司第五届董事会第十六次会议决议公告",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329049.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603105",
+              "secName": "芯能科技",
+              "orgId": "gfbj0833677",
+              "announcementId": "1225328933",
+              "announcementTitle": "浙江芯能光伏科技股份有限公司2025年年度权益分派实施公告",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225328933.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603105",
+              "secName": "芯能科技",
+              "orgId": "gfbj0833677",
+              "announcementId": "1225329052",
+              "announcementTitle": "浙江芯能光伏科技股份有限公司关于召开2026年第一次临时股东会的通知",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329052.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603105",
+              "secName": "芯能科技",
+              "orgId": "gfbj0833677",
+              "announcementId": "1225329062",
+              "announcementTitle": "浙江芯能光伏科技股份有限公司可转换公司债券持有人会议规则（修订稿）",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329062.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603105",
+              "secName": "芯能科技",
+              "orgId": "gfbj0833677",
+              "announcementId": "1225328934",
+              "announcementTitle": "浙江芯能光伏科技股份有限公司关于因实施2025年年度权益分派调整“芯能转债”转股价格的公告",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225328934.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603105",
+              "secName": "芯能科技",
+              "orgId": "gfbj0833677",
+              "announcementId": "1225329059",
+              "announcementTitle": "招商证券股份有限公司关于浙江芯能光伏科技股份有限公司终止部分募集资金投资子项目并将剩余募集资金永久补充流动资金的核查意见",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329059.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603105",
+              "secName": "芯能科技",
+              "orgId": "gfbj0833677",
+              "announcementId": "1225329053",
+              "announcementTitle": "浙江芯能光伏科技股份有限公司关于终止部分募集资金投资子项目并将剩余募集资金永久补充流动资金的公告",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329053.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "301278",
+          "name": "快可电子",
+          "announcementCount": 16,
+          "announcements": [
+            {
+              "secCode": "301278",
+              "secName": "快可电子",
+              "orgId": "9900022934",
+              "announcementId": "1225325777",
+              "announcementTitle": "北京市康达律师事务所关于苏州快可光伏电子股份有限公司2025年年度股东会的法律意见书",
+              "announcementTime": 1779442708000,
+              "adjunctUrl": "finalpage/2026-05-22/1225325777.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301278",
+              "secName": "快可电子",
+              "orgId": "9900022934",
+              "announcementId": "1225228337",
+              "announcementTitle": "中信建投证券股份有限公司关于苏州快可光伏电子股份有限公司使用闲置自有资金进行现金管理的核查意见",
+              "announcementTime": 1777392000000,
+              "adjunctUrl": "finalpage/2026-04-29/1225228337.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301278",
+              "secName": "快可电子",
+              "orgId": "9900022934",
+              "announcementId": "1225228335",
+              "announcementTitle": "中信建投证券股份有限公司关于苏州快可光伏电子股份有限公司使用闲置募集资金进行现金管理的核查意见",
+              "announcementTime": 1777392000000,
+              "adjunctUrl": "finalpage/2026-04-29/1225228335.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301278",
+              "secName": "快可电子",
+              "orgId": "9900022934",
+              "announcementId": "1225228361",
+              "announcementTitle": "中信建投证券股份有限公司关于苏州快可光伏电子股份有限公司2025年度募集资金存放、管理和使用情况的专项核查报告",
+              "announcementTime": 1777392000000,
+              "adjunctUrl": "finalpage/2026-04-29/1225228361.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301278",
+              "secName": "快可电子",
+              "orgId": "9900022934",
+              "announcementId": "1225228372",
+              "announcementTitle": "中审众环会计师事务所（特殊普通合伙）关于苏州快可光伏电子股份有限公司内部控制审计报告",
+              "announcementTime": 1777392000000,
+              "adjunctUrl": "finalpage/2026-04-29/1225228372.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301278",
+              "secName": "快可电子",
+              "orgId": "9900022934",
+              "announcementId": "1225228360",
+              "announcementTitle": "中审众环会计师事务所（特殊普通合伙）关于苏州快可光伏电子股份有限公司募集资金年度存放、管理与实际使用情况的鉴证报告",
+              "announcementTime": 1777392000000,
+              "adjunctUrl": "finalpage/2026-04-29/1225228360.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301278",
+              "secName": "快可电子",
+              "orgId": "9900022934",
+              "announcementId": "1225228373",
+              "announcementTitle": "中信建投证券股份有限公司关于苏州快可光伏电子股份有限公司2025年度内部控制自我评价报告的核查意见",
+              "announcementTime": 1777392000000,
+              "adjunctUrl": "finalpage/2026-04-29/1225228373.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301278",
+              "secName": "快可电子",
+              "orgId": "9900022934",
+              "announcementId": "1225228357",
+              "announcementTitle": "中审众环会计师事务所（特殊普通合伙）关于苏州快可光伏电子股份有限公司非经营性资金占用及其他关联资金往来情况汇总表的专项审核报告",
+              "announcementTime": 1777392000000,
+              "adjunctUrl": "finalpage/2026-04-29/1225228357.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301278",
+              "secName": "快可电子",
+              "orgId": "9900022934",
+              "announcementId": "1225228377",
+              "announcementTitle": "中信建投证券股份有限公司关于苏州快可光伏电子股份有限公司2025年度跟踪报告",
+              "announcementTime": 1777392000000,
+              "adjunctUrl": "finalpage/2026-04-29/1225228377.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301278",
+              "secName": "快可电子",
+              "orgId": "9900022934",
+              "announcementId": "1225228379",
+              "announcementTitle": "中信建投证券股份有限公司关于苏州快可光伏电子股份有限公司首次公开发行股票并在创业板上市之保荐总结报告书",
+              "announcementTime": 1777392000000,
+              "adjunctUrl": "finalpage/2026-04-29/1225228379.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300093",
+          "name": "*ST金刚",
+          "announcementCount": 12,
+          "announcements": [
+            {
+              "secCode": "300093",
+              "secName": "*ST金刚",
+              "orgId": "9900012451",
+              "announcementId": "1225340484",
+              "announcementTitle": "上海市通力律师事务所关于甘肃金刚光伏股份有限公司2026年第二次临时股东会的法律意见书",
+              "announcementTime": 1780058549000,
+              "adjunctUrl": "finalpage/2026-05-29/1225340484.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300093",
+              "secName": "*ST金刚",
+              "orgId": "9900012451",
+              "announcementId": "1225186571",
+              "announcementTitle": "上海市通力律师事务所关于甘肃金刚光伏股份有限公司2025年度股东会的法律意见书",
+              "announcementTime": 1777029269000,
+              "adjunctUrl": "finalpage/2026-04-24/1225186571.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300093",
+              "secName": "*ST金刚",
+              "orgId": "9900012451",
+              "announcementId": "1225078327",
+              "announcementTitle": "关于金刚光伏2024年度审计报告无法表示意见涉及事项影响已消除专项说明的审核报告",
+              "announcementTime": 1775145600000,
+              "adjunctUrl": "finalpage/2026-04-03/1225078327.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300093",
+              "secName": "*ST金刚",
+              "orgId": "9900012451",
+              "announcementId": "1224969346",
+              "announcementTitle": "上海市通力律师事务所关于甘肃金刚光伏股份有限公司2026年第一次临时股东会的法律意见书",
+              "announcementTime": 1770289570000,
+              "adjunctUrl": "finalpage/2026-02-05/1224969346.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300093",
+              "secName": "*ST金刚",
+              "orgId": "9900012451",
+              "announcementId": "1224914125",
+              "announcementTitle": "上海市通力律师事务所关于甘肃金刚光伏股份有限公司2025年第三次临时股东会的法律意见书",
+              "announcementTime": 1767177251000,
+              "adjunctUrl": "finalpage/2025-12-31/1224914125.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300093",
+              "secName": "*ST金刚",
+              "orgId": "9900012451",
+              "announcementId": "1224891946",
+              "announcementTitle": "关于甘肃金刚光伏股份有限公司重整计划执行完毕的法律意见书",
+              "announcementTime": 1766401468000,
+              "adjunctUrl": "finalpage/2025-12-22/1224891946.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300093",
+              "secName": "*ST金刚",
+              "orgId": "9900012451",
+              "announcementId": "1224891945",
+              "announcementTitle": "关于甘肃金刚光伏股份有限公司重整计划执行情况的监督报告",
+              "announcementTime": 1766401449000,
+              "adjunctUrl": "finalpage/2025-12-22/1224891945.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300093",
+              "secName": "*ST金刚",
+              "orgId": "9900012451",
+              "announcementId": "1224815213",
+              "announcementTitle": "华泰联合证券有限责任公司关于甘肃金刚光伏股份有限公司调整资本公积金转增股本股权登记日次一交易日股票开盘参考价格的专项意见",
+              "announcementTime": 1763548348000,
+              "adjunctUrl": "finalpage/2025-11-19/1224815213.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300093",
+              "secName": "*ST金刚",
+              "orgId": "9900012451",
+              "announcementId": "1224745772",
+              "announcementTitle": "苏州金刚光伏科技有限公司重整计划",
+              "announcementTime": 1761563411000,
+              "adjunctUrl": "finalpage/2025-10-27/1224745772.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300093",
+              "secName": "*ST金刚",
+              "orgId": "9900012451",
+              "announcementId": "1224745769",
+              "announcementTitle": "甘肃金刚光伏股份有限公司重整计划",
+              "announcementTime": 1761563411000,
+              "adjunctUrl": "finalpage/2025-10-27/1224745769.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300427",
+          "name": "红相股份",
+          "announcementCount": 6,
+          "announcements": [
+            {
+              "secCode": "300427",
+              "secName": "红相股份",
+              "orgId": "9900023902",
+              "announcementId": "1225321268",
+              "announcementTitle": "关于与福建闽高电力能源集团有限公司等主体就江苏如皋及周边地区分布式光伏项目签署股权转让协议的进展公告",
+              "announcementTime": 1779277107000,
+              "adjunctUrl": "finalpage/2026-05-20/1225321268.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300427",
+              "secName": "红相股份",
+              "orgId": "9900023902",
+              "announcementId": "1225065739",
+              "announcementTitle": "关于与福建闽高电力能源集团有限公司等主体就江苏如皋及周边地区分布式光伏项目签署股权转让协议的进展公告",
+              "announcementTime": 1774945810000,
+              "adjunctUrl": "finalpage/2026-03-31/1225065739.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300427",
+              "secName": "红相股份",
+              "orgId": "9900023902",
+              "announcementId": "1225039522",
+              "announcementTitle": "关于与福建闽高电力能源集团有限公司等主体就江苏如皋及周边地区分布式光伏项目签署股权转让协议的进展公告",
+              "announcementTime": 1774597452000,
+              "adjunctUrl": "finalpage/2026-03-27/1225039522.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300427",
+              "secName": "红相股份",
+              "orgId": "9900023902",
+              "announcementId": "1225008546",
+              "announcementTitle": "关于收购南通瀚蓝新能源有限公司股权及债权处理暨与福建闽高电力能源集团有限公司等主体就江苏如皋及周边地区分布式光伏项目签署股权转让协议的进展公告",
+              "announcementTime": 1773396130000,
+              "adjunctUrl": "finalpage/2026-03-13/1225008546.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300427",
+              "secName": "红相股份",
+              "orgId": "9900023902",
+              "announcementId": "1224986693",
+              "announcementTitle": "关于与福建闽高电力能源集团有限公司等主体就江苏如皋及周边地区分布式光伏项目签署股权转让协议的进展公告",
+              "announcementTime": 1772178988000,
+              "adjunctUrl": "finalpage/2026-02-27/1224986693.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300427",
+              "secName": "红相股份",
+              "orgId": "9900023902",
+              "announcementId": "1224963323",
+              "announcementTitle": "关于与福建闽高电力能源集团有限公司等主体就江苏如皋及周边地区分布式光伏项目签署股权转让协议的公告",
+              "announcementTime": 1770031228000,
+              "adjunctUrl": "finalpage/2026-02-02/1224963323.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920770",
+          "name": "艾能聚",
+          "announcementCount": 5,
+          "announcements": [
+            {
+              "secCode": "920770",
+              "secName": "艾能聚",
+              "orgId": "gfbj0834770",
+              "announcementId": "1225284815",
+              "announcementTitle": "国浩律师（杭州）事务所关于浙江艾能聚光伏科技股份有限公司2025年年度股东会法律意见书",
+              "announcementTime": 1778169600000,
+              "adjunctUrl": "finalpage/2026-05-08/1225284815.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "920770",
+              "secName": "艾能聚",
+              "orgId": "gfbj0834770",
+              "announcementId": "1224920475",
+              "announcementTitle": "国浩律师（杭州）事务所关于浙江艾能聚光伏科技股份有限公司2025年第三次临时股东会法律意见书",
+              "announcementTime": 1767542400000,
+              "adjunctUrl": "finalpage/2026-01-05/1224920475.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "920770",
+              "secName": "艾能聚",
+              "orgId": "gfbj0834770",
+              "announcementId": "1224881112",
+              "announcementTitle": "东吴证券股份有限公司关于浙江艾能聚光伏科技股份有限公司预计2026年度公司合并报表范围内担保额度的核查意见",
+              "announcementTime": 1765814400000,
+              "adjunctUrl": "finalpage/2025-12-16/1224881112.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "920770",
+              "secName": "艾能聚",
+              "orgId": "gfbj0834770",
+              "announcementId": "1224881113",
+              "announcementTitle": "东吴证券股份有限公司关于浙江艾能聚光伏科技股份有限公司预计2026年日常性关联交易的的核查意见",
+              "announcementTime": 1765814400000,
+              "adjunctUrl": "finalpage/2025-12-16/1224881113.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "920770",
+              "secName": "艾能聚",
+              "orgId": "gfbj0834770",
+              "announcementId": "1224791177",
+              "announcementTitle": "东吴证券股份有限公司关于浙江艾能聚光伏科技股份有限公司募投项目结项并将节余募集资金永久补充流动资金的核查意见",
+              "announcementTime": 1762358400000,
+              "adjunctUrl": "finalpage/2025-11-06/1224791177.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "601877",
+          "name": "正泰电器",
+          "announcementCount": 3,
+          "announcements": [
+            {
+              "secCode": "601877",
+              "secName": "正泰电器",
+              "orgId": "9900010254",
+              "announcementId": "1225105304",
+              "announcementTitle": "正泰电器关于2026年第一季度光伏电站经营数据的公告",
+              "announcementTime": 1776268800000,
+              "adjunctUrl": "finalpage/2026-04-16/1225105304.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601877",
+              "secName": "正泰电器",
+              "orgId": "9900010254",
+              "announcementId": "1224860483",
+              "announcementTitle": "正泰电器关于2026年度预计向关联方采购光伏组件的公告",
+              "announcementTime": 1765296000000,
+              "adjunctUrl": "finalpage/2025-12-10/1224860483.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601877",
+              "secName": "正泰电器",
+              "orgId": "9900010254",
+              "announcementId": "1224758549",
+              "announcementTitle": "正泰电器关于2025年前三季度光伏电站经营数据的公告",
+              "announcementTime": 1761753600000,
+              "adjunctUrl": "finalpage/2025-10-30/1224758549.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002053",
+          "name": "云南能投",
+          "announcementCount": 3,
+          "announcements": [
+            {
+              "secCode": "002053",
+              "secName": "云南能投",
+              "orgId": "gssz0002053",
+              "announcementId": "1225084801",
+              "announcementTitle": "云南能源投资股份有限公司关于马龙云能投新能源开发有限公司投资建设色甲光伏发电项目的公告",
+              "announcementTime": 1775664000000,
+              "adjunctUrl": "finalpage/2026-04-09/1225084801.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "002053",
+              "secName": "云南能投",
+              "orgId": "gssz0002053",
+              "announcementId": "1225010892",
+              "announcementTitle": "云南能源投资股份有限公司关于轿子光伏发电项目全容量并网发电的公告",
+              "announcementTime": 1773676800000,
+              "adjunctUrl": "finalpage/2026-03-17/1225010892.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "002053",
+              "secName": "云南能投",
+              "orgId": "gssz0002053",
+              "announcementId": "1224954615",
+              "announcementTitle": "云南能源投资股份有限公司关于拟投资建设马龙区新屯光伏发电项目的提示性公告",
+              "announcementTime": 1769616000000,
+              "adjunctUrl": "finalpage/2026-01-29/1224954615.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002062",
+          "name": "宏润建设",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "002062",
+              "secName": "宏润建设",
+              "orgId": "9900000362",
+              "announcementId": "1225291069",
+              "announcementTitle": "关于子公司签署光伏发电项目EPC工程合同暨关联交易的公告",
+              "announcementTime": 1778515200000,
+              "adjunctUrl": "finalpage/2026-05-12/1225291069.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "002062",
+              "secName": "宏润建设",
+              "orgId": "9900000362",
+              "announcementId": "1225051168",
+              "announcementTitle": "关于子公司签署光伏发电项目EPC工程合同暨关联交易的公告",
+              "announcementTime": 1774886400000,
+              "adjunctUrl": "finalpage/2026-03-31/1225051168.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000722",
+          "name": "湖南发展",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "000722",
+              "secName": "湖南发展",
+              "orgId": "gssz0000722",
+              "announcementId": "1225191883",
+              "announcementTitle": "关于全资子公司投资建设分布式光伏项目的公告",
+              "announcementTime": 1777046400000,
+              "adjunctUrl": "finalpage/2026-04-25/1225191883.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "000722",
+              "secName": "湖南发展",
+              "orgId": "gssz0000722",
+              "announcementId": "1224733364",
+              "announcementTitle": "关于与嘉禾县人民政府签署光伏项目投资开发协议的公告",
+              "announcementTime": 1761321600000,
+              "adjunctUrl": "finalpage/2025-10-25/1224733364.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000631",
+          "name": "顺发恒能",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "000631",
+              "secName": "顺发恒能",
+              "orgId": "gssz0000631",
+              "announcementId": "1225050574",
+              "announcementTitle": "顺发恒能股份公司拟收购资产所涉及的十七座光伏电站资产组价值资产评估报告",
+              "announcementTime": 1774886400000,
+              "adjunctUrl": "finalpage/2026-03-31/1225050574.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "000631",
+              "secName": "顺发恒能",
+              "orgId": "gssz0000631",
+              "announcementId": "1225050570",
+              "announcementTitle": "关于收购普星聚能股份公司光伏电站资产组暨关联交易的公告",
+              "announcementTime": 1774886400000,
+              "adjunctUrl": "finalpage/2026-03-31/1225050570.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600163",
+          "name": "中闽能源",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "600163",
+              "secName": "中闽能源",
+              "orgId": "gssh0600163",
+              "announcementId": "1225020459",
+              "announcementTitle": "中闽能源关于对外投资建设诏安四都80MW渔光互补光伏电站项目的公告",
+              "announcementTime": 1774022400000,
+              "adjunctUrl": "finalpage/2026-03-21/1225020459.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600163",
+              "secName": "中闽能源",
+              "orgId": "gssh0600163",
+              "announcementId": "1224917963",
+              "announcementTitle": "中闽能源关于公司申报的光伏电站项目列入福建省光伏电站开发建设项目清单的公告",
+              "announcementTime": 1767628800000,
+              "adjunctUrl": "finalpage/2026-01-06/1224917963.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000595",
+          "name": "*ST宝实",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "000595",
+              "secName": "*ST宝实",
+              "orgId": "gssz0000595",
+              "announcementId": "1224910808",
+              "announcementTitle": "关于投资建设盐池高沙窝光伏复合项目长关330kV变电站配套调相机的公告",
+              "announcementTime": 1767110400000,
+              "adjunctUrl": "finalpage/2025-12-31/1224910808.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "000595",
+              "secName": "*ST宝实",
+              "orgId": "gssz0000595",
+              "announcementId": "1224910809",
+              "announcementTitle": "关于投资建设灵武光伏复合项目萧关330kV变电站配套调相机的公告",
+              "announcementTime": 1767110400000,
+              "adjunctUrl": "finalpage/2025-12-31/1224910809.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "003038",
+          "name": "鑫铂股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "003038",
+              "secName": "鑫铂股份",
+              "orgId": "9900041546",
+              "announcementId": "1225307459",
+              "announcementTitle": "关于公司子公司签订《安徽鑫铂光伏材料有限公司工商业储能项目合同能源管理合作协议》暨关联交易的公告",
+              "announcementTime": 1778774400000,
+              "adjunctUrl": "finalpage/2026-05-15/1225307459.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600578",
+          "name": "京能电力",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600578",
+              "secName": "京能电力",
+              "orgId": "gssh0600578",
+              "announcementId": "1225300139",
+              "announcementTitle": "京能电力：关于乌兰察布京大1500MW“风光火储一体化”大型风电光伏基地项目核准的公告",
+              "announcementTime": 1778601600000,
+              "adjunctUrl": "finalpage/2026-05-13/1225300139.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002571",
+          "name": "德力股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002571",
+              "secName": "德力股份",
+              "orgId": "9900019036",
+              "announcementId": "1225300428",
+              "announcementTitle": "关于全资子公司签订《光伏玻璃长期采购协议》解除协议的公告",
+              "announcementTime": 1778601600000,
+              "adjunctUrl": "finalpage/2026-05-13/1225300428.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688223",
+          "name": "晶科能源",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688223",
+              "secName": "晶科能源",
+              "orgId": "9900017709",
+              "announcementId": "1225286343",
+              "announcementTitle": "晶科能源关于参加2025年度科创板光伏行业集体业绩说明会的公告",
+              "announcementTime": 1778256000000,
+              "adjunctUrl": "finalpage/2026-05-09/1225286343.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688599",
+          "name": "天合光能",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688599",
+              "secName": "天合光能",
+              "orgId": "GD155612",
+              "announcementId": "1225263868",
+              "announcementTitle": "天合光能股份有限公司关于参加2025年度光伏行业集体业绩说明会的公告",
+              "announcementTime": 1777478400000,
+              "adjunctUrl": "finalpage/2026-04-30/1225263868.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603693",
+          "name": "江苏新能",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "603693",
+              "secName": "江苏新能",
+              "orgId": "gfbj0833368",
+              "announcementId": "1225257400",
+              "announcementTitle": "江苏新能关于对外投资成立江苏新能王竹光伏发电有限公司的公告",
+              "announcementTime": 1777478400000,
+              "adjunctUrl": "finalpage/2026-04-30/1225257400.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000695",
+          "name": "滨海能源",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "000695",
+              "secName": "滨海能源",
+              "orgId": "gssz0000695",
+              "announcementId": "1225227547",
+              "announcementTitle": "关于终止投资建设拉晶和光伏太阳能电池片项目的公告",
+              "announcementTime": 1777392000000,
+              "adjunctUrl": "finalpage/2026-04-29/1225227547.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600537",
+          "name": "亿晶光电",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600537",
+              "secName": "亿晶光电",
+              "orgId": "gssh0600537",
+              "announcementId": "1225208228",
+              "announcementTitle": "亿晶光电科技股份有限公司关于2025年光伏电站经营数据的公告",
+              "announcementTime": 1777305600000,
+              "adjunctUrl": "finalpage/2026-04-28/1225208228.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000848",
+          "name": "承德露露",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "000848",
+              "secName": "承德露露",
+              "orgId": "gssz0000848",
+              "announcementId": "1225208990",
+              "announcementTitle": "关于全资子公司与关联方签订《分布式光伏发电项目合同能源管理协议》暨关联交易的公告",
+              "announcementTime": 1777305600000,
+              "adjunctUrl": "finalpage/2026-04-28/1225208990.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600207",
+          "name": "安彩高科",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600207",
+              "secName": "安彩高科",
+              "orgId": "gssh0600207",
+              "announcementId": "1225120461",
+              "announcementTitle": "安彩高科2025年度光伏玻璃业务主要经营数据公告",
+              "announcementTime": 1776441600000,
+              "adjunctUrl": "finalpage/2026-04-18/1225120461.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "601956",
+          "name": "东贝集团",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "601956",
+              "secName": "东贝集团",
+              "orgId": "GD008131",
+              "announcementId": "1225118269",
+              "announcementTitle": "湖北东贝机电集团股份有限公司关于子公司开展分布式光伏并网发电工程项目暨关联交易的公告",
+              "announcementTime": 1776441600000,
+              "adjunctUrl": "finalpage/2026-04-18/1225118269.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600732",
+          "name": "爱旭股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600732",
+              "secName": "爱旭股份",
+              "orgId": "gssh0600732",
+              "announcementId": "1225111538",
+              "announcementTitle": "关于义乌基地和滁州基地光伏电池产能升级改造的公告",
+              "announcementTime": 1776355200000,
+              "adjunctUrl": "finalpage/2026-04-17/1225111538.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000532",
+          "name": "华金资本",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "000532",
+              "secName": "华金资本",
+              "orgId": "gssz0000532",
+              "announcementId": "1225111286",
+              "announcementTitle": "关于重新审议子公司签订《分布式光伏发电项目EMC能源管理合作合同》暨关联交易的公告",
+              "announcementTime": 1776355200000,
+              "adjunctUrl": "finalpage/2026-04-17/1225111286.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002060",
+          "name": "广东建工",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002060",
+              "secName": "广东建工",
+              "orgId": "9900000281",
+              "announcementId": "1225071215",
+              "announcementTitle": "关于光伏发电项目并网运行的公告",
+              "announcementTime": 1775059200000,
+              "adjunctUrl": "finalpage/2026-04-02/1225071215.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600585",
+          "name": "海螺水泥",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600585",
+              "secName": "海螺水泥",
+              "orgId": "gssh0600585",
+              "announcementId": "1225022159",
+              "announcementTitle": "關連交易及持續關連交易：接受工程項目設計與技術服務、礦山基建項目工程設計與施工服務、SCR脱硝技改服務、分佈式光伏項目EPC服務及除氯系統技改服務",
+              "announcementTime": 1774022400000,
+              "adjunctUrl": "finalpage/2026-03-21/1225022159.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600805",
+          "name": "悦达投资",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600805",
+              "secName": "悦达投资",
+              "orgId": "gssh0600805",
+              "announcementId": "1224958993",
+              "announcementTitle": "悦达投资关于盐城悦欣新能源发展有限公司增资暨投资建设灌东盐场310MW渔光互补光伏项目的公告",
+              "announcementTime": 1769788800000,
+              "adjunctUrl": "finalpage/2026-01-31/1224958993.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000753",
+          "name": "漳州发展",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "000753",
+              "secName": "漳州发展",
+              "orgId": "gssz0000753",
+              "announcementId": "1224956164",
+              "announcementTitle": "关于集中式光伏发电项目并网发电的公告",
+              "announcementTime": 1769702400000,
+              "adjunctUrl": "finalpage/2026-01-30/1224956164.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300345",
+          "name": "华民股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300345",
+              "secName": "华民股份",
+              "orgId": "9900017148",
+              "announcementId": "1224946041",
+              "announcementTitle": "鸿新新能源科技（云南）有限公司拟债转股涉及晶澳（无锡）光伏科技有限公司部分债权市场价值资产评估报告",
+              "announcementTime": 1769097600000,
+              "adjunctUrl": "finalpage/2026-01-23/1224946041.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000966",
+          "name": "长源电力",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "000966",
+              "secName": "长源电力",
+              "orgId": "gssz0000966",
+              "announcementId": "1224940131",
+              "announcementTitle": "关于增资全资子公司并投资建设国能长源武汉江夏湖泗120MW渔光互补光伏发电项目（一期80MW）的自愿性信息披露公告",
+              "announcementTime": 1768838400000,
+              "adjunctUrl": "finalpage/2026-01-20/1224940131.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600505",
+          "name": "西昌电力",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600505",
+              "secName": "西昌电力",
+              "orgId": "gssh0600505",
+              "announcementId": "1224929118",
+              "announcementTitle": "关于农垦罗家沟光伏试验电站二期投产发电的公告",
+              "announcementTime": 1768233600000,
+              "adjunctUrl": "finalpage/2026-01-13/1224929118.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600834",
+          "name": "申通地铁",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600834",
+              "secName": "申通地铁",
+              "orgId": "gssh0600834",
+              "announcementId": "1224917101",
+              "announcementTitle": "申通地铁关于全资子公司投建光伏项目顺利并网的公告",
+              "announcementTime": 1767542400000,
+              "adjunctUrl": "finalpage/2026-01-05/1224917101.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000591",
+          "name": "太阳能",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "000591",
+              "secName": "太阳能",
+              "orgId": "gssz0000591",
+              "announcementId": "1224899632",
+              "announcementTitle": "关于终止投资建设中节能太阳能河北联通150兆瓦分布式光伏发电项目的公告",
+              "announcementTime": 1766764800000,
+              "adjunctUrl": "finalpage/2025-12-27/1224899632.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603330",
+          "name": "天洋新材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "603330",
+              "secName": "天洋新材",
+              "orgId": "9900030398",
+              "announcementId": "1224890973",
+              "announcementTitle": "关于公司光伏封装胶膜项目相关子公司停产的公告",
+              "announcementTime": 1766419200000,
+              "adjunctUrl": "finalpage/2025-12-23/1224890973.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000862",
+          "name": "银星能源",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "000862",
+              "secName": "银星能源",
+              "orgId": "gssz0000862",
+              "announcementId": "1224885543",
+              "announcementTitle": "关于与关联方签订《分布式光伏项目合同能源管理协议》暨关联交易的公告",
+              "announcementTime": 1766073600000,
+              "adjunctUrl": "finalpage/2025-12-19/1224885543.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600098",
+          "name": "广州发展",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600098",
+              "secName": "广州发展",
+              "orgId": "gssh0600098",
+              "announcementId": "1224879800",
+              "announcementTitle": "广州发展集团股份有限公司关于投资建设秀山龙凤坝光伏发电（二期）项目的公告",
+              "announcementTime": 1765814400000,
+              "adjunctUrl": "finalpage/2025-12-16/1224879800.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300125",
+          "name": "*ST聆达",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300125",
+              "secName": "*ST聆达",
+              "orgId": "9900013908",
+              "announcementId": "1224813472",
+              "announcementTitle": "关于公司子公司拟投资建设光伏电站技改项目的公告",
+              "announcementTime": 1763481600000,
+              "adjunctUrl": "finalpage/2025-11-19/1224813472.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "001896",
+          "name": "豫能控股",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "001896",
+              "secName": "豫能控股",
+              "orgId": "gssz0001896",
+              "announcementId": "1224748983",
+              "announcementTitle": "关于终止投资建设部分分布式光伏项目的公告",
+              "announcementTime": 1761667200000,
+              "adjunctUrl": "finalpage/2025-10-29/1224748983.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600969",
+          "name": "郴电国际",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600969",
+              "secName": "郴电国际",
+              "orgId": "gssh0600969",
+              "announcementId": "1224737983",
+              "announcementTitle": "郴电国际关于控股子公司投资设立赞比亚子公司建设光伏发电项目的公告",
+              "announcementTime": 1761494400000,
+              "adjunctUrl": "finalpage/2025-10-27/1224737983.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300080",
+          "name": "易成新能",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300080",
+              "secName": "易成新能",
+              "orgId": "9900011508",
+              "announcementId": "1224724777",
+              "announcementTitle": "关于为河南平煤隆基光伏材料有限公司融资租赁业务提供担保暨关联交易的公告",
+              "announcementTime": 1761148800000,
+              "adjunctUrl": "finalpage/2025-10-23/1224724777.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600770",
+          "name": "综艺股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600770",
+              "secName": "综艺股份",
+              "orgId": "gssh0600770",
+              "announcementId": "1224713306",
+              "announcementTitle": "综艺股份2025年第三季度光伏电站经营数据公告",
+              "announcementTime": 1760544000000,
+              "adjunctUrl": "finalpage/2025-10-16/1224713306.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002768",
+          "name": "国恩股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002768",
+              "secName": "国恩股份",
+              "orgId": "9900023787",
+              "announcementId": "1224712339",
+              "announcementTitle": "关于签署《光伏增产及海水资源提取集成项目》合作协议的公告",
+              "announcementTime": 1760457600000,
+              "adjunctUrl": "finalpage/2025-10-15/1224712339.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        }
+      ]
+    },
+    "锂电池": {
+      "industryName": "锂电池产业",
+      "companyCount": 117,
+      "companies": [
+        {
+          "code": "600004",
+          "name": "白云机场",
+          "announcementCount": 8,
+          "announcements": [
+            {
+              "secCode": "600004",
+              "secName": "白云机场",
+              "orgId": "gssh0600004",
+              "announcementId": "1224632165",
+              "announcementTitle": "中国国际金融股份有限公司关于广州白云国际机场股份有限公司向特定对象发行股票之发行保荐书（2025年半年报财务数据更新版）",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632165.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600004",
+              "secName": "白云机场",
+              "orgId": "gssh0600004",
+              "announcementId": "1224632162",
+              "announcementTitle": "北京市奋迅律师事务所关于广州白云国际机场股份有限公司2024年度向特定对象发行A股股票的补充法律意见书（三）",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632162.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600004",
+              "secName": "白云机场",
+              "orgId": "gssh0600004",
+              "announcementId": "1224632166",
+              "announcementTitle": "中国国际金融股份有限公司关于广州白云国际机场股份有限公司向特定对象发行股票之上市保荐书（2025年半年报财务数据更新版）",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632166.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600004",
+              "secName": "白云机场",
+              "orgId": "gssh0600004",
+              "announcementId": "1224632145",
+              "announcementTitle": "广州白云国际机场股份有限公司关于向特定对象发行股票募集说明书等申请文件更新的提示性公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632145.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600004",
+              "secName": "白云机场",
+              "orgId": "gssh0600004",
+              "announcementId": "1224632146",
+              "announcementTitle": "广州白云国际机场股份有限公司向特定对象发行股票证券募集说明书（2025年半年报财务数据更新版）",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632146.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600004",
+              "secName": "白云机场",
+              "orgId": "gssh0600004",
+              "announcementId": "1224632163",
+              "announcementTitle": "立信会计师事务所（特殊普通合伙）关于广州白云国际机场股份有限公司向特定对象发行股票的财务报告及审计报告（2025年半年报财务数据更新版）",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632163.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600004",
+              "secName": "白云机场",
+              "orgId": "gssh0600004",
+              "announcementId": "1224632147",
+              "announcementTitle": "关于广州白云国际机场股份有限公司向特定对象发行股票申请文件的审核问询函的回复（2025年半年报财务数据更新版）",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632147.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600004",
+              "secName": "白云机场",
+              "orgId": "gssh0600004",
+              "announcementId": "1224632164",
+              "announcementTitle": "立信会计师事务所（特殊普通合伙）关于广州白云国际机场股份有限公司向特定对象发行股票申请文件的审核问询函的回复（2025年半年报财务数据更新版）",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632164.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "601766",
+          "name": "中<em>国</em>中车",
+          "announcementCount": 5,
+          "announcements": [
+            {
+              "secCode": "601766",
+              "secName": "中<em>国</em>中车",
+              "orgId": "9900005127",
+              "announcementId": "1224631936",
+              "announcementTitle": "中国中车关于召开2025年半年度业绩说明会的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631936.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601766",
+              "secName": "中<em>国</em>中车",
+              "orgId": "9900005127",
+              "announcementId": "1224632095",
+              "announcementTitle": "中国中车H股市场公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632095.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601766",
+              "secName": "中<em>国</em>中车",
+              "orgId": "9900005127",
+              "announcementId": "1224631938",
+              "announcementTitle": "中国中车第四届董事会独立董事候选人声明与承诺",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631938.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601766",
+              "secName": "中<em>国</em>中车",
+              "orgId": "9900005127",
+              "announcementId": "1224631939",
+              "announcementTitle": "中国中车第四届董事会独立董事提名人声明与承诺",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631939.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601766",
+              "secName": "中<em>国</em>中车",
+              "orgId": "9900005127",
+              "announcementId": "1224631937",
+              "announcementTitle": "中国中车关于召开2025年第二次临时股东会的通知",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631937.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000595",
+          "name": "*ST宝实",
+          "announcementCount": 4,
+          "announcements": [
+            {
+              "secCode": "000595",
+              "secName": "*ST宝实",
+              "orgId": "gssz0000595",
+              "announcementId": "1224632870",
+              "announcementTitle": "北京德恒律师事务所关于宁夏国有资本运营集团有限责任公司所持宁夏国运新能源股份有限公司国有股权无偿划转的法律意见",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632870.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "000595",
+              "secName": "*ST宝实",
+              "orgId": "gssz0000595",
+              "announcementId": "1224632871",
+              "announcementTitle": "宁夏国运新能源股份有限公司简式权益变动报告书",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632871.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "000595",
+              "secName": "*ST宝实",
+              "orgId": "gssz0000595",
+              "announcementId": "1224632872",
+              "announcementTitle": "关于国有股权无偿划转暨控股股东拟发生变更的进展公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632872.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "000595",
+              "secName": "*ST宝实",
+              "orgId": "gssz0000595",
+              "announcementId": "1224632873",
+              "announcementTitle": "宁夏国运新能源股份有限公司详式权益变动报告书",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632873.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002949",
+          "name": "华阳<em>国</em>际",
+          "announcementCount": 3,
+          "announcements": [
+            {
+              "secCode": "002949",
+              "secName": "华阳<em>国</em>际",
+              "orgId": "gfbj0836762",
+              "announcementId": "1224632787",
+              "announcementTitle": "关于向下修正华阳转债转股价格的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632787.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "002949",
+              "secName": "华阳<em>国</em>际",
+              "orgId": "gfbj0836762",
+              "announcementId": "1224632790",
+              "announcementTitle": "第四届董事会第十次会议决议公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632790.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "002949",
+              "secName": "华阳<em>国</em>际",
+              "orgId": "gfbj0836762",
+              "announcementId": "1224632788",
+              "announcementTitle": "广东信达律师事务所关于深圳市华阳国际工程设计股份有限公司2025年第二次临时股东会的法律意见书",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632788.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "601881",
+          "name": "中<em>国</em>银河",
+          "announcementCount": 3,
+          "announcements": [
+            {
+              "secCode": "601881",
+              "secName": "中<em>国</em>银河",
+              "orgId": "qsgn0000512",
+              "announcementId": "1224631239",
+              "announcementTitle": "H股公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631239.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601881",
+              "secName": "中<em>国</em>银河",
+              "orgId": "qsgn0000512",
+              "announcementId": "1224631239",
+              "announcementTitle": "H股公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631239.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601881",
+              "secName": "中<em>国</em>银河",
+              "orgId": "qsgn0000512",
+              "announcementId": "1224632089",
+              "announcementTitle": "中国银河：2025年面向专业投资者公开发行公司债券（第一期）（品种一)（续发行）发行结果公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632089.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600335",
+          "name": "<em>国</em>机汽车",
+          "announcementCount": 3,
+          "announcements": [
+            {
+              "secCode": "600335",
+              "secName": "<em>国</em>机汽车",
+              "orgId": "gssh0600335",
+              "announcementId": "1224632878",
+              "announcementTitle": "国机汽车关于参加2025年天津辖区上市公司投资者网上集体接待日暨半年报业绩说明会活动的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632878.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600335",
+              "secName": "<em>国</em>机汽车",
+              "orgId": "gssh0600335",
+              "announcementId": "1224632879",
+              "announcementTitle": "国机汽车关于回购股份事项前十大股东和前十大无限售条件股东持股情况的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632879.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600335",
+              "secName": "<em>国</em>机汽车",
+              "orgId": "gssh0600335",
+              "announcementId": "1224632880",
+              "announcementTitle": "国机汽车关于取得金融机构股票回购专项贷款承诺函的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632880.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002812",
+          "name": "恩捷股份",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "002812",
+              "secName": "恩捷股份",
+              "orgId": "9900026450",
+              "announcementId": "1225325552",
+              "announcementTitle": "关于终止在马来西亚投资建设锂电池隔离膜项目的公告",
+              "announcementTime": 1779465600000,
+              "adjunctUrl": "finalpage/2026-05-23/1225325552.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "002812",
+              "secName": "恩捷股份",
+              "orgId": "9900026450",
+              "announcementId": "1225304895",
+              "announcementTitle": "关于在自贡市投资建设锂电池隔离膜项目的公告",
+              "announcementTime": 1778688000000,
+              "adjunctUrl": "finalpage/2026-05-14/1225304895.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688068",
+          "name": "热景生物",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "688068",
+              "secName": "热景生物",
+              "orgId": "9900039048",
+              "announcementId": "1225282982",
+              "announcementTitle": "北京热景生物技术股份有限公司关于控股子公司获得北京市“专精特新”中小企业证书的公告",
+              "announcementTime": 1778169600000,
+              "adjunctUrl": "finalpage/2026-05-08/1225282982.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "688068",
+              "secName": "热景生物",
+              "orgId": "9900039048",
+              "announcementId": "1224821946",
+              "announcementTitle": "北京热景生物技术股份有限公司关于公司被认定为国家级专精特新“小巨人”企业的自愿披露公告",
+              "announcementTime": 1764000000000,
+              "adjunctUrl": "finalpage/2025-11-25/1224821946.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920027",
+          "name": "交大铁发",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "920027",
+              "secName": "交大铁发",
+              "orgId": "9900034037",
+              "announcementId": "1225006194",
+              "announcementTitle": "关于控股子公司被认定为2025年上海市专精特新中小企业的公告",
+              "announcementTime": 1773244800000,
+              "adjunctUrl": "finalpage/2026-03-12/1225006194.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "920027",
+              "secName": "交大铁发",
+              "orgId": "9900034037",
+              "announcementId": "1224739826",
+              "announcementTitle": "关于公司通过2025年专精特新“小巨人”企业复核并完成公示的公告",
+              "announcementTime": 1761494400000,
+              "adjunctUrl": "finalpage/2025-10-27/1224739826.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920305",
+          "name": "*ST云创",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "920305",
+              "secName": "*ST云创",
+              "orgId": "gfbj0835305",
+              "announcementId": "1224946332",
+              "announcementTitle": "上海市锦天城（南京）律师事务所关于南京云创大数据科技股份有限公司2026年第一次临时股东会的法律意见书",
+              "announcementTime": 1769011200000,
+              "adjunctUrl": "finalpage/2026-01-22/1224946332.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "920305",
+              "secName": "*ST云创",
+              "orgId": "gfbj0835305",
+              "announcementId": "1224713883",
+              "announcementTitle": "上海市锦天城（南京）律师事务所关于南京云创大数据科技股份有限公司2025年第三次临时股东会的法律意见书",
+              "announcementTime": 1760457600000,
+              "adjunctUrl": "finalpage/2025-10-15/1224713883.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603906",
+          "name": "龙蟠科技",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "603906",
+              "secName": "龙蟠科技",
+              "orgId": "9900030660",
+              "announcementId": "1224936269",
+              "announcementTitle": "H股公告-变更全球发售募集资金用途及关于签署合作协议并投资建设高性能锂电池正极材料项目的补充资料",
+              "announcementTime": 1768492800000,
+              "adjunctUrl": "finalpage/2026-01-16/1224936269.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603906",
+              "secName": "龙蟠科技",
+              "orgId": "9900030660",
+              "announcementId": "1224917488",
+              "announcementTitle": "江苏龙蟠科技集团股份有限公司关于签署合作协议并投资建设高性能锂电池正极材料项目的公告",
+              "announcementTime": 1767542400000,
+              "adjunctUrl": "finalpage/2026-01-05/1224917488.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600337",
+          "name": "美克家居",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "600337",
+              "secName": "美克家居",
+              "orgId": "gssh0600337",
+              "announcementId": "1224630682",
+              "announcementTitle": "美克国际家居用品股份有限公司关于完成工商变更登记的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224630682.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600337",
+              "secName": "美克家居",
+              "orgId": "gssh0600337",
+              "announcementId": "1224630683",
+              "announcementTitle": "美克国际家居用品股份有限公司关于回购公司股份的进展公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224630683.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600636",
+          "name": "*ST<em>国</em>化",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "600636",
+              "secName": "*ST<em>国</em>化",
+              "orgId": "gssh0600636",
+              "announcementId": "1224630661",
+              "announcementTitle": "国新文化控股股份有限公司关于参加2025年上海辖区上市公司集体接待日暨中报业绩说明会的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224630661.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600636",
+              "secName": "*ST<em>国</em>化",
+              "orgId": "gssh0600636",
+              "announcementId": "1224630661",
+              "announcementTitle": "国新文化控股股份有限公司关于参加2025年上海辖区上市公司集体接待日暨中报业绩说明会的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224630661.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600567",
+          "name": "山鹰<em>国</em>际",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "600567",
+              "secName": "山鹰<em>国</em>际",
+              "orgId": "gssh0600567",
+              "announcementId": "1224631281",
+              "announcementTitle": "关于以集中竞价交易方式回购股份的进展公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631281.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600567",
+              "secName": "山鹰<em>国</em>际",
+              "orgId": "gssh0600567",
+              "announcementId": "1224631281",
+              "announcementTitle": "关于以集中竞价交易方式回购股份的进展公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631281.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000159",
+          "name": "<em>国</em>际实业",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "000159",
+              "secName": "<em>国</em>际实业",
+              "orgId": "gssz0000159",
+              "announcementId": "1224632681",
+              "announcementTitle": "关于向特定对象发行股票方案到期失效的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632681.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "000159",
+              "secName": "<em>国</em>际实业",
+              "orgId": "gssz0000159",
+              "announcementId": "1224632682",
+              "announcementTitle": "北京国枫律师事务所关于新疆国际实业股份有限公司2025年第二次临时股东大会的法律意见书",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632682.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600018",
+          "name": "上港集团",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "600018",
+              "secName": "上港集团",
+              "orgId": "9900001281",
+              "announcementId": "1224630812",
+              "announcementTitle": "上港集团关于收到中国银行间市场交易商协会《接受注册通知书》的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224630812.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600018",
+              "secName": "上港集团",
+              "orgId": "9900001281",
+              "announcementId": "1224630812",
+              "announcementTitle": "上港集团关于收到中国银行间市场交易商协会《接受注册通知书》的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224630812.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "601728",
+          "name": "中<em>国</em>电信",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "601728",
+              "secName": "中<em>国</em>电信",
+              "orgId": "gshk0000728",
+              "announcementId": "1224631243",
+              "announcementTitle": "中国电信股份有限公司H股公告-股份发行人的证券变动月报表",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631243.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601728",
+              "secName": "中<em>国</em>电信",
+              "orgId": "gshk0000728",
+              "announcementId": "1224631243",
+              "announcementTitle": "中国电信股份有限公司H股公告-股份发行人的证券变动月报表",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631243.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "601111",
+          "name": "中<em>国</em><em>国</em>航",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "601111",
+              "secName": "中<em>国</em><em>国</em>航",
+              "orgId": "9900000441",
+              "announcementId": "1224631687",
+              "announcementTitle": "中国国航H股公告-月报表",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631687.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601111",
+              "secName": "中<em>国</em><em>国</em>航",
+              "orgId": "9900000441",
+              "announcementId": "1224631687",
+              "announcementTitle": "中国国航H股公告-月报表",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631687.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603106",
+          "name": "恒银科技",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "603106",
+              "secName": "恒银科技",
+              "orgId": "9900032781",
+              "announcementId": "1224631889",
+              "announcementTitle": "恒银金融科技股份有限公司关于控股子公司智筑空间（天津）科技有限公司受让“国民信托·慧金87号集合资金信托计划”贷款债权的进展公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631889.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603106",
+              "secName": "恒银科技",
+              "orgId": "9900032781",
+              "announcementId": "1224631891",
+              "announcementTitle": "北京国枫律师事务所关于恒银金融科技股份有限公司2025年第二次临时股东会的法律意见书",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631891.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "605268",
+          "name": "王力安防",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "605268",
+              "secName": "王力安防",
+              "orgId": "9900039804",
+              "announcementId": "1225329153",
+              "announcementTitle": "王力安防前次募集资金使用情况鉴证报告（致同专字（2026）第332A014243号）",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329153.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300232",
+          "name": "洲明科技",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300232",
+              "secName": "洲明科技",
+              "orgId": "9900019372",
+              "announcementId": "1225326082",
+              "announcementTitle": "君子乾乾科技成长专精特新2号私募证券投资基金合同",
+              "announcementTime": 1779445347000,
+              "adjunctUrl": "finalpage/2026-05-22/1225326082.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300222",
+          "name": "科大智能",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300222",
+              "secName": "科大智能",
+              "orgId": "9900019148",
+              "announcementId": "1225292617",
+              "announcementTitle": "科大智能科技股份有限公司拟收购股权涉及的浙江江山源光电气有限公司股东全部权益价值项目资产评估报告（中水致远评报字[2026]第020489号）",
+              "announcementTime": 1778500450000,
+              "adjunctUrl": "finalpage/2026-05-11/1225292617.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "601199",
+          "name": "江南水务",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "601199",
+              "secName": "江南水务",
+              "orgId": "9900018832",
+              "announcementId": "1225253772",
+              "announcementTitle": "江南水务关于子公司入选专精特新中小企业的公告",
+              "announcementTime": 1777478400000,
+              "adjunctUrl": "finalpage/2026-04-30/1225253772.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002850",
+          "name": "科达利",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002850",
+              "secName": "科达利",
+              "orgId": "9900029916",
+              "announcementId": "1225151030",
+              "announcementTitle": "关于投资建设江苏科达利锂电池精密结构件四期项目的公告",
+              "announcementTime": 1776873600000,
+              "adjunctUrl": "finalpage/2026-04-23/1225151030.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600602",
+          "name": "云赛智联",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600602",
+              "secName": "云赛智联",
+              "orgId": "gssh0600602",
+              "announcementId": "1225072404",
+              "announcementTitle": "云赛智联关于收购智能汽车创新发展平台（上海）有限公司12%股权的公告",
+              "announcementTime": 1775059200000,
+              "adjunctUrl": "finalpage/2026-04-02/1225072404.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000695",
+          "name": "滨海能源",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "000695",
+              "secName": "滨海能源",
+              "orgId": "gssz0000695",
+              "announcementId": "1225039698",
+              "announcementTitle": "关于子公司签订锂电池负极材料项目工程总承包合同（三）暨关联交易的公告",
+              "announcementTime": 1774627200000,
+              "adjunctUrl": "finalpage/2026-03-28/1225039698.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920693",
+          "name": "阿为特",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920693",
+              "secName": "阿为特",
+              "orgId": "nssc1000029",
+              "announcementId": "1225036277",
+              "announcementTitle": "关于公司被认定为第七批国家级专精特新“小巨人”企业的公告",
+              "announcementTime": 1774454400000,
+              "adjunctUrl": "finalpage/2026-03-26/1225036277.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002192",
+          "name": "融捷股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002192",
+              "secName": "融捷股份",
+              "orgId": "9900003921",
+              "announcementId": "1225024974",
+              "announcementTitle": "关于投资建设锂电池负极材料项目的公告",
+              "announcementTime": 1774281600000,
+              "adjunctUrl": "finalpage/2026-03-24/1225024974.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002139",
+          "name": "拓邦股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002139",
+              "secName": "拓邦股份",
+              "orgId": "9900003222",
+              "announcementId": "1225025458",
+              "announcementTitle": "关于中标中国移动2026-2028年通信用磷酸铁锂电池产品集中招标项目的公告",
+              "announcementTime": 1774281600000,
+              "adjunctUrl": "finalpage/2026-03-24/1225025458.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002060",
+          "name": "广东建工",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002060",
+              "secName": "广东建工",
+              "orgId": "9900000281",
+              "announcementId": "1224966904",
+              "announcementTitle": "关于年产2GWh三维固态锂电池智能制造（江西余干）生产基地项目中标的公告",
+              "announcementTime": 1770220800000,
+              "adjunctUrl": "finalpage/2026-02-05/1224966904.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000421",
+          "name": "南京公用",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "000421",
+              "secName": "南京公用",
+              "orgId": "gssz0000421",
+              "announcementId": "1224941949",
+              "announcementTitle": "关于下属公司签署《退役锂电池综合利用项目施工一标段施工协议》暨关联交易的公告",
+              "announcementTime": 1768924800000,
+              "adjunctUrl": "finalpage/2026-01-21/1224941949.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300082",
+          "name": "奥克股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300082",
+              "secName": "奥克股份",
+              "orgId": "9900011748",
+              "announcementId": "1224941899",
+              "announcementTitle": "关于全球首创“环氧乙烷与二氧化硫催化合成锂电池添加剂用亚硫酸乙烯酯技术”通过科技成果鉴定及项目进展的自愿性信息披露公告",
+              "announcementTime": 1768903930000,
+              "adjunctUrl": "finalpage/2026-01-20/1224941899.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300434",
+          "name": "金石亚药",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300434",
+              "secName": "金石亚药",
+              "orgId": "9900023892",
+              "announcementId": "1224936412",
+              "announcementTitle": "关于全资子公司取得高新技术企业证书和专精特新中小企业证书的公告",
+              "announcementTime": 1768476371000,
+              "adjunctUrl": "finalpage/2026-01-15/1224936412.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "003018",
+          "name": "金富科技",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "003018",
+              "secName": "金富科技",
+              "orgId": "9900039757",
+              "announcementId": "1224930354",
+              "announcementTitle": "关于公司通过高新技术企业、广东省专精特新中小企业重新认定的公告",
+              "announcementTime": 1768233600000,
+              "adjunctUrl": "finalpage/2026-01-13/1224930354.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002709",
+          "name": "天赐材料",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002709",
+              "secName": "天赐材料",
+              "orgId": "9900022986",
+              "announcementId": "1224918891",
+              "announcementTitle": "关于年产 30 万吨锂电池电解液改扩建和 10 万吨铁锂电池拆解回收项目的变更公告",
+              "announcementTime": 1767628800000,
+              "adjunctUrl": "finalpage/2026-01-06/1224918891.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300037",
+          "name": "新宙邦",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300037",
+              "secName": "新宙邦",
+              "orgId": "9900009195",
+              "announcementId": "1224914631",
+              "announcementTitle": "关于对天津新宙邦半导体化学品及锂电池材料项目二期追加投资的公告",
+              "announcementTime": 1767196800000,
+              "adjunctUrl": "finalpage/2026-01-01/1224914631.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603169",
+          "name": "兰石重装",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "603169",
+              "secName": "兰石重装",
+              "orgId": "9900023006",
+              "announcementId": "1224895531",
+              "announcementTitle": "兰石重装关于子公司获得专精特新“小巨人”、高新技术企业及制造业单项冠军等重要认定的公告",
+              "announcementTime": 1766592000000,
+              "adjunctUrl": "finalpage/2025-12-25/1224895531.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "001367",
+          "name": "海森药业",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "001367",
+              "secName": "海森药业",
+              "orgId": "9900052535",
+              "announcementId": "1224877132",
+              "announcementTitle": "关于公司被认定为国家级专精特新“小巨人”企业的公告",
+              "announcementTime": 1765814400000,
+              "adjunctUrl": "finalpage/2025-12-16/1224877132.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920533",
+          "name": "骏创科技",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920533",
+              "secName": "骏创科技",
+              "orgId": "gfbj0833533",
+              "announcementId": "1224868367",
+              "announcementTitle": "关于公司入选第七批国家级专精特新“小巨人”企业并完成公示的公告",
+              "announcementTime": 1765382400000,
+              "adjunctUrl": "finalpage/2025-12-11/1224868367.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "301233",
+          "name": "盛帮股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "301233",
+              "secName": "盛帮股份",
+              "orgId": "gfbj0831247",
+              "announcementId": "1224846218",
+              "announcementTitle": "关于公司专精特新“小巨人”复核通过的自愿性披露公告",
+              "announcementTime": 1764747849000,
+              "adjunctUrl": "finalpage/2025-12-03/1224846218.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920169",
+          "name": "七丰精工",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920169",
+              "secName": "七丰精工",
+              "orgId": "gfbj0873169",
+              "announcementId": "1224847057",
+              "announcementTitle": "关于公司通过国家级专精特新“小巨人”企业复核的公告",
+              "announcementTime": 1764691200000,
+              "adjunctUrl": "finalpage/2025-12-03/1224847057.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920876",
+          "name": "慧为智能",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920876",
+              "secName": "慧为智能",
+              "orgId": "gfbj0832876",
+              "announcementId": "1224830344",
+              "announcementTitle": "关于公司通过2025年国家级专精特新“小巨人”企业复核并获得认定证书的公告",
+              "announcementTime": 1764172800000,
+              "adjunctUrl": "finalpage/2025-11-27/1224830344.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300846",
+          "name": "首都在线",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300846",
+              "secName": "首都在线",
+              "orgId": "9900013967",
+              "announcementId": "1224826148",
+              "announcementTitle": "关于公司通过国家级专精特新“小巨人”企业复核并完成公示的公告",
+              "announcementTime": 1764086400000,
+              "adjunctUrl": "finalpage/2025-11-26/1224826148.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688056",
+          "name": "莱伯泰科",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688056",
+              "secName": "莱伯泰科",
+              "orgId": "9900031826",
+              "announcementId": "1224824488",
+              "announcementTitle": "关于公司国家级专精特新“小巨人”复核通过的自愿性披露公告",
+              "announcementTime": 1764086400000,
+              "adjunctUrl": "finalpage/2025-11-26/1224824488.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920879",
+          "name": "基康技术",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920879",
+              "secName": "基康技术",
+              "orgId": "gfbj0830879",
+              "announcementId": "1224825133",
+              "announcementTitle": "关于公司通过“2025 年国家级专精特新‘小巨人’企业”复审并获得认定证书的公告",
+              "announcementTime": 1764000000000,
+              "adjunctUrl": "finalpage/2025-11-25/1224825133.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300719",
+          "name": "安达维尔",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300719",
+              "secName": "安达维尔",
+              "orgId": "9900033855",
+              "announcementId": "1224823448",
+              "announcementTitle": "关于全资子公司被认定为国家级专精特新“小巨人”企业的公告",
+              "announcementTime": 1763980808000,
+              "adjunctUrl": "finalpage/2025-11-24/1224823448.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688456",
+          "name": "有研粉材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688456",
+              "secName": "有研粉材",
+              "orgId": "nssc1000134",
+              "announcementId": "1224812124",
+              "announcementTitle": "关于自愿披露两家所属公司入选工信部第七批专精特新“小巨人”企业的公告",
+              "announcementTime": 1763481600000,
+              "adjunctUrl": "finalpage/2025-11-19/1224812124.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002584",
+          "name": "西陇科学",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002584",
+              "secName": "西陇科学",
+              "orgId": "9900019958",
+              "announcementId": "1224794645",
+              "announcementTitle": "关于全资子公司入选四川省专精特新中小企业的自愿性信息披露公告",
+              "announcementTime": 1762790400000,
+              "adjunctUrl": "finalpage/2025-11-11/1224794645.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920527",
+          "name": "夜光明",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920527",
+              "secName": "夜光明",
+              "orgId": "gfbj0833841",
+              "announcementId": "1224792335",
+              "announcementTitle": "关于公司通过国家级专精特新“小巨人”企业复核并完成公示的公告",
+              "announcementTime": 1762444800000,
+              "adjunctUrl": "finalpage/2025-11-07/1224792335.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920267",
+          "name": "鑫汇科",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920267",
+              "secName": "鑫汇科",
+              "orgId": "gfbj0831167",
+              "announcementId": "1224791354",
+              "announcementTitle": "关于公司通过国家级专精特新“小巨人”企业复核并完成公示的公告",
+              "announcementTime": 1762358400000,
+              "adjunctUrl": "finalpage/2025-11-06/1224791354.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920699",
+          "name": "海达尔",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920699",
+              "secName": "海达尔",
+              "orgId": "gfbj0836699",
+              "announcementId": "1224788270",
+              "announcementTitle": "关于公司入选第七批国家级专精特新“小巨人”企业并完成公示的公告",
+              "announcementTime": 1762272000000,
+              "adjunctUrl": "finalpage/2025-11-05/1224788270.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300446",
+          "name": "航天智造",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300446",
+              "secName": "航天智造",
+              "orgId": "9900023852",
+              "announcementId": "1224784853",
+              "announcementTitle": "关于间接控股子公司入选第七批国家级专精特新“小巨人”企业名单的自愿性信息披露公告",
+              "announcementTime": 1762170370000,
+              "adjunctUrl": "finalpage/2025-11-03/1224784853.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920701",
+          "name": "豪声电子",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920701",
+              "secName": "豪声电子",
+              "orgId": "gfbj0838701",
+              "announcementId": "1224783196",
+              "announcementTitle": "关于公司入选第七批国家级专精特新“小巨人”企业并完成公示的公告",
+              "announcementTime": 1762099200000,
+              "adjunctUrl": "finalpage/2025-11-03/1224783196.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920221",
+          "name": "易实精密",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920221",
+              "secName": "易实精密",
+              "orgId": "gfbj0836221",
+              "announcementId": "1224780415",
+              "announcementTitle": "关于公司通过国家级专精特新“小巨人”企业复核并完成公示的公告",
+              "announcementTime": 1761840000000,
+              "adjunctUrl": "finalpage/2025-10-31/1224780415.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300626",
+          "name": "华瑞股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300626",
+              "secName": "华瑞股份",
+              "orgId": "9900031452",
+              "announcementId": "1224769858",
+              "announcementTitle": "关于全资子公司入选国家级专精特新“小巨人”企业的公告",
+              "announcementTime": 1761840000000,
+              "adjunctUrl": "finalpage/2025-10-31/1224769858.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688701",
+          "name": "卓锦股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688701",
+              "secName": "卓锦股份",
+              "orgId": "gfbj0833149",
+              "announcementId": "1224769671",
+              "announcementTitle": "浙江卓锦环保科技股份有限公司关于自愿披露入选国家级专精特新”小巨人“企业名单的公告",
+              "announcementTime": 1761840000000,
+              "adjunctUrl": "finalpage/2025-10-31/1224769671.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "301215",
+          "name": "中汽股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "301215",
+              "secName": "中汽股份",
+              "orgId": "9900046650",
+              "announcementId": "1224760889",
+              "announcementTitle": "关于公司入选国家级专精特新“小巨人”企业的公告",
+              "announcementTime": 1761753600000,
+              "adjunctUrl": "finalpage/2025-10-30/1224760889.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920489",
+          "name": "佳先股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920489",
+              "secName": "佳先股份",
+              "orgId": "9900028040",
+              "announcementId": "1224774046",
+              "announcementTitle": "关于复核通过国家级专精特新“小巨人”企业并完成公示的公告",
+              "announcementTime": 1761753600000,
+              "adjunctUrl": "finalpage/2025-10-30/1224774046.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920300",
+          "name": "辰光医疗",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920300",
+              "secName": "辰光医疗",
+              "orgId": "9900023934",
+              "announcementId": "1224775149",
+              "announcementTitle": "关于通过2025年专精特新“小巨人”复核并完成公示的公告",
+              "announcementTime": 1761753600000,
+              "adjunctUrl": "finalpage/2025-10-30/1224775149.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300207",
+          "name": "欣旺达",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300207",
+              "secName": "欣旺达",
+              "orgId": "9900018948",
+              "announcementId": "1224761882",
+              "announcementTitle": "关于子公司拟在泰国投资建设绿色能源锂电池工厂二期项目的公告",
+              "announcementTime": 1761753600000,
+              "adjunctUrl": "finalpage/2025-10-30/1224761882.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920720",
+          "name": "吉冈精密",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920720",
+              "secName": "吉冈精密",
+              "orgId": "gfbj0836720",
+              "announcementId": "1224775382",
+              "announcementTitle": "关于公司入选第七批国家级专精特新“小巨人”企业并完成公示的公告",
+              "announcementTime": 1761753600000,
+              "adjunctUrl": "finalpage/2025-10-30/1224775382.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920689",
+          "name": "克莱特",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920689",
+              "secName": "克莱特",
+              "orgId": "gfbj0831689",
+              "announcementId": "1224775386",
+              "announcementTitle": "关于公司复核通过国家级专精特新“小巨人”企业并完成公示的公告",
+              "announcementTime": 1761753600000,
+              "adjunctUrl": "finalpage/2025-10-30/1224775386.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920961",
+          "name": "创远信科",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920961",
+              "secName": "创远信科",
+              "orgId": "gfbj0831961",
+              "announcementId": "1224764016",
+              "announcementTitle": "关于通过2025年专精特新“小巨人”复核并完成公示的公告",
+              "announcementTime": 1761667200000,
+              "adjunctUrl": "finalpage/2025-10-29/1224764016.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920682",
+          "name": "球冠电缆",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920682",
+              "secName": "球冠电缆",
+              "orgId": "gfbj0834682",
+              "announcementId": "1224764007",
+              "announcementTitle": "关于公司通过国家级专精特新“小巨人”企业复核并完成公示的公告",
+              "announcementTime": 1761667200000,
+              "adjunctUrl": "finalpage/2025-10-29/1224764007.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920396",
+          "name": "常辅股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920396",
+              "secName": "常辅股份",
+              "orgId": "9900034929",
+              "announcementId": "1224763696",
+              "announcementTitle": "关于公司入选第七批国家级专精特新“小巨人”企业并完成公示的公告",
+              "announcementTime": 1761667200000,
+              "adjunctUrl": "finalpage/2025-10-29/1224763696.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920198",
+          "name": "微创光电",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920198",
+              "secName": "微创光电",
+              "orgId": "9900024889",
+              "announcementId": "1224764013",
+              "announcementTitle": "关于公司入选第七批国家级专精特新“小巨人”企业并完成公示的公告",
+              "announcementTime": 1761667200000,
+              "adjunctUrl": "finalpage/2025-10-29/1224764013.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920158",
+          "name": "长江能科",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920158",
+              "secName": "长江能科",
+              "orgId": "fzqy1030036",
+              "announcementId": "1224749655",
+              "announcementTitle": "关于公司通过2025年专精特新“小巨人”复核并完成公示的公告",
+              "announcementTime": 1761580800000,
+              "adjunctUrl": "finalpage/2025-10-28/1224749655.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688312",
+          "name": "燕麦科技",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688312",
+              "secName": "燕麦科技",
+              "orgId": "9900041798",
+              "announcementId": "1224743442",
+              "announcementTitle": "关于自愿披露入选国家级专精特新“小巨人”企业名单的公告",
+              "announcementTime": 1761580800000,
+              "adjunctUrl": "finalpage/2025-10-28/1224743442.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002536",
+          "name": "飞龙股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002536",
+              "secName": "飞龙股份",
+              "orgId": "9900016931",
+              "announcementId": "1224739312",
+              "announcementTitle": "关于全资子公司入选国家级专精特新“小巨人”企业公示名单的公告",
+              "announcementTime": 1761580800000,
+              "adjunctUrl": "finalpage/2025-10-28/1224739312.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920509",
+          "name": "同惠电子",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920509",
+              "secName": "同惠电子",
+              "orgId": "gfbj0833509",
+              "announcementId": "1224756124",
+              "announcementTitle": "关于公司通过国家级专精特新“小巨人”企业复核并完成公示的公告",
+              "announcementTime": 1761580800000,
+              "adjunctUrl": "finalpage/2025-10-28/1224756124.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300976",
+          "name": "达瑞电子",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300976",
+              "secName": "达瑞电子",
+              "orgId": "gfbj0836633",
+              "announcementId": "1224745361",
+              "announcementTitle": "关于公司入选国家级专精特新“小巨人”企业的公告",
+              "announcementTime": 1761562451000,
+              "adjunctUrl": "finalpage/2025-10-27/1224745361.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "301320",
+          "name": "豪江智能",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "301320",
+              "secName": "豪江智能",
+              "orgId": "9900046843",
+              "announcementId": "1224744770",
+              "announcementTitle": "关于公司入选国家级专精特新“小巨人”企业公示名单的公告",
+              "announcementTime": 1761561732000,
+              "adjunctUrl": "finalpage/2025-10-27/1224744770.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300931",
+          "name": "通用电梯",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300931",
+              "secName": "通用电梯",
+              "orgId": "9900034094",
+              "announcementId": "1224738580",
+              "announcementTitle": "关于入选专精特新小巨人企业公示名单的公告",
+              "announcementTime": 1761552130000,
+              "adjunctUrl": "finalpage/2025-10-27/1224738580.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920100",
+          "name": "三协电机",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920100",
+              "secName": "三协电机",
+              "orgId": "gfbj0873669",
+              "announcementId": "1224746303",
+              "announcementTitle": "关于公司入选第七批国家级专精特新“小巨人”企业并完成公示的公告",
+              "announcementTime": 1761494400000,
+              "adjunctUrl": "finalpage/2025-10-27/1224746303.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920781",
+          "name": "瑞奇智造",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920781",
+              "secName": "瑞奇智造",
+              "orgId": "gfbj0833781",
+              "announcementId": "1224742104",
+              "announcementTitle": "关于公司复核通过国家级专精特新“小巨人”企业并完成公示的公告",
+              "announcementTime": 1761494400000,
+              "adjunctUrl": "finalpage/2025-10-27/1224742104.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920593",
+          "name": "鼎智科技",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920593",
+              "secName": "鼎智科技",
+              "orgId": "gfbj0873593",
+              "announcementId": "1224743052",
+              "announcementTitle": "关于公司通过国家级专精特新“小巨人”企业复核并完成公示的公告",
+              "announcementTime": 1761494400000,
+              "adjunctUrl": "finalpage/2025-10-27/1224743052.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920212",
+          "name": "智新电子",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920212",
+              "secName": "智新电子",
+              "orgId": "gfbj0837212",
+              "announcementId": "1224740488",
+              "announcementTitle": "关于公司入选第七批国家级专精特新“小巨人”企业并完成公示的公告",
+              "announcementTime": 1761494400000,
+              "adjunctUrl": "finalpage/2025-10-27/1224740488.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "301021",
+          "name": "英诺激光",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "301021",
+              "secName": "英诺激光",
+              "orgId": "9900039770",
+              "announcementId": "1224735097",
+              "announcementTitle": "关于入选专精特新“小巨人”企业公示名单的公告",
+              "announcementTime": 1761304816000,
+              "adjunctUrl": "finalpage/2025-10-24/1224735097.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920914",
+          "name": "远航精密",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920914",
+              "secName": "远航精密",
+              "orgId": "gfbj0833914",
+              "announcementId": "1224733096",
+              "announcementTitle": "关于公司复核通过第四批国家级专精特新“小巨人”企业并完成公示的公告",
+              "announcementTime": 1761235200000,
+              "adjunctUrl": "finalpage/2025-10-24/1224733096.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002132",
+          "name": "恒星科技",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002132",
+              "secName": "恒星科技",
+              "orgId": "9900002723",
+              "announcementId": "1224724173",
+              "announcementTitle": "公司关于全资子公司入选国家级专精特新“小巨人”企业公示名单的公告",
+              "announcementTime": 1761105251000,
+              "adjunctUrl": "finalpage/2025-10-22/1224724173.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603060",
+          "name": "<em>国</em>检集团",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "603060",
+              "secName": "<em>国</em>检集团",
+              "orgId": "9900026560",
+              "announcementId": "1224631513",
+              "announcementTitle": "国检集团关于召开2025年半年度业绩说明会的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631513.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "601988",
+          "name": "中<em>国</em>银行",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "601988",
+              "secName": "中<em>国</em>银行",
+              "orgId": "jjxt0000028",
+              "announcementId": "1224631651",
+              "announcementTitle": "H股公告-截至二零二五年八月三十一日止之股份发行人的证券变动月报表",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631651.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688031",
+          "name": "星环科技",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688031",
+              "secName": "星环科技",
+              "orgId": "9900048105",
+              "announcementId": "1224630531",
+              "announcementTitle": "关于发行境外上市股份（H股）备案申请材料获中国证监会接收的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224630531.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603095",
+          "name": "越剑智能",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "603095",
+              "secName": "越剑智能",
+              "orgId": "9900039808",
+              "announcementId": "1224632242",
+              "announcementTitle": "国浩律师（杭州）事务所关于浙江越剑智能装备股份有限公司2025年第一次临时股东大会之法律意见书",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632242.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600482",
+          "name": "中<em>国</em>动力",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600482",
+              "secName": "中<em>国</em>动力",
+              "orgId": "gssh0600482",
+              "announcementId": "1224632262",
+              "announcementTitle": "中国动力关于\"动力定02\"可转换公司债券付息公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632262.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002074",
+          "name": "<em>国</em>轩高科",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002074",
+              "secName": "<em>国</em>轩高科",
+              "orgId": "9900001001",
+              "announcementId": "1224632112",
+              "announcementTitle": "股票交易异常波动公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632112.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600061",
+          "name": "<em>国</em>投资本",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600061",
+              "secName": "<em>国</em>投资本",
+              "orgId": "gssh0600061",
+              "announcementId": "1224632403",
+              "announcementTitle": "国投资本股份有限公司关于以集中竞价交易方式回购公司股份的进展公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632403.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000728",
+          "name": "<em>国</em>元证券",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "000728",
+              "secName": "<em>国</em>元证券",
+              "orgId": "gssz0000728",
+              "announcementId": "1224632699",
+              "announcementTitle": "国元证券股份有限公司关于全资子公司国元股权投资有限公司发起设立安徽国元建安启鑫兴桂数智股权投资合伙企业（有限合伙）暨关联交易的进展公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632699.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600420",
+          "name": "<em>国</em>药现代",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600420",
+              "secName": "<em>国</em>药现代",
+              "orgId": "gssh0600420",
+              "announcementId": "1224631588",
+              "announcementTitle": "关于全资子公司获得药品注册证书的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631588.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600580",
+          "name": "卧龙电驱",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600580",
+              "secName": "卧龙电驱",
+              "orgId": "gssh0600580",
+              "announcementId": "1224631523",
+              "announcementTitle": "卧龙电驱关于发行境外上市股份（H股）备案申请材料获中国证监会接收的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631523.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600995",
+          "name": "南网储能",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600995",
+              "secName": "南网储能",
+              "orgId": "gssh0600995",
+              "announcementId": "1224631741",
+              "announcementTitle": "中国国际金融股份有限公司关于南方电网储能股份有限公司重大资产置换及发行股份购买资产并募集配套资金暨关联交易之限售股解禁上市流通的核查意见",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631741.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688536",
+          "name": "思瑞浦",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688536",
+              "secName": "思瑞浦",
+              "orgId": "9900032795",
+              "announcementId": "1224632883",
+              "announcementTitle": "国泰海通证券股份有限公司关于思瑞浦微电子科技（苏州）股份有限公司2025年半年度持续督导跟踪报告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632883.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002538",
+          "name": "司尔特",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002538",
+              "secName": "司尔特",
+              "orgId": "9900017115",
+              "announcementId": "1224632948",
+              "announcementTitle": "关于收到中国证券监督管理委员会立案告知书的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632948.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688543",
+          "name": "<em>国</em>科军工",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688543",
+              "secName": "<em>国</em>科军工",
+              "orgId": "9900035514",
+              "announcementId": "1224630720",
+              "announcementTitle": "关于召开2025年半年度业绩说明会的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224630720.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688776",
+          "name": "<em>国</em>光电气",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688776",
+              "secName": "<em>国</em>光电气",
+              "orgId": "GD005988",
+              "announcementId": "1224631247",
+              "announcementTitle": "国光电气关于召开2025年半年度业绩说明会的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631247.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "601318",
+          "name": "中<em>国</em>平安",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "601318",
+              "secName": "中<em>国</em>平安",
+              "orgId": "9900002221",
+              "announcementId": "1224632143",
+              "announcementTitle": "中国平安H股公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632143.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "601800",
+          "name": "中<em>国</em>交建",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "601800",
+              "secName": "中<em>国</em>交建",
+              "orgId": "gshk0001800",
+              "announcementId": "1224631997",
+              "announcementTitle": "中国交建关于股份回购进展公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631997.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600150",
+          "name": "中<em>国</em>船舶",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600150",
+              "secName": "中<em>国</em>船舶",
+              "orgId": "gssh0600150",
+              "announcementId": "1224632711",
+              "announcementTitle": "中国船舶关于中国船舶重工股份有限公司股东参与换股相关事项提示性公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632711.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688401",
+          "name": "路维光电",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688401",
+              "secName": "路维光电",
+              "orgId": "gfbj0833550",
+              "announcementId": "1224632512",
+              "announcementTitle": "国信证券股份有限公司关于深圳市路维光电股份有限公司2025年半年度持续督导跟踪报告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632512.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "601989",
+          "name": "中<em>国</em>重工",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "601989",
+              "secName": "中<em>国</em>重工",
+              "orgId": "9900009267",
+              "announcementId": "1224632969",
+              "announcementTitle": "中国重工关于公司股东参与换股相关事项提示性公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632969.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000736",
+          "name": "*ST中地",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "000736",
+              "secName": "*ST中地",
+              "orgId": "gssz0000736",
+              "announcementId": "1224632741",
+              "announcementTitle": "中国国际金融股份有限公司关于中交地产股份有限公司重大资产出售暨关联交易实施情况之独立财务顾问核查意见",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632741.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688656",
+          "name": "浩欧博",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688656",
+              "secName": "浩欧博",
+              "orgId": "9900039221",
+              "announcementId": "1224632171",
+              "announcementTitle": "国浩律师（上海）事务所关于江苏浩欧博生物医药股份有限公司2025年第二次临时股东大会的法律意见书",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632171.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "601601",
+          "name": "中<em>国</em>太保",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "601601",
+              "secName": "中<em>国</em>太保",
+              "orgId": "9900004003",
+              "announcementId": "1224632028",
+              "announcementTitle": "中国太保H股公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632028.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002481",
+          "name": "双塔食品",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002481",
+              "secName": "双塔食品",
+              "orgId": "9900014610",
+              "announcementId": "1224630423",
+              "announcementTitle": "关于欧盟对中国豌豆蛋白启动反倾销调查的提示性公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224630423.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300609",
+          "name": "汇纳科技",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300609",
+              "secName": "汇纳科技",
+              "orgId": "9900031449",
+              "announcementId": "1224632815",
+              "announcementTitle": "国浩律师（上海）事务所关于汇纳科技股份有限公司2025年第二次临时股东大会之法律意见书",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632815.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603655",
+          "name": "朗博科技",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "603655",
+              "secName": "朗博科技",
+              "orgId": "9900033184",
+              "announcementId": "1224630930",
+              "announcementTitle": "国浩律师（上海）事务所关于常州朗博密封科技股份有限公司差异化分红事项之专项法律意见书",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224630930.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "605507",
+          "name": "<em>国</em>邦医药",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "605507",
+              "secName": "<em>国</em>邦医药",
+              "orgId": "nssc1000172",
+              "announcementId": "1224631994",
+              "announcementTitle": "国邦医药关于股份回购进展公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631994.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002875",
+          "name": "安奈儿",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002875",
+              "secName": "安奈儿",
+              "orgId": "9900030588",
+              "announcementId": "1224630464",
+              "announcementTitle": "国联民生证券承销保荐有限公司关于深圳市安奈儿股份有限公司详式权益变动报告书之2025年二季度持续督导意见",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224630464.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688279",
+          "name": "峰岹科技",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688279",
+              "secName": "峰岹科技",
+              "orgId": "9900046501",
+              "announcementId": "1224632514",
+              "announcementTitle": "关于参加2025年半年度科创板芯片设计行业集体业绩说明会的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632514.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "601598",
+          "name": "中<em>国</em>外运",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "601598",
+              "secName": "中<em>国</em>外运",
+              "orgId": "gshk0000598",
+              "announcementId": "1224632625",
+              "announcementTitle": "关于以集中竞价交易方式回购公司A股股份的进展公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632625.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688661",
+          "name": "和林微纳",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688661",
+              "secName": "和林微纳",
+              "orgId": "nssc1000577",
+              "announcementId": "1224633066",
+              "announcementTitle": "国泰海通证券股份有限公司关于苏州和林微纳科技股份有限公司2021年度向特定对象发行股票部分募投项目延期并重新论证可行性的核查意见",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224633066.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002990",
+          "name": "盛视科技",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002990",
+              "secName": "盛视科技",
+              "orgId": "9900039822",
+              "announcementId": "1224632977",
+              "announcementTitle": "国浩律师（深圳）事务所关于盛视科技股份有限公司2025年第二次临时股东大会之法律意见书",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632977.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600406",
+          "name": "<em>国</em>电南瑞",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600406",
+              "secName": "<em>国</em>电南瑞",
+              "orgId": "gssh0600406",
+              "announcementId": "1224630346",
+              "announcementTitle": "国电南瑞关于以集中竞价交易方式股份回购进展情况的公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224630346.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "601686",
+          "name": "友发集团",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "601686",
+              "secName": "友发集团",
+              "orgId": "9900039715",
+              "announcementId": "1224631870",
+              "announcementTitle": "关于收到国家市场监督管理总局《经营者集中反垄断审查不予禁止决定书》 暨对外投资事项的进展公告",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631870.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600301",
+          "name": "华锡有色",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600301",
+              "secName": "华锡有色",
+              "orgId": "gssh0600301",
+              "announcementId": "1224631690",
+              "announcementTitle": "国浩律师（南宁）事务所关于广西华锡有色金属股份有限公司2025年第四次临时股东会的法律意见书",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224631690.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300053",
+          "name": "航宇微",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300053",
+              "secName": "航宇微",
+              "orgId": "9900010151",
+              "announcementId": "1224632425",
+              "announcementTitle": "国浩律师（深圳）事务所关于珠海航宇微科技股份有限公司2025年第二次临时股东大会的法律意见书",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632425.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002562",
+          "name": "兄弟科技",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002562",
+              "secName": "兄弟科技",
+              "orgId": "9900018667",
+              "announcementId": "1224632677",
+              "announcementTitle": "国泰海通证券股份有限公司关于兄弟科技股份有限公司2023年度向特定对象发行A股股票之发行保荐书（注册稿）（2025年半年度财务数据更新版）",
+              "announcementTime": 1756742400000,
+              "adjunctUrl": "finalpage/2025-09-02/1224632677.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        }
+      ]
+    },
+    "新材料": {
+      "industryName": "新材料产业",
+      "companyCount": 64,
+      "companies": [
+        {
+          "code": "603681",
+          "name": "永冠<em>新</em>材",
+          "announcementCount": 12,
+          "announcements": [
+            {
+              "secCode": "603681",
+              "secName": "永冠<em>新</em>材",
+              "orgId": "gfbj0831135",
+              "announcementId": "1225338473",
+              "announcementTitle": "上海永冠众诚新材料科技（集团）股份有限公司2026年第一次临时股东会会议资料",
+              "announcementTime": 1780070400000,
+              "adjunctUrl": "finalpage/2026-05-30/1225338473.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603681",
+              "secName": "永冠<em>新</em>材",
+              "orgId": "gfbj0831135",
+              "announcementId": "1225331561",
+              "announcementTitle": "东方财富证券股份有限公司关于上海永冠众诚新材料科技（集团）股份有限公司2026年股票期权激励计划（草案）之独立财务顾问报告",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225331561.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603681",
+              "secName": "永冠<em>新</em>材",
+              "orgId": "gfbj0831135",
+              "announcementId": "1225331567",
+              "announcementTitle": "上海永冠众诚新材料科技（集团）股份有限公司第五届董事会第二次会议决议公告",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225331567.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603681",
+              "secName": "永冠<em>新</em>材",
+              "orgId": "gfbj0831135",
+              "announcementId": "1225331553",
+              "announcementTitle": "上海永冠众诚新材料科技（集团）股份有限公司2026年股票期权激励计划草案摘要公告",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225331553.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603681",
+              "secName": "永冠<em>新</em>材",
+              "orgId": "gfbj0831135",
+              "announcementId": "1225331554",
+              "announcementTitle": "上海永冠众诚新材料科技（集团）股份有限公司2026年股票期权激励计划首次授予激励对象名单",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225331554.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603681",
+              "secName": "永冠<em>新</em>材",
+              "orgId": "gfbj0831135",
+              "announcementId": "1225331562",
+              "announcementTitle": "上海永冠众诚新材料科技（集团）股份有限公司关于召开2026年第一次临时股东会的通知",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225331562.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603681",
+              "secName": "永冠<em>新</em>材",
+              "orgId": "gfbj0831135",
+              "announcementId": "1225331550",
+              "announcementTitle": "上海永冠众诚新材料科技（集团）股份有限公司2026年股票期权激励计划（草案）",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225331550.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603681",
+              "secName": "永冠<em>新</em>材",
+              "orgId": "gfbj0831135",
+              "announcementId": "1225331557",
+              "announcementTitle": "上海市广发律师事务所关于上海永冠众诚新材料科技（集团）股份有限公司2026年股票期权激励计划（草案）的法律意见书",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225331557.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603681",
+              "secName": "永冠<em>新</em>材",
+              "orgId": "gfbj0831135",
+              "announcementId": "1225331556",
+              "announcementTitle": "上海永冠众诚新材料科技（集团）股份有限公司第五届董事会薪酬与考核委员会关于公司2026年股票期权激励计划相关事项的核查意见",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225331556.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603681",
+              "secName": "永冠<em>新</em>材",
+              "orgId": "gfbj0831135",
+              "announcementId": "1225331552",
+              "announcementTitle": "上海永冠众诚新材料科技（集团）股份有限公司章程",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225331552.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "000859",
+          "name": "国风<em>新</em>材",
+          "announcementCount": 10,
+          "announcements": [
+            {
+              "secCode": "000859",
+              "secName": "国风<em>新</em>材",
+              "orgId": "gssz0000859",
+              "announcementId": "1225329878",
+              "announcementTitle": "国元证券股份有限公司关于深圳证券交易所《关于安徽国风新材料股份有限公司发行股份购买资产并募集配套资金申请的审核问询函》回复之核查意见（修订稿）",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329878.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "000859",
+              "secName": "国风<em>新</em>材",
+              "orgId": "gssz0000859",
+              "announcementId": "1225329882",
+              "announcementTitle": "安徽国风新材料股份有限公司发行股份及支付现金购买资产并募集配套资金暨关联交易报告书（草案）（修订稿）摘要",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329882.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "000859",
+              "secName": "国风<em>新</em>材",
+              "orgId": "gssz0000859",
+              "announcementId": "1225329879",
+              "announcementTitle": "国元证券股份有限公司关于安徽国风新材料股份有限公司发行股份及支付现金购买资产并募集配套资金暨关联交易之独立财务顾问报告（修订稿）",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329879.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "000859",
+              "secName": "国风<em>新</em>材",
+              "orgId": "gssz0000859",
+              "announcementId": "1225329880",
+              "announcementTitle": "容诚会计师事务所(特殊普通合伙)关于安徽国风新材料股份有限公司前次募集资金使用情况鉴证报告",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329880.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "000859",
+              "secName": "国风<em>新</em>材",
+              "orgId": "gssz0000859",
+              "announcementId": "1225329877",
+              "announcementTitle": "中水致远资产评估有限公司关于深圳证券交易所《关于安徽国风新材料股份有限公司发行股份购买资产并募集配套资金申请的审核问询函》中评估相关问题的回复（修订稿）",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329877.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "000859",
+              "secName": "国风<em>新</em>材",
+              "orgId": "gssz0000859",
+              "announcementId": "1225329881",
+              "announcementTitle": "安徽国风新材料股份有限公司发行股份及支付现金购买资产并募集配套资金暨关联交易报告书（草案）（修订稿）",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329881.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "000859",
+              "secName": "国风<em>新</em>材",
+              "orgId": "gssz0000859",
+              "announcementId": "1225329876",
+              "announcementTitle": "安徽天禾律师事务所关于安徽国风新材料股份有限公司发行股份及支付现金购买资产并募集配套资金暨关联交易之补充法律意见书（五）",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329876.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "000859",
+              "secName": "国风<em>新</em>材",
+              "orgId": "gssz0000859",
+              "announcementId": "1225329884",
+              "announcementTitle": "安徽国风新材料股份有限公司备考财务报表审阅报告",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329884.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "000859",
+              "secName": "国风<em>新</em>材",
+              "orgId": "gssz0000859",
+              "announcementId": "1225329875",
+              "announcementTitle": "容诚会计师事务所（特殊普通合伙）关于深圳证券交易所《关于安徽国风新材料股份有限公司发行股份购买资产并募集配套资金申请的审核问询函》的回复之专项核查意见",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329875.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "000859",
+              "secName": "国风<em>新</em>材",
+              "orgId": "gssz0000859",
+              "announcementId": "1225329883",
+              "announcementTitle": "安徽国风新材料股份有限公司关于深圳证券交易所《关于安徽国风新材料股份有限公司发行股份购买资产并募集配套资金申请的审核问询函》之回复（修订稿）",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329883.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "301565",
+          "name": "中仑<em>新</em>材",
+          "announcementCount": 8,
+          "announcements": [
+            {
+              "secCode": "301565",
+              "secName": "中仑<em>新</em>材",
+              "orgId": "9900053182",
+              "announcementId": "1225334687",
+              "announcementTitle": "中信证券股份有限公司关于中仑新材料股份有限公司2025年度向不特定对象发行可转换公司债券之发行保荐书",
+              "announcementTime": 1779954011000,
+              "adjunctUrl": "finalpage/2026-05-28/1225334687.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301565",
+              "secName": "中仑<em>新</em>材",
+              "orgId": "9900053182",
+              "announcementId": "1225334690",
+              "announcementTitle": "中信证券股份有限公司关于中仑新材料股份有限公司2025年度向不特定对象发行可转换公司债券之上市保荐书",
+              "announcementTime": 1779954011000,
+              "adjunctUrl": "finalpage/2026-05-28/1225334690.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301565",
+              "secName": "中仑<em>新</em>材",
+              "orgId": "9900053182",
+              "announcementId": "1225333412",
+              "announcementTitle": "北京市君合律师事务所关于中仑新材料股份有限公司向不特定对象发行可转换公司债券之补充法律意见（二）",
+              "announcementTime": 1779877346000,
+              "adjunctUrl": "finalpage/2026-05-27/1225333412.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301565",
+              "secName": "中仑<em>新</em>材",
+              "orgId": "9900053182",
+              "announcementId": "1225333414",
+              "announcementTitle": "关于中仑新材料股份有限公司申请向不特定对象发行可转换公司债券的审核问询函的回复",
+              "announcementTime": 1779877346000,
+              "adjunctUrl": "finalpage/2026-05-27/1225333414.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301565",
+              "secName": "中仑<em>新</em>材",
+              "orgId": "9900053182",
+              "announcementId": "1225333409",
+              "announcementTitle": "中信证券股份有限公司关于中仑新材料股份有限公司2025年度向不特定对象发行可转换公司债券之发行保荐书",
+              "announcementTime": 1779877346000,
+              "adjunctUrl": "finalpage/2026-05-27/1225333409.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301565",
+              "secName": "中仑<em>新</em>材",
+              "orgId": "9900053182",
+              "announcementId": "1225333411",
+              "announcementTitle": "中仑新材料股份有限公司最近三年的财务报告及其审计报告以及最近一期的财务报告",
+              "announcementTime": 1779877346000,
+              "adjunctUrl": "finalpage/2026-05-27/1225333411.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301565",
+              "secName": "中仑<em>新</em>材",
+              "orgId": "9900053182",
+              "announcementId": "1225333415",
+              "announcementTitle": "中信证券股份有限公司关于中仑新材料股份有限公司2025年度向不特定对象发行可转换公司债券之上市保荐书",
+              "announcementTime": 1779877328000,
+              "adjunctUrl": "finalpage/2026-05-27/1225333415.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301565",
+              "secName": "中仑<em>新</em>材",
+              "orgId": "9900053182",
+              "announcementId": "1225333410",
+              "announcementTitle": "关于中仑新材料股份有限公司申请向不特定对象发行可转换公司债券的审核问询函中有关财务会计问题的专项说明",
+              "announcementTime": 1779877328000,
+              "adjunctUrl": "finalpage/2026-05-27/1225333410.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "601011",
+          "name": "宝泰隆",
+          "announcementCount": 8,
+          "announcements": [
+            {
+              "secCode": "601011",
+              "secName": "宝泰隆",
+              "orgId": "9900018407",
+              "announcementId": "1225332572",
+              "announcementTitle": "宝泰隆新材料股份有限公司董事会提名委员会关于董事会换届选举董事候选人任职资格的审查意见",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225332572.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601011",
+              "secName": "宝泰隆",
+              "orgId": "9900018407",
+              "announcementId": "1225332582",
+              "announcementTitle": "宝泰隆新材料股份有限公司关于召开2025年年度股东会的通知",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225332582.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601011",
+              "secName": "宝泰隆",
+              "orgId": "9900018407",
+              "announcementId": "1225332577",
+              "announcementTitle": "宝泰隆新材料股份有限公司独立董事候选人声明与承诺-马明慧",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225332577.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601011",
+              "secName": "宝泰隆",
+              "orgId": "9900018407",
+              "announcementId": "1225332579",
+              "announcementTitle": "宝泰隆新材料股份有限公司关于2026年度董事和高级管理人员薪酬方案",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225332579.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601011",
+              "secName": "宝泰隆",
+              "orgId": "9900018407",
+              "announcementId": "1225332580",
+              "announcementTitle": "宝泰隆新材料股份有限公司独立董事提名人声明与承诺",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225332580.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601011",
+              "secName": "宝泰隆",
+              "orgId": "9900018407",
+              "announcementId": "1225332578",
+              "announcementTitle": "宝泰隆新材料股份有限公司独立董事候选人声明与承诺-程培育",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225332578.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601011",
+              "secName": "宝泰隆",
+              "orgId": "9900018407",
+              "announcementId": "1225332581",
+              "announcementTitle": "宝泰隆新材料股份有限公司第六届董事会第三十次会议决议公告",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225332581.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "601011",
+              "secName": "宝泰隆",
+              "orgId": "9900018407",
+              "announcementId": "1225332575",
+              "announcementTitle": "宝泰隆新材料股份有限公司独立董事候选人声明与承诺-纪念",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225332575.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300706",
+          "name": "阿石创",
+          "announcementCount": 7,
+          "announcements": [
+            {
+              "secCode": "300706",
+              "secName": "阿石创",
+              "orgId": "9900032566",
+              "announcementId": "1225333759",
+              "announcementTitle": "国浩律师(福州)事务所关于福建阿石创新材料股份有限公司2025年度向特定对象发行人民币普通股(A股)股票并上市之补充法律意见书(一)",
+              "announcementTime": 1779878787000,
+              "adjunctUrl": "finalpage/2026-05-27/1225333759.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300706",
+              "secName": "阿石创",
+              "orgId": "9900032566",
+              "announcementId": "1225333762",
+              "announcementTitle": "致同会计师事务所（特殊普通合伙）关于福建阿石创新材料股份有限公司申请向特定对象发行股票的审核问询函中有关财务会计问题的回复",
+              "announcementTime": 1779878787000,
+              "adjunctUrl": "finalpage/2026-05-27/1225333762.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300706",
+              "secName": "阿石创",
+              "orgId": "9900032566",
+              "announcementId": "1225333756",
+              "announcementTitle": "长江证券承销保荐有限公司关于福建阿石创新材料股份有限公司2025年度向特定对象发行A股股票之发行保荐书",
+              "announcementTime": 1779878787000,
+              "adjunctUrl": "finalpage/2026-05-27/1225333756.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300706",
+              "secName": "阿石创",
+              "orgId": "9900032566",
+              "announcementId": "1225333761",
+              "announcementTitle": "福建阿石创新材料股份有限公司与长江证券保荐承销有限公司关于公司申请向特定对象发行股票的审核问询函的回复",
+              "announcementTime": 1779878787000,
+              "adjunctUrl": "finalpage/2026-05-27/1225333761.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300706",
+              "secName": "阿石创",
+              "orgId": "9900032566",
+              "announcementId": "1225333758",
+              "announcementTitle": "国浩律师(福州)事务所关于福建阿石创新材料股份有限公司2025年度向特定对象发行人民币普通股(A股)股票并上市之补充法律意见书(二)",
+              "announcementTime": 1779878787000,
+              "adjunctUrl": "finalpage/2026-05-27/1225333758.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300706",
+              "secName": "阿石创",
+              "orgId": "9900032566",
+              "announcementId": "1225333757",
+              "announcementTitle": "福建阿石创新材料股份有限公司2025年度向特定对象发行A股股票募集说明书（修订稿）",
+              "announcementTime": 1779878786000,
+              "adjunctUrl": "finalpage/2026-05-27/1225333757.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300706",
+              "secName": "阿石创",
+              "orgId": "9900032566",
+              "announcementId": "1225333755",
+              "announcementTitle": "长江证券承销保荐有限公司关于福建阿石创新材料股份有限公司2025年度向特定对象发行A股股票之上市保荐书",
+              "announcementTime": 1779878768000,
+              "adjunctUrl": "finalpage/2026-05-27/1225333755.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603271",
+          "name": "永杰<em>新</em>材",
+          "announcementCount": 7,
+          "announcements": [
+            {
+              "secCode": "603271",
+              "secName": "永杰<em>新</em>材",
+              "orgId": "9900023650",
+              "announcementId": "1225332194",
+              "announcementTitle": "东兴证券股份有限公司关于上海证券交易所《关于对永杰新材料股份有限公司重大资产重组草案的问询函》回复之核查意见",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225332194.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603271",
+              "secName": "永杰<em>新</em>材",
+              "orgId": "9900023650",
+              "announcementId": "1225332202",
+              "announcementTitle": "国浩律师（杭州）事务所关于永杰新材料股份有限公司重大资产购买之补充法律意见书（一）",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225332202.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603271",
+              "secName": "永杰<em>新</em>材",
+              "orgId": "9900023650",
+              "announcementId": "1225332192",
+              "announcementTitle": "国浩律师（杭州）事务所关于永杰新材料股份有限公司重大资产购买之内幕信息知情人股票交易自查情况的专项核查意见",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225332192.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603271",
+              "secName": "永杰<em>新</em>材",
+              "orgId": "9900023650",
+              "announcementId": "1225332197",
+              "announcementTitle": "东兴证券关于永杰新材料股份有限公司重大资产购买之内幕信息知情人股票交易自查情况的专项核查意见",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225332197.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603271",
+              "secName": "永杰<em>新</em>材",
+              "orgId": "9900023650",
+              "announcementId": "1225332195",
+              "announcementTitle": "东兴证券股份有限公司关于永杰新材料股份有限公司重大资产购买之独立财务顾问报告",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225332195.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603271",
+              "secName": "永杰<em>新</em>材",
+              "orgId": "9900023650",
+              "announcementId": "1225332196",
+              "announcementTitle": "关于对上海证券交易所《关于对永杰新材料股份有限公司重大资产重组草案的问询函》的回复公告",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225332196.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603271",
+              "secName": "永杰<em>新</em>材",
+              "orgId": "9900023650",
+              "announcementId": "1225332198",
+              "announcementTitle": "天健会计师事务所（特殊普通合伙）关于永杰新材料股份有限公司重大资产重组草案的问询函中有关财务事项的说明",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225332198.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300554",
+          "name": "三超<em>新</em>材",
+          "announcementCount": 5,
+          "announcements": [
+            {
+              "secCode": "300554",
+              "secName": "三超<em>新</em>材",
+              "orgId": "9900031832",
+              "announcementId": "1225342538",
+              "announcementTitle": "华泰联合证券有限责任公司关于南京三超新材料股份有限公司2025年度向特定对象发行A股股票并在创业板上市之上市保荐书（修订稿）",
+              "announcementTime": 1780311438000,
+              "adjunctUrl": "finalpage/2026-06-01/1225342538.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300554",
+              "secName": "三超<em>新</em>材",
+              "orgId": "9900031832",
+              "announcementId": "1225342536",
+              "announcementTitle": "北京市金杜律师事务所关于南京三超新材料股份有限公司2025年度向特定对象发行A股股票之补充法律意见书（一）",
+              "announcementTime": 1780311437000,
+              "adjunctUrl": "finalpage/2026-06-01/1225342536.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300554",
+              "secName": "三超<em>新</em>材",
+              "orgId": "9900031832",
+              "announcementId": "1225342535",
+              "announcementTitle": "天衡会计师事务所（特殊普通合伙）关于南京三超新材料股份有限公司申请向特定对象发行股票审核问询函的回复",
+              "announcementTime": 1780311437000,
+              "adjunctUrl": "finalpage/2026-06-01/1225342535.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300554",
+              "secName": "三超<em>新</em>材",
+              "orgId": "9900031832",
+              "announcementId": "1225342537",
+              "announcementTitle": "南京三超新材料股份有限公司与华泰联合证券有限责任公司关于南京三超新材料股份有限公司申请向特定对象发行股票的审核问询函之回复",
+              "announcementTime": 1780311437000,
+              "adjunctUrl": "finalpage/2026-06-01/1225342537.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300554",
+              "secName": "三超<em>新</em>材",
+              "orgId": "9900031832",
+              "announcementId": "1225342533",
+              "announcementTitle": "华泰联合证券有限责任公司关于南京三超新材料股份有限公司2025年度向特定对象发行A股股票并在创业板上市之发行保荐书（修订稿）",
+              "announcementTime": 1780311437000,
+              "adjunctUrl": "finalpage/2026-06-01/1225342533.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600281",
+          "name": "华阳<em>新</em>材",
+          "announcementCount": 5,
+          "announcements": [
+            {
+              "secCode": "600281",
+              "secName": "华阳<em>新</em>材",
+              "orgId": "gssh0600281",
+              "announcementId": "1225335035",
+              "announcementTitle": "山西华阳新材料股份有限公司关于收到应诉通知书的公告",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225335035.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600281",
+              "secName": "华阳<em>新</em>材",
+              "orgId": "gssh0600281",
+              "announcementId": "1225330516",
+              "announcementTitle": "山西华阳新材料股份有限公司2025年年度股东会决议公告",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225330516.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600281",
+              "secName": "华阳<em>新</em>材",
+              "orgId": "gssh0600281",
+              "announcementId": "1225330516",
+              "announcementTitle": "山西华阳新材料股份有限公司2025年年度股东会决议公告",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225330516.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600281",
+              "secName": "华阳<em>新</em>材",
+              "orgId": "gssh0600281",
+              "announcementId": "1225330512",
+              "announcementTitle": "山西华阳新材料股份有限公司2025年年度股东会法律意见书",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225330512.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600281",
+              "secName": "华阳<em>新</em>材",
+              "orgId": "gssh0600281",
+              "announcementId": "1225325216",
+              "announcementTitle": "山西华阳新材料股份有限公司关于公司相关方与其实际控制人之间产权层级减少事项已完成工商变更登记的公告",
+              "announcementTime": 1779465600000,
+              "adjunctUrl": "finalpage/2026-05-23/1225325216.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920028",
+          "name": "<em>新</em>恒泰",
+          "announcementCount": 4,
+          "announcements": [
+            {
+              "secCode": "920028",
+              "secName": "<em>新</em>恒泰",
+              "orgId": "gfbj0874502",
+              "announcementId": "1225344028",
+              "announcementTitle": "关于浙江新恒泰新材料股份有限公司募集资金置换专项鉴证报告",
+              "announcementTime": 1780243200000,
+              "adjunctUrl": "finalpage/2026-06-01/1225344028.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "920028",
+              "secName": "<em>新</em>恒泰",
+              "orgId": "gfbj0874502",
+              "announcementId": "1225344031",
+              "announcementTitle": "浙商证券股份有限公司关于浙江新恒泰新材料股份有限公司使用自有资金支付募投项目人员费用并以募集资金等额置换的核查意见",
+              "announcementTime": 1780243200000,
+              "adjunctUrl": "finalpage/2026-06-01/1225344031.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "920028",
+              "secName": "<em>新</em>恒泰",
+              "orgId": "gfbj0874502",
+              "announcementId": "1225344032",
+              "announcementTitle": "浙商证券股份有限公司关于浙江新恒泰新材料股份有限公司使用募集资金置换预先已投入募投项目及已支付发行费用的自筹资金的核查意见",
+              "announcementTime": 1780243200000,
+              "adjunctUrl": "finalpage/2026-06-01/1225344032.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "920028",
+              "secName": "<em>新</em>恒泰",
+              "orgId": "gfbj0874502",
+              "announcementId": "1225344029",
+              "announcementTitle": "浙商证券股份有限公司关于浙江新恒泰新材料股份有限公司调整使用部分闲置募集资金进行现金管理额度的核查意见",
+              "announcementTime": 1780243200000,
+              "adjunctUrl": "finalpage/2026-06-01/1225344029.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "605376",
+          "name": "博迁<em>新</em>材",
+          "announcementCount": 4,
+          "announcements": [
+            {
+              "secCode": "605376",
+              "secName": "博迁<em>新</em>材",
+              "orgId": "gfbj0871363",
+              "announcementId": "1225338219",
+              "announcementTitle": "江苏博迁新材料股份有限公司关于控股股东及其一致行动人权益变动触及5%刻度的提示性公告",
+              "announcementTime": 1780070400000,
+              "adjunctUrl": "finalpage/2026-05-30/1225338219.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "605376",
+              "secName": "博迁<em>新</em>材",
+              "orgId": "gfbj0871363",
+              "announcementId": "1225338304",
+              "announcementTitle": "江苏博迁新材料股份有限公司简式权益变动报告书",
+              "announcementTime": 1780070400000,
+              "adjunctUrl": "finalpage/2026-05-30/1225338304.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "605376",
+              "secName": "博迁<em>新</em>材",
+              "orgId": "gfbj0871363",
+              "announcementId": "1225334775",
+              "announcementTitle": "江苏博迁新材料股份有限公司2026年第一次临时股东会会议资料",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225334775.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "605376",
+              "secName": "博迁<em>新</em>材",
+              "orgId": "gfbj0871363",
+              "announcementId": "1225328502",
+              "announcementTitle": "江苏博迁新材料股份有限公司股票交易异常波动公告",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225328502.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603055",
+          "name": "台华<em>新</em>材",
+          "announcementCount": 4,
+          "announcements": [
+            {
+              "secCode": "603055",
+              "secName": "台华<em>新</em>材",
+              "orgId": "9900024946",
+              "announcementId": "1225337411",
+              "announcementTitle": "浙江台华新材料集团股份有限公司关于完成工商变更登记并换发营业执照的公告",
+              "announcementTime": 1780070400000,
+              "adjunctUrl": "finalpage/2026-05-30/1225337411.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603055",
+              "secName": "台华<em>新</em>材",
+              "orgId": "9900024946",
+              "announcementId": "1225333456",
+              "announcementTitle": "浙江台华新材料集团股份有限公司2025年年度权益分派实施公告",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225333456.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603055",
+              "secName": "台华<em>新</em>材",
+              "orgId": "9900024946",
+              "announcementId": "1225333461",
+              "announcementTitle": "浙江台华新材料集团股份有限公司关于因实施2025年度权益分派调整可转债转股价格的公告",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225333461.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603055",
+              "secName": "台华<em>新</em>材",
+              "orgId": "9900024946",
+              "announcementId": "1225333459",
+              "announcementTitle": "北京市竞天公诚律师事务所关于浙江台华新材料集团股份有限公司2025年度差异化分红事项的法律意见书",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225333459.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300881",
+          "name": "盛德鑫泰",
+          "announcementCount": 4,
+          "announcements": [
+            {
+              "secCode": "300881",
+              "secName": "盛德鑫泰",
+              "orgId": "9900039841",
+              "announcementId": "1225334216",
+              "announcementTitle": "盛德鑫泰新材料股份有限公司关于向不特定对象发行可转换公司债券的募集说明书摘要",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225334216.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300881",
+              "secName": "盛德鑫泰",
+              "orgId": "9900039841",
+              "announcementId": "1225334220",
+              "announcementTitle": "盛德鑫泰新材料股份有限公司向不特定对象发行可转换公司债券的资信评级报告",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225334220.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300881",
+              "secName": "盛德鑫泰",
+              "orgId": "9900039841",
+              "announcementId": "1225334215",
+              "announcementTitle": "盛德鑫泰新材料股份有限公司关于向不特定对象发行可转换公司债券的募集说明书",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225334215.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300881",
+              "secName": "盛德鑫泰",
+              "orgId": "9900039841",
+              "announcementId": "1225334219",
+              "announcementTitle": "东方证券股份有限公司关于盛德鑫泰新材料股份有限公司向不特定对象发行可转换公司债券之发行保荐书",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225334219.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600459",
+          "name": "贵研铂业",
+          "announcementCount": 3,
+          "announcements": [
+            {
+              "secCode": "600459",
+              "secName": "贵研铂业",
+              "orgId": "gssh0600459",
+              "announcementId": "1225335924",
+              "announcementTitle": "云南省贵金属新材料控股集团股份有限公司关于2026年度“提质增效重回报”行动方案的公告",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225335924.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600459",
+              "secName": "贵研铂业",
+              "orgId": "gssh0600459",
+              "announcementId": "1225335918",
+              "announcementTitle": "云南省贵金属新材料控股集团股份有限公司关于调整 2025年度利润分配方案每股分配比例的公告",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225335918.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600459",
+              "secName": "贵研铂业",
+              "orgId": "gssh0600459",
+              "announcementId": "1225325332",
+              "announcementTitle": "云南省贵金属新材料控股集团股份有限公司关于公司董事兼副总经理辞任的公告",
+              "announcementTime": 1779465600000,
+              "adjunctUrl": "finalpage/2026-05-23/1225325332.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603718",
+          "name": "*ST海利",
+          "announcementCount": 3,
+          "announcements": [
+            {
+              "secCode": "603718",
+              "secName": "*ST海利",
+              "orgId": "9900023467",
+              "announcementId": "1225336048",
+              "announcementTitle": "海利生物关于控股子公司收购湖南泽尔顿新材料有限公司股权的公告",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225336048.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603718",
+              "secName": "*ST海利",
+              "orgId": "9900023467",
+              "announcementId": "1225336050",
+              "announcementTitle": "陕西瑞盛生物科技有限公司拟股权收购事宜涉及的湖南泽尔顿新材料有限公司股东全部权益资产评估报告（卓信大华评报字【2026】第8755号）",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225336050.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603718",
+              "secName": "*ST海利",
+              "orgId": "9900023467",
+              "announcementId": "1225336056",
+              "announcementTitle": "湖南泽尔顿新材料有限公司审计报告（希会审字【2026】3909号）",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225336056.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600516",
+          "name": "方大炭素",
+          "announcementCount": 3,
+          "announcements": [
+            {
+              "secCode": "600516",
+              "secName": "方大炭素",
+              "orgId": "gssh0600516",
+              "announcementId": "1225335773",
+              "announcementTitle": "甘肃金城律师事务所关于方大炭素新材料科技股份有限公司2026年第三次临时股东会的法律意见书",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225335773.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600516",
+              "secName": "方大炭素",
+              "orgId": "gssh0600516",
+              "announcementId": "1225325233",
+              "announcementTitle": "方大炭素新材料科技股份有限公司外汇衍生品交易业务管理制度",
+              "announcementTime": 1779465600000,
+              "adjunctUrl": "finalpage/2026-05-23/1225325233.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600516",
+              "secName": "方大炭素",
+              "orgId": "gssh0600516",
+              "announcementId": "1225325231",
+              "announcementTitle": "方大炭素新材料科技股份有限公司关于开展外汇衍生品业务的可行性分析报告",
+              "announcementTime": 1779465600000,
+              "adjunctUrl": "finalpage/2026-05-23/1225325231.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688219",
+          "name": "会通股份",
+          "announcementCount": 3,
+          "announcements": [
+            {
+              "secCode": "688219",
+              "secName": "会通股份",
+              "orgId": "9900041353",
+              "announcementId": "1225333259",
+              "announcementTitle": "会通新材料股份有限公司2025年环境、社会与公司治理（ESG）报告（英文版）",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225333259.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "688219",
+              "secName": "会通股份",
+              "orgId": "9900041353",
+              "announcementId": "1225333422",
+              "announcementTitle": "会通新材料股份有限公司2025年年度股东会决议公告",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225333422.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "688219",
+              "secName": "会通股份",
+              "orgId": "9900041353",
+              "announcementId": "1225333427",
+              "announcementTitle": "北京市中伦律师事务所关于会通新材料股份有限公司2025年年度股东会的法律意见书",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225333427.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603285",
+          "name": "键邦股份",
+          "announcementCount": 3,
+          "announcements": [
+            {
+              "secCode": "603285",
+              "secName": "键邦股份",
+              "orgId": "9900053438",
+              "announcementId": "1225333959",
+              "announcementTitle": "山东键邦新材料股份有限公司关于公司2026年限制性股票激励计划内幕信息知情人买卖公司股票情况的自查报告",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225333959.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603285",
+              "secName": "键邦股份",
+              "orgId": "9900053438",
+              "announcementId": "1225333963",
+              "announcementTitle": "浙江天册律师事务所关于山东键邦新材料股份有限公司2025年年度股东会的法律意见书",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225333963.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603285",
+              "secName": "键邦股份",
+              "orgId": "9900053438",
+              "announcementId": "1225333957",
+              "announcementTitle": "山东键邦新材料股份有限公司2025年年度股东会决议公告",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225333957.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600110",
+          "name": "诺德股份",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "600110",
+              "secName": "诺德股份",
+              "orgId": "gssh0600110",
+              "announcementId": "1225338963",
+              "announcementTitle": "诺德新材料股份有限公司股票交易异常波动公告",
+              "announcementTime": 1780070400000,
+              "adjunctUrl": "finalpage/2026-05-30/1225338963.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600110",
+              "secName": "诺德股份",
+              "orgId": "gssh0600110",
+              "announcementId": "1225326057",
+              "announcementTitle": "诺德新材料股份有限公司关于参与投资设立产业基金暨签订合伙协议的公告",
+              "announcementTime": 1779465600000,
+              "adjunctUrl": "finalpage/2026-05-23/1225326057.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "301216",
+          "name": "万凯<em>新</em>材",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "301216",
+              "secName": "万凯<em>新</em>材",
+              "orgId": "9900046480",
+              "announcementId": "1225338026",
+              "announcementTitle": "关于收购浙江耀瑞兴新材料有限公司100%股权的进展公告",
+              "announcementTime": 1780070400000,
+              "adjunctUrl": "finalpage/2026-05-30/1225338026.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "301216",
+              "secName": "万凯<em>新</em>材",
+              "orgId": "9900046480",
+              "announcementId": "1225338029",
+              "announcementTitle": "北京金杜（杭州）律师事务所关于万凯新材料股份有限公司2026年限制性股票激励计划首次授予相关事项的法律意见书",
+              "announcementTime": 1780070400000,
+              "adjunctUrl": "finalpage/2026-05-30/1225338029.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300995",
+          "name": "奇德<em>新</em>材",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "300995",
+              "secName": "奇德<em>新</em>材",
+              "orgId": "nssc1000230",
+              "announcementId": "1225337891",
+              "announcementTitle": "国信证券股份有限公司关于广东奇德新材料股份有限公司创业板向特定对象发行股票发行过程和认购对象合规性的报告",
+              "announcementTime": 1780044389000,
+              "adjunctUrl": "finalpage/2026-05-29/1225337891.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300995",
+              "secName": "奇德<em>新</em>材",
+              "orgId": "nssc1000230",
+              "announcementId": "1225337892",
+              "announcementTitle": "广东信达律师事务所关于广东奇德新材料股份有限公司向特定对象发行股票发行过程及认购对象合规性的法律意见书",
+              "announcementTime": 1780044389000,
+              "adjunctUrl": "finalpage/2026-05-29/1225337892.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300731",
+          "name": "科创<em>新</em>源",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "300731",
+              "secName": "科创<em>新</em>源",
+              "orgId": "9900034452",
+              "announcementId": "1225336102",
+              "announcementTitle": "关于拟收购东莞市兆科电子材料科技有限公司、ZHIKE TECHNOLOGY PTE.",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225336102.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "300731",
+              "secName": "科创<em>新</em>源",
+              "orgId": "9900034452",
+              "announcementId": "1225336103",
+              "announcementTitle": "拟出售东莞市兆科电子材料科技有限公司及同一控制下公司模拟合并财务报表及审计报告",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225336103.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688093",
+          "name": "世华科技",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "688093",
+              "secName": "世华科技",
+              "orgId": "nssc1000353",
+              "announcementId": "1225336166",
+              "announcementTitle": "北京植德律师事务所关于苏州世华新材料科技股份有限公司2026年第一次临时股东会的法律意见书",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225336166.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "688093",
+              "secName": "世华科技",
+              "orgId": "nssc1000353",
+              "announcementId": "1225336139",
+              "announcementTitle": "华泰联合证券有限责任公司关于苏州世华新材料科技股份有限公司部分募投项目延期及使用募集资金向全资子公司增加借款的核查意见",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225336139.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600458",
+          "name": "时代<em>新</em>材",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "600458",
+              "secName": "时代<em>新</em>材",
+              "orgId": "gssh0600458",
+              "announcementId": "1225336718",
+              "announcementTitle": "湖南启元律师事务所关于株洲时代新材料科技股份有限公司2025年限制性股票激励计划调整及首次授予相关事项的法律意见书",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225336718.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "600458",
+              "secName": "时代<em>新</em>材",
+              "orgId": "gssh0600458",
+              "announcementId": "1225336725",
+              "announcementTitle": "东方财富证券股份有限公司关于株洲时代新材料科技股份有限公司2025年限制性股票激励计划首次授予相关事项之独立财务顾问报告",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225336725.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "605123",
+          "name": "派克<em>新</em>材",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "605123",
+              "secName": "派克<em>新</em>材",
+              "orgId": "9900039842",
+              "announcementId": "1225332799",
+              "announcementTitle": "公证天业会计师事务所（特殊普通合伙）关于无锡派克新材料科技股份有限公司向不特定对象发行可转换公司债券申请文件的审核问询函的回复",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225332799.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "605123",
+              "secName": "派克<em>新</em>材",
+              "orgId": "9900039842",
+              "announcementId": "1225332801",
+              "announcementTitle": "关于无锡派克新材料科技股份有限公司向不特定对象发行可转换公司债券申请文件的审核问询函的回复",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225332801.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "605366",
+          "name": "宏柏<em>新</em>材",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "605366",
+              "secName": "宏柏<em>新</em>材",
+              "orgId": "9900039786",
+              "announcementId": "1225333424",
+              "announcementTitle": "江西宏柏新材料股份有限公司关于使用闲置募集资金进行现金管理到期赎回并继续进行现金管理的公告",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225333424.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "605366",
+              "secName": "宏柏<em>新</em>材",
+              "orgId": "9900039786",
+              "announcementId": "1225330495",
+              "announcementTitle": "江西宏柏新材料股份有限公司关于使用闲置募集资金进行现金管理到期赎回并继续进行现金管理的公告",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225330495.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688148",
+          "name": "芳源股份",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "688148",
+              "secName": "芳源股份",
+              "orgId": "gfbj0839247",
+              "announcementId": "1225330634",
+              "announcementTitle": "北京博星证券投资顾问有限公司关于广东芳源新材料集团股份有限公司2026年限制性股票激励计划调整及授予事项的独立财务顾问报告",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225330634.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "688148",
+              "secName": "芳源股份",
+              "orgId": "gfbj0839247",
+              "announcementId": "1225330637",
+              "announcementTitle": "广东崇立律师事务所关于广东芳源新材料集团股份有限公司2026年限制性股票激励计划调整及授予相关事项的法律意见书",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225330637.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603978",
+          "name": "深圳<em>新</em>星",
+          "announcementCount": 2,
+          "announcements": [
+            {
+              "secCode": "603978",
+              "secName": "深圳<em>新</em>星",
+              "orgId": "9900031492",
+              "announcementId": "1225329490",
+              "announcementTitle": "深圳市新星轻合金材料股份有限公司简式权益变动报告书（股份增加）",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329490.PDF",
+              "adjunctType": "PDF"
+            },
+            {
+              "secCode": "603978",
+              "secName": "深圳<em>新</em>星",
+              "orgId": "9900031492",
+              "announcementId": "1225329481",
+              "announcementTitle": "深圳市新星轻合金材料股份有限公司简式权益变动报告书（股份减少）",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329481.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "301319",
+          "name": "唯特偶",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "301319",
+              "secName": "唯特偶",
+              "orgId": "nssc1000556",
+              "announcementId": "1225340864",
+              "announcementTitle": "深圳市唯特偶新材料股份有限公司特别风险提示公告",
+              "announcementTime": 1780243200000,
+              "adjunctUrl": "finalpage/2026-06-01/1225340864.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603051",
+          "name": "鹿山<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "603051",
+              "secName": "鹿山<em>新</em>材",
+              "orgId": "9900022812",
+              "announcementId": "1225340891",
+              "announcementTitle": "广州鹿山新材料股份有限公司2025年年度股东会会议资料",
+              "announcementTime": 1780243200000,
+              "adjunctUrl": "finalpage/2026-06-01/1225340891.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "600067",
+          "name": "冠城<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "600067",
+              "secName": "冠城<em>新</em>材",
+              "orgId": "gssh0600067",
+              "announcementId": "1225338403",
+              "announcementTitle": "北京大成（福州）律师事务所关于冠城大通新材料股份有限公司2025年度差异化分红之法律意见书",
+              "announcementTime": 1780070400000,
+              "adjunctUrl": "finalpage/2026-05-30/1225338403.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688300",
+          "name": "联瑞<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688300",
+              "secName": "联瑞<em>新</em>材",
+              "orgId": "gfbj0831647",
+              "announcementId": "1225338977",
+              "announcementTitle": "江苏联瑞新材料股份有限公司主体与相关债项2026年度跟踪评级报告",
+              "announcementTime": 1780070400000,
+              "adjunctUrl": "finalpage/2026-05-30/1225338977.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688727",
+          "name": "恒坤<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688727",
+              "secName": "恒坤<em>新</em>材",
+              "orgId": "gfbj0832456",
+              "announcementId": "1225338849",
+              "announcementTitle": "中信建投证券股份有限公司关于厦门恒坤新材料科技股份有限公司对外投资设立合资公司暨关联交易的核查意见",
+              "announcementTime": 1780070400000,
+              "adjunctUrl": "finalpage/2026-05-30/1225338849.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603659",
+          "name": "璞泰来",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "603659",
+              "secName": "璞泰来",
+              "orgId": "9900033054",
+              "announcementId": "1225338249",
+              "announcementTitle": "上海璞泰来新能源科技集团股份有限公司2026年第二次临时股东会会议材料",
+              "announcementTime": 1780070400000,
+              "adjunctUrl": "finalpage/2026-05-30/1225338249.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688560",
+          "name": "明冠<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688560",
+              "secName": "明冠<em>新</em>材",
+              "orgId": "9900037841",
+              "announcementId": "1225338736",
+              "announcementTitle": "北京国枫（深圳）律师事务所关于明冠新材料股份有限公司2025年年度股东会的法律意见书",
+              "announcementTime": 1780070400000,
+              "adjunctUrl": "finalpage/2026-05-30/1225338736.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "301387",
+          "name": "光大同创",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "301387",
+              "secName": "光大同创",
+              "orgId": "9900048801",
+              "announcementId": "1225340627",
+              "announcementTitle": "上海市锦天城(深圳)律师事务所关于深圳光大同创新材料股份有限公司2025年年度股东会的法律意见书",
+              "announcementTime": 1780061015000,
+              "adjunctUrl": "finalpage/2026-05-29/1225340627.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920163",
+          "name": "方大<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920163",
+              "secName": "方大<em>新</em>材",
+              "orgId": "gfbj0838163",
+              "announcementId": "1225339012",
+              "announcementTitle": "北京德恒（石家庄）律师事务所关于河北方大新材料股份有限公司2026年第一次临时股东会的法律意见",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225339012.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300174",
+          "name": "元力股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300174",
+              "secName": "元力股份",
+              "orgId": "9900016310",
+              "announcementId": "1225335745",
+              "announcementTitle": "福建同晟新材料科技股份公司审计报告",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225335745.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688786",
+          "name": "悦安<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688786",
+              "secName": "悦安<em>新</em>材",
+              "orgId": "9900041628",
+              "announcementId": "1225335694",
+              "announcementTitle": "江西悦安新材料股份有限公司2025年年度权益分派实施公告",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225335694.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002290",
+          "name": "禾盛<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002290",
+              "secName": "禾盛<em>新</em>材",
+              "orgId": "9900007968",
+              "announcementId": "1225336325",
+              "announcementTitle": "苏州禾盛新型材料股份有限公司董事会审计委员会关于公司2026年度以简易程序向特定对象发行股票事项的书面审核意见",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225336325.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002565",
+          "name": "顺灏股份",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002565",
+              "secName": "顺灏股份",
+              "orgId": "9900018830",
+              "announcementId": "1225336274",
+              "announcementTitle": "上海正策律师事务所关于上海顺灏新材料科技股份有限公司2025年年度股东大会的法律意见书",
+              "announcementTime": 1779984000000,
+              "adjunctUrl": "finalpage/2026-05-29/1225336274.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "301000",
+          "name": "肇民科技",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "301000",
+              "secName": "肇民科技",
+              "orgId": "nssc1000306",
+              "announcementId": "1225336932",
+              "announcementTitle": "北京德恒（杭州）律师事务所关于上海肇民新材料科技股份有限公司2025 年年度股东会的法律意见",
+              "announcementTime": 1779971864000,
+              "adjunctUrl": "finalpage/2026-05-28/1225336932.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "601336",
+          "name": "<em>新</em>华保险",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "601336",
+              "secName": "<em>新</em>华保险",
+              "orgId": "GD040482",
+              "announcementId": "1225332690",
+              "announcementTitle": "新华保险2025年年度股东会会议材料",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225332690.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "001358",
+          "name": "兴欣<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "001358",
+              "secName": "兴欣<em>新</em>材",
+              "orgId": "9900039470",
+              "announcementId": "1225332590",
+              "announcementTitle": "国盛证券股份有限公司关于绍兴兴欣新材料股份有限公司使用部分超募资金向全资子公司增资实施新项目并将剩余超募资金永久补充流动资金的核查意见",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225332590.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "001373",
+          "name": "翔腾<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "001373",
+              "secName": "翔腾<em>新</em>材",
+              "orgId": "9900051389",
+              "announcementId": "1225333206",
+              "announcementTitle": "光大证券股份有限公司关于江苏翔腾新材料股份有限公司首次公开发行前已发行股份上市流通的核查意见",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225333206.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920118",
+          "name": "太湖远大",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920118",
+              "secName": "太湖远大",
+              "orgId": "9900041895",
+              "announcementId": "1225335562",
+              "announcementTitle": "关于浙江太湖远大新材料股份有限公司2025年年度股东会的法律意见书",
+              "announcementTime": 1779897600000,
+              "adjunctUrl": "finalpage/2026-05-28/1225335562.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688379",
+          "name": "华光<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688379",
+              "secName": "华光<em>新</em>材",
+              "orgId": "9900023922",
+              "announcementId": "1225331353",
+              "announcementTitle": "中国银河证券股份有限公司关于杭州华光焊接新材料股份有限公司股东向特定机构投资者询价转让股份的核查报告",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225331353.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "605377",
+          "name": "华旺科技",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "605377",
+              "secName": "华旺科技",
+              "orgId": "gfbj0832514",
+              "announcementId": "1225330513",
+              "announcementTitle": "杭州华旺新材料科技股份有限公司2025年年度权益分派实施公告",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225330513.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920056",
+          "name": "能之光",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920056",
+              "secName": "能之光",
+              "orgId": "gfbj0871532",
+              "announcementId": "1225333094",
+              "announcementTitle": "德恒上海律师事务所关于宁波能之光新材料科技股份有限公司2025年年度股东会的法律意见书",
+              "announcementTime": 1779811200000,
+              "adjunctUrl": "finalpage/2026-05-27/1225333094.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "301618",
+          "name": "长联科技",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "301618",
+              "secName": "长联科技",
+              "orgId": "gfbj0833667",
+              "announcementId": "1225330612",
+              "announcementTitle": "东莞证券股份有限公司关于东莞长联新材料科技股份有限公司相关股东延长锁定期的核查意见",
+              "announcementTime": 1779790329000,
+              "adjunctUrl": "finalpage/2026-05-26/1225330612.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "003011",
+          "name": "海象<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "003011",
+              "secName": "海象<em>新</em>材",
+              "orgId": "9900039851",
+              "announcementId": "1225328252",
+              "announcementTitle": "浙江海象新材料股份有限公司关于为子公司申请综合授信额度提供担保的进展公告",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225328252.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "605166",
+          "name": "聚合顺",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "605166",
+              "secName": "聚合顺",
+              "orgId": "gfbj0870755",
+              "announcementId": "1225329611",
+              "announcementTitle": "聚合顺新材料股份公司关于使用闲置募集资金进行现金管理部分到期赎回的公告",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329611.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920204",
+          "name": "沪江<em>材料</em>",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920204",
+              "secName": "沪江<em>材料</em>",
+              "orgId": "gfbj0870204",
+              "announcementId": "1225331538",
+              "announcementTitle": "江苏新高的律师事务所关于南京沪江复合材料股份有限公司 2025 年年度股东会的法律意见书",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225331538.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603155",
+          "name": "<em>新</em>亚强",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "603155",
+              "secName": "<em>新</em>亚强",
+              "orgId": "gfbj0835550",
+              "announcementId": "1225329212",
+              "announcementTitle": "2025年年度股东会会议材料",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329212.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "603650",
+          "name": "彤程<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "603650",
+              "secName": "彤程<em>新</em>材",
+              "orgId": "9900035570",
+              "announcementId": "1225328803",
+              "announcementTitle": "上海市锦天城律师事务所关于彤程新材料集团股份有限公司差异化分红事项的法律意见书",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225328803.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688102",
+          "name": "斯瑞<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688102",
+              "secName": "斯瑞<em>新</em>材",
+              "orgId": "9900041727",
+              "announcementId": "1225329331",
+              "announcementTitle": "国浩律师（西安）事务所关于陕西斯瑞新材料股份有限公司2025年年度股东会的法律意见书",
+              "announcementTime": 1779724800000,
+              "adjunctUrl": "finalpage/2026-05-26/1225329331.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300596",
+          "name": "利安隆",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300596",
+              "secName": "利安隆",
+              "orgId": "9900027552",
+              "announcementId": "1225329033",
+              "announcementTitle": "北京市中伦律师事务所关于天津利安隆新材料股份有限公司2025 年年度股东会的法律意见书",
+              "announcementTime": 1779704410000,
+              "adjunctUrl": "finalpage/2026-05-25/1225329033.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920807",
+          "name": "奔朗<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920807",
+              "secName": "奔朗<em>新</em>材",
+              "orgId": "gfbj0836807",
+              "announcementId": "1225328835",
+              "announcementTitle": "北京市康达律师事务所关于广东奔朗新材料股份有限公司2025年年度股东会的法律意见书",
+              "announcementTime": 1779638400000,
+              "adjunctUrl": "finalpage/2026-05-25/1225328835.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688535",
+          "name": "华海诚科",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688535",
+              "secName": "华海诚科",
+              "orgId": "9900032633",
+              "announcementId": "1225328071",
+              "announcementTitle": "江苏华海诚科新材料股份有限公司股东减持股份计划公告",
+              "announcementTime": 1779638400000,
+              "adjunctUrl": "finalpage/2026-05-25/1225328071.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "300537",
+          "name": "广信<em>材料</em>",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "300537",
+              "secName": "广信<em>材料</em>",
+              "orgId": "9900028811",
+              "announcementId": "1225328085",
+              "announcementTitle": "中德证券有限责任公司关于江苏广信感光新材料股份有限公司2021年度向特定对象发行股票之保荐总结报告书",
+              "announcementTime": 1779638400000,
+              "adjunctUrl": "finalpage/2026-05-25/1225328085.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920792",
+          "name": "东和<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920792",
+              "secName": "东和<em>新</em>材",
+              "orgId": "gfbj0839792",
+              "announcementId": "1225329094",
+              "announcementTitle": "北京市京师律师事务所关于辽宁东和新材料股份有限公司2025年年度股东会的法律意见书",
+              "announcementTime": 1779638400000,
+              "adjunctUrl": "finalpage/2026-05-25/1225329094.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "920469",
+          "name": "富恒<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "920469",
+              "secName": "富恒<em>新</em>材",
+              "orgId": "gfbj0832469",
+              "announcementId": "1225328715",
+              "announcementTitle": "国浩律师（北京）事务所关于深圳市富恒新材料股份有限公司 2025年年度股东会之法律意见书",
+              "announcementTime": 1779638400000,
+              "adjunctUrl": "finalpage/2026-05-25/1225328715.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "301149",
+          "name": "隆华<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "301149",
+              "secName": "隆华<em>新</em>材",
+              "orgId": "gfbj0839122",
+              "announcementId": "1225325781",
+              "announcementTitle": "山东文康律师事务所关于山东隆华新材料股份有限公司2025年度股东会的法律意见书",
+              "announcementTime": 1779465600000,
+              "adjunctUrl": "finalpage/2026-05-23/1225325781.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "002946",
+          "name": "<em>新</em>乳业",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "002946",
+              "secName": "<em>新</em>乳业",
+              "orgId": "9900035998",
+              "announcementId": "1225324837",
+              "announcementTitle": "新乳业2025年年度股东会会议材料",
+              "announcementTime": 1779465600000,
+              "adjunctUrl": "finalpage/2026-05-23/1225324837.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        },
+        {
+          "code": "688199",
+          "name": "久日<em>新</em>材",
+          "announcementCount": 1,
+          "announcements": [
+            {
+              "secCode": "688199",
+              "secName": "久日<em>新</em>材",
+              "orgId": "9900024207",
+              "announcementId": "1225326736",
+              "announcementTitle": "北京市中伦（上海）律师事务所关于天津久日新材料股份有限公司2025年年度股东会的法律意见书",
+              "announcementTime": 1779465600000,
+              "adjunctUrl": "finalpage/2026-05-23/1225326736.PDF",
+              "adjunctType": "PDF"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

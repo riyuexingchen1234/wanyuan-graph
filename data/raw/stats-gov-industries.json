@@ -1,0 +1,2223 @@
+{
+  "nodes": [
+    {
+      "id": "industry-c-制造业",
+      "name": "制造业",
+      "definition": "国民经济行业分类（GB/T 4754-2017）门类：制造业（行业代码 C）。",
+      "node_type": "industry",
+      "parent_type": null,
+      "aliases": [
+        {
+          "term": "C",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）门类：制造业（C）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.464Z"
+        }
+      ],
+      "raw_data": {
+        "code": "C",
+        "name": "制造业",
+        "level": 1,
+        "levelName": "门类",
+        "parentCode": null
+      }
+    },
+    {
+      "id": "industry-26-化学原料和化学制品制造业",
+      "name": "化学原料和化学制品制造业",
+      "definition": "国民经济行业分类（GB/T 4754-2017）大类：化学原料和化学制品制造业（行业代码 26）。",
+      "node_type": "industry",
+      "parent_type": "industry_门类",
+      "aliases": [
+        {
+          "term": "26",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）大类：化学原料和化学制品制造业（26）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "26",
+        "name": "化学原料和化学制品制造业",
+        "level": 2,
+        "levelName": "大类",
+        "parentCode": "C"
+      }
+    },
+    {
+      "id": "industry-32-有色金属冶炼和压延加工业",
+      "name": "有色金属冶炼和压延加工业",
+      "definition": "国民经济行业分类（GB/T 4754-2017）大类：有色金属冶炼和压延加工业（行业代码 32）。",
+      "node_type": "industry",
+      "parent_type": "industry_门类",
+      "aliases": [
+        {
+          "term": "32",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）大类：有色金属冶炼和压延加工业（32）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "32",
+        "name": "有色金属冶炼和压延加工业",
+        "level": 2,
+        "levelName": "大类",
+        "parentCode": "C"
+      }
+    },
+    {
+      "id": "industry-38-电气机械和器材制造业",
+      "name": "电气机械和器材制造业",
+      "definition": "国民经济行业分类（GB/T 4754-2017）大类：电气机械和器材制造业（行业代码 38）。",
+      "node_type": "industry",
+      "parent_type": "industry_门类",
+      "aliases": [
+        {
+          "term": "38",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）大类：电气机械和器材制造业（38）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "38",
+        "name": "电气机械和器材制造业",
+        "level": 2,
+        "levelName": "大类",
+        "parentCode": "C"
+      }
+    },
+    {
+      "id": "industry-261-基础化学原料制造",
+      "name": "基础化学原料制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）中类：基础化学原料制造（行业代码 261）。",
+      "node_type": "industry",
+      "parent_type": "industry_大类",
+      "aliases": [
+        {
+          "term": "261",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）中类：基础化学原料制造（261）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "261",
+        "name": "基础化学原料制造",
+        "level": 3,
+        "levelName": "中类",
+        "parentCode": "26"
+      }
+    },
+    {
+      "id": "industry-262-肥料制造",
+      "name": "肥料制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）中类：肥料制造（行业代码 262）。",
+      "node_type": "industry",
+      "parent_type": "industry_大类",
+      "aliases": [
+        {
+          "term": "262",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）中类：肥料制造（262）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "262",
+        "name": "肥料制造",
+        "level": 3,
+        "levelName": "中类",
+        "parentCode": "26"
+      }
+    },
+    {
+      "id": "industry-263-农药制造",
+      "name": "农药制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）中类：农药制造（行业代码 263）。",
+      "node_type": "industry",
+      "parent_type": "industry_大类",
+      "aliases": [
+        {
+          "term": "263",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）中类：农药制造（263）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "263",
+        "name": "农药制造",
+        "level": 3,
+        "levelName": "中类",
+        "parentCode": "26"
+      }
+    },
+    {
+      "id": "industry-264-涂料油墨颜料及类似产品制造",
+      "name": "涂料、油墨、颜料及类似产品制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）中类：涂料、油墨、颜料及类似产品制造（行业代码 264）。",
+      "node_type": "industry",
+      "parent_type": "industry_大类",
+      "aliases": [
+        {
+          "term": "264",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）中类：涂料、油墨、颜料及类似产品制造（264）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "264",
+        "name": "涂料、油墨、颜料及类似产品制造",
+        "level": 3,
+        "levelName": "中类",
+        "parentCode": "26"
+      }
+    },
+    {
+      "id": "industry-265-合成材料制造",
+      "name": "合成材料制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）中类：合成材料制造（行业代码 265）。",
+      "node_type": "industry",
+      "parent_type": "industry_大类",
+      "aliases": [
+        {
+          "term": "265",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）中类：合成材料制造（265）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "265",
+        "name": "合成材料制造",
+        "level": 3,
+        "levelName": "中类",
+        "parentCode": "26"
+      }
+    },
+    {
+      "id": "industry-266-专用化学产品制造",
+      "name": "专用化学产品制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）中类：专用化学产品制造（行业代码 266）。",
+      "node_type": "industry",
+      "parent_type": "industry_大类",
+      "aliases": [
+        {
+          "term": "266",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）中类：专用化学产品制造（266）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "266",
+        "name": "专用化学产品制造",
+        "level": 3,
+        "levelName": "中类",
+        "parentCode": "26"
+      }
+    },
+    {
+      "id": "industry-267-炸药火工及焰火产品制造",
+      "name": "炸药、火工及焰火产品制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）中类：炸药、火工及焰火产品制造（行业代码 267）。",
+      "node_type": "industry",
+      "parent_type": "industry_大类",
+      "aliases": [
+        {
+          "term": "267",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）中类：炸药、火工及焰火产品制造（267）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "267",
+        "name": "炸药、火工及焰火产品制造",
+        "level": 3,
+        "levelName": "中类",
+        "parentCode": "26"
+      }
+    },
+    {
+      "id": "industry-268-日用化学产品制造",
+      "name": "日用化学产品制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）中类：日用化学产品制造（行业代码 268）。",
+      "node_type": "industry",
+      "parent_type": "industry_大类",
+      "aliases": [
+        {
+          "term": "268",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）中类：日用化学产品制造（268）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "268",
+        "name": "日用化学产品制造",
+        "level": 3,
+        "levelName": "中类",
+        "parentCode": "26"
+      }
+    },
+    {
+      "id": "industry-321-常用有色金属冶炼",
+      "name": "常用有色金属冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）中类：常用有色金属冶炼（行业代码 321）。",
+      "node_type": "industry",
+      "parent_type": "industry_大类",
+      "aliases": [
+        {
+          "term": "321",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）中类：常用有色金属冶炼（321）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "321",
+        "name": "常用有色金属冶炼",
+        "level": 3,
+        "levelName": "中类",
+        "parentCode": "32"
+      }
+    },
+    {
+      "id": "industry-322-贵金属冶炼",
+      "name": "贵金属冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）中类：贵金属冶炼（行业代码 322）。",
+      "node_type": "industry",
+      "parent_type": "industry_大类",
+      "aliases": [
+        {
+          "term": "322",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）中类：贵金属冶炼（322）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "322",
+        "name": "贵金属冶炼",
+        "level": 3,
+        "levelName": "中类",
+        "parentCode": "32"
+      }
+    },
+    {
+      "id": "industry-323-稀有稀土金属冶炼",
+      "name": "稀有稀土金属冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）中类：稀有稀土金属冶炼（行业代码 323）。",
+      "node_type": "industry",
+      "parent_type": "industry_大类",
+      "aliases": [
+        {
+          "term": "323",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）中类：稀有稀土金属冶炼（323）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "323",
+        "name": "稀有稀土金属冶炼",
+        "level": 3,
+        "levelName": "中类",
+        "parentCode": "32"
+      }
+    },
+    {
+      "id": "industry-324-有色金属合金制造",
+      "name": "有色金属合金制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）中类：有色金属合金制造（行业代码 324）。",
+      "node_type": "industry",
+      "parent_type": "industry_大类",
+      "aliases": [
+        {
+          "term": "324",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）中类：有色金属合金制造（324）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "324",
+        "name": "有色金属合金制造",
+        "level": 3,
+        "levelName": "中类",
+        "parentCode": "32"
+      }
+    },
+    {
+      "id": "industry-325-有色金属压延加工",
+      "name": "有色金属压延加工",
+      "definition": "国民经济行业分类（GB/T 4754-2017）中类：有色金属压延加工（行业代码 325）。",
+      "node_type": "industry",
+      "parent_type": "industry_大类",
+      "aliases": [
+        {
+          "term": "325",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）中类：有色金属压延加工（325）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "325",
+        "name": "有色金属压延加工",
+        "level": 3,
+        "levelName": "中类",
+        "parentCode": "32"
+      }
+    },
+    {
+      "id": "industry-382-输配电及控制设备制造",
+      "name": "输配电及控制设备制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）中类：输配电及控制设备制造（行业代码 382）。",
+      "node_type": "industry",
+      "parent_type": "industry_大类",
+      "aliases": [
+        {
+          "term": "382",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）中类：输配电及控制设备制造（382）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "382",
+        "name": "输配电及控制设备制造",
+        "level": 3,
+        "levelName": "中类",
+        "parentCode": "38"
+      }
+    },
+    {
+      "id": "industry-384-电池制造",
+      "name": "电池制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）中类：电池制造（行业代码 384）。",
+      "node_type": "industry",
+      "parent_type": "industry_大类",
+      "aliases": [
+        {
+          "term": "384",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）中类：电池制造（384）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "384",
+        "name": "电池制造",
+        "level": 3,
+        "levelName": "中类",
+        "parentCode": "38"
+      }
+    },
+    {
+      "id": "industry-2611-无机酸制造",
+      "name": "无机酸制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：无机酸制造（行业代码 2611）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2611",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：无机酸制造（2611）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2611",
+        "name": "无机酸制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "261"
+      }
+    },
+    {
+      "id": "industry-2612-无机碱制造",
+      "name": "无机碱制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：无机碱制造（行业代码 2612）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2612",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：无机碱制造（2612）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2612",
+        "name": "无机碱制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "261"
+      }
+    },
+    {
+      "id": "industry-2613-无机盐制造",
+      "name": "无机盐制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：无机盐制造（行业代码 2613）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2613",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：无机盐制造（2613）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2613",
+        "name": "无机盐制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "261"
+      }
+    },
+    {
+      "id": "industry-2614-有机化学原料制造",
+      "name": "有机化学原料制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：有机化学原料制造（行业代码 2614）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2614",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：有机化学原料制造（2614）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2614",
+        "name": "有机化学原料制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "261"
+      }
+    },
+    {
+      "id": "industry-2619-其他基础化学原料制造",
+      "name": "其他基础化学原料制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：其他基础化学原料制造（行业代码 2619）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2619",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：其他基础化学原料制造（2619）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2619",
+        "name": "其他基础化学原料制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "261"
+      }
+    },
+    {
+      "id": "industry-2621-氮肥制造",
+      "name": "氮肥制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：氮肥制造（行业代码 2621）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2621",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：氮肥制造（2621）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2621",
+        "name": "氮肥制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "262"
+      }
+    },
+    {
+      "id": "industry-2622-磷肥制造",
+      "name": "磷肥制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：磷肥制造（行业代码 2622）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2622",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：磷肥制造（2622）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2622",
+        "name": "磷肥制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "262"
+      }
+    },
+    {
+      "id": "industry-2623-钾肥制造",
+      "name": "钾肥制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：钾肥制造（行业代码 2623）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2623",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：钾肥制造（2623）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2623",
+        "name": "钾肥制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "262"
+      }
+    },
+    {
+      "id": "industry-2624-复混肥料制造",
+      "name": "复混肥料制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：复混肥料制造（行业代码 2624）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2624",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：复混肥料制造（2624）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2624",
+        "name": "复混肥料制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "262"
+      }
+    },
+    {
+      "id": "industry-2625-有机肥料及微生物肥料制造",
+      "name": "有机肥料及微生物肥料制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：有机肥料及微生物肥料制造（行业代码 2625）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2625",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：有机肥料及微生物肥料制造（2625）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2625",
+        "name": "有机肥料及微生物肥料制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "262"
+      }
+    },
+    {
+      "id": "industry-2629-其他肥料制造",
+      "name": "其他肥料制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：其他肥料制造（行业代码 2629）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2629",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：其他肥料制造（2629）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2629",
+        "name": "其他肥料制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "262"
+      }
+    },
+    {
+      "id": "industry-2631-化学农药制造",
+      "name": "化学农药制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：化学农药制造（行业代码 2631）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2631",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：化学农药制造（2631）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2631",
+        "name": "化学农药制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "263"
+      }
+    },
+    {
+      "id": "industry-2632-生物化学农药及微生物农药制造",
+      "name": "生物化学农药及微生物农药制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：生物化学农药及微生物农药制造（行业代码 2632）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2632",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：生物化学农药及微生物农药制造（2632）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2632",
+        "name": "生物化学农药及微生物农药制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "263"
+      }
+    },
+    {
+      "id": "industry-2641-涂料制造",
+      "name": "涂料制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：涂料制造（行业代码 2641）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2641",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：涂料制造（2641）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2641",
+        "name": "涂料制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "264"
+      }
+    },
+    {
+      "id": "industry-2642-油墨及类似产品制造",
+      "name": "油墨及类似产品制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：油墨及类似产品制造（行业代码 2642）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2642",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：油墨及类似产品制造（2642）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2642",
+        "name": "油墨及类似产品制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "264"
+      }
+    },
+    {
+      "id": "industry-2643-工业颜料制造",
+      "name": "工业颜料制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：工业颜料制造（行业代码 2643）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2643",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：工业颜料制造（2643）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2643",
+        "name": "工业颜料制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "264"
+      }
+    },
+    {
+      "id": "industry-2644-工艺美术颜料制造",
+      "name": "工艺美术颜料制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：工艺美术颜料制造（行业代码 2644）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2644",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：工艺美术颜料制造（2644）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2644",
+        "name": "工艺美术颜料制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "264"
+      }
+    },
+    {
+      "id": "industry-2645-染料制造",
+      "name": "染料制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：染料制造（行业代码 2645）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2645",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：染料制造（2645）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2645",
+        "name": "染料制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "264"
+      }
+    },
+    {
+      "id": "industry-2646-密封用填料及类似品制造",
+      "name": "密封用填料及类似品制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：密封用填料及类似品制造（行业代码 2646）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2646",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：密封用填料及类似品制造（2646）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2646",
+        "name": "密封用填料及类似品制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "264"
+      }
+    },
+    {
+      "id": "industry-2651-初级形态塑料及合成树脂制造",
+      "name": "初级形态塑料及合成树脂制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：初级形态塑料及合成树脂制造（行业代码 2651）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2651",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：初级形态塑料及合成树脂制造（2651）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2651",
+        "name": "初级形态塑料及合成树脂制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "265"
+      }
+    },
+    {
+      "id": "industry-2652-合成橡胶制造",
+      "name": "合成橡胶制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：合成橡胶制造（行业代码 2652）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2652",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：合成橡胶制造（2652）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2652",
+        "name": "合成橡胶制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "265"
+      }
+    },
+    {
+      "id": "industry-2653-合成纤维单-聚合-体制造",
+      "name": "合成纤维单(聚合)体制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：合成纤维单(聚合)体制造（行业代码 2653）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2653",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：合成纤维单(聚合)体制造（2653）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2653",
+        "name": "合成纤维单(聚合)体制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "265"
+      }
+    },
+    {
+      "id": "industry-2659-其他合成材料制造",
+      "name": "其他合成材料制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：其他合成材料制造（行业代码 2659）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2659",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：其他合成材料制造（2659）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2659",
+        "name": "其他合成材料制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "265"
+      }
+    },
+    {
+      "id": "industry-2661-化学试剂和助剂制造",
+      "name": "化学试剂和助剂制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：化学试剂和助剂制造（行业代码 2661）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2661",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：化学试剂和助剂制造（2661）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2661",
+        "name": "化学试剂和助剂制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "266"
+      }
+    },
+    {
+      "id": "industry-2662-专项化学用品制造",
+      "name": "专项化学用品制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：专项化学用品制造（行业代码 2662）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2662",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：专项化学用品制造（2662）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2662",
+        "name": "专项化学用品制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "266"
+      }
+    },
+    {
+      "id": "industry-2663-林产化学产品制造",
+      "name": "林产化学产品制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：林产化学产品制造（行业代码 2663）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2663",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：林产化学产品制造（2663）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2663",
+        "name": "林产化学产品制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "266"
+      }
+    },
+    {
+      "id": "industry-2664-文化用信息化学品制造",
+      "name": "文化用信息化学品制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：文化用信息化学品制造（行业代码 2664）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2664",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：文化用信息化学品制造（2664）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2664",
+        "name": "文化用信息化学品制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "266"
+      }
+    },
+    {
+      "id": "industry-2665-医学生产用信息化学品制造",
+      "name": "医学生产用信息化学品制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：医学生产用信息化学品制造（行业代码 2665）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2665",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：医学生产用信息化学品制造（2665）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2665",
+        "name": "医学生产用信息化学品制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "266"
+      }
+    },
+    {
+      "id": "industry-2666-环境污染处理专用药剂材料制造",
+      "name": "环境污染处理专用药剂材料制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：环境污染处理专用药剂材料制造（行业代码 2666）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2666",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：环境污染处理专用药剂材料制造（2666）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2666",
+        "name": "环境污染处理专用药剂材料制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "266"
+      }
+    },
+    {
+      "id": "industry-2667-动物胶制造",
+      "name": "动物胶制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：动物胶制造（行业代码 2667）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2667",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：动物胶制造（2667）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2667",
+        "name": "动物胶制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "266"
+      }
+    },
+    {
+      "id": "industry-2669-其他专用化学产品制造",
+      "name": "其他专用化学产品制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：其他专用化学产品制造（行业代码 2669）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2669",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：其他专用化学产品制造（2669）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2669",
+        "name": "其他专用化学产品制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "266"
+      }
+    },
+    {
+      "id": "industry-2671-炸药及火工产品制造",
+      "name": "炸药及火工产品制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：炸药及火工产品制造（行业代码 2671）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2671",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：炸药及火工产品制造（2671）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2671",
+        "name": "炸药及火工产品制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "267"
+      }
+    },
+    {
+      "id": "industry-2672-焰火鞭炮产品制造",
+      "name": "焰火、鞭炮产品制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：焰火、鞭炮产品制造（行业代码 2672）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2672",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：焰火、鞭炮产品制造（2672）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2672",
+        "name": "焰火、鞭炮产品制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "267"
+      }
+    },
+    {
+      "id": "industry-2681-肥皂及洗涤剂制造",
+      "name": "肥皂及洗涤剂制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：肥皂及洗涤剂制造（行业代码 2681）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2681",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：肥皂及洗涤剂制造（2681）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2681",
+        "name": "肥皂及洗涤剂制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "268"
+      }
+    },
+    {
+      "id": "industry-2682-化妆品制造",
+      "name": "化妆品制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：化妆品制造（行业代码 2682）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2682",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：化妆品制造（2682）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2682",
+        "name": "化妆品制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "268"
+      }
+    },
+    {
+      "id": "industry-2683-口腔清洁用品制造",
+      "name": "口腔清洁用品制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：口腔清洁用品制造（行业代码 2683）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2683",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：口腔清洁用品制造（2683）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2683",
+        "name": "口腔清洁用品制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "268"
+      }
+    },
+    {
+      "id": "industry-2684-香料香精制造",
+      "name": "香料、香精制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：香料、香精制造（行业代码 2684）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2684",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：香料、香精制造（2684）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2684",
+        "name": "香料、香精制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "268"
+      }
+    },
+    {
+      "id": "industry-2689-其他日用化学产品制造",
+      "name": "其他日用化学产品制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：其他日用化学产品制造（行业代码 2689）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "2689",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：其他日用化学产品制造（2689）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "2689",
+        "name": "其他日用化学产品制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "268"
+      }
+    },
+    {
+      "id": "industry-3211-铜冶炼",
+      "name": "铜冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：铜冶炼（行业代码 3211）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3211",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：铜冶炼（3211）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3211",
+        "name": "铜冶炼",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "321"
+      }
+    },
+    {
+      "id": "industry-3212-铅锌冶炼",
+      "name": "铅锌冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：铅锌冶炼（行业代码 3212）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3212",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：铅锌冶炼（3212）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3212",
+        "name": "铅锌冶炼",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "321"
+      }
+    },
+    {
+      "id": "industry-3213-镍钴冶炼",
+      "name": "镍钴冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：镍钴冶炼（行业代码 3213）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3213",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：镍钴冶炼（3213）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3213",
+        "name": "镍钴冶炼",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "321"
+      }
+    },
+    {
+      "id": "industry-3214-锡冶炼",
+      "name": "锡冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：锡冶炼（行业代码 3214）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3214",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：锡冶炼（3214）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3214",
+        "name": "锡冶炼",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "321"
+      }
+    },
+    {
+      "id": "industry-3215-锑冶炼",
+      "name": "锑冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：锑冶炼（行业代码 3215）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3215",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：锑冶炼（3215）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3215",
+        "name": "锑冶炼",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "321"
+      }
+    },
+    {
+      "id": "industry-3216-铝冶炼",
+      "name": "铝冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：铝冶炼（行业代码 3216）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3216",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：铝冶炼（3216）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3216",
+        "name": "铝冶炼",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "321"
+      }
+    },
+    {
+      "id": "industry-3217-镁冶炼",
+      "name": "镁冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：镁冶炼（行业代码 3217）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3217",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：镁冶炼（3217）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3217",
+        "name": "镁冶炼",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "321"
+      }
+    },
+    {
+      "id": "industry-3218-硅冶炼",
+      "name": "硅冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：硅冶炼（行业代码 3218）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3218",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：硅冶炼（3218）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3218",
+        "name": "硅冶炼",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "321"
+      }
+    },
+    {
+      "id": "industry-3219-其他常用有色金属冶炼",
+      "name": "其他常用有色金属冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：其他常用有色金属冶炼（行业代码 3219）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3219",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：其他常用有色金属冶炼（3219）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3219",
+        "name": "其他常用有色金属冶炼",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "321"
+      }
+    },
+    {
+      "id": "industry-3221-金冶炼",
+      "name": "金冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：金冶炼（行业代码 3221）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3221",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：金冶炼（3221）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3221",
+        "name": "金冶炼",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "322"
+      }
+    },
+    {
+      "id": "industry-3222-银冶炼",
+      "name": "银冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：银冶炼（行业代码 3222）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3222",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：银冶炼（3222）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3222",
+        "name": "银冶炼",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "322"
+      }
+    },
+    {
+      "id": "industry-3229-其他贵金属冶炼",
+      "name": "其他贵金属冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：其他贵金属冶炼（行业代码 3229）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3229",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：其他贵金属冶炼（3229）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3229",
+        "name": "其他贵金属冶炼",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "322"
+      }
+    },
+    {
+      "id": "industry-3231-钨钼冶炼",
+      "name": "钨钼冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：钨钼冶炼（行业代码 3231）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3231",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：钨钼冶炼（3231）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3231",
+        "name": "钨钼冶炼",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "323"
+      }
+    },
+    {
+      "id": "industry-3232-稀土金属冶炼",
+      "name": "稀土金属冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：稀土金属冶炼（行业代码 3232）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3232",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：稀土金属冶炼（3232）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3232",
+        "name": "稀土金属冶炼",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "323"
+      }
+    },
+    {
+      "id": "industry-3239-其他稀有金属冶炼",
+      "name": "其他稀有金属冶炼",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：其他稀有金属冶炼（行业代码 3239）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3239",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：其他稀有金属冶炼（3239）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3239",
+        "name": "其他稀有金属冶炼",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "323"
+      }
+    },
+    {
+      "id": "industry-3251-铜压延加工",
+      "name": "铜压延加工",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：铜压延加工（行业代码 3251）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3251",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：铜压延加工（3251）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3251",
+        "name": "铜压延加工",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "325"
+      }
+    },
+    {
+      "id": "industry-3252-铝压延加工",
+      "name": "铝压延加工",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：铝压延加工（行业代码 3252）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3252",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：铝压延加工（3252）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3252",
+        "name": "铝压延加工",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "325"
+      }
+    },
+    {
+      "id": "industry-3253-贵金属压延加工",
+      "name": "贵金属压延加工",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：贵金属压延加工（行业代码 3253）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3253",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：贵金属压延加工（3253）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3253",
+        "name": "贵金属压延加工",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "325"
+      }
+    },
+    {
+      "id": "industry-3254-稀有稀土金属压延加工",
+      "name": "稀有稀土金属压延加工",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：稀有稀土金属压延加工（行业代码 3254）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3254",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：稀有稀土金属压延加工（3254）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3254",
+        "name": "稀有稀土金属压延加工",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "325"
+      }
+    },
+    {
+      "id": "industry-3259-其他有色金属压延加工",
+      "name": "其他有色金属压延加工",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：其他有色金属压延加工（行业代码 3259）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3259",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：其他有色金属压延加工（3259）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3259",
+        "name": "其他有色金属压延加工",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "325"
+      }
+    },
+    {
+      "id": "industry-3825-光伏设备及元器件制造",
+      "name": "光伏设备及元器件制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：光伏设备及元器件制造（行业代码 3825）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3825",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：光伏设备及元器件制造（3825）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3825",
+        "name": "光伏设备及元器件制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "382"
+      }
+    },
+    {
+      "id": "industry-3841-锂离子电池制造",
+      "name": "锂离子电池制造",
+      "definition": "国民经济行业分类（GB/T 4754-2017）小类：锂离子电池制造（行业代码 3841）。",
+      "node_type": "industry",
+      "parent_type": "industry_中类",
+      "aliases": [
+        {
+          "term": "3841",
+          "context": "GB/T 4754-2017 行业代码"
+        }
+      ],
+      "sources": [
+        {
+          "source_type": "official_data",
+          "description": "国家统计局 - 国民经济行业分类（GB/T 4754-2017）小类：锂离子电池制造（3841）",
+          "url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+          "retrieved_at": "2026-06-24T07:30:59.465Z"
+        }
+      ],
+      "raw_data": {
+        "code": "3841",
+        "name": "锂离子电池制造",
+        "level": 4,
+        "levelName": "小类",
+        "parentCode": "384"
+      }
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "source": "国家统计局官网",
+    "source_url": "https://www.stats.gov.cn/sj/tjbz/gmjjhyfl/",
+    "crawled_at": "2026-06-24T07:30:59.465Z",
+    "record_count": 79
+  }
+}
