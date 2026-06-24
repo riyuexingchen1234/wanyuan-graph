@@ -1,9 +1,180 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "万源图谱数据模型",
-  "description": "多关系类型产业链图谱数据模型。节点是唯一实体，不绑定坐标系；关系有方向、有类型，每种类型构成一条独立链路。",
+  "title": "万源图谱 - 数据本体 Schema",
+  "description": "定义图谱核心数据资产的结构。v0.2 新增第一阶段最小录入标准（name/definition/node_type/parent_type）与开放的 relation_type 体系，呼应'关系类型不止两类'的修正。呈现层（网站/API/分支产品）应消费此结构，而非自行定义数据格式。",
+  "version": "0.2.0",
+
+  "definitions": {
+
+    "Node": {
+      "type": "object",
+      "description": "图谱节点。节点本身只回答'这是什么'，不携带它属于哪个行业/坐标系的标签——那是关系（边）该表达的事。一个节点可以同时出现在物理流动链、材料属性延伸网等任意数量的关系类型中，这些归属由 Edge 决定，不写在 Node 上。",
+      "required": ["id", "name", "definition", "node_type", "stage", "created_at", "updated_at"],
+      "properties": {
+
+        "id": {
+          "type": "string",
+          "description": "全局唯一标识，建议格式 type-slug，例如 material-polyethylene、material-hdpe、industry-photovoltaic"
+        },
+
+        "name": {
+          "type": "string",
+          "description": "节点的标准/规范名称（统一语言下的名称，不是行话俗名）"
+        },
+
+        "definition": {
+          "type": "string",
+          "description": "【第一阶段必填】一句精确定义，解决的不是'这个东西有什么特性'，是'这个名称在本图谱里精确对应到哪一个具体的概念边界'。例如：聚乙烯——指乙烯单体聚合而成的热塑性聚合物材料的统称，不特指某一密度规格。必须摘录自权威来源，不能是凭感觉写的描述。"
+        },
+
+        "node_type": {
+          "type": "string",
+          "enum": ["material", "process", "equipment", "product", "industry", "entity"],
+          "description": "节点的本体类型：材料 / 工艺 / 设备 / 产品(具体物品，如电池隔膜) / 行业(归类型节点，如'光伏') / entity(具体经营实体，如某家工厂，预留)。industry 和 entity 是归类/具体实体类节点，material/process/equipment/product 是具体客观实体节点，两类性质不同，不要混淆。"
+        },
+
+        "stage": {
+          "type": "string",
+          "enum": ["draft", "reviewed"],
+          "description": "节点本身的录入阶段，不要与 Edge 的 verification_status 混淆。draft = 第一阶段批量录入，仅完成 name/definition/node_type/parent_type，存在性显而易见但尚未审核细节；reviewed = 已经过人工确认，可以挂载 attributes、aliases、sources 等更完整信息。第一阶段的产出全部应为 draft。"
+        },
+
+        "parent_type": {
+          "type": ["string", "null"],
+          "description": "若本节点是另一个节点的子类/细分类型（如'高密度聚乙烯'是'聚乙烯'的子类），填写父节点的 id。这是一种分类学关系，通过这个字段直接表达，不要为此创建一条 is_subtype_of 的 Edge——子类关系是节点自身结构的一部分,边留给真正的功能性连接（流动、延伸、相似）。若本节点已是顶层大类，留 null，不要为了填充而强行找一个上位概念。"
+        },
+
+        "aliases": {
+          "type": "array",
+          "description": "行话/俗名映射层。同一事物在不同行业、不同地区的别称。这是打破'同物异名'壁垒的关键字段。第一阶段如有现成别名可顺手记录，非必填。",
+          "items": {
+            "type": "object",
+            "required": ["term"],
+            "properties": {
+              "term": { "type": "string", "description": "别名/俗称，例如'亚克力'、'PP板'" },
+              "context": { "type": "string", "description": "使用该别称的行业或地区语境，例如'建材行业'、'华南地区'" },
+              "note": { "type": "string", "description": "可选：该别称使用时的歧义提醒，例如该词在某语境下可能指代不同物质" }
+            }
+          }
+        },
+
+        "attributes": {
+          "type": "object",
+          "description": "客观属性层【第二阶段填充，第一阶段留空】。仅描述定性的、影响应用场景判断的特性标签，不记录精确数值（如熔点92°C），因为精确数值属于专业材料数据库的专长领域，容易在不同来源间互相矛盾、核实成本高，且偏离本项目'呈现连接'的核心任务。",
+          "properties": {
+            "physical": {
+              "type": "object",
+              "description": "定性物理特性，例如 { \"质感\": \"质轻、可漂浮\", \"耐温表现\": \"耐低温性能好，常温下稳定\" }，不是精确数值",
+              "additionalProperties": { "type": "string" }
+            },
+            "chemical": {
+              "type": "object",
+              "description": "化学属性，例如耐腐蚀性、可降解性",
+              "additionalProperties": { "type": "string" }
+            },
+            "process_capability": {
+              "type": "object",
+              "description": "工艺/设备能力范围的定性描述。仅 process/equipment 类型节点适用。",
+              "additionalProperties": { "type": "string" }
+            },
+            "cost_tier": {
+              "type": "string",
+              "description": "成本区间的粗粒度描述（如'低/中/高'），避免精确数字造成误导性的商业判断"
+            }
+          }
+        },
+
+        "description": {
+          "type": "string",
+          "description": "【第二阶段，可选】比 definition 更长的客观说明，不带价值判断。第一阶段不要求。"
+        },
+
+        "sources": {
+          "type": "array",
+          "description": "支撑 definition（以及后续 attributes）的来源依据。第一阶段至少应有一条来源支撑 definition，哪怕只是一个百科/权威站点链接；第二阶段补充更细的属性时，来源要求随之提高（参见设计方案文档的数据来源边界）。",
+          "items": { "$ref": "#/definitions/Source" }
+        },
+
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      }
+    },
+
+    "Edge": {
+      "type": "object",
+      "description": "图谱连接，表达节点之间真实存在或被提出的功能性关系。relation_type 是开放列表，不是穷尽分类——当前已知的类型按性质分为三组：分类学关系（节点结构自身处理，不放在这里）、物理流动关系、属性延伸/相似关系。未来遇到新性质的关系（如资金、技术传承、地理聚集），直接在枚举里新增，不需要改动整体结构。",
+      "required": ["id", "source", "target", "relation_type", "verification_status", "created_at", "updated_at"],
+      "properties": {
+
+        "id": { "type": "string", "description": "全局唯一标识" },
+
+        "source": { "type": "string", "description": "起点节点 id" },
+        "target": { "type": "string", "description": "终点节点 id" },
+
+        "relation_type": {
+          "type": "string",
+          "enum": [
+            "upstream_of",
+            "downstream_of",
+            "raw_material_for",
+            "equipment_for",
+            "consumable_for",
+            "can_be_processed_into",
+            "applied_in",
+            "structurally_similar_to",
+            "made_of"
+          ],
+          "description": "当前已知关系类型（开放列表，可随时扩展新值）。【优先级规则】raw_material_for/equipment_for/consumable_for 等细分类型应优先使用；upstream_of/downstream_of 是泛化的物理流动兜底类型，仅在一条关系明确属于物理流动性质、但又不属于任何已有细分类型时使用——它们不是被废弃，而是'暂未被细分命名的关系'的过渡占位，不应作为默认首选，避免同一性质的关系因颗粒度选择不一致而破坏图谱内部一致性。具体含义：upstream_of/downstream_of=泛化的产业链上下游（兜底）；raw_material_for=作为原料供给；equipment_for=作为设备供给；consumable_for=作为耗材供给；can_be_processed_into=材料经工艺产出某物；applied_in=被用于某应用/场景；structurally_similar_to=横向相似性（同层跳转，潜在发现的主要载体）；made_of=由某材料构成。raw_material_for/equipment_for/consumable_for 是'物理流动链'的细分类型，对应一个节点同时挂在原料链/设备链/耗材链等不同链路上的现象。"
+        },
+
+        "verification_status": {
+          "type": "string",
+          "enum": ["verified", "proposed"],
+          "description": "verified=已有真实案例验证，且至少一条 evidence 回溯到一级来源；proposed=有依据支持但尚未验证的潜在可能性。这是图谱可信度的核心字段，禁止默认值，每条边必须显式声明。AI 不得自行将一条边标记为 verified——这个判断权必须由人执行。"
+        },
+
+        "evidence": {
+          "type": "array",
+          "description": "支撑这条连接的证据列表。verified 状态的边必须至少有一条 evidence，且应优先回溯到一级来源（官方标准、官方统计如投入产出表、招投标公示等），二三级来源（百科、媒体转述）仅可作为交叉印证参考。proposed 状态的边应说明提出依据（即便依据是推理而非案例）。",
+          "items": { "$ref": "#/definitions/Source" },
+          "minItems": 0
+        },
+
+        "proposed_by": {
+          "type": "object",
+          "description": "仅 proposed 状态适用：记录该假设的提出方式",
+          "properties": {
+            "method": { "type": "string", "enum": ["expert_submission", "user_submission", "ai_pattern_match", "editorial_research"], "description": "提出途径" },
+            "reasoning": { "type": "string", "description": "提出该潜在连接的具体理由，例如'两者工艺参数区间重叠'" },
+            "proposed_at": { "type": "string", "format": "date-time" }
+          }
+        },
+
+        "note": { "type": "string", "description": "补充说明，保持客观陈述，不写价值判断（如门槛高低、机会大小，这类信息属于分支产品范畴）" },
+
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      }
+    },
+
+    "Source": {
+      "type": "object",
+      "description": "可追溯的证据来源，verified 边和节点属性均引用此结构，确保全图可溯源。",
+      "required": ["source_type", "description"],
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "enum": ["patent", "standard", "industry_report", "news", "expert_interview", "official_data", "encyclopedia", "other"],
+          "description": "来源类型：专利 / 行业标准 / 行业报告 / 新闻报道 / 专家访谈 / 官方数据(国标全文系统、投入产出表、NIST等) / encyclopedia(百科类二三级来源,仅供交叉印证) / 其他"
+        },
+        "description": { "type": "string", "description": "来源的简要描述，例如'XX专利号'、'XX行业标准编号'、'国家标准全文公开系统 GB/T XXXX'" },
+        "url": { "type": "string", "format": "uri", "description": "可选，原始链接" },
+        "retrieved_at": { "type": "string", "format": "date-time", "description": "信息获取/核实时间，互联网内容会变化，需记录获取时点" }
+      }
+    }
+  },
+
   "type": "object",
-  "required": ["nodes", "edges", "chain_types"],
   "properties": {
     "nodes": {
       "type": "array",
@@ -12,133 +183,7 @@
     "edges": {
       "type": "array",
       "items": { "$ref": "#/definitions/Edge" }
-    },
-    "chain_types": {
-      "type": "array",
-      "items": { "$ref": "#/definitions/ChainType" },
-      "description": "关系类型配置，定义可用的视角（链路类型）"
     }
   },
-  "definitions": {
-    "Node": {
-      "type": "object",
-      "required": ["id", "name", "type", "industry_tags"],
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "唯一标识，slug 格式，如 injection-molding-machine",
-          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
-        },
-        "name": {
-          "type": "string",
-          "description": "显示名称，如 注塑机"
-        },
-        "aliases": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "别名，用于搜索匹配，如 [\"注塑成型机\", \"注射成型机\"]"
-        },
-        "type": {
-          "type": "string",
-          "enum": ["industry", "material", "product", "equipment", "consumable", "service", "endpoint"],
-          "description": "节点类型"
-        },
-        "description": {
-          "type": "string",
-          "description": "简要描述"
-        },
-        "industry_tags": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "关联行业标签，如 [\"塑料\", \"包装\"]。用于跨行业交叉检测"
-        },
-        "metadata": {
-          "type": "object",
-          "description": "扩展字段，未来使用",
-          "additionalProperties": true
-        }
-      }
-    },
-    "Edge": {
-      "type": "object",
-      "required": ["id", "source", "target", "relation_type", "verification_status", "source_type"],
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "唯一标识"
-        },
-        "source": {
-          "type": "string",
-          "description": "上游节点 ID"
-        },
-        "target": {
-          "type": "string",
-          "description": "下游节点 ID"
-        },
-        "relation_type": {
-          "type": "string",
-          "description": "关系类型，决定这条边属于哪条链路。值必须对应 chain_types 中的 type"
-        },
-        "verification_status": {
-          "type": "string",
-          "enum": ["proposed", "verified"],
-          "description": "验证状态。proposed = 有依据但未验证，verified = 已验证"
-        },
-        "source_type": {
-          "type": "string",
-          "enum": ["ai_generated", "manual_entry", "third_party_import", "user_submitted", "field_research"],
-          "description": "数据来源类型"
-        },
-        "evidence": {
-          "type": "string",
-          "description": "推理依据或来源说明。AI 生成数据必须附带推理过程"
-        },
-        "source_url": {
-          "type": "string",
-          "description": "原始来源链接（如有）"
-        },
-        "created_at": {
-          "type": "string",
-          "format": "date-time",
-          "description": "创建时间"
-        },
-        "updated_at": {
-          "type": "string",
-          "format": "date-time",
-          "description": "最后更新时间"
-        },
-        "verified_at": {
-          "type": ["string", "null"],
-          "format": "date-time",
-          "description": "验证时间，proposed 状态为 null"
-        },
-        "verified_by": {
-          "type": ["string", "null"],
-          "description": "验证人，proposed 状态为 null"
-        }
-      }
-    },
-    "ChainType": {
-      "type": "object",
-      "required": ["type", "label", "description"],
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": "关系类型标识，如 material_supply"
-        },
-        "label": {
-          "type": "string",
-          "description": "显示名称，如 原料链"
-        },
-        "description": {
-          "type": "string",
-          "description": "这条链路代表什么，如 原料如何流入"
-        },
-        "color": {
-          "type": "string",
-          "description": "可视化颜色（hex），如 #00B42A"
-        }
-      }
-    }
-  }
+  "required": ["nodes", "edges"]
 }
