@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import type { GraphNode, NodeType } from '@/lib/types';
 import { NODE_TYPE_COLORS, NODE_TYPE_LABELS } from '@/lib/graph-data';
+import graphData from '@/data/graph-data.json';
 
 interface SearchBarProps {
   onNodeSelect: (id: string) => void;
@@ -18,43 +19,88 @@ export default function SearchBar({ onNodeSelect, placeholder }: SearchBarProps)
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const fetchResults = useCallback(async (searchQuery: string) => {
-    if (!searchQuery.trim()) {
-      setResults([]);
-      return;
-    }
+  const allNodes = useMemo(() => graphData.nodes as GraphNode[], []);
 
+  const loadSearchHistory = (): string[] => {
     try {
-      const response = await fetch(
-        `/api/graph/search?q=${encodeURIComponent(searchQuery)}`
-      );
-      const data: GraphNode[] = await response.json();
+      const saved = localStorage.getItem('search-history');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const saveSearchHistory = (history: string[]) => {
+    try {
+      localStorage.setItem('search-history', JSON.stringify(history));
+    } catch {
+      // ignore
+    }
+  };
+
+  useEffect(() => {
+    setSearchHistory(loadSearchHistory());
+  }, []);
+
+  const searchNodes = useCallback(
+    (searchQuery: string): SearchResult[] => {
+      if (!searchQuery.trim()) return [];
 
       const lowerQuery = searchQuery.toLowerCase();
-      const enriched: SearchResult[] = data.map((node) => {
+      const results: SearchResult[] = [];
+
+      for (const node of allNodes) {
         const nameMatch = node.name.toLowerCase().includes(lowerQuery);
         if (nameMatch) {
-          return { ...node, matchedBy: 'name' };
+          results.push({ ...node, matchedBy: 'name' });
+          continue;
         }
         const matchedAliasObj = node.aliases?.find((a) =>
           a.term.toLowerCase().includes(lowerQuery)
         );
-        return {
-          ...node,
-          matchedBy: 'alias',
-          matchedAlias: matchedAliasObj?.term,
-        };
-      });
-      setResults(enriched);
-    } catch (error) {
-      console.error('Search failed:', error);
-      setResults([]);
-    }
-  }, []);
+        if (matchedAliasObj) {
+          results.push({
+            ...node,
+            matchedBy: 'alias',
+            matchedAlias: matchedAliasObj.term,
+          });
+        }
+        if (results.length >= 10) break;
+      }
+
+      return results;
+    },
+    [allNodes]
+  );
+
+  const fetchResults = useCallback(
+    (searchQuery: string) => {
+      if (!searchQuery.trim()) {
+        setResults([]);
+        return;
+      }
+
+      try {
+        const data = searchNodes(searchQuery);
+        setResults(data);
+
+        const history = loadSearchHistory();
+        const filtered = history.filter((h) => h !== searchQuery);
+        const updated = [searchQuery, ...filtered].slice(0, 20);
+        saveSearchHistory(updated);
+        setSearchHistory(updated);
+      } catch (error) {
+        console.error('Search failed:', error);
+        setResults([]);
+      }
+    },
+    [searchNodes]
+  );
 
   useEffect(() => {
     if (debounceRef.current) {
@@ -150,12 +196,43 @@ export default function SearchBar({ onNodeSelect, placeholder }: SearchBarProps)
               setIsOpen(true);
             }}
             onFocus={() => {
-              if (query.trim()) setIsOpen(true);
+              setIsOpen(true);
             }}
             placeholder={placeholder || '搜索材料、产品、设备、行业…'}
             className="flex-1 bg-transparent outline-none text-arco-base text-ink-1 placeholder:text-ink-3 px-3"
           />
         </div>
+
+        {isOpen && !query.trim() && searchHistory.length > 0 && (
+          <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-arco-md shadow-arco-3 border border-line-1 overflow-hidden z-50">
+            <div className="flex items-center justify-between px-4 py-2 border-b border-line-1">
+              <span className="text-xs text-ink-3">搜索历史</span>
+              <button
+                onClick={() => {
+                  saveSearchHistory([]);
+                  setSearchHistory([]);
+                }}
+                className="text-xs text-ink-3 hover:text-ink-1 transition-colors"
+              >
+                清空
+              </button>
+            </div>
+            <div className="p-2 flex flex-wrap gap-2">
+              {searchHistory.map((term) => (
+                <button
+                  key={term}
+                  onClick={() => {
+                    setQuery(term);
+                    fetchResults(term);
+                  }}
+                  className="px-2 py-1 text-xs bg-surface-1 text-ink-2 rounded hover:bg-surface-2 transition-colors"
+                >
+                  {term}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {isOpen && results.length > 0 && (
           <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-arco-md shadow-arco-3 border border-line-1 overflow-hidden z-50">

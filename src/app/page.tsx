@@ -4,8 +4,8 @@ import { useCallback, useEffect, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import SearchBar from '../components/SearchBar';
 import { useGraphStore } from '../store/graphStore';
-import type { GraphNode, RelationType } from '../lib/types';
-import nodesDraft from '../data/nodes-draft.json';
+import type { GraphNode, RelationType } from '@/lib/types';
+import graphData from '../data/graph-data.json';
 
 const GraphScene = dynamic(
   () => import('../components/Graph3D/GraphScene'),
@@ -13,10 +13,10 @@ const GraphScene = dynamic(
 );
 
 const RECOMMENDED_NODES = [
-  { id: 'material-polyethylene', name: '聚乙烯', desc: '最通用的塑料材料' },
-  { id: 'industry-photovoltaic', name: '光伏行业', desc: '新能源产业链' },
-  { id: 'equipment-injection-molding-machine', name: '注塑机', desc: '塑料加工核心设备' },
-  { id: 'industry-lithium-battery', name: '锂电池行业', desc: '动力电池产业链' },
+  { id: 'industry-光伏产业', name: '光伏产业', desc: '新能源产业链' },
+  { id: 'product-硅片', name: '硅片', desc: '光伏电池核心衬底材料' },
+  { id: 'material-太阳能级多晶硅', name: '太阳能级多晶硅', desc: '光伏产业链上游原料' },
+  { id: 'product-光伏组件', name: '光伏组件', desc: '光伏发电核心单元' },
 ];
 
 const NODE_TYPE_LABELS: Record<string, string> = {
@@ -38,8 +38,8 @@ export default function Home() {
     mode,
   } = useGraphStore();
 
-  const allNodes = useMemo(() => nodesDraft.nodes as GraphNode[], []);
-  const allEdges = useMemo(() => nodesDraft.edges as any[], []);
+  const allNodes = useMemo(() => graphData.nodes as GraphNode[], []);
+  const allEdges = useMemo(() => graphData.edges as any[], []);
 
   useEffect(() => {
     setNodes(allNodes);
