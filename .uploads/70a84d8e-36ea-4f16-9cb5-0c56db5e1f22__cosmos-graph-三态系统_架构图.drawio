@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" version="24.0.0">
+<diagram id="cosmos_three_state" name="三态交互总览">
+<mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1100" background="#0a0e1a" math="0" shadow="0">
+<root>
+<mxCell id="0" />
+<mxCell id="1" parent="0" />
+
+
+<mxCell id="bg_nebula" value="" style="ellipse;fillColor=#1a1f3a;strokeColor=#2a3a6a;dashed=1;dashPattern=4 4;opacity=40;" parent="1" vertex="1">
+  <mxGeometry x="60" y="60" width="520" height="320" as="geometry" />
+</mxCell>
+<mxCell id="bg_nebula2" value="" style="ellipse;fillColor=#1a1f3a;strokeColor=#2a3a6a;dashed=1;dashPattern=2 6;opacity=25;" parent="1" vertex="1">
+  <mxGeometry x="100" y="1090" width="440" height="240" as="geometry" />
+</mxCell>
+
+
+<mxCell id="p1_title" value="① 星云探索态（初始）" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#9df;align=left;" parent="1" vertex="1">
+  <mxGeometry x="80" y="30" width="280" height="30" as="geometry" />
+</mxCell>
+
+
+<mxCell id="cam1" value="📷 相机&lt;br&gt;固定不动" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2a3a5a;strokeColor=#6c8ebf;fontColor=#cfe;fontSize=12;shadow=1;" parent="1" vertex="1">
+  <mxGeometry x="270" y="1560" width="100" height="50" as="geometry" />
+</mxCell>
+
+
+<mxCell id="n_star1" value="" style="ellipse;fillColor=#5cc8ff;strokeColor=none;opacity=70;" parent="1" vertex="1">
+  <mxGeometry x="150" y="970" width="14" height="14" as="geometry" />
+</mxCell>
+<mxCell id="n_star2" value="" style="ellipse;fillColor=#ffb347;strokeColor=none;opacity=80;" parent="1" vertex="1">
+  <mxGeometry x="280" y="970" width="18" height="18" as="geometry" />
+</mxCell>
+<mxCell id="n_star3" value="" style="ellipse;fillColor=#5cc8ff;strokeColor=none;opacity=60;" parent="1" vertex="1">
+  <mxGeometry x="400" y="970" width="12" height="12" as="geometry" />
+</mxCell>
+<mxCell id="n_star4" value="" style="ellipse;fillColor=#88ddff;strokeColor=none;opacity=50;" parent="1" vertex="1">
+  <mxGeometry x="180" y="970" width="10" height="10" as="geometry" />
+</mxCell>
+<mxCell id="n_star5" value="" style="ellipse;fillColor=#88ddff;strokeColor=none;opacity=55;" parent="1" vertex="1">
+  <mxGeometry x="350" y="970" width="10" height="10" as="geometry" />
+</mxCell>
+<mxCell id="n_star6" value="" style="ellipse;fillColor=#ffb347;strokeColor=none;opacity=65;" parent="1" vertex="1">
+  <mxGeometry x="460" y="970" width="14" height="14" as="geometry" />
+</mxCell>
+<mxCell id="n_star7" value="" style="ellipse;fillColor=#5cc8ff;strokeColor=none;opacity=45;" parent="1" vertex="1">
+  <mxGeometry x="120" y="695" width="10" height="10" as="geometry" />
+</mxCell>
+
+
+<mxCell id="orbit1" value="" style="ellipse;fillColor=none;strokeColor=#4466aa;dashed=1;dashPattern=3 5;opacity=50;" parent="1" vertex="1">
+  <mxGeometry x="130" y="640" width="360" height="180" as="geometry" />
+</mxCell>
+
+
+<mxCell id="orbit_arrow" value="⟲ 缓慢椭圆公转" style="text;html=1;fontSize=11;fontColor=#7ab;align=center;" parent="1" vertex="1">
+  <mxGeometry x="220" y="990" width="200" height="20" as="geometry" />
+</mxCell>
+
+
+<mxCell id="p1_desc" value="· 所有节点在远处椭圆轨道上缓慢公转&lt;br&gt;· 节点呈星点状，连线极淡或不可见&lt;br&gt;· 相机默认视角静止，营造宇宙感&lt;br&gt;· 触发条件：初始加载 / 点击「返回星云」" style="text;html=1;fontSize=11;fontColor=#89b;align=left;whiteSpace=wrap;" parent="1" vertex="1">
+  <mxGeometry x="80" y="450" width="500" height="80" as="geometry" />
+</mxCell>
+
+
+<mxCell id="p2_title" value="② 飞渡过渡态" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#fc6;align=left;" parent="1" vertex="1">
+  <mxGeometry x="680" y="30" width="280" height="30" as="geometry" />
+</mxCell>
+
+
+<mxCell id="cam2_start" value="相机起点" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2a3a5a;strokeColor=#6c8ebf;fontColor=#cfe;fontSize=11;" parent="1" vertex="1">
+  <mxGeometry x="700" y="300" width="80" height="40" as="geometry" />
+</mxCell>
+
+
+<mxCell id="cam2_end" value="相机终点&lt;br&gt;（正对焦点）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4a3a2a;strokeColor=#d6b656;fontColor=#fc6;fontSize=11;" parent="1" vertex="1">
+  <mxGeometry x="1020" y="160" width="100" height="50" as="geometry" />
+</mxCell>
+
+
+<mxCell id="fly_path" value="" style="endArrow=block;html=1;strokeColor=#fc6;strokeWidth=2;dashed=1;curved=1;endFill=1;" parent="1" edge="1">
+  <mxGeometry relative="1" as="geometry">
+    <mxPoint x="780" y="320" as="sourcePoint" />
+    <mxPoint x="1020" y="185" as="targetPoint" />
+    <Array as="points">
+      <mxPoint x="880" y="300" />
+      <mxPoint x="960" y="240" />
+    </Array>
+  </mxGeometry>
+</mxCell>
+<mxCell id="fly_label" value="相机平滑飞行&lt;br&gt;easeOutCubic 0.8~1.2s" style="text;html=1;fontSize=11;fontColor=#fc6;align=center;" parent="1" vertex="1">
+  <mxGeometry x="840" y="260" width="160" height="30" as="geometry" />
+</mxCell>
+
+
+<mxCell id="fly_node_a" value="a0" style="ellipse;fillColor=#ffb347;strokeColor=#fc6;fontColor=#000;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+  <mxGeometry x="1100" y="80" width="36" height="36" as="geometry" />
+</mxCell>
+<mxCell id="fly_node_b3" value="F" style="ellipse;fillColor=#5cc8ff;strokeColor=#6cf;fontColor=#000;fontSize=11;fontStyle=1;" parent="1" vertex="1">
+  <mxGeometry x="1130" y="160" width="40" height="40" as="geometry" />
+</mxCell>
+<mxCell id="fly_node_b" value="" style="ellipse;fillColor=#5cc8ff;strokeColor=#6cf;opacity=70;" parent="1" vertex="1">
+  <mxGeometry x="1040" y="280" width="28" height="28" as="geometry" />
+</mxCell>
+<mxCell id="fly_node_br" value="" style="ellipse;fillColor=#5cc8ff;strokeColor=#6cf;opacity=70;" parent="1" vertex="1">
+  <mxGeometry x="1200" y="170" width="28" height="28" as="geometry" />
+</mxCell>
+
+
+<mxCell id="node_trail1" value="" style="endArrow=block;html=1;strokeColor=#6cf;strokeWidth=1;dashed=1;opacity=60;endFill=1;" parent="1" edge="1">
+  <mxGeometry relative="1" as="geometry">
+    <mxPoint x="850" y="120" as="sourcePoint" />
+    <mxPoint x="1118" y="100" as="targetPoint" />
+  </mxGeometry>
+</mxCell>
+<mxCell id="node_trail2" value="" style="endArrow=block;html=1;strokeColor=#6cf;strokeWidth=1;dashed=1;opacity=60;endFill=1;" parent="1" edge="1">
+  <mxGeometry relative="1" as="geometry">
+    <mxPoint x="900" y="220" as="sourcePoint" />
+    <mxPoint x="1150" y="180" as="targetPoint" />
+  </mxGeometry>
+</mxCell>
+
+
+<mxCell id="drag_note" value="主链先到，支链 delay 0.08~0.15s&lt;br&gt;easeOutBack 弹性甩入" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#3a2a1a;strokeColor=#d6b656;fontColor=#fc6;fontSize=10;" parent="1" vertex="1">
+  <mxGeometry x="1138" y="510" width="180" height="40" as="geometry" />
+</mxCell>
+
+
+<mxCell id="p2_desc" value="· 相机从当前位置平滑飞行到焦点正前方&lt;br&gt;· 同步计算新布局，节点从星云位置 lerp 到目标位&lt;br&gt;· 主链/焦点先到位，支链随后弹性展开（拖拽感）&lt;br&gt;· 背景远距离节点淡入淡出，保持宇宙感&lt;br&gt;· 触发条件：点击节点 / 搜索跳转" style="text;html=1;fontSize=11;fontColor=#ca8;align=left;whiteSpace=wrap;" parent="1" vertex="1">
+  <mxGeometry x="680" y="350" width="500" height="90" as="geometry" />
+</mxCell>
+
+
+<mxCell id="p3_title" value="③ 焦点导航态" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#6f6;align=left;" parent="1" vertex="1">
+  <mxGeometry x="1280" y="30" width="280" height="30" as="geometry" />
+</mxCell>
+
+
+<mxCell id="cam3" value="📷" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2a3a5a;strokeColor=#6c8ebf;fontColor=#cfe;fontSize=14;" parent="1" vertex="1">
+  <mxGeometry x="1480" y="1069" width="50" height="40" as="geometry" />
+</mxCell>
+<mxCell id="cam3_label" value="自由视角&lt;br&gt;OrbitControls" style="text;html=1;fontSize=10;fontColor=#9df;align=center;" parent="1" vertex="1">
+  <mxGeometry x="1460" y="969" width="90" height="30" as="geometry" />
+</mxCell>
+
+
+<mxCell id="gaze" value="" style="endArrow=block;html=1;strokeColor=#6f6;strokeWidth=1;dashed=1;endFill=1;opacity=60;" parent="1" edge="1">
+  <mxGeometry relative="1" as="geometry">
+    <mxPoint x="1480" y="320" as="sourcePoint" />
+    <mxPoint x="1380" y="230" as="targetPoint" />
+  </mxGeometry>
+</mxCell>
+
+
+<mxCell id="f_parent" value="P (parent)&lt;br&gt;产业/祖先节点" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffb347;strokeColor=#fc6;fontColor=#000;fontSize=9;fontStyle=1;" parent="1" vertex="1">
+  <mxGeometry x="1355" y="100" width="70" height="50" as="geometry" />
+</mxCell>
+
+
+<mxCell id="f_focus" value="F (焦点)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#fff;fontColor=#000;fontSize=10;fontStyle=1;shadow=1;" parent="1" vertex="1">
+  <mxGeometry x="1355" y="195" width="70" height="50" as="geometry" />
+</mxCell>
+
+
+<mxCell id="f_b0" value="" style="ellipse;fillColor=#5cc8ff;strokeColor=#6cf;" parent="1" vertex="1">
+  <mxGeometry x="1200" y="205" width="30" height="30" as="geometry" />
+</mxCell>
+<mxCell id="f_b1" value="" style="ellipse;fillColor=#5cc8ff;strokeColor=#6cf;" parent="1" vertex="1">
+  <mxGeometry x="1250" y="205" width="30" height="30" as="geometry" />
+</mxCell>
+<mxCell id="f_b2" value="" style="ellipse;fillColor=#5cc8ff;strokeColor=#6cf;" parent="1" vertex="1">
+  <mxGeometry x="1305" y="205" width="30" height="30" as="geometry" />
+</mxCell>
+<mxCell id="f_b4" value="" style="ellipse;fillColor=#5cc8ff;strokeColor=#6cf;" parent="1" vertex="1">
+  <mxGeometry x="1445" y="205" width="30" height="30" as="geometry" />
+</mxCell>
+<mxCell id="f_b5" value="" style="ellipse;fillColor=#5cc8ff;strokeColor=#6cf;" parent="1" vertex="1">
+  <mxGeometry x="1495" y="205" width="30" height="30" as="geometry" />
+</mxCell>
+<mxCell id="f_main_label" value="← 主链横向排列 sibling →" style="text;html=1;fontSize=10;fontColor=#6cf;align=center;" parent="1" vertex="1">
+  <mxGeometry x="1280" y="590" width="250" height="20" as="geometry" />
+</mxCell>
+
+
+<mxCell id="tail_cone" value="" style="shape=tripleEllipse;fillColor=#5cc8ff;strokeColor=#6cf;opacity=15;" parent="1" vertex="1">
+  <mxGeometry x="1250" y="719" width="280" height="180" as="geometry" />
+</mxCell>
+
+<mxCell id="tail_cone2" value="尾焰区（锥形）" style="hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fillColor=#2a4a6a;strokeColor=#6cf;opacity=30;fontSize=9;fontColor=#6cf;direction=south;" vertex="1" parent="1">
+  <mxGeometry x="1260" y="260" width="260" height="120" as="geometry" />
+</mxCell>
+
+
+<mxCell id="c1" value="" style="ellipse;fillColor=#88ddff;strokeColor=#9df;opacity=80;" parent="1" vertex="1">
+  <mxGeometry x="1280" y="560" width="16" height="16" as="geometry" />
+</mxCell>
+<mxCell id="c2" value="" style="ellipse;fillColor=#88ddff;strokeColor=#9df;opacity=80;" parent="1" vertex="1">
+  <mxGeometry x="1340" y="633" width="16" height="16" as="geometry" />
+</mxCell>
+<mxCell id="c3" value="" style="ellipse;fillColor=#88ddff;strokeColor=#9df;opacity=80;" parent="1" vertex="1">
+  <mxGeometry x="1420" y="969" width="16" height="16" as="geometry" />
+</mxCell>
+<mxCell id="c4" value="" style="ellipse;fillColor=#88ddff;strokeColor=#9df;opacity=80;" parent="1" vertex="1">
+  <mxGeometry x="1480" y="560" width="16" height="16" as="geometry" />
+</mxCell>
+<mxCell id="c5" value="" style="ellipse;fillColor=#88ddff;strokeColor=#9df;opacity=70;" parent="1" vertex="1">
+  <mxGeometry x="1300" y="560" width="14" height="14" as="geometry" />
+</mxCell>
+<mxCell id="c6" value="" style="ellipse;fillColor=#88ddff;strokeColor=#9df;opacity=70;" parent="1" vertex="1">
+  <mxGeometry x="1400" y="969" width="14" height="14" as="geometry" />
+</mxCell>
+
+
+<mxCell id="line_pf" value="" style="endArrow=none;html=1;strokeColor=#fc6;strokeWidth=2;opacity=70;" parent="1" edge="1">
+  <mxGeometry relative="1" as="geometry">
+    <mxPoint x="1390" y="150" as="sourcePoint" />
+    <mxPoint x="1390" y="195" as="targetPoint" />
+  </mxGeometry>
+</mxCell>
+<mxCell id="line_main" value="" style="endArrow=none;html=1;strokeColor=#6cf;strokeWidth=2;opacity=70;" parent="1" edge="1">
+  <mxGeometry relative="1" as="geometry">
+    <mxPoint x="1215" y="220" as="sourcePoint" />
+    <mxPoint x="1510" y="220" as="targetPoint" />
+  </mxGeometry>
+</mxCell>
+
+
+<mxCell id="bg1" value="" style="ellipse;fillColor=#334466;strokeColor=none;opacity=30;" parent="1" vertex="1">
+  <mxGeometry x="1560" y="120" width="8" height="8" as="geometry" />
+</mxCell>
+<mxCell id="bg2" value="" style="ellipse;fillColor=#334466;strokeColor=none;opacity=25;" parent="1" vertex="1">
+  <mxGeometry x="1580" y="280" width="8" height="8" as="geometry" />
+</mxCell>
+<mxCell id="bg3" value="" style="ellipse;fillColor=#334466;strokeColor=none;opacity=25;" parent="1" vertex="1">
+  <mxGeometry x="1180" y="100" width="8" height="8" as="geometry" />
+</mxCell>
+<mxCell id="bg_label" value="背景节点&lt;br&gt;极远极淡" style="text;html=1;fontSize=9;fontColor=#456;align=center;" parent="1" vertex="1">
+  <mxGeometry x="1550" y="160" width="80" height="30" as="geometry" />
+</mxCell>
+
+
+<mxCell id="p3_desc" value="· 节点固定世界坐标，相机自由旋转（OrbitControls）&lt;br&gt;· 旋转到侧面能看到锥形尾焰的3D形态&lt;br&gt;· 点击主链/支链→重排所有节点（同构）&lt;br&gt;· 再点当前祖先→相机飞回正对位（不重排）&lt;br&gt;· 远处节点降级为点，LOD 保证性能" style="text;html=1;fontSize=11;fontColor=#8b8;align=left;whiteSpace=wrap;" parent="1" vertex="1">
+  <mxGeometry x="1260" y="400" width="520" height="90" as="geometry" />
+</mxCell>
+
+
+<mxCell id="trigger_bar" value="" style="rounded=1;fillColor=#1a2040;strokeColor=#3a4a7a;opacity=80;" parent="1" vertex="1">
+  <mxGeometry x="80" y="1400" width="1660" height="90" as="geometry" />
+</mxCell>
+<mxCell id="trigger_title" value="状态触发与交互" style="text;html=1;fontSize=14;fontStyle=1;fontColor=#fff;align=left;" parent="1" vertex="1">
+  <mxGeometry x="100" y="600" width="200" height="25" as="geometry" />
+</mxCell>
+
+<mxCell id="t1" value="点击节点 / 搜索" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3a2a1a;strokeColor=#d6b656;fontColor=#fc6;fontSize=11;" parent="1" vertex="1">
+  <mxGeometry x="300" y="890" width="130" height="30" as="geometry" />
+</mxCell>
+<mxCell id="arr1" value="" style="endArrow=block;html=1;strokeColor=#fc6;strokeWidth=2;endFill=1;" parent="1" edge="1">
+  <mxGeometry relative="1" as="geometry">
+    <mxPoint x="240" y="525" as="sourcePoint" />
+    <mxPoint x="680" y="525" as="targetPoint" />
+    <Array as="points"><mxPoint x="580" y="525" /></Array>
+  </mxGeometry>
+</mxCell>
+<mxCell id="arr1_label" value="①→② 星云→飞渡" style="text;html=1;fontSize=10;fontColor=#fc6;" parent="1" vertex="1">
+  <mxGeometry x="390" y="600" width="140" height="20" as="geometry" />
+</mxCell>
+
+<mxCell id="t2" value="动画完成" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a3a2a;strokeColor=#6f6;fontColor=#6f6;fontSize=11;" parent="1" vertex="1">
+  <mxGeometry x="890" y="490" width="100" height="30" as="geometry" />
+</mxCell>
+<mxCell id="arr2" value="" style="endArrow=block;html=1;strokeColor=#6f6;strokeWidth=2;endFill=1;" parent="1" edge="1">
+  <mxGeometry relative="1" as="geometry">
+    <mxPoint x="840" y="525" as="sourcePoint" />
+    <mxPoint x="1280" y="525" as="targetPoint" />
+  </mxGeometry>
+</mxCell>
+<mxCell id="arr2_label" value="②→③ 飞渡→焦点" style="text;html=1;fontSize=10;fontColor=#6f6;" parent="1" vertex="1">
+  <mxGeometry x="990" y="500" width="140" height="20" as="geometry" />
+</mxCell>
+
+<mxCell id="t3" value="点击其他节点" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3a2a1a;strokeColor=#fc6;fontColor=#fc6;fontSize=11;" parent="1" vertex="1">
+  <mxGeometry x="1490" y="490" width="120" height="30" as="geometry" />
+</mxCell>
+<mxCell id="arr3" value="" style="endArrow=block;html=1;strokeColor=#fc6;strokeWidth=2;dashed=1;endFill=1;" parent="1" edge="1">
+  <mxGeometry relative="1" as="geometry">
+    <mxPoint x="1700" y="520" as="sourcePoint" />
+    <mxPoint x="950" y="400" as="targetPoint" />
+  </mxGeometry>
+</mxCell>
+<mxCell id="arr3_label" value="③→② 重新飞渡（重排节点）" style="text;html=1;fontSize=10;fontColor=#fc6;" parent="1" vertex="1">
+  <mxGeometry x="1400" y="633" width="220" height="20" as="geometry" />
+</mxCell>
+
+<mxCell id="t4" value="点击祖先节点" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2a3a5a;strokeColor=#6cf;fontColor=#9df;fontSize=11;" parent="1" vertex="1">
+  <mxGeometry x="1320" y="535" width="120" height="28" as="geometry" />
+</mxCell>
+<mxCell id="arr4_label" value="仅相机复位，不重排节点" style="text;html=1;fontSize=10;fontColor=#9df;align=center;" parent="1" vertex="1">
+  <mxGeometry x="1450" y="538" width="200" height="22" as="geometry" />
+</mxCell>
+
+</root>
+</mxGraphModel>
+</diagram>
+</mxfile>

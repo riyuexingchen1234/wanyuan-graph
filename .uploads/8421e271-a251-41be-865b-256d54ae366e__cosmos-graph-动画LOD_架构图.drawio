@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" version="24.0.0">
+<diagram id="cosmos_anim" name="星云态与动画细节">
+<mxGraphModel dx="1400" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" background="#0a0e1a" math="0" shadow="0">
+<root>
+<mxCell id="0" />
+<mxCell id="1" parent="0" />
+
+
+<mxCell id="p1_title" value="① 星云态：椭圆公轨轨道" style="text;html=1;fontSize=16;fontStyle=1;fontColor=#9df;align=left;" parent="1" vertex="1">
+  <mxGeometry x="40" y="20" width="400" height="30" as="geometry" />
+</mxCell>
+
+<mxCell id="p1_frame" value="" style="rounded=1;fillColor=#0f1528;strokeColor=#2a3a6a;" parent="1" vertex="1">
+  <mxGeometry x="40" y="60" width="520" height="420" as="geometry" />
+</mxCell>
+
+
+<mxCell id="cam" value="📷 相机 (静止)&lt;br&gt;(0, 5, 100)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2a3a5a;strokeColor=#6c8ebf;fontColor=#cfe;fontSize=10;" parent="1" vertex="1">
+  <mxGeometry x="240" y="2040" width="100" height="45" as="geometry" />
+</mxCell>
+
+
+<mxCell id="orbit1" value="" style="ellipse;fillColor=none;strokeColor=#3a5588;strokeWidth=1;dashed=1;dashPattern=4 4;opacity=60;" parent="1" vertex="1">
+  <mxGeometry x="80" y="1670" width="440" height="220" as="geometry" />
+</mxCell>
+<mxCell id="orbit2" value="" style="ellipse;fillColor=none;strokeColor=#4a6a99;strokeWidth=1;dashed=1;dashPattern=2 6;opacity=40;" parent="1" vertex="1">
+  <mxGeometry x="120" y="1350" width="360" height="160" as="geometry" />
+</mxCell>
+<mxCell id="orbit3" value="" style="ellipse;fillColor=none;strokeColor=#5a7aaa;strokeWidth=1;opacity=30;" parent="1" vertex="1">
+  <mxGeometry x="380" y="1180" width="280" height="100" as="geometry" />
+</mxCell>
+
+
+<mxCell id="star1" value="" style="ellipse;fillColor=#ffb347;strokeColor=none;" parent="1" vertex="1">
+  <mxGeometry x="150" y="750" width="14" height="14" as="geometry" />
+</mxCell>
+<mxCell id="star2" value="" style="ellipse;fillColor=#5cc8ff;strokeColor=none;opacity=80;" parent="1" vertex="1">
+  <mxGeometry x="300" y="1960" width="10" height="10" as="geometry" />
+</mxCell>
+<mxCell id="star3" value="" style="ellipse;fillColor=#88ddff;strokeColor=none;opacity=70;" parent="1" vertex="1">
+  <mxGeometry x="470" y="1010" width="12" height="12" as="geometry" />
+</mxCell>
+<mxCell id="star4" value="" style="ellipse;fillColor=#5cc8ff;strokeColor=none;opacity=60;" parent="1" vertex="1">
+  <mxGeometry x="420" y="1120" width="10" height="10" as="geometry" />
+</mxCell>
+<mxCell id="star5" value="" style="ellipse;fillColor=#ffb347;strokeColor=none;opacity=75;" parent="1" vertex="1">
+  <mxGeometry x="200" y="750" width="12" height="12" as="geometry" />
+</mxCell>
+<mxCell id="star6" value="" style="ellipse;fillColor=#88ddff;strokeColor=none;opacity=50;" parent="1" vertex="1">
+  <mxGeometry x="110" y="750" width="8" height="8" as="geometry" />
+</mxCell>
+
+
+<mxCell id="revolve_arrow" value="⟲ 缓慢公转" style="text;html=1;fontSize=11;fontColor=#7ab;" parent="1" vertex="1">
+  <mxGeometry x="250" y="1580" width="100" height="20" as="geometry" />
+</mxCell>
+
+
+<mxCell id="nebula_center" value="星云中心&lt;br&gt;(0, 0, -120)" style="text;html=1;fontSize=10;fontColor=#567;align=center;" parent="1" vertex="1">
+  <mxGeometry x="260" y="750" width="80" height="30" as="geometry" />
+</mxCell>
+
+
+<mxCell id="nebula_params" value="&lt;b&gt;轨道参数（每节点独立随机）：&lt;/b&gt;&lt;br&gt;· 长轴 a = 60~140&lt;br&gt;· 短轴 b = 30~80&lt;br&gt;· 公转速度 = 0.05~0.15 rad/s&lt;br&gt;· 轨道倾斜 tilt = ±0.3 rad&lt;br&gt;· 水平旋转 rot = 0~2π&lt;br&gt;· 初始相位 phase = 随机&lt;br&gt;· Y轴压缩系数 0.4（椭圆盘状）" style="text;html=1;fontSize=10;fontColor=#89b;align=left;whiteSpace=wrap;" parent="1" vertex="1">
+  <mxGeometry x="50" y="1102" width="260" height="130" as="geometry" />
+</mxCell>
+
+
+<mxCell id="starfield_note" value="背景星空&lt;br&gt;3000+点&lt;br&gt;500半径球壳" style="text;html=1;fontSize=9;fontColor=#456;align=center;" parent="1" vertex="1">
+  <mxGeometry x="380" y="1010" width="80" height="40" as="geometry" />
+</mxCell>
+
+
+<mxCell id="p2_title" value="② LOD 层级（按相机距离自动切换）" style="text;html=1;fontSize=16;fontStyle=1;fontColor=#9df;align=left;" parent="1" vertex="1">
+  <mxGeometry x="600" y="20" width="400" height="30" as="geometry" />
+</mxCell>
+
+<mxCell id="p2_frame" value="" style="rounded=1;fillColor=#0f1528;strokeColor=#2a3a6a;" parent="1" vertex="1">
+  <mxGeometry x="600" y="60" width="440" height="420" as="geometry" />
+</mxCell>
+
+
+<mxCell id="lod0_title" value="LOD 0 · 近景（dist &lt; 50）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a3a5a;strokeColor=#5cc8ff;fontColor=#9df;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+  <mxGeometry x="620" y="940" width="400" height="35" as="geometry" />
+</mxCell>
+<mxCell id="lod0_visual" value="" style="ellipse;fillColor=#5cc8ff;strokeColor=#9df;strokeWidth=2;" parent="1" vertex="1">
+  <mxGeometry x="660" y="980" width="60" height="60" as="geometry" />
+</mxCell>
+<mxCell id="lod0_glow" value="" style="ellipse;fillColor=none;strokeColor=#5cc8ff;strokeWidth=3;opacity=40;" parent="1" vertex="1">
+  <mxGeometry x="730" y="1207" width="100" height="100" as="geometry" />
+</mxCell>
+<mxCell id="lod0_desc" value="· 球体 Mesh + 光晕 Sprite&lt;br&gt;· 显示标签（CSS2D/TextSprite）&lt;br&gt;· 连线正常渲染 opacity=0.4&lt;br&gt;· 显示完整几何形状" style="text;html=1;fontSize=10;fontColor=#9df;align=left;whiteSpace=wrap;" parent="1" vertex="1">
+  <mxGeometry x="850" y="1472" width="250" height="80" as="geometry" />
+</mxCell>
+
+
+<mxCell id="lod1_title" value="LOD 1 · 中景（50 ≤ dist &lt; 150）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a2a4a;strokeColor=#4488bb;fontColor=#7ab;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+  <mxGeometry x="620" y="1727" width="400" height="35" as="geometry" />
+</mxCell>
+<mxCell id="lod1_visual" value="" style="ellipse;fillColor=#4488bb;strokeColor=none;" parent="1" vertex="1">
+  <mxGeometry x="750" y="1010" width="30" height="30" as="geometry" />
+</mxCell>
+<mxCell id="lod1_desc" value="· 简化球体（少面数）&lt;br&gt;· 无光晕，仅微弱自发光&lt;br&gt;· 不显示标签&lt;br&gt;· 连线淡化为 opacity=0.15" style="text;html=1;fontSize=10;fontColor=#7ab;align=left;whiteSpace=wrap;" parent="1" vertex="1">
+  <mxGeometry x="850" y="1332" width="250" height="70" as="geometry" />
+</mxCell>
+
+
+<mxCell id="lod2_title" value="LOD 2 · 远景（dist ≥ 150）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#151a2a;strokeColor=#334466;fontColor=#567;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+  <mxGeometry x="620" y="1622" width="400" height="35" as="geometry" />
+</mxCell>
+<mxCell id="lod2_visual" value="" style="ellipse;fillColor=#334466;strokeColor=none;opacity=50;" parent="1" vertex="1">
+  <mxGeometry x="685" y="900" width="10" height="10" as="geometry" />
+</mxCell>
+<mxCell id="lod2_desc" value="· Points 材质（点点）&lt;br&gt;· sizeAttenuation=false（固定屏幕大小）&lt;br&gt;· 不渲染连线&lt;br&gt;· 性能最优（可合并为一个 Points）" style="text;html=1;fontSize=10;fontColor=#567;align=left;whiteSpace=wrap;" parent="1" vertex="1">
+  <mxGeometry x="850" y="1192" width="250" height="70" as="geometry" />
+</mxCell>
+
+
+<mxCell id="dist_axis" value="← 近　　　　　　　　　远 →" style="text;html=1;fontSize=10;fontColor=#567;align=center;" parent="1" vertex="1">
+  <mxGeometry x="620" y="1102" width="400" height="20" as="geometry" />
+</mxCell>
+
+
+<mxCell id="p3_title" value="③ 飞渡入场动画时序" style="text;html=1;fontSize=16;fontStyle=1;fontColor=#fc6;align=left;" parent="1" vertex="1">
+  <mxGeometry x="1080" y="20" width="400" height="30" as="geometry" />
+</mxCell>
+
+<mxCell id="p3_frame" value="" style="rounded=1;fillColor=#0f1528;strokeColor=#2a3a6a;" parent="1" vertex="1">
+  <mxGeometry x="1080" y="60" width="480" height="420" as="geometry" />
+</mxCell>
+
+
+<mxCell id="timeline" value="" style="endArrow=block;html=1;strokeColor=#666;strokeWidth=2;endFill=1;" parent="1" edge="1">
+  <mxGeometry relative="1" as="geometry">
+    <mxPoint x="1120" y="440" as="sourcePoint" />
+    <mxPoint x="1520" y="440" as="targetPoint" />
+  </mxGeometry>
+</mxCell>
+<mxCell id="t0" value="0ms" style="text;html=1;fontSize=9;fontColor=#999;" parent="1" vertex="1">
+  <mxGeometry x="1110" y="1192" width="40" height="15" as="geometry" />
+</mxCell>
+<mxCell id="t800" value="800ms" style="text;html=1;fontSize=9;fontColor=#999;" parent="1" vertex="1">
+  <mxGeometry x="1300" y="1815" width="50" height="15" as="geometry" />
+</mxCell>
+<mxCell id="t1200" value="1200ms" style="text;html=1;fontSize=9;fontColor=#999;" parent="1" vertex="1">
+  <mxGeometry x="1560" y="550" width="55" height="15" as="geometry" />
+</mxCell>
+
+
+<mxCell id="cam_bar" value="" style="rounded=1;fillColor=#fc6;strokeColor=none;opacity=70;" parent="1" vertex="1">
+  <mxGeometry x="1120" y="750" width="320" height="24" as="geometry" />
+</mxCell>
+<mxCell id="cam_bar_label" value="相机飞行 (easeOutCubic)" style="text;html=1;fontSize=10;fontColor=#fc6;fontStyle=1;" parent="1" vertex="1">
+  <mxGeometry x="1120" y="1457" width="200" height="18" as="geometry" />
+</mxCell>
+
+
+<mxCell id="focus_bar" value="" style="rounded=1;fillColor=#ffb347;strokeColor=none;opacity=80;" parent="1" vertex="1">
+  <mxGeometry x="1120" y="1633" width="240" height="24" as="geometry" />
+</mxCell>
+<mxCell id="focus_bar_label" value="F / Parent 节点 lerp (easeOutCubic)" style="text;html=1;fontSize=10;fontColor=#fc6;fontStyle=1;" parent="1" vertex="1">
+  <mxGeometry x="1120" y="1727" width="260" height="18" as="geometry" />
+</mxCell>
+
+
+<mxCell id="main_bar" value="" style="rounded=1;fillColor=#5cc8ff;strokeColor=none;opacity=70;" parent="1" vertex="1">
+  <mxGeometry x="1135" y="1545" width="250" height="24" as="geometry" />
+</mxCell>
+<mxCell id="main_bar_label" value="主链节点 lerp (delay 50ms, easeOutCubic)" style="text;html=1;fontSize=10;fontColor=#6cf;fontStyle=1;" parent="1" vertex="1">
+  <mxGeometry x="1120" y="1372" width="280" height="18" as="geometry" />
+</mxCell>
+
+
+<mxCell id="branch_bar" value="" style="rounded=1;fillColor=#88ddff;strokeColor=none;opacity=60;" parent="1" vertex="1">
+  <mxGeometry x="1170" y="1186" width="300" height="24" as="geometry" />
+</mxCell>
+<mxCell id="branch_bar_label" value="支链弹性甩入 (delay 150ms, easeOutBack)" style="text;html=1;fontSize=10;fontColor=#9df;fontStyle=1;" parent="1" vertex="1">
+  <mxGeometry x="1120" y="1098" width="300" height="18" as="geometry" />
+</mxCell>
+
+
+<mxCell id="bg_bar" value="" style="rounded=1;fillColor=#446;strokeColor=none;opacity=40;" parent="1" vertex="1">
+  <mxGeometry x="1210" y="1030" width="280" height="24" as="geometry" />
+</mxCell>
+<mxCell id="bg_bar_label" value="背景节点淡入 (delay 300ms, opacity 渐变)" style="text;html=1;fontSize=10;fontColor=#678;fontStyle=1;" parent="1" vertex="1">
+  <mxGeometry x="1120" y="1010" width="300" height="18" as="geometry" />
+</mxCell>
+
+
+<mxCell id="delay_line1" value="" style="endArrow=none;html=1;strokeColor=#6cf;strokeWidth=1;dashed=1;dashPattern=2 2;opacity=50;" parent="1" edge="1">
+  <mxGeometry relative="1" as="geometry">
+    <mxPoint x="1135" y="220" as="sourcePoint" />
+    <mxPoint x="1135" y="440" as="targetPoint" />
+  </mxGeometry>
+</mxCell>
+<mxCell id="delay_line2" value="" style="endArrow=none;html=1;strokeColor=#9df;strokeWidth=1;dashed=1;dashPattern=2 2;opacity=50;" parent="1" edge="1">
+  <mxGeometry relative="1" as="geometry">
+    <mxPoint x="1170" y="280" as="sourcePoint" />
+    <mxPoint x="1170" y="440" as="targetPoint" />
+  </mxGeometry>
+</mxCell>
+<mxCell id="delay_line3" value="" style="endArrow=none;html=1;strokeColor=#678;strokeWidth=1;dashed=1;dashPattern=2 2;opacity=50;" parent="1" edge="1">
+  <mxGeometry relative="1" as="geometry">
+    <mxPoint x="1210" y="340" as="sourcePoint" />
+    <mxPoint x="1210" y="440" as="targetPoint" />
+  </mxGeometry>
+</mxCell>
+
+
+<mxCell id="drag_note" value="&lt;b&gt;「被拽着走」效果：&lt;/b&gt;&lt;br&gt;支链节点在delay期间&lt;br&gt;跟随对应主链节点&lt;br&gt;当前位置（copy主链位置）&lt;br&gt;delay结束后用 easeOutBack&lt;br&gt;弹射到目标偏移位&lt;br&gt;形成「甩出去」的弹性感" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a2a3a;strokeColor=#4a6a8a;fontColor=#9cf;fontSize=10;align=left;" parent="1" vertex="1">
+  <mxGeometry x="1630" y="550" width="170" height="130" as="geometry" />
+</mxCell>
+
+
+<mxCell id="bottom_frame" value="" style="rounded=1;fillColor=#0f1528;strokeColor=#2a3a6a;" parent="1" vertex="1">
+  <mxGeometry x="40" y="520" width="1520" height="220" as="geometry" />
+</mxCell>
+
+<mxCell id="bottom_title" value="设计原则 &amp; 探索感机制" style="text;html=1;fontSize=15;fontStyle=1;fontColor=#fff;align=left;" parent="1" vertex="1">
+  <mxGeometry x="60" y="1302" width="300" height="25" as="geometry" />
+</mxCell>
+
+
+<mxCell id="explore_title" value="🔭 探索感设计" style="text;html=1;fontSize=12;fontStyle=1;fontColor=#9df;" parent="1" vertex="1">
+  <mxGeometry x="60" y="1010" width="140" height="22" as="geometry" />
+</mxCell>
+<mxCell id="explore_points" value="· 初始星云态营造「宇宙浩瀚」第一印象，节点像星辰漂浮，激发好奇心&lt;br&gt;· LOD渐进加载：远处是点，靠近才展开细节 → 用户「飞过去看看」的探索欲&lt;br&gt;· 点击节点触发跃迁飞行（相机平滑飞行+节点弹性展开）→ 每次点击都是一次「抵达」&lt;br&gt;· 自由旋转视角 → 用户从侧面看到3D锥形，发现之前看不到的支链结构&lt;br&gt;· 背景节点保留极淡存在 → 暗示「还有更多可以探索」&lt;br&gt;· 搜索框支持「跃迁」到任意节点 → 给目的性探索提供快速通道" style="text;html=1;fontSize=10;fontColor=#9ab;align=left;whiteSpace=wrap;" parent="1" vertex="1">
+  <mxGeometry x="60" y="810" width="620" height="130" as="geometry" />
+</mxCell>
+
+
+<mxCell id="perf_title" value="⚡ 性能策略" style="text;html=1;fontSize=12;fontStyle=1;fontColor=#6f6;" parent="1" vertex="1">
+  <mxGeometry x="810" y="1010" width="140" height="22" as="geometry" />
+</mxCell>
+<mxCell id="perf_points" value="· 远景节点合并为单个 Points（一个 draw call 渲染所有远节点）&lt;br&gt;· 中景使用低面数 IcosahedronGeometry(1,1) 替代高面数球体&lt;br&gt;· 背景连线 opacity&lt;0.1 时直接隐藏&lt;br&gt;· 星云态公转只更新 visible 范围内节点的位置（frustum culling）&lt;br&gt;· 飞渡动画期间禁用 OrbitControls（避免冲突），动画完成后恢复&lt;br&gt;· 节点数量大时，支链节点按需加载：焦点态只展开主链1跳的支链" style="text;html=1;fontSize=10;fontColor=#9b9;align=left;whiteSpace=wrap;" parent="1" vertex="1">
+  <mxGeometry x="720" y="810" width="480" height="130" as="geometry" />
+</mxCell>
+
+
+<mxCell id="easing_title" value="📐 缓动函数" style="text;html=1;fontSize=12;fontStyle=1;fontColor=#fc6;" parent="1" vertex="1">
+  <mxGeometry x="1230" y="1280" width="140" height="22" as="geometry" />
+</mxCell>
+<mxCell id="easing_formulas" value="easeOutCubic(t) = 1 - (1-t)³&lt;br&gt;  → 快速启动，缓慢停下（相机/F/主链）&lt;br&gt;&lt;br&gt;easeOutBack(t) = 1 + c₃·(t-1)³ + c₁·(t-1)²&lt;br&gt;  c₁=1.70158, c₃=c₁+1&lt;br&gt;  → 超出目标再回弹（支链弹性甩入）&lt;br&gt;&lt;br&gt;opacity fade: linear 0→1 同步 delay 后开始" style="text;html=1;fontSize=10;fontColor=#ca8;align=left;whiteSpace=wrap;fontStyle=0;" parent="1" vertex="1">
+  <mxGeometry x="1230" y="810" width="320" height="150" as="geometry" />
+</mxCell>
+
+</root>
+</mxGraphModel>
+</diagram>
+</mxfile>
