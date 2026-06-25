@@ -8,59 +8,96 @@ export function useCameraFlight() {
   const cameraTarget = useGraphStore((state) => state.cameraTarget);
   const cameraDistance = useGraphStore((state) => state.cameraDistance);
   const focusNodeId = useGraphStore((state) => state.focusNodeId);
+  const mode = useGraphStore((state) => state.mode);
 
-  const targetPos = useRef(new THREE.Vector3(0, 0, 0));
-  const targetDistance = useRef(30);
+  const targetLookAt = useRef(new THREE.Vector3(0, 0, -80));
+  const targetCamPos = useRef(new THREE.Vector3(0, 5, 20));
   const animationProgress = useRef(0);
-  const startPos = useRef(new THREE.Vector3(0, 0, 0));
-  const startTarget = useRef(new THREE.Vector3(0, 0, 0));
-  const startDistance = useRef(30);
+  const startPos = useRef(new THREE.Vector3(0, 5, 20));
+  const startLookAt = useRef(new THREE.Vector3(0, 0, -80));
   const isAnimating = useRef(false);
   const lastFocusId = useRef<string | null>(null);
+  const initialized = useRef(false);
 
   useEffect(() => {
-    if (focusNodeId && focusNodeId !== lastFocusId.current) {
-      lastFocusId.current = focusNodeId;
+    if (!initialized.current && controls) {
+      initialized.current = true;
+      camera.position.set(0, 5, 20);
+      (controls as any).target.set(0, 0, -80);
+      (controls as any).update();
+      targetLookAt.current.set(0, 0, -80);
+      targetCamPos.current.set(0, 5, 20);
+    }
+  }, [camera, controls]);
 
+  useEffect(() => {
+    if (!focusNodeId || focusNodeId === lastFocusId.current) return;
+    lastFocusId.current = focusNodeId;
+
+    startPos.current.copy(camera.position);
+    if (controls) {
+      (controls as any).target.clone(startLookAt.current);
+    }
+
+    const target = new THREE.Vector3(cameraTarget.x, cameraTarget.y, cameraTarget.z);
+    targetLookAt.current.copy(target);
+
+    const isIndustry = mode === 'focus';
+    const polarAngle = isIndustry ? Math.PI / 2.6 : Math.PI / 2.4;
+    const azimuth = 0;
+
+    const camX = target.x + cameraDistance * Math.sin(polarAngle) * Math.sin(azimuth);
+    const camY = target.y + cameraDistance * Math.cos(polarAngle) + 4;
+    const camZ = target.z + cameraDistance * Math.sin(polarAngle) * Math.cos(azimuth);
+
+    targetCamPos.current.set(camX, camY, camZ);
+
+    animationProgress.current = 0;
+    isAnimating.current = true;
+
+    if (controls) {
+      (controls as any).enabled = false;
+    }
+  }, [focusNodeId, camera, controls, cameraTarget, cameraDistance, mode]);
+
+  useEffect(() => {
+    if (mode === 'ambient' && focusNodeId === null && initialized.current) {
       startPos.current.copy(camera.position);
       if (controls) {
-        (controls as any).target.clone(startTarget.current);
+        (controls as any).target.clone(startLookAt.current);
       }
-      startDistance.current = camera.position.distanceTo(startTarget.current);
-
-      targetPos.current.set(cameraTarget.x, cameraTarget.y, cameraTarget.z);
-      targetDistance.current = cameraDistance;
-
+      targetLookAt.current.set(0, 0, -80);
+      targetCamPos.current.set(0, 5, 20);
       animationProgress.current = 0;
       isAnimating.current = true;
+      lastFocusId.current = null;
     }
-  }, [focusNodeId, camera, controls, cameraTarget, cameraDistance]);
+  }, [mode, focusNodeId, camera, controls]);
 
-  const easeInOutCubic = (t: number) => {
-    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-  };
+  const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
   useFrame((_, delta) => {
     if (!controls) return;
 
     if (isAnimating.current) {
-      animationProgress.current += delta * 0.8;
+      animationProgress.current += delta * 0.9;
       if (animationProgress.current >= 1) {
         animationProgress.current = 1;
         isAnimating.current = false;
+        (controls as any).enabled = true;
       }
 
-      const t = easeInOutCubic(animationProgress.current);
+      const t = easeOutCubic(animationProgress.current);
 
-      const currentTarget = new THREE.Vector3();
-      currentTarget.lerpVectors(startTarget.current, targetPos.current, t);
-      (controls as any).target.copy(currentTarget);
+      const currentLookAt = new THREE.Vector3();
+      currentLookAt.lerpVectors(startLookAt.current, targetLookAt.current, t);
+      (controls as any).target.copy(currentLookAt);
 
-      const direction = startPos.current.clone().sub(startTarget.current).normalize();
-      const currentDist = startDistance.current + (targetDistance.current - startDistance.current) * t;
-      const desiredCameraPos = currentTarget.clone().add(direction.multiplyScalar(currentDist));
+      const currentCamPos = new THREE.Vector3();
+      currentCamPos.lerpVectors(startPos.current, targetCamPos.current, t);
+      camera.position.copy(currentCamPos);
 
-      camera.position.copy(desiredCameraPos);
+      (controls as any).update();
     }
   });
 

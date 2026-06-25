@@ -93,18 +93,21 @@ export const useGraphStore = create<GraphState>((set, get) => ({
           centerX: 0,
           centerY: 0,
           centerZ: 0,
-          rankSep: 5,
-          nodeSep: 2.5,
-          layerSep: 4,
+          mainGap: 5,
         });
       } else {
-        result = computeAmbientLayout(nodes, { radius: 25 });
+        result = computeAmbientLayout(nodes);
       }
     } else {
-      result = computeAmbientLayout(nodes, { radius: 25 });
+      result = computeAmbientLayout(nodes);
     }
 
-    set({ positions: result.positions, depths: result.depths });
+    set({
+      positions: result.positions,
+      depths: result.depths,
+      cameraTarget: result.cameraTarget,
+      cameraDistance: result.cameraDistance,
+    });
   },
 
   flyToNode: (id) => {
@@ -114,13 +117,6 @@ export const useGraphStore = create<GraphState>((set, get) => ({
       mode: 'focus',
     });
     get().computeLayout();
-    const pos = get().positions.get(id);
-    if (pos) {
-      set({
-        cameraTarget: { ...pos },
-        cameraDistance: 15,
-      });
-    }
   },
 
   navigateToNode: (id) => {
@@ -171,10 +167,10 @@ export const useGraphStore = create<GraphState>((set, get) => ({
   },
 
   resetView: () => {
-    const result = computeAmbientLayout(get().nodes, { radius: 25 });
+    const result = computeAmbientLayout(get().nodes);
     set({
-      cameraTarget: { x: 0, y: 0, z: 0 },
-      cameraDistance: 30,
+      cameraTarget: result.cameraTarget,
+      cameraDistance: result.cameraDistance,
       focusNodeId: null,
       selectedNodeId: null,
       mode: 'ambient',
