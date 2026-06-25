@@ -21,7 +21,7 @@ export interface LayoutResult {
   mainChain: string[];
 }
 
-const MAIN_CHAIN_RELATIONS: RelationType[] = ['upstream_of', 'downstream_of'];
+const MAIN_CHAIN_RELATIONS: RelationType[] = ['can_be_processed_into', 'upstream_of'];
 
 function pseudoRandom(str: string): number {
   let hash = 0;
@@ -34,21 +34,33 @@ function pseudoRandom(str: string): number {
 
 function buildAdjacency(nodes: GraphNode[], edges: GraphEdge[]) {
   const adj: Record<string, Array<{ neighborId: string; edge: GraphEdge; direction: 'up' | 'down' | 'other' }>> = {};
+  const nodeIds = new Set(nodes.map((n) => n.id));
   nodes.forEach((n) => { adj[n.id] = []; });
   edges.forEach((edge) => {
-    const isMainChain = MAIN_CHAIN_RELATIONS.includes(edge.relation_type);
+    if (!nodeIds.has(edge.source) || !nodeIds.has(edge.target)) return;
+
     let direction: 'up' | 'down' | 'other' = 'other';
-    if (isMainChain) {
-      if (edge.relation_type === 'upstream_of') direction = 'down';
-      else if (edge.relation_type === 'downstream_of') direction = 'up';
-    } else {
-      if (edge.relation_type === 'made_of') direction = 'up';
-      else if (edge.relation_type === 'can_be_processed_into') direction = 'down';
-      else if (edge.relation_type === 'raw_material_for') direction = 'up';
-      else if (edge.relation_type === 'consumable_for') direction = 'up';
-      else if (edge.relation_type === 'equipment_for') direction = 'down';
-      else if (edge.relation_type === 'applied_in') direction = 'down';
+
+    if (edge.relation_type === 'can_be_processed_into') {
+      direction = 'down';
+    } else if (edge.relation_type === 'made_of') {
+      direction = 'up';
+    } else if (edge.relation_type === 'raw_material_for') {
+      direction = 'down';
+    } else if (edge.relation_type === 'consumable_for') {
+      direction = 'down';
+    } else if (edge.relation_type === 'equipment_for') {
+      direction = 'down';
+    } else if (edge.relation_type === 'applied_in') {
+      direction = 'down';
+    } else if (edge.relation_type === 'upstream_of') {
+      direction = 'down';
+    } else if (edge.relation_type === 'downstream_of') {
+      direction = 'other';
+    } else if (edge.relation_type === 'structurally_similar_to') {
+      direction = 'other';
     }
+
     adj[edge.source].push({ neighborId: edge.target, edge, direction });
     adj[edge.target].push({ neighborId: edge.source, edge, direction: direction === 'up' ? 'down' : direction === 'down' ? 'up' : 'other' });
   });
@@ -62,18 +74,38 @@ function findMainChain(
   const directChildren = new Set<string>();
   (adj[startNode.id] || []).forEach(({ neighborId }) => directChildren.add(neighborId));
 
+  if (directChildren.size === 0) return [];
+
+  const mainSubgraph = new Set<string>(directChildren);
+  const queue: string[] = Array.from(directChildren);
+  while (queue.length > 0) {
+    const id = queue.shift()!;
+    (adj[id] || []).forEach(({ neighborId, direction }) => {
+      if (mainSubgraph.has(neighborId)) return;
+      if (neighborId === startNode.id) return;
+      if (direction === 'other') return;
+      mainSubgraph.add(neighborId);
+      queue.push(neighborId);
+    });
+  }
+
   const upstreamEnds: string[] = [];
   const downstreamEnds: string[] = [];
 
-  directChildren.forEach((id) => {
-    const upstream = (adj[id] || []).filter((n) => n.direction === 'up' && directChildren.has(n.neighborId));
-    const downstream = (adj[id] || []).filter((n) => n.direction === 'down' && directChildren.has(n.neighborId));
-    if (upstream.length === 0 && downstream.length > 0) upstreamEnds.push(id);
-    if (downstream.length === 0 && upstream.length > 0) downstreamEnds.push(id);
+  mainSubgraph.forEach((id) => {
+    let upCount = 0;
+    let downCount = 0;
+    (adj[id] || []).forEach(({ neighborId, direction }) => {
+      if (!mainSubgraph.has(neighborId)) return;
+      if (direction === 'up') upCount++;
+      if (direction === 'down') downCount++;
+    });
+    if (upCount === 0 && downCount > 0) upstreamEnds.push(id);
+    if (downCount === 0 && upCount > 0) downstreamEnds.push(id);
   });
 
   if (upstreamEnds.length === 0 || downstreamEnds.length === 0) {
-    return Array.from(directChildren);
+    return Array.from(mainSubgraph);
   }
 
   const chainStart = upstreamEnds[0];
@@ -83,7 +115,7 @@ function findMainChain(
 
   while (true) {
     const nextNodes = (adj[current] || [])
-      .filter((n) => n.direction === 'down' && directChildren.has(n.neighborId) && !visited.has(n.neighborId));
+      .filter((n) => n.direction === 'down' && mainSubgraph.has(n.neighborId) && !visited.has(n.neighborId));
     if (nextNodes.length === 0) break;
     const next = nextNodes[0].neighborId;
     chainOrder.push(next);
@@ -260,8 +292,8 @@ export function computeIndustryFocusLayout(
   return {
     positions,
     depths,
-    cameraTarget: { x: focusX, y: focusY + 2, z: focusZ + mainPlaneZ - 2 },
-    cameraDistance: 42,
+    cameraTarget: { x: focusX, y: focusY, z: focusZ + mainPlaneZ },
+    cameraDistance: 45,
     mainChain,
   };
 }
@@ -399,7 +431,7 @@ export function computeFocusLayout(
   return {
     positions,
     depths,
-    cameraTarget: { x: centerX, y: centerY, z: centerZ + 10 },
+    cameraTarget: { x: centerX, y: centerY, z: centerZ + 12 },
     cameraDistance: 35,
     mainChain: [],
   };

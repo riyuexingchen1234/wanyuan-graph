@@ -42,12 +42,11 @@ export function useCameraFlight() {
     const target = new THREE.Vector3(cameraTarget.x, cameraTarget.y, cameraTarget.z);
     targetLookAt.current.copy(target);
 
-    const isIndustry = mode === 'focus';
-    const polarAngle = isIndustry ? Math.PI / 2.6 : Math.PI / 2.4;
+    const polarAngle = Math.PI / 2.5;
     const azimuth = 0;
 
     const camX = target.x + cameraDistance * Math.sin(polarAngle) * Math.sin(azimuth);
-    const camY = target.y + cameraDistance * Math.cos(polarAngle) + 4;
+    const camY = target.y + cameraDistance * Math.cos(polarAngle) + 6;
     const camZ = target.z + cameraDistance * Math.sin(polarAngle) * Math.cos(azimuth);
 
     targetCamPos.current.set(camX, camY, camZ);
