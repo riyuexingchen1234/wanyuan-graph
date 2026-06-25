@@ -20,6 +20,8 @@ interface GraphState {
   cameraDistance: number;
   mode: 'ambient' | 'focus';
   relationType: RelationType;
+  navigationPath: string[];
+  browseHistory: string[];
 
   setNodes: (nodes: GraphNode[]) => void;
   setEdges: (edges: GraphEdge[]) => void;
@@ -32,6 +34,9 @@ interface GraphState {
 
   computeLayout: () => void;
   flyToNode: (id: string) => void;
+  navigateToNode: (id: string) => void;
+  navigateBack: (index: number) => void;
+  clearBrowseHistory: () => void;
   resetView: () => void;
 }
 
