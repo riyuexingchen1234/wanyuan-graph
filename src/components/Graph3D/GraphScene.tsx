@@ -52,15 +52,14 @@ function SceneContent() {
     selectedNodeId,
     hoveredNodeId,
     setHoveredNodeId,
-    flyToNode,
+    navigateToNode,
     setSelectedNodeId,
   } = useGraphStore();
 
   useCameraFlight();
 
   const handleNodeClick = (nodeId: string) => {
-    flyToNode(nodeId);
-    setSelectedNodeId(nodeId);
+    navigateToNode(nodeId);
   };
 
   const visibleEdges = useMemo(() => {

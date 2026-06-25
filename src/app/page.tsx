@@ -32,10 +32,15 @@ export default function Home() {
   const {
     setNodes,
     setEdges,
-    flyToNode,
+    navigateToNode,
+    navigateBack,
     resetView,
     selectedNodeId,
     mode,
+    navigationPath,
+    browseHistory,
+    clearBrowseHistory,
+    initBrowseHistory,
   } = useGraphStore();
 
   const allNodes = useMemo(() => graphData.nodes as GraphNode[], []);
@@ -44,14 +49,27 @@ export default function Home() {
   useEffect(() => {
     setNodes(allNodes);
     setEdges(allEdges);
-  }, [allNodes, allEdges, setNodes, setEdges]);
+    initBrowseHistory();
+  }, [allNodes, allEdges, setNodes, setEdges, initBrowseHistory]);
 
   const handleNodeSelect = useCallback(
     (id: string) => {
-      flyToNode(id);
+      navigateToNode(id);
     },
-    [flyToNode]
+    [navigateToNode]
   );
+
+  const pathNodes = useMemo(() => {
+    return navigationPath
+      .map((id) => allNodes.find((n) => n.id === id))
+      .filter(Boolean) as GraphNode[];
+  }, [navigationPath, allNodes]);
+
+  const historyNodes = useMemo(() => {
+    return browseHistory
+      .map((id) => allNodes.find((n) => n.id === id))
+      .filter(Boolean) as GraphNode[];
+  }, [browseHistory, allNodes]);
 
   const handleCloseDetail = useCallback(() => {
     resetView();
@@ -67,11 +85,34 @@ export default function Home() {
   return (
     <div className="h-screen w-full flex overflow-hidden bg-white">
       <div className="flex-1 relative">
-        <header className="absolute top-4 left-4 z-30 flex items-center gap-3">
+        <header className="absolute top-4 left-4 z-30 flex items-center gap-3 max-w-[calc(100%-360px)]">
           <div className="bg-white border border-gray-200 rounded px-5 py-3">
             <h1 className="text-lg font-semibold text-black">万源图谱</h1>
             <p className="text-xs text-gray-500">发现真实世界的连接</p>
           </div>
+          {pathNodes.length > 0 && (
+            <div className="bg-white border border-gray-200 rounded px-4 py-2.5 flex items-center gap-1 overflow-x-auto max-w-[600px]">
+              {pathNodes.map((node, index) => (
+                <div key={node.id} className="flex items-center gap-1 flex-shrink-0">
+                  {index > 0 && (
+                    <svg className="w-3 h-3 text-gray-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  )}
+                  <button
+                    onClick={() => navigateBack(index)}
+                    className={`text-sm transition-colors whitespace-nowrap ${
+                      index === pathNodes.length - 1
+                        ? 'text-black font-medium'
+                        : 'text-gray-500 hover:text-black'
+                    }`}
+                  >
+                    {node.name}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </header>
 
         <div className="absolute top-4 right-4 z-40 w-[320px]">
@@ -138,6 +179,31 @@ export default function Home() {
 
       {displayNode && (
         <div className="w-[360px] h-full bg-white border-l border-gray-200 flex flex-col">
+          {historyNodes.length > 0 && (
+            <div className="border-b border-gray-100 px-4 py-2.5">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs text-gray-400">最近访问</span>
+                <button
+                  onClick={clearBrowseHistory}
+                  className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  清空
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {historyNodes.slice(0, 10).map((h) => (
+                  <button
+                    key={h.id}
+                    onClick={() => handleNodeSelect(h.id)}
+                    className="px-2 py-1 text-xs bg-gray-50 text-gray-600 rounded hover:bg-gray-100 hover:text-black transition-colors"
+                  >
+                    {h.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
             <div className="flex items-center gap-2">
               <span

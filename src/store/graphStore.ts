@@ -37,6 +37,7 @@ interface GraphState {
   navigateToNode: (id: string) => void;
   navigateBack: (index: number) => void;
   clearBrowseHistory: () => void;
+  initBrowseHistory: () => void;
   resetView: () => void;
 }
 
@@ -52,6 +53,8 @@ export const useGraphStore = create<GraphState>((set, get) => ({
   cameraDistance: 30,
   mode: 'ambient',
   relationType: 'raw_material_for' as RelationType,
+  navigationPath: [],
+  browseHistory: [],
 
   setNodes: (nodes) => {
     set({ nodes });
@@ -120,6 +123,53 @@ export const useGraphStore = create<GraphState>((set, get) => ({
     }
   },
 
+  navigateToNode: (id) => {
+    const { navigationPath, flyToNode, browseHistory } = get();
+    const lastIndex = navigationPath.lastIndexOf(id);
+    if (lastIndex !== -1) {
+      set({ navigationPath: navigationPath.slice(0, lastIndex + 1) });
+    } else {
+      set({ navigationPath: [...navigationPath, id] });
+    }
+    const filteredHistory = browseHistory.filter((h) => h !== id);
+    const updatedHistory = [id, ...filteredHistory].slice(0, 20);
+    set({ browseHistory: updatedHistory });
+    try {
+      localStorage.setItem('browse-history', JSON.stringify(updatedHistory));
+    } catch (e) {
+      console.error('Failed to save browse history', e);
+    }
+    flyToNode(id);
+  },
+
+  navigateBack: (index) => {
+    const { navigationPath, flyToNode } = get();
+    if (index < 0 || index >= navigationPath.length) return;
+    const targetId = navigationPath[index];
+    set({ navigationPath: navigationPath.slice(0, index + 1) });
+    flyToNode(targetId);
+  },
+
+  clearBrowseHistory: () => {
+    set({ browseHistory: [] });
+    try {
+      localStorage.removeItem('browse-history');
+    } catch (e) {
+      console.error('Failed to clear browse history', e);
+    }
+  },
+
+  initBrowseHistory: () => {
+    try {
+      const saved = localStorage.getItem('browse-history');
+      if (saved) {
+        set({ browseHistory: JSON.parse(saved) });
+      }
+    } catch (e) {
+      console.error('Failed to load browse history', e);
+    }
+  },
+
   resetView: () => {
     const result = computeAmbientLayout(get().nodes, { radius: 25 });
     set({
@@ -128,6 +178,7 @@ export const useGraphStore = create<GraphState>((set, get) => ({
       focusNodeId: null,
       selectedNodeId: null,
       mode: 'ambient',
+      navigationPath: [],
       positions: result.positions,
       depths: result.depths,
     });
