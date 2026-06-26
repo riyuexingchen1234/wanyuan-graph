@@ -1,0 +1,620 @@
+{
+  "nodes": [
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-1",
+      "main_name": "工业硅",
+      "sub_name": "金属硅"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-2",
+      "main_name": "太阳能级多晶硅",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-4",
+      "main_name": "硅片",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-6",
+      "main_name": "光伏电池片",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-8",
+      "main_name": "光伏层压件",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-10",
+      "main_name": "光伏组件",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-12",
+      "main_name": "光伏电站",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-14",
+      "main_name": "银浆",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-16",
+      "main_name": "光伏涂锡焊带",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-18",
+      "main_name": "EVA胶膜",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-19",
+      "main_name": "POE胶膜",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-22",
+      "main_name": "乙烯",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-23",
+      "main_name": "醋酸乙烯",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-26",
+      "main_name": "高碳α烯烃",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-29",
+      "main_name": "光伏背板",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-30",
+      "main_name": "光伏玻璃",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-33",
+      "main_name": "PET基膜",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-34",
+      "main_name": "氟膜",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-37",
+      "main_name": "纯碱石英砂",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-39",
+      "main_name": "光伏接线盒",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-40",
+      "main_name": "密封胶",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-41",
+      "main_name": "铝边框",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-46",
+      "main_name": "光伏支架",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-47",
+      "main_name": "光伏逆变器",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-48",
+      "main_name": "汇流箱",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-49",
+      "main_name": "储能蓄电池",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-50",
+      "main_name": "光伏跟踪系统",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-56",
+      "main_name": "光伏建筑一体化",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-57",
+      "main_name": "光伏交通",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-58",
+      "main_name": "光伏供热",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-59",
+      "main_name": "光伏制氢",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-64",
+      "main_name": "光伏控制器",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-66",
+      "main_name": "光伏封装胶膜",
+      "sub_name": null
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-68",
+      "main_name": "单晶硅",
+      "sub_name": null
+    }
+  ],
+  "edges": [
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-3",
+      "source": "YrWlbzXrr7s1HbymWutQ-1",
+      "target": "YrWlbzXrr7s1HbymWutQ-2"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-5",
+      "source": "YrWlbzXrr7s1HbymWutQ-2",
+      "target": "YrWlbzXrr7s1HbymWutQ-4"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-7",
+      "source": "YrWlbzXrr7s1HbymWutQ-4",
+      "target": "YrWlbzXrr7s1HbymWutQ-6"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-9",
+      "source": "YrWlbzXrr7s1HbymWutQ-6",
+      "target": "YrWlbzXrr7s1HbymWutQ-8"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-11",
+      "source": "YrWlbzXrr7s1HbymWutQ-8",
+      "target": "YrWlbzXrr7s1HbymWutQ-10"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-13",
+      "source": "YrWlbzXrr7s1HbymWutQ-10",
+      "target": "YrWlbzXrr7s1HbymWutQ-12"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-60",
+      "source": "YrWlbzXrr7s1HbymWutQ-12",
+      "target": "YrWlbzXrr7s1HbymWutQ-56"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-61",
+      "source": "YrWlbzXrr7s1HbymWutQ-12",
+      "target": "YrWlbzXrr7s1HbymWutQ-57"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-62",
+      "source": "YrWlbzXrr7s1HbymWutQ-12",
+      "target": "YrWlbzXrr7s1HbymWutQ-58"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-63",
+      "source": "YrWlbzXrr7s1HbymWutQ-12",
+      "target": "YrWlbzXrr7s1HbymWutQ-59"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-15",
+      "source": "YrWlbzXrr7s1HbymWutQ-14",
+      "target": "YrWlbzXrr7s1HbymWutQ-4"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-17",
+      "source": "YrWlbzXrr7s1HbymWutQ-16",
+      "target": "YrWlbzXrr7s1HbymWutQ-8"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-20",
+      "source": "YrWlbzXrr7s1HbymWutQ-18",
+      "target": "YrWlbzXrr7s1HbymWutQ-66"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-21",
+      "source": "YrWlbzXrr7s1HbymWutQ-19",
+      "target": "YrWlbzXrr7s1HbymWutQ-66"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-25",
+      "source": "YrWlbzXrr7s1HbymWutQ-22",
+      "target": "YrWlbzXrr7s1HbymWutQ-18"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-28",
+      "source": "YrWlbzXrr7s1HbymWutQ-22",
+      "target": "YrWlbzXrr7s1HbymWutQ-19"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-24",
+      "source": "YrWlbzXrr7s1HbymWutQ-23",
+      "target": "YrWlbzXrr7s1HbymWutQ-18"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-27",
+      "source": "YrWlbzXrr7s1HbymWutQ-26",
+      "target": "YrWlbzXrr7s1HbymWutQ-19"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-31",
+      "source": "YrWlbzXrr7s1HbymWutQ-29",
+      "target": "YrWlbzXrr7s1HbymWutQ-8"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-32",
+      "source": "YrWlbzXrr7s1HbymWutQ-30",
+      "target": "YrWlbzXrr7s1HbymWutQ-8"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-35",
+      "source": "YrWlbzXrr7s1HbymWutQ-33",
+      "target": "YrWlbzXrr7s1HbymWutQ-29"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-36",
+      "source": "YrWlbzXrr7s1HbymWutQ-34",
+      "target": "YrWlbzXrr7s1HbymWutQ-29"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-38",
+      "source": "YrWlbzXrr7s1HbymWutQ-37",
+      "target": "YrWlbzXrr7s1HbymWutQ-30"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-42",
+      "source": "YrWlbzXrr7s1HbymWutQ-39",
+      "target": "YrWlbzXrr7s1HbymWutQ-10"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-43",
+      "source": "YrWlbzXrr7s1HbymWutQ-40",
+      "target": "YrWlbzXrr7s1HbymWutQ-10"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-45",
+      "source": "YrWlbzXrr7s1HbymWutQ-41",
+      "target": "YrWlbzXrr7s1HbymWutQ-10"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-51",
+      "source": "YrWlbzXrr7s1HbymWutQ-46",
+      "target": "YrWlbzXrr7s1HbymWutQ-12"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-52",
+      "source": "YrWlbzXrr7s1HbymWutQ-47",
+      "target": "YrWlbzXrr7s1HbymWutQ-12"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-53",
+      "source": "YrWlbzXrr7s1HbymWutQ-48",
+      "target": "YrWlbzXrr7s1HbymWutQ-12"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-54",
+      "source": "YrWlbzXrr7s1HbymWutQ-49",
+      "target": "YrWlbzXrr7s1HbymWutQ-12"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-55",
+      "source": "YrWlbzXrr7s1HbymWutQ-50",
+      "target": "YrWlbzXrr7s1HbymWutQ-12"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-65",
+      "source": "YrWlbzXrr7s1HbymWutQ-64",
+      "target": "YrWlbzXrr7s1HbymWutQ-12"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-67",
+      "source": "YrWlbzXrr7s1HbymWutQ-66",
+      "target": "YrWlbzXrr7s1HbymWutQ-8"
+    },
+    {
+      "id": "YrWlbzXrr7s1HbymWutQ-69",
+      "source": "YrWlbzXrr7s1HbymWutQ-68",
+      "target": "YrWlbzXrr7s1HbymWutQ-4"
+    }
+  ],
+  "parent_child_relations": [
+    {
+      "parent": "工业硅",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-1",
+      "child": "太阳能级多晶硅",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-2",
+      "parent_subname": "金属硅",
+      "child_subname": null
+    },
+    {
+      "parent": "太阳能级多晶硅",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-2",
+      "child": "硅片",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-4",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "硅片",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-4",
+      "child": "光伏电池片",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-6",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "光伏电池片",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-6",
+      "child": "光伏层压件",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-8",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "光伏层压件",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-8",
+      "child": "光伏组件",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-10",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "光伏组件",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-10",
+      "child": "光伏电站",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-12",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "光伏电站",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-12",
+      "child": "光伏建筑一体化",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-56",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "光伏电站",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-12",
+      "child": "光伏交通",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-57",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "光伏电站",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-12",
+      "child": "光伏供热",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-58",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "光伏电站",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-12",
+      "child": "光伏制氢",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-59",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "银浆",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-14",
+      "child": "硅片",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-4",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "光伏涂锡焊带",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-16",
+      "child": "光伏层压件",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-8",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "EVA胶膜",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-18",
+      "child": "光伏封装胶膜",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-66",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "POE胶膜",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-19",
+      "child": "光伏封装胶膜",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-66",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "乙烯",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-22",
+      "child": "EVA胶膜",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-18",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "乙烯",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-22",
+      "child": "POE胶膜",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-19",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "醋酸乙烯",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-23",
+      "child": "EVA胶膜",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-18",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "高碳α烯烃",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-26",
+      "child": "POE胶膜",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-19",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "光伏背板",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-29",
+      "child": "光伏层压件",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-8",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "光伏玻璃",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-30",
+      "child": "光伏层压件",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-8",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "PET基膜",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-33",
+      "child": "光伏背板",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-29",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "氟膜",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-34",
+      "child": "光伏背板",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-29",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "纯碱石英砂",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-37",
+      "child": "光伏玻璃",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-30",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "光伏接线盒",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-39",
+      "child": "光伏组件",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-10",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "密封胶",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-40",
+      "child": "光伏组件",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-10",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "铝边框",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-41",
+      "child": "光伏组件",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-10",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "光伏支架",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-46",
+      "child": "光伏电站",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-12",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "光伏逆变器",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-47",
+      "child": "光伏电站",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-12",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "汇流箱",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-48",
+      "child": "光伏电站",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-12",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "储能蓄电池",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-49",
+      "child": "光伏电站",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-12",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "光伏跟踪系统",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-50",
+      "child": "光伏电站",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-12",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "光伏控制器",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-64",
+      "child": "光伏电站",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-12",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "光伏封装胶膜",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-66",
+      "child": "光伏层压件",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-8",
+      "parent_subname": null,
+      "child_subname": null
+    },
+    {
+      "parent": "单晶硅",
+      "parent_id": "YrWlbzXrr7s1HbymWutQ-68",
+      "child": "硅片",
+      "child_id": "YrWlbzXrr7s1HbymWutQ-4",
+      "parent_subname": null,
+      "child_subname": null
+    }
+  ]
+}
