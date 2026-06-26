@@ -249,6 +249,7 @@ export const RELATION_FLOW: Record<RelationType, RelationFlow> = {
   consumable_for: 'downstream_to_upstream',         // 耗材←被服务工艺
   downstream_of: 'downstream_to_upstream',          // 下游←上游
   structurally_similar_to: 'horizontal',            // 横向相似，不进入主轴
+  is_subclass_of: 'horizontal',                     // 分类从属关系（is-a），不进入任何产业链主轴
 };
 ```
 
@@ -489,29 +490,70 @@ interface CrawlerSource {
 2. 去除首尾/多余空白，统一标点
 3. 繁简转换（如有）
 4. 英文大小写统一（PE不写成pe）
-5. 识别并标记**文档性质后缀**（不剥离，仅标记）：规范、总规范、通用技术条件、技术条件、试验方法、分类、测定方法、的测定、通用要求、技术要求等。含这些后缀且source_type是standard的节点，标记为`is_document_title`。
+5. 识别并标记**文档性质后缀**（不剥离，仅标记is_document_title）：规范、总规范、通用技术条件、技术条件、试验方法、分类、测定方法、的测定、通用要求、技术要求等。
+6. **多信号文档名识别**（不依赖单一规则，综合判断）：
+   - 信号D1：name含文档后缀词（规范/标准/规程/方法/技术条件/试验方法/测定方法/通用要求/技术要求）+ source_type=standard → 权重+3
+   - 信号D2：definition含"GB/T""GB ""国家标准""规定了...的技术要求""规定了...的试验方法""规定了...的分类""本标准规定了" → 权重+3
+   - 信号D3：name长度>15字 + source_type=standard → 权重+1
+   - 信号D4：sources.url含"openstd.samr.gov.cn"或其他标准全文站点 → 权重+2
+   - is_document_title = 权重≥4（即至少满足D1+D2）；权重=2~3标记is_possible_document（进入review）
+7. **英文缩写自动提取**：对name扫描`[A-Z]{2,}[\-\s]?[\u4e00-\u9fff]`模式，英文部分记录为`extracted_abbreviation`，供N5命名分层阶段作为alias候选（note="name中自动提取英文缩写"）。
 
-输出：每个节点附带一个`norm_name`和`is_document_title`标志，供后续阶段使用。
+输出：每个节点附带`norm_name`、`is_document_title`、`is_possible_document`、`extracted_abbreviation?`标志，供后续阶段使用。
 
 #### N2 候选重复对检测（candidate-detector.ts）
 
-**仅在node_type相同的节点间比较**，跨类型不比较。
+**默认同node_type内比较**，但允许material↔product跨类型（中文产业语境下"XX材料"和"XX产品"经常混用，如"电池隔膜"material vs "隔膜"product）。其他跨类型组合（含industry/equipment/process）保持严格类型匹配。
 
 多策略加权打分：
 
 | 策略 | 权重 | 触发条件 |
 |------|------|---------|
-| norm_name完全相等 | 1.0 | 规范化后完全相同 |
+| norm_name完全相等（同类型） | 1.0 | 规范化后完全相同 |
+| norm_name完全相等（material↔product跨类型） | 0.85 | 标记type_conflict，进入manual_review |
 | 别名反向命中（A.name ∈ B.aliases 或反之） | 0.95 | |
+| definition模式词匹配 | 0.9 | 见下方definition_patterns策略 |
 | 编辑距离Levenshtein ≥ 0.8 + 长度差≤3 | 0.7 | 短文本简称/全称 |
-| 子串包含+同类型+长度差≤4 | 0.6 | "锂电池"⊂"锂离子电池" |
-| 共同邻居Jaccard ≥ 0.7 + 同类型 | 0.5 | 语义相似 |
+| 子串包含+类型兼容+长度差≤4 | 0.6 | "锂电池"⊂"锂离子电池" |
+| 共同邻居Jaccard ≥ 0.7 + 类型兼容 | 0.5 | 语义相似 |
 | slugify ID相同/高度相似 | 0.4 | ID生成导致的重复 |
 
+**类型兼容性矩阵**：
+
+| node_type A\node_type B | material | product | equipment | process | industry | entity |
+|-------------------------|----------|---------|-----------|---------|----------|--------|
+| material | ✅1.0 | ⚠️0.85 | ❌ | ❌ | ❌ | ❌ |
+| product | ⚠️0.85 | ✅1.0 | ❌ | ❌ | ❌ | ❌ |
+| equipment | ❌ | ❌ | ✅1.0 | ❌ | ❌ | ❌ |
+| process | ❌ | ❌ | ❌ | ✅1.0 | ❌ | ❌ |
+| industry | ❌ | ❌ | ❌ | ❌ | ✅1.0 | ❌ |
+| entity | ❌ | ❌ | ❌ | ❌ | ❌ | ✅1.0 |
+
+> ⚠️=允许比较但权重系数0.85（跨类型），候选标记`type_conflict: true`进入manual_review，不自动merge。❌=不比较（类型差异明显，大概率不是同物）。
+
+**definition_patterns策略**（捕捉definition中的明确语义线索）：
+
+用中文模式词正则扫描每个节点的definition，匹配到的术语在节点列表中查找对应name/alias，作为候选对加入：
+
+| 正则模式 | 候选关系 | 说明 |
+|---------|---------|------|
+| `/又名\|简称\|俗称\|亦称\|也称\|行业[俗称称]\|俗称(.+)/` | merge（高置信） | 明确别名陈述 |
+| `/即\|也就是\|亦即(.+)/` | merge（高置信） | 等同关系 |
+| `/是(.+)的(子类\|主流类型\|一种\|分支\|细分\|类型)/` | parent_child | A是B的子类 |
+| `/属于(.+)(的\|)(子类\|范畴\|大类\|一种)/` | parent_child | A属于B的子类 |
+| `/(.+)(的\|)(简称\|缩写\|英文缩写)是/` | merge（别名方向） | 别名反查 |
+
+匹配到的术语需在节点列表中精确匹配（name或aliases.term），匹配后加入候选对，证据source标记为definition_pattern。
+
+**英文缩写自动识别**：
+
+对name扫描模式`[A-Z]{2,}[\-\s]?[\u4e00-\u9fff]`（连续2+大写英文字母后跟中文），英文部分自动作为alias候选（note="name中自动提取英文缩写"）。例如："EVA胶膜"→alias "EVA"，"PE树脂"→alias "PE"。
+
 置信度分级：
-- ≥0.85 → 高置信度
-- 0.6~0.85 → 中置信度
+- ≥0.85 → 高置信度（同类型完全相等、别名反向命中、definition明确别名/等同）
+- 0.6~0.85 → 中置信度（进入manual_review）
 - <0.6 → 不进入候选
+- 跨类型候选（material↔product）即使≥0.85也进入manual_review，不自动merge
 
 对高置信度候选还要做**父子关系预过滤**：如果名称A = "[常见修饰词]"+B，且修饰词是技术路线/规格/应用场景修饰（晶体硅、单/多晶、车用、储能用、地面用、薄膜、柔性、高密度等），降权为parent_child候选而非merge候选。
 
@@ -539,9 +581,11 @@ interface CrawlerSource {
 - 名称是"[技术修饰词]+[基础名]"结构且修饰词是已知技术路线词 → parent_child优先
 
 **文档名处理**：
-- is_document_title=true的standard来源节点：
-  - 剥离文档后缀后匹配 → merge建议（全名进gb_standard contextual_name）
-  - 剥离后无匹配且definition<5字 → review（可能应降级为source）
+- is_document_title=true的standard来源节点（满足多信号综合判断）：
+  - 剥离文档后缀词后，在现有节点name/aliases中精确或模糊匹配 → 建议merge（全名作为gb_standard的contextual_name，source信息附加到被匹配实体）
+  - 剥离后无匹配 + definition明确描述某实体 → 同样建议merge，definition作为实体的补充source
+  - 剥离后无匹配 + definition是标准文本描述（"本标准规定了...的技术要求"）且无对应实体 → 建议**降级为source引用**（不作为图节点，原文信息作为相关节点的source），输出review项
+- is_possible_document=true（权重2~3）：不自动处理，进入manual_review列出全部信号让人工判断
 
 #### N4 联网验证（web-verifier.ts，可选）
 
@@ -615,23 +659,26 @@ interface CrawlerSource {
 
 关系来源分四类：
 1. **来源数据自带的边**（CrawlResult.edges，如产业链JSON中手动定义的边、国标提取边、巨潮数据的边）
-2. **parent_type派生边**（从节点父子关系生成）——改进现有generateBasicEdges逻辑：
-   - material→material父类：can_be_processed_into（子类可加工为父类？需复核方向）
-   - product/equipment/material→industry：applied_in（产品/设备/材料应用于某行业）
-   - 不能硬编码单一映射，要根据node_type pair选择合适的relation_type
+2. **parent_type派生边**（从节点父子关系生成）——严格区分分类关系(is-a)和产业链流转关系(part-of/used-for)：
+   - **同类型父子（material→material, product→product, equipment→equipment, process→process）**：生成`is_subclass_of`边（flow=horizontal，不进入任何产业链主轴），**不**生成can_be_processed_into/downstream_of等流转关系边
+   - **跨类型指向industry（*→industry）**：生成`applied_in`边（产品/材料/设备/工艺应用于某行业），这是正确的应用归属关系
+   - **其他跨类型组合**：不自动生成边，在review报告中提示"该节点parent_type指向不同类型节点，无产业链边，请人工确认是否需要补充"
+   - **重要原则**：parent_type表达分类层级（is-a），不等于产业链流转（part-of/used-for）。例如"人造石墨 parent_type=石墨负极"表示"人造石墨是石墨负极的子类"，不表示"人造石墨可加工为石墨负极"，不应生成can_be_processed_into。
 3. **结构推断边**（可配置规则，如"同一parent的子节点之间可能存在structurally_similar_to"——仅作为proposed，需验证）
 4. **AI/规则提取边**（如extract-edges-from-standards.ts已有的国标文本关系提取）
 
-**重要改进**：parent_type派生边的relation_type映射表：
+**parent_type派生边映射表**（已修正，替换错误的流转边为分类边）：
 ```typescript
 const PARENT_RELATION_MAP: Record<`${NodeType}>${NodeType}`, RelationType | null> = {
-  'material>material': 'can_be_processed_into',  // 具体材料→父类材料（子类是父类的细分加工产物）
-  'product>product': 'downstream_of',            // 产品子分类
-  'product>industry': 'applied_in',              // 产品→所属行业
-  'material>industry': 'applied_in',             // 材料→应用行业
-  'equipment>industry': 'applied_in',            // 设备→应用行业
-  'process>industry': 'applied_in',              // 工艺→应用行业
-  // 其他组合不自动生成边
+  'material>material': 'is_subclass_of',    // 分类关系（is-a），非流转
+  'product>product': 'is_subclass_of',      // 分类关系（is-a），非流转
+  'equipment>equipment': 'is_subclass_of',  // 分类关系（is-a），非流转
+  'process>process': 'is_subclass_of',      // 分类关系（is-a），非流转
+  'product>industry': 'applied_in',         // 产品→所属行业（应用归属，正确）
+  'material>industry': 'applied_in',        // 材料→应用行业
+  'equipment>industry': 'applied_in',       // 设备→应用行业
+  'process>industry': 'applied_in',         // 工艺→应用行业
+  // 其他组合不自动生成边，输出review提示
 };
 ```
 
@@ -671,20 +718,38 @@ const PARENT_RELATION_MAP: Record<`${NodeType}>${NodeType}`, RelationType | null
 
 #### E5 边-产业链关联（运行时推断，不写入字段）
 
-提供工具函数：给定chainId，计算某条边属于主轴边/支链边/链外边：
+提供工具函数：给定chainId，计算某条边属于主轴边/支链边/跨链边/链外边：
 
 ```typescript
+interface EdgeRole {
+  role: 'main_axis' | 'branch' | 'cross_chain' | 'outside';
+  direction: 'upstream' | 'downstream' | 'lateral';
+  upstreamNode: string;   // 上游节点ID（用于布局左/右判定）
+  downstreamNode: string; // 下游节点ID
+}
+
 function classifyEdgeForChain(
   edge: GraphEdge,
   chainId: string,
   mainAxisNodeIds: Set<string>
-): 'main_axis' | 'branch' | 'outside';
+): EdgeRole;
 ```
 
 逻辑：
-- 边的relation_type在chainDef.main_axis_relations中，且两端都在mainAxisNodeIds → 'main_axis'
-- 一端在mainAxisNodeIds，relation_type在chainDef.branch_relations → 'branch'
-- 其他 → 'outside'
+1. 解析effective_flow（考虑ChainDef覆盖）
+2. 判定upstreamNode/downstreamNode：
+   - effective_flow=upstream_to_downstream → upstreamNode=edge.source, downstreamNode=edge.target
+   - effective_flow=downstream_to_upstream → upstreamNode=edge.target, downstreamNode=edge.source
+   - effective_flow=horizontal → direction='lateral', upstreamNode=downstreamNode=null（lateral无边方向）
+3. 判定role：
+   - 边的relation_type在chainDef.main_axis_relations中，且两端都在mainAxisNodeIds → 'main_axis'
+   - 一端在mainAxisNodeIds，relation_type在chainDef.branch_relations：
+     - 若远端节点primary_chain存在且primary_chain !== chainId → 'cross_chain'（跨链支链，交互上可隐约可见/高亮）
+     - 否则 → 'branch'（本链支链）
+   - 两端都不在mainAxisNodeIds → 'outside'
+4. 判定direction：基于effective_flow和upstream/downstreamNode与中心节点的位置关系（由调用方传入中心节点信息或在主轴BFS时判定）
+
+**重要**：classifyEdgeForChain必须由DAL封装，不允许前端/布局层各自重新实现RELATION_FLOW方向逻辑——made_of/equipment_for/consumable_for/downstream_of是反向边，方向推理极易出错（验证测试已证明）。
 
 ### 阶段V：验证层（Validation）
 
@@ -963,13 +1028,12 @@ export interface GraphDataProvider {
 
   // —— 产业链视图（新增，为渲染层服务）——
   getMainAxisNodes(centerNodeId: string, chainId: string): {
-    upstream: GraphNode[];    // 主轴上游节点（中心左边）
+    upstream: GraphNode[][];    // 主轴上游节点（按跳数分层，upstream[0]是距中心1跳，upstream[1]是2跳……）
     center: GraphNode;
-    downstream: GraphNode[];  // 主轴下游节点（中心右边）
+    downstream: GraphNode[][];  // 主轴下游节点（按跳数分层）
   };
   getBranchNodes(mainAxisNodeIds: Set<string>, chainId: string): GraphNode[];
-  classifyEdgeForChain(edgeId: string, chainId: string, mainAxisNodeIds: Set<string>):
-    'main_axis' | 'branch' | 'outside';
+  classifyEdgeForChain(edge: GraphEdge, chainId: string, mainAxisNodeIds: Set<string>): EdgeRole;
 
   // —— 关系流向（新增）——
   getEffectiveFlow(edge: GraphEdge, chainId?: string): RelationFlow;
@@ -1104,10 +1168,26 @@ API路由是JsonDataProvider的HTTP包装，不重复业务逻辑。但前端在
 1. **误合并破坏数据**：dry-run默认、强制备份、merged节点不删除可回滚、不直接覆盖生产数据、验证阻断
 2. **contextual_name撞名父类**：撞名检测+manual_review
 3. **简称歧义**（"PC"=聚碳酸酯/个人电脑）：英文缩写不作为name，aliases加note，搜索返回多结果
-4. **父子关系误判为合并**：技术修饰词识别优先判parent_child；子串包含权重低
-5. **国标文档名误入节点**：is_document_title标记+剥离+review
-6. **流向定义错误导致布局错乱**：RELATION_FLOW作为独立可审查配置文件；ChainDef可覆盖；cycle detection验证
+4. **父子关系误判为合并**：技术修饰词识别优先判parent_child；子串包含权重低；definition_patterns识别父子关系
+5. **国标文档名误入节点**：多信号is_document_title识别（后缀词+definition关键词+source_type综合权重）+剥离+review
+6. **流向定义错误导致布局错乱**：RELATION_FLOW作为独立可审查配置文件（chains.ts）；ChainDef可覆盖；cycle detection验证；classifyEdgeForChain统一封装方向判定
 7. **pipeline破坏已有前端**：输出到独立目录，需显式publish才覆盖src/data/graph-data.json；publish前可在测试环境验证
+8. **parent_type分类边混入产业链主轴**：is_subclass_of为horizontal流向，不出现在任何ChainDef.main_axis_relations中，保证不会误用于产业链横向布局
+
+### 设计边界与已知限制
+
+1. **主轴可能是Y形树而非单线**：多个上游原料（如铝合金+硅料同时作为光伏组件的上游）会产生并行分支，这是真实产业链结构的反映。v1接受Y形主轴，布局层处理同跳(rank)节点的y轴偏移；v2可考虑引入"主路径权重"概念（基于边密度/产值/技术核心度）来选择主轴主线。
+2. **contextual_names必须数据驱动**：如果battery_chain数据里没有"太阳能板"名称的节点，N5(光伏组件)就不会自动获得battery_chain contextual_name，不做AI幻觉式填名。
+3. **primary_chain=null是合法状态**：跨链共用材（如铝合金）无法自动判定主链时保持null，由人工设定；数据层返回null让渲染层决定交互行为（flyTo/弹窗选择/按类型默认）。
+4. **material/product是唯一允许跨类型比较的组合**：中文产业语境下两者经常混用（隔膜/电极/箔材既是材料名也是产品名），industry/equipment/process保持严格类型匹配。
+5. **classifyEdgeForChain必须由DAL封装**：反向边(made_of/equipment_for等)的方向推理极易出错，DAL统一返回{role, direction, upstreamNode, downstreamNode}，前端/布局层禁止重写方向逻辑。
+
+### v2 进阶方向（本次不实现）
+
+1. **ChainDef主路径权重**：为main_axis_relations中的边类型配置权重（can_be_processed_into=1.0, raw_material_for=0.7），主轴BFS时优先选择权重高的路径作为X轴主线，辅材/结构件自动降级为支链或y轴偏移。
+2. **歧义简称检测增强**：alias.term等于其他节点的name/contextual_name时标记撞名警告；可能跨领域歧义的简称（"PC""PS""PP"等）不放入全局aliases，只放入特定chain的contextual_names。
+3. **跨链节点视觉标记辅助字段**：在DAL返回的节点视图数据中增加`is_cross_chain: boolean`字段，减少前端重复计算。
+4. **is_subclass_of层级遍历**：利用is_subclass_of边构建完整分类树，支持"查看同类材料"等横向导航。
 
 ### 权威来源边界
 

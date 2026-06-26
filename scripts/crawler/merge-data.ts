@@ -57,18 +57,29 @@ function generateBasicEdges(nodes: CrawledNode[]): CrawledEdge[] {
   const edges: CrawledEdge[] = [];
   const idToNode = new Map(nodes.map(n => [n.id, n]));
 
+  let subclassEdgeCount = 0;
+  let appliedInEdgeCount = 0;
+
   for (const node of nodes) {
     if (!node.parent_type) continue;
     const parent = idToNode.get(node.parent_type);
     if (!parent) continue;
 
-    let relationType: RelationType = 'downstream_of';
-    if (node.node_type === 'material' && parent.node_type === 'material') {
-      relationType = 'can_be_processed_into';
-    } else if (node.node_type === 'product' && parent.node_type === 'industry') {
+    let relationType: RelationType;
+
+    if (parent.node_type === 'industry') {
       relationType = 'applied_in';
-    } else if (node.node_type === 'material' && parent.node_type === 'industry') {
-      relationType = 'applied_in';
+      appliedInEdgeCount++;
+    } else if (
+      (node.node_type === 'material' && parent.node_type === 'material') ||
+      (node.node_type === 'product' && parent.node_type === 'product') ||
+      (node.node_type === 'equipment' && parent.node_type === 'equipment') ||
+      (node.node_type === 'process' && parent.node_type === 'process')
+    ) {
+      relationType = 'is_subclass_of';
+      subclassEdgeCount++;
+    } else {
+      continue;
     }
 
     edges.push({
@@ -79,12 +90,21 @@ function generateBasicEdges(nodes: CrawledNode[]): CrawledEdge[] {
       evidence: [
         createSource(
           'official_data',
-          `分类层级关系：${node.name} 属于 ${parent.name}`,
+          `分类层级关系：${node.name} ${relationType === 'is_subclass_of' ? '是' : '属于'} ${parent.name}`,
           node.sources[0]?.url
         ),
       ],
-      note: '基于行业分类层级生成的关系',
+      note: relationType === 'is_subclass_of'
+        ? '基于parent_type分类层级生成（is_subclass_of为横向分类关系，不进入产业链主轴）'
+        : '基于行业分类层级生成的应用关系',
     });
+  }
+
+  if (subclassEdgeCount > 0) {
+    console.log(`  ⚠ generateBasicEdges: 生成 ${subclassEdgeCount} 条 is_subclass_of 分类边（原can_be_processed_into/downstream_of已修正为分类关系）`);
+  }
+  if (appliedInEdgeCount > 0) {
+    console.log(`  ⚠ generateBasicEdges: 生成 ${appliedInEdgeCount} 条 applied_in 行业归属边`);
   }
 
   return edges;
