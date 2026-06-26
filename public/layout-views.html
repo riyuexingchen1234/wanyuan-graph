@@ -2,549 +2,443 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8"/>
-<title>产业链空间布局 - 三视图设计稿</title>
+<title>产业链空间布局 v2 - 三视图（黄金角螺旋）</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { background:#f5f5f0; font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; padding:20px; color:#222; }
 h1 { text-align:center; font-size:20px; margin-bottom:6px; font-weight:600; }
 .subtitle { text-align:center; font-size:12px; color:#888; margin-bottom:20px; }
-.views { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:auto auto; gap:16px; max-width:1200px; margin:0 auto; }
+.views { display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:1200px; margin:0 auto; }
 .view-box { background:#fff; border:1px solid #ddd; border-radius:6px; padding:12px; }
 .view-title { font-size:13px; font-weight:600; margin-bottom:6px; color:#444; border-left:3px solid #333; padding-left:8px; }
 .view-desc { font-size:11px; color:#999; margin-bottom:8px; line-height:1.5; }
 canvas { display:block; width:100%; border:1px solid #eee; background:#fff; }
 .legend { display:flex; gap:16px; flex-wrap:wrap; font-size:11px; color:#666; margin-top:8px; }
 .legend-item { display:flex; align-items:center; gap:4px; }
-.legend-dot { width:10px; height:10px; border-radius:50%; }
+.legend-dot { width:10px; height:10px; border-radius:50%; background:#333; }
 .rules { max-width:1200px; margin:20px auto 0; background:#fff; border:1px solid #ddd; border-radius:6px; padding:16px; font-size:12px; line-height:1.8; color:#444; }
 .rules h3 { font-size:14px; margin-bottom:8px; }
 .rules ul { padding-left:18px; }
 .rules code { background:#f0f0ea; padding:1px 5px; border-radius:3px; font-size:11px; }
+.formula { background:#fafaf6; padding:10px; border-left:3px solid #999; margin:8px 0; font-family:monospace; font-size:11px; line-height:1.6; }
 </style>
 </head>
 <body>
-<h1>光伏产业链 · 空间布局设计稿</h1>
-<div class="subtitle">基于10×10×10立方体网格概念 · 黑白朴素风格 · 产业总览态（点击"光伏产业"）</div>
+<h1>光伏产业链 · 空间布局 v2</h1>
+<div class="subtitle">圆锥黄金角螺旋分布 · 节点统一大小 · 朴素黑白 · 产业总览态</div>
 
 <div class="views">
   <div class="view-box">
-    <div class="view-title">正视图（Front View · 沿-Z方向看向XY平面）</div>
-    <div class="view-desc">用户正前方视角：横向主链 + 上方辅材锥形堆叠 + 下方应用扇形展开</div>
+    <div class="view-title">正视图（Front · 沿-Z看XY平面）</div>
+    <div class="view-desc">相机视角：横向主链，上方辅材螺旋展开，下方应用扇形展开</div>
     <canvas id="frontView" width="560" height="420"></canvas>
   </div>
   <div class="view-box">
-    <div class="view-title">俯视图（Top View · 沿-Y方向向下看XZ平面）</div>
-    <div class="view-desc">从上向下看：主链水平横向，支链呈倒V形向后方收拢（灭点汇聚感）</div>
+    <div class="view-title">俯视图（Top · 沿-Y往下看XZ平面）</div>
+    <div class="view-desc">从上往下看：主链水平，支链向后（画面上方）呈锥形展开，黄金角螺旋纹清晰可见</div>
     <canvas id="topView" width="560" height="420"></canvas>
   </div>
   <div class="view-box">
-    <div class="view-title">侧视图（Side View · 沿+X方向看YZ平面）</div>
-    <div class="view-desc">从右侧看：产业节点最前，主链在后方一层，支链逐层后退并向上/向下堆叠</div>
+    <div class="view-title">侧视图（Right Side · 沿+X看YZ平面）</div>
+    <div class="view-desc">从右往左看：产业节点最前（右），主链其后，支链向后（左）多层螺旋后移</div>
     <canvas id="sideView" width="560" height="420"></canvas>
   </div>
   <div class="view-box">
-    <div class="view-title">透视图（Perspective · 近似3D效果）</div>
-    <div class="view-desc">模拟相机斜前方观察效果，呈现"火箭尾焰"3D纵深感</div>
+    <div class="view-title">透视图（Perspective）</div>
+    <div class="view-desc">斜前方观察：近大远小透视自然体现层次，螺旋尾焰具有流动感</div>
     <canvas id="perspView" width="560" height="420"></canvas>
   </div>
 </div>
 
 <div class="legend" style="max-width:1200px;margin:12px auto 0;">
-  <div class="legend-item"><div class="legend-dot" style="background:#111"></div>产业节点</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#444"></div>主链节点</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#888"></div>支链 hop=1</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#bbb"></div>支链 hop=2</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#ddd;border:1px solid #999"></div>支链 hop=3</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#666"></div>下游应用节点</div>
+  <div class="legend-item"><div class="legend-dot"></div>所有节点统一大小（统一小球半径，靠透视产生大小差异）</div>
 </div>
 
 <div class="rules">
-<h3>布局规则说明</h3>
+<h3>布局算法</h3>
 <ul>
-<li><b>坐标系</b>：X=左右（右+），Y=上下（上+），Z=前后（前+，靠近相机为+Z）。相机在+Z处看向-Z方向。</li>
-<li><b>产业节点</b>：位于 (0, H<sub>ind</sub>, 0)，在主链几何中心正上方、最靠前（z=0）。</li>
-<li><b>主链</b>：7个节点沿X轴均匀排列在 z = -D<sub>main</sub> 平面，y=0，中心节点对齐 x=0。主链间距 G。</li>
-<li><b>支链层级</b>：每深一跳(hop+1)，z 减少 D<sub>layer</sub>（更靠后）。hop=1在z=-D<sub>main</sub>-D<sub>layer</sub>，hop=2再退一层……</li>
-<li><b>上下游半圆形分布</b>：
-  <ul>
-    <li>上游/辅材（供给父节点的原材料、设备）→ 父节点<b>上方</b>半圆弧（θ∈[0,π]）均匀分布；</li>
-    <li>下游/应用（父节点产出流入的领域）→ 父节点<b>下方</b>半圆弧（θ∈[π,2π]）均匀分布。</li>
-  </ul>
-</li>
-<li><b>纵深堆叠</b>：随着hop增大（越深入后方），半圆弧的圆心 Y 值向上偏移（上游）或向下偏移（下游），弧半径缩小，形成向灭点汇聚的锥形尾焰效果。具体：
-  <ul>
-    <li>上游弧心Y：Y<sub>parent</sub> + U<sub>shift</sub>（向上偏移），半径 R = R<sub>0</sub> × shrink<sup>hop</sup>；</li>
-    <li>下游弧心Y：Y<sub>parent</sub> - D<sub>shift</sub>（向下偏移），半径同样缩小。</li>
-  </ul>
-</li>
-<li><b>连线</b>：产业→主链（贝塞尔曲线，拱起）；主链↔主链（直线）；父→子（直线或微曲线）。</li>
-<li><b>灰度分级</b>：产业#111 → 主链#444 → hop1#888 → hop2#bbb → hop3#ddd，越远越淡，体现层次。</li>
-<li><b>参数取值</b>：G=1（主链间距），D<sub>main</sub>=1.5（产业到主链纵深），D<sub>layer</sub>=1.2（层间距），H<sub>ind</sub>=1.8（产业节点高度），R<sub>0</sub>=0.6（hop=1半圆半径），shrink=0.75（每层半径收缩比），U<sub>shift</sub>=0.5（上游每层上移），D<sub>shift</sub>=0.4（下游每层下移）。</li>
+<li><b>坐标系</b>：X=左右（右+），Y=上下（上+），Z=前后（前+，靠近相机为+Z）。相机位于+Z处看向-Z方向。</li>
+<li><b>产业节点</b>：位于 (0, H<sub>ind</sub>, 0)，在主链几何中心正上方，最靠前（z=0）。</li>
+<li><b>主链</b>：沿X轴均匀排列在 z=-D<sub>main</sub> 平面，y=0，中心节点对齐 x=0。</li>
+</ul>
+<div class="formula">
+<b>支链黄金角螺旋（以父节点p为原点，-Z为后）：</b><br>
+goldenAngle = π·(3−√5) ≈ 2.3999 rad（137.5°）<br>
+第k个子节点（k=0,1,2...）：<br>
+&nbsp;&nbsp;z<sub>k</sub> = p.z − D<sub>layer</sub>·(k+1) &nbsp;&nbsp; <i>// 每子后退一步</i><br>
+&nbsp;&nbsp;r<sub>k</sub> = R<sub>0</sub>·√(k+1)·shrink<sup>hop</sup> &nbsp;&nbsp; <i>// 半径缓慢增长，越深层收缩</i><br>
+&nbsp;&nbsp;θ<sub>k</sub> = θ<sub>start</sub> + k·goldenAngle &nbsp;&nbsp; <i>// 每步黄金角旋转</i><br>
+&nbsp;&nbsp;x<sub>k</sub> = p.x + r<sub>k</sub>·cos(θ<sub>k</sub>)<br>
+&nbsp;&nbsp;y<sub>k</sub> = p.y + r<sub>k</sub>·sin(θ<sub>k</sub>)<br>
+<br>
+<b>上下分配</b>：上游辅材 θ<sub>start</sub>=π/2（从正上方开始螺旋），下游应用 θ<sub>start</sub>=3π/2（从正下方开始螺旋）。<br>
+<b>深度收缩</b>：每多一层 hop，起始半径R<sub>0</sub>乘以shrink，保证纵深节点向中心收束。
+</div>
+<ul>
+<li><b>节点大小</b>：所有节点世界坐标下半径统一为0.05（与未命名.html一致的小球），仅依靠透视近大远小和灰度体现层次。</li>
+<li><b>灰度分级</b>（朴素黑白）：产业#111 → 主链#333 → hop1#777 → hop2#aaa → hop3#ccc → hop≥4#e0e0e0，越远越淡。</li>
+<li><b>连线</b>：主链直线黑色较实；产业→主链直线灰色；父→支链灰色浅淡；越远越淡。</li>
 </ul>
 </div>
 
 <script>
-// ========== 数据结构 ==========
-// 主链顺序
+// ========== 数据 ==========
 const MAIN_CHAIN = ['工业硅','太阳能级多晶硅','硅片','光伏电池片','光伏层压件','光伏组件','光伏电站'];
 
-// 父子关系（parent -> {upstream:[], downstream:[]}）
-// 根据drawio解析：edge source->target 表示物流方向(source供给/流入target，即source是target的上游)
+// parent -> {upstream:原材料/辅材(供给parent), downstream:产出物(parent产出流入它们)}
+// edge source->target 表示 source流入target，即source是target的上游
 const TREE = {
-  '工业硅':         { upstream: [], downstream: ['太阳能级多晶硅'] },
-  '太阳能级多晶硅':  { upstream: ['工业硅'], downstream: ['硅片'] },
-  '硅片':           { upstream: ['太阳能级多晶硅','银浆','单晶硅'], downstream: ['光伏电池片'] },
-  '光伏电池片':      { upstream: ['硅片'], downstream: ['光伏层压件'] },
-  '光伏层压件':      { upstream: ['光伏电池片','光伏涂锡焊带','光伏封装胶膜','光伏背板','光伏玻璃'], downstream: ['光伏组件'] },
-  '光伏组件':        { upstream: ['光伏层压件','光伏接线盒','密封胶','铝边框'], downstream: ['光伏电站'] },
-  '光伏电站':        { upstream: ['光伏组件','光伏支架','光伏逆变器','汇流箱','储能蓄电池','光伏跟踪系统','光伏控制器'],
-                      downstream: ['光伏建筑一体化','光伏交通','光伏供热','光伏制氢'] },
-  // 支链节点
-  '银浆':           { upstream: [], downstream: ['硅片'] },
-  '单晶硅':         { upstream: [], downstream: ['硅片'] },
-  '光伏涂锡焊带':    { upstream: [], downstream: ['光伏层压件'] },
-  '光伏封装胶膜':    { upstream: ['EVA胶膜','POE胶膜'], downstream: ['光伏层压件'] },
-  '光伏背板':        { upstream: ['PET基膜','氟膜'], downstream: ['光伏层压件'] },
-  '光伏玻璃':        { upstream: ['纯碱石英砂'], downstream: ['光伏层压件'] },
-  '光伏接线盒':      { upstream: [], downstream: ['光伏组件'] },
-  '密封胶':         { upstream: [], downstream: ['光伏组件'] },
-  '铝边框':         { upstream: [], downstream: ['光伏组件'] },
-  '光伏支架':        { upstream: [], downstream: ['光伏电站'] },
-  '光伏逆变器':      { upstream: [], downstream: ['光伏电站'] },
-  '汇流箱':         { upstream: [], downstream: ['光伏电站'] },
-  '储能蓄电池':      { upstream: [], downstream: ['光伏电站'] },
-  '光伏跟踪系统':    { upstream: [], downstream: ['光伏电站'] },
-  '光伏控制器':      { upstream: [], downstream: ['光伏电站'] },
-  '光伏建筑一体化':  { upstream: ['光伏电站'], downstream: [] },
-  '光伏交通':        { upstream: ['光伏电站'], downstream: [] },
-  '光伏供热':        { upstream: ['光伏电站'], downstream: [] },
-  '光伏制氢':        { upstream: ['光伏电站'], downstream: [] },
-  'EVA胶膜':        { upstream: ['乙烯','醋酸乙烯'], downstream: ['光伏封装胶膜'] },
-  'POE胶膜':        { upstream: ['乙烯','高碳α烯烃'], downstream: ['光伏封装胶膜'] },
-  'PET基膜':        { upstream: [], downstream: ['光伏背板'] },
-  '氟膜':           { upstream: [], downstream: ['光伏背板'] },
-  '纯碱石英砂':      { upstream: [], downstream: ['光伏玻璃'] },
-  '乙烯':           { upstream: [], downstream: ['EVA胶膜','POE胶膜'] },
-  '醋酸乙烯':        { upstream: [], downstream: ['EVA胶膜'] },
-  '高碳α烯烃':      { upstream: [], downstream: ['POE胶膜'] },
+  '工业硅':         { up: [], down: ['太阳能级多晶硅'] },
+  '太阳能级多晶硅':  { up: ['工业硅'], down: ['硅片'] },
+  '硅片':           { up: ['太阳能级多晶硅','银浆','单晶硅'], down: ['光伏电池片'] },
+  '光伏电池片':      { up: ['硅片'], down: ['光伏层压件'] },
+  '光伏层压件':      { up: ['光伏电池片','光伏涂锡焊带','光伏封装胶膜','光伏背板','光伏玻璃'], down: ['光伏组件'] },
+  '光伏组件':        { up: ['光伏层压件','光伏接线盒','密封胶','铝边框'], down: ['光伏电站'] },
+  '光伏电站':        { up: ['光伏组件','光伏支架','光伏逆变器','汇流箱','储能蓄电池','光伏跟踪系统','光伏控制器'],
+                      down: ['光伏建筑一体化','光伏交通','光伏供热','光伏制氢'] },
+  '银浆':           { up: [], down: ['硅片'] },
+  '单晶硅':         { up: [], down: ['硅片'] },
+  '光伏涂锡焊带':    { up: [], down: ['光伏层压件'] },
+  '光伏封装胶膜':    { up: ['EVA胶膜','POE胶膜'], down: ['光伏层压件'] },
+  '光伏背板':        { up: ['PET基膜','氟膜'], down: ['光伏层压件'] },
+  '光伏玻璃':        { up: ['纯碱石英砂'], down: ['光伏层压件'] },
+  '光伏接线盒':      { up: [], down: ['光伏组件'] },
+  '密封胶':         { up: [], down: ['光伏组件'] },
+  '铝边框':         { up: [], down: ['光伏组件'] },
+  '光伏支架':        { up: [], down: ['光伏电站'] },
+  '光伏逆变器':      { up: [], down: ['光伏电站'] },
+  '汇流箱':         { up: [], down: ['光伏电站'] },
+  '储能蓄电池':      { up: [], down: ['光伏电站'] },
+  '光伏跟踪系统':    { up: [], down: ['光伏电站'] },
+  '光伏控制器':      { up: [], down: ['光伏电站'] },
+  '光伏建筑一体化':  { up: ['光伏电站'], down: [] },
+  '光伏交通':        { up: ['光伏电站'], down: [] },
+  '光伏供热':        { up: ['光伏电站'], down: [] },
+  '光伏制氢':        { up: ['光伏电站'], down: [] },
+  'EVA胶膜':        { up: ['乙烯','醋酸乙烯'], down: ['光伏封装胶膜'] },
+  'POE胶膜':        { up: ['乙烯','高碳α烯烃'], down: ['光伏封装胶膜'] },
+  'PET基膜':        { up: [], down: ['光伏背板'] },
+  '氟膜':           { up: [], down: ['光伏背板'] },
+  '纯碱石英砂':      { up: [], down: ['光伏玻璃'] },
+  '乙烯':           { up: [], down: ['EVA胶膜','POE胶膜'] },
+  '醋酸乙烯':        { up: [], down: ['EVA胶膜'] },
+  '高碳α烯烃':      { up: [], down: ['POE胶膜'] },
 };
 
-// 节点类型判定
-function nodeType(name) {
-  if (name === '光伏产业') return 'industry';
-  if (MAIN_CHAIN.includes(name)) return 'main';
-  if (TREE[name]?.downstream?.length === 0 && TREE[name]?.upstream?.includes('光伏电站')) return 'application';
-  return 'branch';
-}
+function isMain(n){ return MAIN_CHAIN.includes(n); }
+function isApp(n){ return TREE[n] && TREE[n].up.includes('光伏电站') && TREE[n].down.length===0; }
+function isIndustry(n){ return n==='光伏产业'; }
 
-// hop深度（距离主链的跳数）
-function getHop(name) {
-  if (name === '光伏产业') return -1;
-  if (MAIN_CHAIN.includes(name)) return 0;
-  // BFS from main chain
-  const visited = new Set(MAIN_CHAIN);
-  let frontier = [...MAIN_CHAIN];
-  let depth = 0;
-  while (frontier.length) {
-    depth++;
-    const next = [];
-    for (const n of frontier) {
-      const rel = TREE[n];
-      if (!rel) continue;
-      for (const child of [...rel.upstream, ...rel.downstream]) {
-        if (!visited.has(child)) {
-          visited.add(child);
-          if (child === name) return depth;
-          next.push(child);
+// hop 计算（BFS从主链出发）
+function getHop(name){
+  if(isIndustry(name)) return -1;
+  if(isMain(name)) return 0;
+  const visited=new Set(MAIN_CHAIN);
+  let frontier=[...MAIN_CHAIN];
+  let d=0;
+  while(frontier.length && d<6){
+    d++;
+    const nxt=[];
+    for(const n of frontier){
+      const rel=TREE[n]; if(!rel) continue;
+      for(const c of [...rel.up,...rel.down]){
+        if(!visited.has(c)){
+          visited.add(c);
+          if(c===name) return d;
+          nxt.push(c);
         }
       }
     }
-    frontier = next;
-    if (depth > 5) break;
+    frontier=nxt;
   }
   return 1;
 }
 
 // ========== 布局参数 ==========
-const G = 1.0;          // 主链节点X间距
-const D_MAIN = 1.5;     // 主链Z深度（产业节点z=0，主链z=-D_MAIN）
-const D_LAYER = 1.2;    // 支链每层Z后退
-const H_IND = 1.8;      // 产业节点Y高度
-const R0 = 0.55;        // hop1 半圆半径
-const SHRINK = 0.7;     // 半径收缩率
-const U_SHIFT = 0.5;    // 上游每层Y上移
-const D_SHIFT = 0.4;    // 下游每层Y下移（绝对值）
+const G=1.0;
+const D_MAIN=1.5;
+const D_LAYER=1.1;
+const H_IND=1.8;
+const R0=0.45;
+const SHRINK=0.72;
+const GOLDEN = Math.PI*(3-Math.sqrt(5)); // ≈2.3999
+const NODE_R = 0.06; // 世界坐标统一球半径（与未命名.html的NODE_RADIUS=0.04近似）
 
-// ========== 计算所有节点坐标 ==========
-const positions = {}; // name -> {x,y,z}
+// ========== 坐标计算 ==========
+const P = {};
+P['光伏产业']={x:0,y:H_IND,z:0};
+MAIN_CHAIN.forEach((n,i)=>{ P[n]={x:(i-3)*G,y:0,z:-D_MAIN}; });
 
-// 产业节点
-positions['光伏产业'] = { x:0, y:H_IND, z:0 };
+function placeSpiral() {
+  const placed=new Set(['光伏产业',...MAIN_CHAIN]);
+  let frontier=MAIN_CHAIN.map(n=>({name:n,hop:0}));
+  let safety=0;
+  while(frontier.length && safety<50){
+    safety++;
+    const nxt=[];
+    for(const {name:parent,hop:pHop} of frontier){
+      const pp=P[parent]; if(!pp) continue;
+      const rel=TREE[parent]; if(!rel) continue;
 
-// 主链：7节点沿X轴，中心节点(光伏电池片, idx=3)在x=0
-MAIN_CHAIN.forEach((name, i) => {
-  positions[name] = { x: (i - 3)*G, y:0, z:-D_MAIN };
-});
+      // 收集子节点：上游（辅材/原材料，上半螺旋）、下游（非主链、非应用，下半螺旋）
+      const ups = rel.up.filter(c=>!isMain(c)&&!placed.has(c)&&!isApp(c));
+      const downs = rel.down.filter(c=>!isMain(c)&&!placed.has(c)&&!isApp(c));
+      const apps = rel.down.filter(c=>isApp(c)&&!placed.has(c));
 
-// 支链BFS逐层放置
-function placeBranches() {
-  const placed = new Set(['光伏产业', ...MAIN_CHAIN]);
-  let frontier = [...MAIN_CHAIN];
-  let hop = 0;
+      const childHop = pHop+1;
+      const shrink = Math.pow(SHRINK, pHop);
 
-  while (frontier.length && hop < 5) {
-    hop++;
-    const next = [];
-    for (const parent of frontier) {
-      const pPos = positions[parent];
-      if (!pPos) continue;
-      const pHop = MAIN_CHAIN.includes(parent) ? 0 : getHop(parent);
-      const rel = TREE[parent];
-      if (!rel) continue;
-
-      // 上游子节点：上半圆
-      const ups = rel.upstream.filter(c => !MAIN_CHAIN.includes(c) && !placed.has(c));
-      // 下游（非主链、非应用）：下半圆
-      const downs = rel.downstream.filter(c => !MAIN_CHAIN.includes(c) && !placed.has(c) && nodeType(c) !== 'application');
-      // 应用（光伏电站下游）：下半圆，单独处理（放在同一层hop1，不再继续深入）
-      const apps = rel.downstream.filter(c => nodeType(c) === 'application' && !placed.has(c));
-
-      // 半径随hop收缩
-      const r = R0 * Math.pow(SHRINK, hop-1);
-      const z = -D_MAIN - hop*D_LAYER;
-
-      // 上游上半圆
-      placeSemicircle(ups, pPos, r, z, true, hop, placed, next);
-      // 下游下半圆（非应用）
-      placeSemicircle(downs, pPos, r, z, false, hop, placed, next);
-      // 应用：下方半圆，但y偏移小，半径大（因为是终端应用）
-      if (apps.length) {
-        const appR = R0 * 0.9;
-        const appZ = -D_MAIN - D_LAYER;
-        placeSemicircle(apps, pPos, appR, appZ, false, 1, placed, next, true);
-      }
+      // 上游：从正上方(π/2)开始黄金角螺旋
+      placeChildren(ups, pp, childHop, shrink, Math.PI/2, +1, placed, nxt);
+      // 下游：从正下方(3π/2)开始
+      placeChildren(downs, pp, childHop, shrink, 3*Math.PI/2, -1, placed, nxt);
+      // 应用：下方半圆扇形（角度范围更紧，都在下方）
+      placeChildren(apps, pp, 1, 1.0, 3*Math.PI/2, -1, placed, nxt, true);
     }
-    frontier = next;
+    frontier=nxt;
   }
 }
 
-function placeSemicircle(children, pPos, r, z, isUp, hop, placed, next, isApp) {
-  const n = children.length;
-  if (n === 0) return;
-  // 半圆角度范围
-  const startAng = isUp ? 0.15 : Math.PI + 0.15;
-  const endAng = isUp ? Math.PI - 0.15 : 2*Math.PI - 0.15;
-  // 弧心Y偏移（纵深堆叠）
-  const yShift = isUp ? U_SHIFT*hop : -D_SHIFT*hop;
-  const centerY = pPos.y + yShift;
-  // 弧心X保持父节点x，但更纵深时可向主链中心收束
-  const centerX = pPos.x * (1 - hop*0.08); // 向x=0略微收束
-  const centerZ = z;
-
-  children.forEach((child, i) => {
-    const t = n === 1 ? 0.5 : i/(n-1);
-    const ang = startAng + t*(endAng - startAng);
-    const x = centerX + r*Math.cos(ang);
-    const y = centerY + r*Math.sin(ang);
-    positions[child] = { x, y, z: centerZ };
+function placeChildren(children, pp, hop, shrink, thetaStart, yDir, placed, nxt, isApp) {
+  const n=children.length;
+  if(n===0) return;
+  const depthBase = isApp ? 1 : hop;
+  const layerD = isApp ? D_LAYER : D_LAYER;
+  // 按黄金角在锥面上分布
+  children.forEach((child,k)=>{
+    const dk = k+1;
+    const z = pp.z - layerD*dk;
+    const r = R0*shrink*Math.sqrt(dk)*0.9;
+    let theta = thetaStart + k*GOLDEN;
+    const x = pp.x + r*Math.cos(theta);
+    const y = pp.y + r*Math.sin(theta)*yDir*0.9 + (yDir>0 ? 0.2*dk*0.5 : -0.15*dk*0.5);
+    P[child]={x,y,z};
     placed.add(child);
-    next.push(child);
+    nxt.push({name:child, hop});
   });
 }
 
-placeBranches();
+placeSpiral();
 
-// ========== 连线列表 ==========
-const lines = [];
-// 主链横线
-for (let i = 0; i < MAIN_CHAIN.length-1; i++) {
-  lines.push({ from: MAIN_CHAIN[i], to: MAIN_CHAIN[i+1], type:'main' });
-}
-// 产业到主链各节点
-MAIN_CHAIN.forEach(n => lines.push({ from:'光伏产业', to:n, type:'industry' }));
-// 所有父-子关系（排除主链间、产业到主链已加）
-Object.entries(TREE).forEach(([parent, rel]) => {
-  [...rel.upstream, ...rel.downstream].forEach(child => {
-    if (MAIN_CHAIN.includes(parent) && MAIN_CHAIN.includes(child)) return;
-    if (parent === '光伏产业') return;
-    // 避免重复
-    const key = [parent,child].sort().join('|');
-    if (!lines.some(l => [l.from,l.to].sort().join('|') === key)) {
-      lines.push({ from: parent, to: child, type: (MAIN_CHAIN.includes(parent)||MAIN_CHAIN.includes(child)) ? 'branch1' : 'branchN' });
+// ========== 连线 ==========
+const EDGES = [];
+for(let i=0;i<MAIN_CHAIN.length-1;i++) EDGES.push({from:MAIN_CHAIN[i],to:MAIN_CHAIN[i+1],type:'main'});
+MAIN_CHAIN.forEach(n=>EDGES.push({from:'光伏产业',to:n,type:'ind'}));
+Object.entries(TREE).forEach(([p,rel])=>{
+  [...(rel.up||[]),...(rel.down||[])].forEach(c=>{
+    if(isMain(p)&&isMain(c)) return;
+    if(p==='光伏产业') return;
+    const k=[p,c].sort().join('|');
+    if(!EDGES.some(e=>[e.from,e.to].sort().join('|')===k)){
+      EDGES.push({from:p,to:c,type:isMain(p)||isMain(c)?'b1':'bn'});
     }
   });
 });
 
-// ========== 绘制函数 ==========
-const COLORS = {
-  industry: '#111',
-  main: '#333',
-  branch1: '#888',
-  branch2: '#b0b0b0',
-  branch3: '#d0d0d0',
-  application: '#666',
-  lineMain: '#333',
-  lineIndustry: '#555',
-  lineBranch: '#bbb',
-};
-
-function nodeColor(name) {
-  const t = nodeType(name);
-  if (t === 'industry') return COLORS.industry;
-  if (t === 'main') return COLORS.main;
-  if (t === 'application') return COLORS.application;
-  const h = getHop(name);
-  if (h <= 1) return COLORS.branch1;
-  if (h <= 2) return COLORS.branch2;
-  return COLORS.branch3;
+// 颜色工具
+function gray(name){
+  if(isIndustry(name)) return '#111';
+  if(isMain(name)) return '#2a2a2a';
+  if(isApp(name)) return '#555';
+  const h=getHop(name);
+  if(h<=1) return '#707070';
+  if(h<=2) return '#a0a0a0';
+  if(h<=3) return '#c5c5c5';
+  return '#e0e0e0';
+}
+function edgeColor(t, hop){
+  if(t==='main') return 'rgba(30,30,30,0.7)';
+  if(t==='ind') return 'rgba(80,80,80,0.45)';
+  if(t==='b1') return 'rgba(130,130,130,0.35)';
+  return 'rgba(180,180,180,0.25)';
 }
 
-function nodeRadius(name) {
-  const t = nodeType(name);
-  if (t === 'industry') return 8;
-  if (t === 'main') return 6;
-  if (t === 'application') return 4;
-  const h = getHop(name);
-  if (h <= 1) return 4;
-  if (h <= 2) return 3;
-  return 2.5;
+// ========== 绘制 ==========
+function drawAxes(ctx, x,y, len, labelX,labelY){
+  ctx.strokeStyle='#ddd';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+len,y);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y-len);ctx.stroke();
+  ctx.fillStyle='#bbb';ctx.font='9px sans-serif';
+  ctx.fillText(labelX, x+len-20, y+12);
+  ctx.fillText(labelY, x-18, y-len+4);
 }
 
-function drawFrame(ctx, w, h, pad) {
-  ctx.strokeStyle = '#e0e0dd';
-  ctx.lineWidth = 1;
-  ctx.strokeRect(pad, pad, w-2*pad, h-2*pad);
-}
-
-// ---- 正视图 XY平面，Z映射为大小/透明度 ----
-function drawFront() {
-  const cv = document.getElementById('frontView');
-  const ctx = cv.getContext('2d');
-  const W=cv.width, H=cv.height;
-  ctx.clearRect(0,0,W,H);
-  const cx=W/2, cy=H/2+20;
-  const scale = 40; // 单位像素
-  const pad = 30;
-  drawFrame(ctx, W, H, 10);
-
-  // 坐标轴提示
-  ctx.fillStyle='#ccc'; ctx.font='10px sans-serif';
-  ctx.fillText('X →', W-50, H-10);
-  ctx.fillText('↑ Y', 10, 20);
-
-  function proj(p) {
-    // z越小（越远），绘制越淡越小
-    return { x: cx + p.x*scale, y: cy - p.y*scale, depth: p.z };
+function drawNode(ctx, x, y, r, color, label, labelColor, name, showLabel){
+  ctx.fillStyle=color;
+  ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();
+  if(showLabel && label){
+    ctx.fillStyle=labelColor||color;
+    ctx.font='9px sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText(name, x, y-r-2);
   }
-
-  // 排序：从后到前绘制
-  const allNodes = Object.keys(positions).sort((a,b) => positions[a].z - positions[b].z);
-
-  // 先绘制连线
-  lines.forEach(l => {
-    const a = positions[l.from], b = positions[l.to];
-    if (!a || !b) return;
-    const pa = proj(a), pb = proj(b);
-    let color;
-    if (l.type==='main') color = COLORS.lineMain;
-    else if (l.type==='industry') color = COLORS.lineIndustry;
-    else color = COLORS.lineBranch;
-    ctx.strokeStyle = color;
-    ctx.lineWidth = l.type==='main' ? 1.5 : l.type==='industry' ? 1 : 0.6;
-    ctx.globalAlpha = l.type==='main'?0.7 : l.type==='industry'?0.5 : 0.3;
-    ctx.beginPath(); ctx.moveTo(pa.x,pa.y); ctx.lineTo(pb.x,pb.y); ctx.stroke();
-  });
-  ctx.globalAlpha = 1;
-
-  // 绘制节点
-  allNodes.forEach(name => {
-    const p = positions[name];
-    const pp = proj(p);
-    const depthFactor = Math.max(0.25, Math.min(1, (p.z + 8)/8)); // z从-8~0映射到0~1
-    const r = nodeRadius(name) * (0.5 + 0.5*depthFactor);
-    ctx.globalAlpha = 0.3 + 0.7*depthFactor;
-    ctx.fillStyle = nodeColor(name);
-    ctx.beginPath(); ctx.arc(pp.x, pp.y, r, 0, Math.PI*2); ctx.fill();
-    ctx.globalAlpha = 1;
-    // 标签：只标产业、主链、hop1
-    const showLabel = nodeType(name)==='industry' || nodeType(name)==='main' || getHop(name)<=1;
-    if (showLabel) {
-      ctx.fillStyle = nodeColor(name);
-      ctx.font = (nodeType(name)==='industry'?'bold 11px':'10px')+' sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(name, pp.x, pp.y - r - 4);
-    }
-  });
 }
 
-// ---- 俯视图 XZ平面（从上往下看，Y轴朝下显示为深度） ----
-function drawTop() {
-  const cv = document.getElementById('topView');
-  const ctx = cv.getContext('2d');
-  const W=cv.width, H=cv.height;
+function drawEdge(ctx, x1,y1,x2,y2,color,w){
+  ctx.strokeStyle=color;ctx.lineWidth=w;
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+}
+
+// ---- 正视图 ----
+function drawFront(){
+  const cv=document.getElementById('frontView');
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
   ctx.clearRect(0,0,W,H);
-  const cx=W/2, cy=80;
-  const scale = 38;
-  drawFrame(ctx,W,H,10);
+  const cx=W/2, cy=H*0.55;
+  const s=44;
+  const nodePx=4; // 统一节点像素大小（朴素黑白）
+  // 坐标轴
+  drawAxes(ctx, 40, H-40, 60, 'X', 'Y');
 
-  ctx.fillStyle='#ccc'; ctx.font='10px sans-serif';
-  ctx.fillText('X →', W-50, H-10);
-  ctx.fillText('↓ Z (后方，远离相机)', 10, 20);
+  function proj(p){ return {x:cx+p.x*s, y:cy-p.y*s, z:p.z}; }
 
-  function proj(p) {
-    return { x: cx + p.x*scale, y: cy - p.z*scale };
-  }
-
-  const allNodes = Object.keys(positions).sort((a,b) => positions[a].y - positions[b].y);
+  // 按z从后到前排序
+  const names=Object.keys(P).sort((a,b)=>P[a].z-P[b].z);
 
   // 连线
-  lines.forEach(l => {
-    const a=positions[l.from], b=positions[l.to];
-    if(!a||!b)return;
-    const pa=proj(a), pb=proj(b);
-    ctx.strokeStyle = l.type==='main'?COLORS.lineMain:l.type==='industry'?COLORS.lineIndustry:COLORS.lineBranch;
-    ctx.lineWidth = l.type==='main'?1.5:l.type==='industry'?1:0.6;
-    ctx.globalAlpha = l.type==='main'?0.7:l.type==='industry'?0.5:0.3;
-    ctx.beginPath();ctx.moveTo(pa.x,pa.y);ctx.lineTo(pb.x,pb.y);ctx.stroke();
+  EDGES.forEach(e=>{
+    const a=P[e.from],b=P[e.to]; if(!a||!b)return;
+    const pa=proj(a),pb=proj(b);
+    const depthAlpha=Math.max(0.15, Math.min(0.8,(Math.min(a.z,b.z)+8)/10));
+    ctx.globalAlpha=depthAlpha;
+    drawEdge(ctx,pa.x,pa.y,pb.x,pb.y,edgeColor(e.type), e.type==='main'?1.2:e.type==='ind'?0.8:0.5);
   });
   ctx.globalAlpha=1;
 
-  allNodes.forEach(name => {
-    const p=positions[name];
-    const pp=proj(p);
-    // 节点大小：Y越高（上方）越大
-    const yFactor = Math.max(0.4, Math.min(1, (p.y+2)/4));
-    const r=nodeRadius(name)*0.8*(0.6+0.4*yFactor);
-    ctx.globalAlpha=0.4+0.6*yFactor;
-    ctx.fillStyle=nodeColor(name);
-    ctx.beginPath();ctx.arc(pp.x,pp.y,r,0,Math.PI*2);ctx.fill();
-    ctx.globalAlpha=1;
-    const showLabel=nodeType(name)==='industry'||nodeType(name)==='main';
-    if(showLabel){
-      ctx.fillStyle=nodeColor(name);
-      ctx.font=(nodeType(name)==='industry'?'bold 10px':'9px')+' sans-serif';
-      ctx.textAlign='center';
-      ctx.fillText(name,pp.x,pp.y-r-3);
-    }
+  // 节点
+  names.forEach(n=>{
+    const p=P[n], pp=proj(p);
+    const depthAlpha=Math.max(0.35, Math.min(1,(p.z+9)/9));
+    ctx.globalAlpha=depthAlpha;
+    const showLabel = isIndustry(n)||isMain(n)||getHop(n)<=1;
+    drawNode(ctx,pp.x,pp.y,nodePx,gray(n),showLabel,gray(n),n,showLabel);
   });
+  ctx.globalAlpha=1;
 }
 
-// ---- 侧视图 YZ平面 ----
-function drawSide() {
-  const cv=document.getElementById('sideView');
+// ---- 俯视图（修正方向：+Z=前=靠近画面下方，-Z=后=画面上方）----
+function drawTop(){
+  const cv=document.getElementById('topView');
   const ctx=cv.getContext('2d');
-  const W=cv.width, H=cv.height;
+  const W=cv.width,H=cv.height;
   ctx.clearRect(0,0,W,H);
-  const cx=W*0.65, cy=H/2+30;
-  const scale=40;
-  drawFrame(ctx,W,H,10);
+  const cx=W/2, cy=H*0.78; // 产业节点（z=0前）放在偏下方
+  const s=40;
+  const nodePx=4;
+  drawAxes(ctx, 40, H-40, 60, 'X', 'Z→前');
 
-  ctx.fillStyle='#ccc';ctx.font='10px sans-serif';
-  ctx.fillText('↓ Z (后方)', W-80, H-10);
-  ctx.fillText('↑ Y', 10, 20);
-  ctx.fillText('← 相机方向', 10, 35);
+  // 俯视图：X右，Y屏幕=-Z（+Z向下=前，-Z向上=后）
+  function proj(p){ return {x:cx+p.x*s, y:cy+p.z*s}; }
+  // 注意：当p.z=0→y=cy（靠近底部=前）; p.z=-5→y=cy-5s（画面上方=后）
 
-  function proj(p) {
-    return { x: cx - p.z*scale, y: cy - p.y*scale };
-  }
+  const names=Object.keys(P).sort((a,b)=>P[a].y-P[b].y);
 
-  const allNodes=Object.keys(positions).sort((a,b)=>Math.abs(positions[a].x)-Math.abs(positions[b].x));
-
-  lines.forEach(l=>{
-    const a=positions[l.from],b=positions[l.to];
-    if(!a||!b)return;
+  EDGES.forEach(e=>{
+    const a=P[e.from],b=P[e.to]; if(!a||!b)return;
     const pa=proj(a),pb=proj(b);
-    ctx.strokeStyle=l.type==='main'?COLORS.lineMain:l.type==='industry'?COLORS.lineIndustry:COLORS.lineBranch;
-    ctx.lineWidth=l.type==='main'?1.5:l.type==='industry'?1:0.6;
-    ctx.globalAlpha=l.type==='main'?0.6:l.type==='industry'?0.45:0.25;
-    ctx.beginPath();ctx.moveTo(pa.x,pa.y);ctx.lineTo(pb.x,pb.y);ctx.stroke();
+    const avgY=(a.y+b.y)/2;
+    const depthAlpha=Math.max(0.12, Math.min(0.7,(Math.min(a.z,b.z)+9)/9));
+    ctx.globalAlpha=depthAlpha*0.8;
+    drawEdge(ctx,pa.x,pa.y,pb.x,pb.y,edgeColor(e.type), e.type==='main'?1.2:e.type==='ind'?0.7:0.4);
   });
   ctx.globalAlpha=1;
 
-  allNodes.forEach(name=>{
-    const p=positions[name];
-    const pp=proj(p);
-    const xFactor=Math.max(0.3,1-Math.abs(p.x)/6);
-    const r=nodeRadius(name)*(0.5+0.5*xFactor);
-    ctx.globalAlpha=0.3+0.7*xFactor;
-    ctx.fillStyle=nodeColor(name);
-    ctx.beginPath();ctx.arc(pp.x,pp.y,r,0,Math.PI*2);ctx.fill();
-    ctx.globalAlpha=1;
-    const showLabel=nodeType(name)==='industry'||nodeType(name)==='main'||(getHop(name)<=1&&Math.abs(p.x)<1);
-    if(showLabel){
-      ctx.fillStyle=nodeColor(name);
-      ctx.font=(nodeType(name)==='industry'?'bold 10px':'9px')+' sans-serif';
-      ctx.textAlign='center';
-      ctx.fillText(name,pp.x,pp.y-r-3);
-    }
+  names.forEach(n=>{
+    const p=P[n],pp=proj(p);
+    const yFactor=Math.max(0.4, Math.min(1,(p.y+3)/5));
+    ctx.globalAlpha=Math.max(0.35, Math.min(1,(p.z+9)/9))*0.7+yFactor*0.3;
+    const showLabel=isIndustry(n)||isMain(n);
+    drawNode(ctx,pp.x,pp.y,nodePx,gray(n),showLabel,gray(n),n,showLabel);
   });
+  ctx.globalAlpha=1;
+}
+
+// ---- 侧视图（从右往左看：+Z=前=画面右侧，-Z=后=画面左侧，Y上）----
+function drawSide(){
+  const cv=document.getElementById('sideView');
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+  ctx.clearRect(0,0,W,H);
+  const cx=W*0.82, cy=H*0.55; // 产业节点（z=0前）放在偏右
+  const s=40;
+  const nodePx=4;
+  drawAxes(ctx, W-80, H-40, 60, 'Z→前', 'Y');
+
+  // 侧视图（从+X看）：横轴=Z（右为+Z=前），纵轴=Y（上）
+  function proj(p){ return {x:cx+p.z*s, y:cy-p.y*s}; }
+
+  const names=Object.keys(P).sort((a,b)=>Math.abs(P[a].x)-Math.abs(P[b].x));
+
+  EDGES.forEach(e=>{
+    const a=P[e.from],b=P[e.to]; if(!a||!b)return;
+    const pa=proj(a),pb=proj(b);
+    const xFactor=Math.max(0.25, 1-Math.abs(a.x+b.x)/12);
+    const depthAlpha=Math.max(0.12, Math.min(0.7,(Math.min(a.z,b.z)+9)/9));
+    ctx.globalAlpha=depthAlpha*xFactor;
+    drawEdge(ctx,pa.x,pa.y,pb.x,pb.y,edgeColor(e.type), e.type==='main'?1.2:e.type==='ind'?0.7:0.4);
+  });
+  ctx.globalAlpha=1;
+
+  names.forEach(n=>{
+    const p=P[n],pp=proj(p);
+    const xFactor=Math.max(0.3,1-Math.abs(p.x)/7);
+    ctx.globalAlpha=Math.max(0.35, Math.min(1,(p.z+9)/9))*0.6+xFactor*0.4;
+    const showLabel=isIndustry(n)||isMain(n)||(getHop(n)<=1&&Math.abs(p.x)<1);
+    drawNode(ctx,pp.x,pp.y,nodePx,gray(n),showLabel,gray(n),n,showLabel);
+  });
+  ctx.globalAlpha=1;
 }
 
 // ---- 透视图 ----
-function drawPerspective() {
+function drawPersp(){
   const cv=document.getElementById('perspView');
   const ctx=cv.getContext('2d');
-  const W=cv.width, H=cv.height;
+  const W=cv.width,H=cv.height;
   ctx.clearRect(0,0,W,H);
-  const cx=W/2, cy=H/2+30;
-  // 相机位置（斜前方右上）
-  const camX=3, camY=3, camZ=8;
-  const focal=600;
-  const scale=35;
-  drawFrame(ctx,W,H,10);
+  const cx=W/2, cy=H*0.55;
+  const cam={x:3.5,y:2.8,z:8.5};
+  const focal=520;
+  const s=32;
 
-  ctx.fillStyle='#ccc';ctx.font='10px sans-serif';
-  ctx.fillText('透视：相机在右前上方观察', 10, 20);
-
-  function proj(p) {
-    const dx=p.x-camX, dy=p.y-camY, dz=p.z-camZ;
-    // 相机朝-Z方向看
-    const z = -dz;
-    if (z<=0.1) return null;
-    const f = focal/(z*scale+50);
-    return { x:cx+dx*f*scale, y:cy-dy*f*scale, z, scale:f };
+  function proj(p){
+    const dx=p.x-cam.x, dy=p.y-cam.y, dz=p.z-cam.z;
+    const z=-dz;
+    if(z<0.2) return null;
+    const f=focal/(z*s+30);
+    return {x:cx+dx*f*s, y:cy-dy*f*s, z, scale:f};
   }
 
-  const allNodes=Object.keys(positions).sort((a,b)=>positions[a].z-positions[b].z);
+  const names=Object.keys(P).sort((a,b)=>P[a].z-P[b].z);
 
-  lines.forEach(l=>{
-    const a=positions[l.from],b=positions[l.to];
-    if(!a||!b)return;
+  EDGES.forEach(e=>{
+    const a=P[e.from],b=P[e.to]; if(!a||!b)return;
     const pa=proj(a),pb=proj(b);
     if(!pa||!pb)return;
-    const avgZ=(pa.z+pb.z)/2;
-    const alpha=Math.max(0.1,Math.min(0.7, 15/(avgZ+5)));
-    ctx.strokeStyle=l.type==='main'?COLORS.lineMain:l.type==='industry'?COLORS.lineIndustry:COLORS.lineBranch;
-    ctx.lineWidth=l.type==='main'?1.3*pa.scale*20:l.type==='industry'?1:0.5;
-    ctx.globalAlpha=alpha*(l.type==='main'?1:l.type==='industry'?0.8:0.5);
-    ctx.beginPath();ctx.moveTo(pa.x,pa.y);ctx.lineTo(pb.x,pb.y);ctx.stroke();
+    const az=(pa.z+pb.z)/2;
+    const alpha=Math.max(0.1,Math.min(0.75,18/(az+8)));
+    ctx.globalAlpha=alpha*(e.type==='main'?1:e.type==='ind'?0.75:0.5);
+    const w=(e.type==='main'?1.2:e.type==='ind'?0.8:0.45)*Math.min(2,pa.scale*30);
+    drawEdge(ctx,pa.x,pa.y,pb.x,pb.y,edgeColor(e.type), Math.max(0.3,w));
   });
   ctx.globalAlpha=1;
 
-  allNodes.forEach(name=>{
-    const p=positions[name];
-    const pp=proj(p);
+  names.forEach(n=>{
+    const p=P[n],pp=proj(p);
     if(!pp)return;
-    const r=nodeRadius(name)*pp.scale*18;
-    const alpha=Math.max(0.3,Math.min(1,15/(pp.z+5)));
+    const r=Math.max(1.5, nodePx*25*pp.scale);
+    const alpha=Math.max(0.3,Math.min(1,18/(pp.z+8)));
     ctx.globalAlpha=alpha;
-    ctx.fillStyle=nodeColor(name);
-    ctx.beginPath();ctx.arc(pp.x,pp.y,Math.max(1,r),0,Math.PI*2);ctx.fill();
-    ctx.globalAlpha=1;
-    const showLabel=nodeType(name)==='industry'||nodeType(name)==='main'||(getHop(name)<=1&&pp.z<8);
-    if(showLabel&&r>2){
-      ctx.fillStyle=nodeColor(name);
-      ctx.font=(nodeType(name)==='industry'?'bold 10px':'9px')+' sans-serif';
-      ctx.textAlign='center';
-      ctx.fillText(name,pp.x,pp.y-r-2);
-    }
+    const showLabel=(isIndustry(n)||isMain(n)||getHop(n)<=1)&&pp.z<9&&r>2;
+    drawNode(ctx,pp.x,pp.y,r,gray(n),showLabel,gray(n),n,showLabel);
   });
+  ctx.globalAlpha=1;
 }
 
 drawFront();
 drawTop();
 drawSide();
-drawPerspective();
+drawPersp();
 </script>
 </body>
 </html>
