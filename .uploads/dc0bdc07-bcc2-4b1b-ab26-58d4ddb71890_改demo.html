@@ -78,6 +78,13 @@ function updateLabelPosition() {
   labelDiv.style.left = `${x}px`;
   labelDiv.style.top = `${y}px`;
   labelDiv.style.display = pos.z > 1 ? 'none' : 'block';
+
+  // 字体大小随相机距离变化，保持与原点的相对尺寸不变
+  const baseDistance = 18;
+  const baseFontSize = 10;
+  const d = camera.position.distanceTo(group.position);
+  const fontSize = baseFontSize * (baseDistance / Math.max(d, 0.1));
+  labelDiv.style.fontSize = `${Math.max(fontSize, 4)}px`;
 }
 
 // ---------- 动画循环 ----------
