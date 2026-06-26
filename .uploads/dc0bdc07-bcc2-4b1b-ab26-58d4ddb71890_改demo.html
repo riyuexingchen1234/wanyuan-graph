@@ -2,22 +2,44 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
-<title>Cosmos Graph Demo</title>
+<title>产业链 Demo</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #ffffff; overflow: hidden; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; color: #000000; }
+  body { background: #ffffff; overflow: hidden; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; }
   canvas { display: block; }
-  #info { position: fixed; top: 14px; left: 14px; z-index: 10; background: #ffffff; padding: 12px 16px; border: 1px solid #000000; font-size: 13px; line-height: 1.7; pointer-events: none; }
-  #node-label { position: fixed; left: 0; top: 0; transform: translate(-50%, 0); z-index: 5; background: #ffffff; color: #000000; padding: 1px 4px; font-size: 10px; font-weight: bold; pointer-events: none; white-space: nowrap; }
+  .label {
+    position: fixed;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, 0);
+    z-index: 5;
+    background: #ffffff;
+    color: #000000;
+    padding: 1px 5px;
+    font-size: 12px;
+    font-weight: bold;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  #info {
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    z-index: 10;
+    background: #ffffff;
+    padding: 10px 14px;
+    border: 1px solid #000000;
+    font-size: 12px;
+    line-height: 1.6;
+    pointer-events: none;
+  }
 </style>
 </head>
 <body>
 <div id="info">
-  <b>产业链宇宙 Demo</b><br>
-  · 左键拖拽旋转 / 滚轮缩放 / 右键平移<br>
-  · 仅保留一个光伏产业节点
+  <b>产业链 Demo</b><br>
+  左键拖拽旋转 · 滚轮缩放 · 右键平移
 </div>
-<div id="node-label">光伏产业</div>
 
 <script type="importmap">
 {
@@ -32,15 +54,23 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-// ---------- 数据：仅保留光伏产业 ----------
-const NODE = { id: 'pv', name: '光伏产业' };
+// ---------- 配置 ----------
+const NODE_RADIUS = 0.08;
+const LABEL_OFFSET = 0.25;
+const BASE_DISTANCE = 10;
 
-// ---------- Three.js 初始化 ----------
+// ---------- 数据 ----------
+const NODES = [
+  { name: '光伏产业', x: -1.5, y: 0, z: 0 },
+  { name: '光伏电池片', x: 1.5, y: 0, z: 0 },
+];
+
+// ---------- 场景 ----------
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff);
 
 const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 500);
-camera.position.set(0, 0, 18);
+camera.position.set(0, 0, BASE_DISTANCE);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(innerWidth, innerHeight);
@@ -50,48 +80,50 @@ document.body.appendChild(renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.08;
-controls.update();
 
-// ---------- 节点 ----------
-const group = new THREE.Group();
-
-const RADIUS = 0.05;
-const geometry = new THREE.SphereGeometry(RADIUS, 32, 32);
+// ---------- 创建节点 ----------
+const geometry = new THREE.SphereGeometry(NODE_RADIUS, 32, 32);
 const material = new THREE.MeshBasicMaterial({ color: 0x000000 });
-const mesh = new THREE.Mesh(geometry, material);
-group.add(mesh);
+const objects = [];
 
-scene.add(group);
+NODES.forEach((n) => {
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.position.set(n.x, n.y, n.z);
+  scene.add(mesh);
 
-// ---------- DOM 标签跟随 ----------
-const labelDiv = document.getElementById('node-label');
-const labelOffset = new THREE.Vector3(0, -(RADIUS + 0.18), 0);
+  const label = document.createElement('div');
+  label.className = 'label';
+  label.textContent = n.name;
+  document.body.appendChild(label);
 
-function updateLabelPosition() {
-  group.updateMatrixWorld();
-  const pos = labelOffset.clone();
-  pos.applyMatrix4(group.matrixWorld);
-  pos.project(camera);
+  objects.push({ mesh, label });
+});
 
-  const x = (pos.x * 0.5 + 0.5) * innerWidth;
-  const y = (-pos.y * 0.5 + 0.5) * innerHeight;
-  labelDiv.style.left = `${x}px`;
-  labelDiv.style.top = `${y}px`;
-  labelDiv.style.display = pos.z > 1 ? 'none' : 'block';
+// ---------- 更新标签 ----------
+function updateLabels() {
+  const d = camera.position.distanceTo(new THREE.Vector3(0, 0, 0));
+  const scale = BASE_DISTANCE / Math.max(d, 0.1);
 
-  // 字体大小随相机距离变化，保持与原点的相对尺寸不变
-  const baseDistance = 18;
-  const baseFontSize = 10;
-  const d = camera.position.distanceTo(group.position);
-  const fontSize = baseFontSize * (baseDistance / Math.max(d, 0.1));
-  labelDiv.style.fontSize = `${Math.max(fontSize, 4)}px`;
+  objects.forEach(({ mesh, label }) => {
+    const pos = mesh.position.clone();
+    pos.y -= LABEL_OFFSET * scale;
+    pos.project(camera);
+
+    const x = (pos.x * 0.5 + 0.5) * innerWidth;
+    const y = (-pos.y * 0.5 + 0.5) * innerHeight;
+
+    label.style.left = `${x}px`;
+    label.style.top = `${y}px`;
+    label.style.display = pos.z > 1 ? 'none' : 'block';
+    label.style.fontSize = `${Math.max(12 * scale, 4)}px`;
+  });
 }
 
-// ---------- 动画循环 ----------
+// ---------- 动画 ----------
 function tick() {
   requestAnimationFrame(tick);
   controls.update();
-  updateLabelPosition();
+  updateLabels();
   renderer.render(scene, camera);
 }
 
@@ -101,7 +133,7 @@ window.addEventListener('resize', () => {
   renderer.setSize(innerWidth, innerHeight);
 });
 
-updateLabelPosition();
+updateLabels();
 tick();
 </script>
 </body>
