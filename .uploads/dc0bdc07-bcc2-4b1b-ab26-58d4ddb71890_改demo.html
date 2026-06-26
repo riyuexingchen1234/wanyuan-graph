@@ -53,7 +53,7 @@ controls.update();
 // ---------- 标签 ----------
 function makeLabel(text) {
   const c = document.createElement('canvas');
-  const fs = 24;
+  const fs = 5;
   const ctx = c.getContext('2d');
   ctx.font = `bold ${fs}px sans-serif`;
   const w = Math.ceil(ctx.measureText(text).width) + 16;
@@ -83,7 +83,7 @@ function makeLabel(text) {
 // ---------- 节点 ----------
 const group = new THREE.Group();
 
-const RADIUS = 0.35;
+const RADIUS = 0.05;
 const geometry = new THREE.SphereGeometry(RADIUS, 32, 32);
 const material = new THREE.MeshBasicMaterial({ color: 0x000000 });
 const mesh = new THREE.Mesh(geometry, material);
