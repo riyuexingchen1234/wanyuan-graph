@@ -35,5 +35,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# entity resolution logs (runtime output, not source)
+# pipeline runtime output (not source)
 /scripts/crawler/entity-resolution-logs/
+/data/runs/
+/data/backup/
