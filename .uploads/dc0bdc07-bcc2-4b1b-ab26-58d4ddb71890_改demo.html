@@ -53,7 +53,7 @@ controls.update();
 // ---------- 标签 ----------
 function makeLabel(text) {
   const c = document.createElement('canvas');
-  const fs = 5;
+  const fs = 32;
   const ctx = c.getContext('2d');
   ctx.font = `bold ${fs}px sans-serif`;
   const w = Math.ceil(ctx.measureText(text).width) + 16;
@@ -63,9 +63,6 @@ function makeLabel(text) {
 
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, w, h);
-  ctx.strokeStyle = '#000000';
-  ctx.lineWidth = 1;
-  ctx.strokeRect(0, 0, w, h);
 
   ctx.font = `bold ${fs}px sans-serif`;
   ctx.fillStyle = '#000000';
@@ -76,7 +73,7 @@ function makeLabel(text) {
   const t = new THREE.CanvasTexture(c);
   t.minFilter = THREE.LinearFilter;
   const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, transparent: true, depthTest: false }));
-  sprite.scale.set(w / 32, h / 32, 1);
+  sprite.scale.set(w / 180, h / 180, 1);
   return sprite;
 }
 
@@ -90,7 +87,7 @@ const mesh = new THREE.Mesh(geometry, material);
 group.add(mesh);
 
 const label = makeLabel(NODE.name);
-label.position.y = -(RADIUS + 0.7);
+label.position.y = -(RADIUS + 0.18);
 group.add(label);
 
 scene.add(group);
