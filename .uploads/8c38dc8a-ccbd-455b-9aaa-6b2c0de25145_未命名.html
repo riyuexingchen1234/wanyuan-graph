@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>产业链 Demo</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #ffffff; overflow: hidden; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; }
+  canvas { display: block; }
+  .label {
+    position: fixed;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, 0);
+    background: transparent;
+    color: #000000;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: 500;
+    pointer-events: none;
+    white-space: nowrap;
+    -webkit-text-stroke: 0.4px #fff;
+    text-shadow: 0 0 2px #fff, 0 0 4px #fff;
+  }
+  #info {
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    z-index: 9999;
+    background: rgba(255,255,255,0.9);
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    font-size: 12px;
+    line-height: 1.6;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<div id="info">
+  <b>产业链 Demo</b><br>
+  左键拖拽旋转 · 滚轮缩放 · 右键平移
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ---------- 配置 ----------
+const NODE_RADIUS = 0.04;
+const LABEL_OFFSET = 0.35;
+const BASE_DISTANCE = 10;
+
+// ---------- 数据 ----------
+const NODES = [
+  { name: '光伏产业', x: 0, y: 1.5, z: 0 ,color: 0x121212, labelColor: 'rgb(18,18,18)'},
+  { name: '工业硅', x: -3, y: 0, z: -1, color: 0x3a3a3a, labelColor: 'rgb(58,58,58)' },
+  { name: '太阳能级多晶硅', x: -2, y: 0, z: -1, color: 0x3a3a3a, labelColor: 'rgb(58,58,58)' },
+  { name: '硅片', x: -1, y: 0, z: -1, color: 0x3a3a3a, labelColor: 'rgb(58,58,58)' },
+  { name: '光伏电池片', x: 0, y: 0, z: -1, color: 0x3a3a3a, labelColor: 'rgb(58,58,58)' },
+  { name: '光伏层压件', x: 1, y: 0, z: -1, color: 0x3a3a3a, labelColor: 'rgb(58,58,58)'},
+  { name: '光伏组件', x: 2, y: 0, z: -1, color: 0x3a3a3a, labelColor: 'rgb(58,58,58)' },
+  { name: '光伏电站', x: 3, y: 0, z: -1, color: 0x3a3a3a, labelColor: 'rgb(58,58,58)' },
+
+  { name: '单晶硅', x: -1.4, y: 0.3, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+  { name: '银浆', x: -0.6, y: 0.3, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+  { name: '光伏涂锡焊带', x: 0.6, y: 0.3, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+  { name: '光伏封装胶膜', x: 0.8, y: 0.6, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+  { name: '光伏背板', x: 1.2, y: 0.6, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+  { name: '光伏玻璃', x: 1.4, y: 0.3, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+  { name: '光伏接线盒', x: 1.6, y: 0.3, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+  { name: '密封胶', x: 2, y: 0.6, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+  { name: '铝边框', x: 2.4, y: 0.3, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+
+  { name: '汇流箱', x: 2.9, y: 0.9, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+  { name: '储能蓄电池', x: 3.1, y: 0.9, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+  { name: '光伏逆变器', x: 2.7, y: 0.6, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+  { name: '光伏控制器', x: 3.3, y: 0.6, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+  { name: '光伏支架', x: 2.5, y: 0.3, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+  { name: '光伏跟踪系统', x: 3.5, y: 0.3, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+
+  { name: '光伏交通', x: 2.8, y: -0.6, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+  { name: '光伏供热', x: 3.2, y: -0.6, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+  { name: '光伏建筑一体化', x: 2.6, y: -0.3, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+  { name: '光伏制氢', x: 3.4, y: -0.3, z: -2, color: 0x808080, labelColor: 'rgb(128,128,128)' },
+
+  { name: '纯碱石英砂', x: 1.8, y: 0.7, z: -3, color: 0xd0d0d0, labelColor: 'rgb(208,208,208)' },
+  { name: 'PET基膜', x: 0.8, y: 1, z: -3, color: 0xd0d0d0, labelColor: 'rgb(208,208,208)' },
+  { name: '氟膜', x: 1.6, y: 1, z: -3, color: 0xd0d0d0, labelColor: 'rgb(208,208,208)' },
+  { name: 'EVA胶膜', x: 0.4, y: 1, z: -3, color: 0xd0d0d0, labelColor: 'rgb(208,208,208)' },
+  { name: 'POE胶膜', x: 1.2, y: 1, z: -3, color: 0xd0d0d0, labelColor: 'rgb(208,208,208)' },
+
+  { name: '醋酸乙烯', x: 0.2, y: 1.2, z: -4, color: 0xe2e2e2, labelColor: 'rgb(226,226,226)' },
+  { name: '乙烯', x: 0.8, y: 1.2, z: -4, color: 0xe2e2e2, labelColor: 'rgb(226,226,226)' },
+  { name: '高碳α烯烃', x: 1.4, y: 1.2, z: -4, color: 0xe2e2e2, labelColor: 'rgb(226,226,226)' },
+];
+
+// ---------- 工具函数：十六进制转Three.Color ----------
+function hexToColor(hex) {
+  return new THREE.Color(hex);
+}
+
+// ---------- 场景 ----------
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xffffff);
+
+const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 500);
+camera.position.set(0, 0, BASE_DISTANCE);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+document.body.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+
+// ---------- 创建节点 + 名称映射表 ----------
+const geometry = new THREE.SphereGeometry(NODE_RADIUS, 32, 32);
+const objects = [];
+const nodeMap = new Map();
+
+NODES.forEach((n) => {
+  const material = new THREE.MeshBasicMaterial({ color: n.color ?? 0x000000 });
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.position.set(n.x, n.y, n.z);
+  scene.add(mesh);
+
+  const label = document.createElement('div');
+  label.className = 'label';
+  label.textContent = n.name;
+  if (n.labelColor) label.style.color = n.labelColor;
+  document.body.appendChild(label);
+
+  const item = { mesh, label, zVal: n.z, data: n };
+  objects.push(item);
+  nodeMap.set(n.name, n);
+});
+
+// ---------- 渐变曲线生成工具 ----------
+function createCurveGradientLine(startName, endName, curveHeight = 0.4) {
+  const sData = nodeMap.get(startName);
+  const eData = nodeMap.get(endName);
+  if (!sData || !eData) return;
+
+  const p0 = new THREE.Vector3(sData.x, sData.y, sData.z);
+  const p2 = new THREE.Vector3(eData.x, eData.y, eData.z);
+  // 贝塞尔控制点，中间抬高形成平滑曲线
+  const p1 = new THREE.Vector3(
+    (p0.x + p2.x) / 2,
+    Math.max(p0.y, p2.y) + curveHeight,
+    (p0.z + p2.z) / 2
+  );
+  const curve = new THREE.QuadraticBezierCurve3(p0, p1, p2);
+  const points = curve.getPoints(40);
+
+  // 顶点渐变颜色
+  const startColor = hexToColor(sData.color);
+  const endColor = hexToColor(eData.color);
+  const geo = new THREE.BufferGeometry().setFromPoints(points);
+  const count = points.length;
+  const colors = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    const t = i / (count - 1);
+    colors[i*3] = startColor.r * (1-t) + endColor.r * t;
+    colors[i*3+1] = startColor.g * (1-t) + endColor.g * t;
+    colors[i*3+2] = startColor.b * (1-t) + endColor.b * t;
+  }
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  const mat = new THREE.LineBasicMaterial({ vertexColors: true });
+  scene.add(new THREE.Line(geo, mat));
+}
+
+// ---------- 原有主线直连线（z=-1产业链） ----------
+const chainNodes = NODES.filter(n => n.z === -1).sort((a, b) => a.x - b.x);
+for (let i = 0; i < chainNodes.length - 1; i++) {
+  const a = chainNodes[i];
+  const b = chainNodes[i + 1];
+  const pts = [new THREE.Vector3(a.x,a.y,a.z), new THREE.Vector3(b.x,b.y,b.z)];
+  const startColor = hexToColor(a.color);
+  const endColor = hexToColor(b.color);
+  const geo = new THREE.BufferGeometry().setFromPoints(pts);
+  const colors = new Float32Array([startColor.r,startColor.g,startColor.b, endColor.r,endColor.g,endColor.b]);
+  geo.setAttribute('color', new THREE.BufferAttribute(colors,3));
+  scene.add(new THREE.Line(geo, new THREE.LineBasicMaterial({vertexColors:true})));
+}
+
+// ---------- 光伏产业到主线所有节点渐变曲线 ----------
+const pvNodeData = nodeMap.get('光伏产业');
+chainNodes.forEach(n => {
+  const p0 = new THREE.Vector3(pvNodeData.x, pvNodeData.y, pvNodeData.z);
+  const p2 = new THREE.Vector3(n.x, n.y, n.z);
+  const p1 = new THREE.Vector3(n.x / 2, 1.25, -0.5);
+  const curve = new THREE.QuadraticBezierCurve3(p0,p1,p2);
+  const pts = curve.getPoints(50);
+  const startColor = hexToColor(pvNodeData.color);
+  const endColor = hexToColor(n.color);
+  const geo = new THREE.BufferGeometry().setFromPoints(pts);
+  const count = pts.length;
+  const colors = new Float32Array(count * 3);
+  for(let i=0;i<count;i++){
+    const t = i/(count-1);
+    colors[i*3] = startColor.r*(1-t)+endColor.r*t;
+    colors[i*3+1] = startColor.g*(1-t)+endColor.g*t;
+    colors[i*3+2] = startColor.b*(1-t)+endColor.b*t;
+  }
+  geo.setAttribute('color', new THREE.BufferAttribute(colors,3));
+  scene.add(new THREE.Line(geo, new THREE.LineBasicMaterial({vertexColors:true})));
+});
+
+// ========== 你指定的全部曲线连接线（自动渐变） ==========
+// 硅片上游辅材
+createCurveGradientLine('单晶硅', '硅片');
+createCurveGradientLine('银浆', '硅片');
+
+// 层压件配套
+createCurveGradientLine('光伏涂锡焊带', '光伏层压件');
+createCurveGradientLine('光伏封装胶膜', '光伏层压件');
+createCurveGradientLine('光伏背板', '光伏层压件');
+createCurveGradientLine('光伏玻璃', '光伏层压件');
+
+// 组件配套
+createCurveGradientLine('光伏组件', '光伏接线盒');
+createCurveGradientLine('光伏组件', '密封胶');
+createCurveGradientLine('光伏组件', '铝边框');
+
+// 电站设备
+createCurveGradientLine('光伏电站', '光伏支架');
+createCurveGradientLine('光伏电站', '光伏逆变器');
+createCurveGradientLine('光伏电站', '汇流箱');
+createCurveGradientLine('光伏电站', '储能蓄电池');
+createCurveGradientLine('光伏电站', '光伏控制器');
+createCurveGradientLine('光伏电站', '光伏跟踪系统');
+
+// 电站下游应用
+createCurveGradientLine('光伏电站', '光伏建筑一体化');
+createCurveGradientLine('光伏电站', '光伏交通');
+createCurveGradientLine('光伏电站', '光伏供热');
+createCurveGradientLine('光伏电站', '光伏制氢');
+
+// 背板上游原料
+createCurveGradientLine('光伏背板', 'PET基膜');
+createCurveGradientLine('光伏背板', '氟膜');
+
+// 光伏玻璃上游
+createCurveGradientLine('光伏玻璃', '纯碱石英砂');
+
+// EVA胶膜上游原料
+createCurveGradientLine('EVA胶膜', '醋酸乙烯');
+createCurveGradientLine('EVA胶膜', '乙烯');
+
+// POE胶膜上游原料
+createCurveGradientLine('POE胶膜', '乙烯');
+createCurveGradientLine('POE胶膜', '高碳α烯烃');
+
+// ---------- 更新标签（解决z轴遮挡层级） ----------
+function updateLabels() {
+  const camDist = camera.position.distanceTo(new THREE.Vector3(0, 0, 0));
+  const scale = BASE_DISTANCE / Math.max(camDist, 0.1);
+
+  objects.forEach(({ mesh, label, zVal }) => {
+    const pos = mesh.position.clone();
+    pos.y -= LABEL_OFFSET * scale;
+    pos.project(camera);
+
+    const screenX = (pos.x * 0.5 + 0.5) * innerWidth;
+    const screenY = (-pos.y * 0.5 + 0.5) * innerHeight;
+
+    label.style.left = `${screenX}px`;
+    label.style.top = `${screenY}px`;
+    label.style.display = pos.z > 1 ? 'none' : 'block';
+    label.style.fontSize = `${Math.max(12 * scale, 4)}px`;
+
+    // z越小（近镜头）z-index越高，置顶显示
+    const zIndexBase = 1000;
+    const zIndex = zIndexBase + Math.abs(zVal) * 100;
+    label.style.zIndex = zIndex;
+  });
+}
+
+// ---------- 动画循环 ----------
+function tick() {
+  requestAnimationFrame(tick);
+  controls.update();
+  updateLabels();
+  renderer.render(scene, camera);
+}
+
+window.addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+updateLabels();
+tick();
+</script>
+</body>
+</html>
