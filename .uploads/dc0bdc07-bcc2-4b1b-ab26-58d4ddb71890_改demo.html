@@ -8,6 +8,7 @@
   body { background: #ffffff; overflow: hidden; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; color: #000000; }
   canvas { display: block; }
   #info { position: fixed; top: 14px; left: 14px; z-index: 10; background: #ffffff; padding: 12px 16px; border: 1px solid #000000; font-size: 13px; line-height: 1.7; pointer-events: none; }
+  #node-label { position: fixed; left: 0; top: 0; transform: translate(-50%, 0); z-index: 5; background: #ffffff; color: #000000; padding: 1px 4px; font-size: 10px; font-weight: bold; pointer-events: none; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -16,6 +17,7 @@
   · 左键拖拽旋转 / 滚轮缩放 / 右键平移<br>
   · 仅保留一个光伏产业节点
 </div>
+<div id="node-label">光伏产业</div>
 
 <script type="importmap">
 {
@@ -50,33 +52,6 @@ controls.enableDamping = true;
 controls.dampingFactor = 0.08;
 controls.update();
 
-// ---------- 标签 ----------
-function makeLabel(text) {
-  const c = document.createElement('canvas');
-  const fs = 32;
-  const ctx = c.getContext('2d');
-  ctx.font = `bold ${fs}px sans-serif`;
-  const w = Math.ceil(ctx.measureText(text).width) + 16;
-  const h = fs + 10;
-  c.width = w;
-  c.height = h;
-
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, w, h);
-
-  ctx.font = `bold ${fs}px sans-serif`;
-  ctx.fillStyle = '#000000';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(text, w / 2, h / 2);
-
-  const t = new THREE.CanvasTexture(c);
-  t.minFilter = THREE.LinearFilter;
-  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, transparent: true, depthTest: false }));
-  sprite.scale.set(w / 180, h / 180, 1);
-  return sprite;
-}
-
 // ---------- 节点 ----------
 const group = new THREE.Group();
 
@@ -86,16 +61,30 @@ const material = new THREE.MeshBasicMaterial({ color: 0x000000 });
 const mesh = new THREE.Mesh(geometry, material);
 group.add(mesh);
 
-const label = makeLabel(NODE.name);
-label.position.y = -(RADIUS + 0.18);
-group.add(label);
-
 scene.add(group);
+
+// ---------- DOM 标签跟随 ----------
+const labelDiv = document.getElementById('node-label');
+const labelOffset = new THREE.Vector3(0, -(RADIUS + 0.18), 0);
+
+function updateLabelPosition() {
+  group.updateMatrixWorld();
+  const pos = labelOffset.clone();
+  pos.applyMatrix4(group.matrixWorld);
+  pos.project(camera);
+
+  const x = (pos.x * 0.5 + 0.5) * innerWidth;
+  const y = (-pos.y * 0.5 + 0.5) * innerHeight;
+  labelDiv.style.left = `${x}px`;
+  labelDiv.style.top = `${y}px`;
+  labelDiv.style.display = pos.z > 1 ? 'none' : 'block';
+}
 
 // ---------- 动画循环 ----------
 function tick() {
   requestAnimationFrame(tick);
   controls.update();
+  updateLabelPosition();
   renderer.render(scene, camera);
 }
 
@@ -105,6 +94,7 @@ window.addEventListener('resize', () => {
   renderer.setSize(innerWidth, innerHeight);
 });
 
+updateLabelPosition();
 tick();
 </script>
 </body>
