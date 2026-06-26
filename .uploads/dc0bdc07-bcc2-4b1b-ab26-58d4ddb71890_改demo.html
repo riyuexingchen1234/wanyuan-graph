@@ -5,29 +5,17 @@
 <title>Cosmos Graph Demo</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #06060c; overflow: hidden; font-family: -apple-system,"PingFang SC","Microsoft YaHei",sans-serif; color: #ccc; }
+  body { background: #ffffff; overflow: hidden; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; color: #000000; }
   canvas { display: block; }
-  #info { position:fixed; top:14px; left:14px; z-index:10; background:rgba(0,0,0,0.5); padding:12px 16px; border-radius:8px; font-size:13px; line-height:1.7; max-width:340px; pointer-events:none; }
-  #info b { color: #7ec8ff; }
-  #mode-label { position:fixed; top:14px; right:14px; z-index:10; background:rgba(0,0,0,0.5); padding:8px 14px; border-radius:6px; font-size:12px; color:#aaa; pointer-events:none; }
-  #mode-label span { color:#ffd166; font-weight:bold; }
-  #tip { position:fixed; bottom:14px; left:50%; transform:translateX(-50%); z-index:10; background:rgba(0,0,0,0.4); padding:8px 18px; border-radius:20px; font-size:12px; color:#999; pointer-events:none; }
+  #info { position: fixed; top: 14px; left: 14px; z-index: 10; background: #ffffff; padding: 12px 16px; border: 1px solid #000000; font-size: 13px; line-height: 1.7; pointer-events: none; }
 </style>
 </head>
 <body>
 <div id="info">
   <b>产业链宇宙 Demo</b><br>
   · 左键拖拽旋转 / 滚轮缩放 / 右键平移<br>
-  · 点击近处有名字的节点 → 飞船飞向该节点<br>
-  · 产业节点（上方彩色大球）可点击返回产业总览<br>
-  · 飞渡中操作锁定，就位后解锁<br>
-  <br>
-  <b>双产业链十字交叉：</b><br>
-  — 光伏产业链（红→黄→蓝）<br>
-  — 银浆产业链（青→黄→蓝），在银浆节点交汇
+  · 仅保留一个光伏产业节点
 </div>
-<div id="mode-label">模式：<span id="mode-text">星云探索</span></div>
-<div id="tip">点击星云中带名字的节点开始探索</div>
 
 <script type="importmap">
 {
@@ -42,64 +30,15 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-// ---------- 数据：两条链 ----------
-const CHAIN_PV = {
-  id: 'pv', name: '光伏产业', color: 0xff6b6b,
-  main: ['石英砂','工业硅','多晶硅','硅片','电池片','光伏组件','光伏电站'],
-};
-const CHAIN_SP = {
-  id: 'sp', name: '银浆产业', color: 0x6bcfff,
-  main: ['白银','银粉','玻璃粉','有机载体','银浆','正面银浆','背面银浆'],
-};
-const CHAINS = [CHAIN_PV, CHAIN_SP];
-const CROSS_NAME = '银浆'; // 交叉节点名
-
-// 每个主链节点的支链
-const BRANCHES = {
-  '石英砂': ['硅石','石英岩'],
-  '工业硅': ['石油焦','木炭','电极'],
-  '多晶硅': ['三氯氢硅','多晶硅锭','单晶硅棒'],
-  '硅片': ['单晶硅片','多晶硅片','金刚线','切割液'],
-  '电池片': ['铝浆','丝网'],
-  '光伏组件': ['光伏玻璃','EVA胶膜','背板','铝边框','接线盒'],
-  '光伏电站': ['逆变器','支架','汇流箱','储能蓄电池'],
-  '白银': ['银矿石','电解银'],
-  '银粉': ['硝酸银','球形银粉'],
-  '玻璃粉': ['硼硅玻璃','铅玻璃'],
-  '有机载体': ['松油醇','乙基纤维素'],
-  '正面银浆': ['HIT银浆','TOPCon银浆'],
-  '背面银浆': ['铝背场银浆','PERC背银'],
-};
-
-// 构建节点列表
-const NODES = [];
-const NODE_MAP = {};
-function addNode(name, type, chainId, parentName, isCross) {
-  const id = chainId+':'+name;
-  const node = { id, name, type, chainId, parentName, isCross: !!isCross };
-  NODES.push(node);
-  NODE_MAP[id] = node;
-  return node;
-}
-CHAINS.forEach(ch => {
-  addNode(ch.name, 'industry', ch.id, null, false);
-  ch.main.forEach((mn, mi) => {
-    addNode(mn, 'main', ch.id, ch.name, mn === CROSS_NAME);
-  });
-  ch.main.forEach(mn => {
-    const bs = BRANCHES[mn] || [];
-    bs.forEach(bn => addNode(bn, 'branch', ch.id, mn, bn === CROSS_NAME));
-  });
-});
+// ---------- 数据：仅保留光伏产业 ----------
+const NODE = { id: 'pv', name: '光伏产业' };
 
 // ---------- Three.js 初始化 ----------
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x06060c);
+scene.background = new THREE.Color(0xffffff);
 
-const camera = new THREE.PerspectiveCamera(55, innerWidth/innerHeight, 0.1, 500);
-const NEBULA_POS = new THREE.Vector3(0, 10, 30);
-const NEBULA_TGT = new THREE.Vector3(0, 0, -90);
-camera.position.copy(NEBULA_POS);
+const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 500);
+camera.position.set(0, 0, 18);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(innerWidth, innerHeight);
@@ -109,424 +48,66 @@ document.body.appendChild(renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.08;
-controls.target.copy(NEBULA_TGT);
 controls.update();
 
-scene.add(new THREE.AmbientLight(0xffffff, 0.7));
-const dl = new THREE.DirectionalLight(0xffffff, 0.6);
-dl.position.set(10,15,10);
-scene.add(dl);
-
-// ---------- 星空背景 ----------
-(function makeStars(){
-  const g = new THREE.BufferGeometry();
-  const n = 2500, p = new Float32Array(n*3);
-  for(let i=0;i<n;i++){
-    const phi=Math.acos(2*Math.random()-1), theta=Math.random()*Math.PI*2;
-    const r=200+Math.random()*100;
-    p[i*3]=r*Math.sin(phi)*Math.cos(theta);
-    p[i*3+1]=r*Math.sin(phi)*Math.sin(theta)*0.5;
-    p[i*3+2]=r*Math.cos(phi)*0.6-80;
-  }
-  g.setAttribute('position',new THREE.BufferAttribute(p,3));
-  scene.add(new THREE.Points(g, new THREE.PointsMaterial({color:0xffffff,size:0.4,transparent:true,opacity:0.55})));
-})();
-
-// ---------- 工具函数 ----------
-function hash(s){let h=0;for(let i=0;i<s.length;i++)h=((h<<5)-h+s.charCodeAt(i))|0;return (Math.abs(h)%10000)/10000;}
-function lerp(a,b,t){return a+(b-a)*t;}
-function easeOut(t){return 1-Math.pow(1-t,3);}
-
-function makeLabel(text, color){
+// ---------- 标签 ----------
+function makeLabel(text) {
   const c = document.createElement('canvas');
   const fs = 44;
   const ctx = c.getContext('2d');
   ctx.font = `bold ${fs}px sans-serif`;
-  const w = Math.ceil(ctx.measureText(text).width)+20;
-  c.width = w; c.height = fs+14;
+  const w = Math.ceil(ctx.measureText(text).width) + 24;
+  const h = fs + 18;
+  c.width = w;
+  c.height = h;
+
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, w, h);
+  ctx.strokeStyle = '#000000';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(0, 0, w, h);
+
   ctx.font = `bold ${fs}px sans-serif`;
-  ctx.fillStyle='rgba(0,0,0,0.6)';
-  ctx.beginPath();
-  const r=8,x=2,y=2,w0=w-4,h0=fs+10;
-  ctx.moveTo(x+r,y);ctx.arcTo(x+w0,y,x+w0,y+h0,r);ctx.arcTo(x+w0,y+h0,x,y+h0,r);ctx.arcTo(x,y+h0,x,y,r);ctx.arcTo(x,y,x+w0,y,r);
-  ctx.closePath();ctx.fill();
-  ctx.fillStyle=color;ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText(text,w/2,fs/2+7);
+  ctx.fillStyle = '#000000';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, w / 2, h / 2);
+
   const t = new THREE.CanvasTexture(c);
-  t.minFilter=THREE.LinearFilter;
-  return new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,depthTest:false}));
+  t.minFilter = THREE.LinearFilter;
+  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, transparent: true, depthTest: false }));
+  sprite.scale.set(w / 18, h / 18, 1);
+  return sprite;
 }
 
-function makeHalo(color){
-  const c=document.createElement('canvas');c.width=c.height=64;
-  const ctx=c.getContext('2d');
-  const col=new THREE.Color(color);
-  const g=ctx.createRadialGradient(32,32,0,32,32,32);
-  g.addColorStop(0,`rgba(${(col.r*255)|0},${(col.g*255)|0},${(col.b*255)|0},0.55)`);
-  g.addColorStop(0.5,`rgba(${(col.r*255)|0},${(col.g*255)|0},${(col.b*255)|0},0.12)`);
-  g.addColorStop(1,`rgba(${(col.r*255)|0},${(col.g*255)|0},${(col.b*255)|0},0)`);
-  ctx.fillStyle=g;ctx.fillRect(0,0,64,64);
-  const t=new THREE.CanvasTexture(c);
-  return new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));
-}
+// ---------- 节点 ----------
+const group = new THREE.Group();
 
-// ---------- 创建节点对象 ----------
-const OBJ = {}; // id -> {group, mesh, halo, label, baseRadius, baseColor, def, nebulaPos, targetPos, curPos, opacity, scale, side}
+const RADIUS = 0.35;
+const geometry = new THREE.SphereGeometry(RADIUS, 32, 32);
+const material = new THREE.MeshBasicMaterial({ color: 0x000000 });
+const mesh = new THREE.Mesh(geometry, material);
+group.add(mesh);
 
-NODES.forEach(def => {
-  let color = 0x7ec8ff, radius = 0.3;
-  if (def.type === 'industry') { color = CHAINS.find(c=>c.id===def.chainId).color; radius = 1.1; }
-  else if (def.type === 'main') { color = def.isCross ? 0xc792ea : 0xffd166; radius = 0.55; }
-  else if (def.isCross) { color = 0xc792ea; radius = 0.4; }
+const label = makeLabel(NODE.name);
+label.position.y = RADIUS + 1.2;
+group.add(label);
 
-  const group = new THREE.Group();
-  const mat = new THREE.MeshStandardMaterial({color, emissive:color, emissiveIntensity:0.4, metalness:0.3, roughness:0.5, transparent:true});
-  const mesh = new THREE.Mesh(new THREE.SphereGeometry(radius,16,16), mat);
-  group.add(mesh);
-
-  const halo = makeHalo(color);
-  halo.scale.set(radius*4.5, radius*4.5, 1);
-  group.add(halo);
-
-  const labelColor = def.type==='industry' ? '#ff8888' : def.type==='main' ? '#ffe082' : '#7ec8ff';
-  const label = makeLabel(def.name, labelColor);
-  label.position.y = radius + 1;
-  label.scale.set(8, 2, 1);
-  group.add(label);
-
-  scene.add(group);
-
-  const nebulaPos = new THREE.Vector3();
-  OBJ[def.id] = {
-    group, mesh, halo, label, baseRadius:radius, baseColor:color, def,
-    nebulaPos, targetPos: new THREE.Vector3(), curPos: new THREE.Vector3(),
-    opacity:1, scale:1, visible:true,
-  };
-});
-
-// ---------- 星云初始位置 ----------
-const NEBULA_CENTER = new THREE.Vector3(0,0,-90);
-(function initNebula(){
-  // 每条链占据星云中的一片区域
-  const chainAngles = { pv: -0.4, sp: 0.4 };
-  const list = Object.values(OBJ);
-  list.forEach(o => {
-    const baseAng = chainAngles[o.def.chainId] || 0;
-    const localRand = hash(o.def.id+'a');
-    const phi = Math.acos(2*hash(o.def.id+'p')-1)*0.6 + 0.25;
-    const theta = baseAng + (localRand-0.5)*1.2;
-    const r = 70 + hash(o.def.id+'r')*20;
-    o.nebulaPos.set(
-      NEBULA_CENTER.x + r*Math.sin(phi)*Math.cos(theta),
-      NEBULA_CENTER.y + r*Math.sin(phi)*Math.sin(theta)*0.55 + (hash(o.def.id+'y')-0.5)*10,
-      NEBULA_CENTER.z + r*Math.cos(phi)*0.8,
-    );
-    o.curPos.copy(o.nebulaPos);
-    o.targetPos.copy(o.nebulaPos);
-    o.group.position.copy(o.curPos);
-  });
-})();
-
-// ---------- 边 ----------
-const EDGES = [];
-function makeLine(color, opacity){
-  const g = new THREE.BufferGeometry();
-  g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6),3));
-  const m = new THREE.LineBasicMaterial({color, transparent:true, opacity});
-  const line = new THREE.Line(g,m);
-  scene.add(line);
-  return line;
-}
-
-function addEdge(fromId, toId, type){
-  let color, op;
-  if(type==='main'){color=0xffd166;op=0.55;}
-  else if(type==='industry'){color=0xff6b6b;op=0.4;}
-  else {color=0x4a7fa8;op=0.2;}
-  const line = makeLine(color, op);
-  EDGES.push({fromId,toId,type,line,baseOp:op});
-}
-
-CHAINS.forEach(ch => {
-  const indId = ch.id+':'+ch.name;
-  ch.main.forEach(mn => addEdge(indId, ch.id+':'+mn, 'industry'));
-  for(let i=0;i<ch.main.length-1;i++) addEdge(ch.id+':'+ch.main[i], ch.id+':'+ch.main[i+1], 'main');
-  ch.main.forEach(mn => {
-    (BRANCHES[mn]||[]).forEach(bn => addEdge(ch.id+':'+mn, ch.id+':'+bn, 'branch'));
-  });
-});
-
-// ---------- 状态 ----------
-const state = { mode:'nebula', focusChain:null, focusId:null, anim:false, animT:0, animDur:1.3, nebulaRot:0 };
-const cam0 = new THREE.Vector3(), camT0 = new THREE.Vector3(), cam1 = new THREE.Vector3(), camT1 = new THREE.Vector3();
-
-// ---------- 焦点态布局 ----------
-function computeLayout(chainId, focusId){
-  const ch = CHAINS.find(c=>c.id===chainId);
-  const targets = {};
-  const GAP = 5;
-
-  const isIndustry = focusId === ch.id+':'+ch.name;
-  // 焦点在主链中的索引
-  let focusIdx = ch.main.findIndex(m => ch.id+':'+m === focusId);
-  if (focusIdx === -1 && !isIndustry) {
-    // 支链或交叉节点：找其parent在主链中的位置
-    const def = NODE_MAP[focusId];
-    if (def) {
-      // 如果是另一条链的节点(交叉进入)，定位到主链中交叉点
-      if (def.isCross) {
-        focusIdx = ch.main.indexOf(CROSS_NAME);
-      } else {
-        focusIdx = ch.main.indexOf(def.parentName);
-      }
-    }
-    if (focusIdx === -1) focusIdx = Math.floor(ch.main.length/2);
-  }
-  if (isIndustry) focusIdx = Math.floor((ch.main.length-1)/2);
-
-  const mainZ = isIndustry ? -10 : 0;
-  const mainStartX = -focusIdx * GAP;
-  ch.main.forEach((mn,i) => {
-    targets[ch.id+':'+mn] = new THREE.Vector3(mainStartX+i*GAP, 0, mainZ);
-  });
-
-  // 产业节点：主链几何中心上方靠前
-  const centerIdx = Math.floor((ch.main.length-1)/2);
-  const centerMainPos = targets[ch.id+':'+ch.main[centerIdx]];
-  const indPos = isIndustry
-    ? new THREE.Vector3(0, 10, 10)
-    : new THREE.Vector3(centerMainPos.x, centerMainPos.y+10, centerMainPos.z+10);
-  targets[ch.id+':'+ch.name] = indPos;
-
-  // 支链 B2 鱼尾
-  const HALF_CONE = Math.PI/5;
-  const tanH = Math.tan(HALF_CONE/2);
-  const DMIN=6, DMAX=22;
-  ch.main.forEach(mn => {
-    const parentPos = targets[ch.id+':'+mn];
-    if(!parentPos) return;
-    const bs = BRANCHES[mn]||[];
-    const half = Math.ceil(bs.length/2);
-    bs.forEach((bn,idx)=>{
-      const isUp = idx < half;
-      const li = isUp ? idx : idx-half;
-      const lc = isUp ? half : bs.length-half;
-      const th0 = isUp ? 0.15 : Math.PI+0.15;
-      const th1 = isUp ? Math.PI-0.15 : 2*Math.PI-0.15;
-      let theta;
-      if(lc===1) theta = isUp ? Math.PI/2 : 3*Math.PI/2;
-      else { theta = th0+li/(lc-1)*(th1-th0); theta += (hash(bn+chainId)-0.5)*0.25; }
-      const sT = Math.sin(theta);
-      const depth = DMIN + Math.abs(sT)*(DMAX-DMIN);
-      const r = depth*tanH;
-      targets[ch.id+':'+bn] = new THREE.Vector3(
-        parentPos.x + r*Math.cos(theta),
-        parentPos.y + r*sT,
-        parentPos.z - depth,
-      );
-    });
-  });
-
-  // 另一条链的节点：远处背景
-  CHAINS.forEach(oc => {
-    if(oc.id===chainId) return;
-    NODES.filter(n=>n.chainId===oc.id).forEach(n=>{
-      const ang = hash(n.id+'b')*Math.PI*2;
-      const dist = 45+hash(n.id+'d')*20;
-      targets[n.id] = new THREE.Vector3(Math.cos(ang)*18, (hash(n.id+'y2')-0.5)*18, mainZ-dist);
-    });
-  });
-
-  // 相机目标点
-  let lookAt;
-  if(isIndustry){
-    lookAt = targets[ch.id+':'+ch.main[centerIdx]].clone();
-  } else {
-    lookAt = (targets[focusId] || new THREE.Vector3(0,0,0)).clone();
-  }
-  const camD=38, polar=Math.PI/2.5;
-  const camPos = new THREE.Vector3(
-    lookAt.x,
-    lookAt.y + camD*Math.cos(polar)+5,
-    lookAt.z + camD*Math.sin(polar),
-  );
-  return {targets, camPos, lookAt};
-}
-
-// ---------- 切换状态 ----------
-function gotoNebula(){
-  state.mode='nebula'; state.focusChain=null; state.focusId=null;
-  state.anim=true; state.animT=0;
-  cam0.copy(camera.position); camT0.copy(controls.target);
-  cam1.copy(NEBULA_POS); camT1.copy(NEBULA_TGT);
-  // 保存当前位置为lerp起点
-  Object.values(OBJ).forEach(o=>o.curPos.copy(o.group.position));
-  Object.values(OBJ).forEach(o=>{o.targetPos.copy(o.nebulaPos); o.opacity=1; o.scale=1;});
-  updateLabel();
-}
-function gotoFocus(chainId, nodeId){
-  state.mode='focus'; state.focusChain=chainId; state.focusId=nodeId;
-  state.anim=true; state.animT=0;
-  const {targets,camPos,lookAt} = computeLayout(chainId,nodeId);
-  cam0.copy(camera.position); camT0.copy(controls.target);
-  cam1.copy(camPos); camT1.copy(lookAt);
-  Object.values(OBJ).forEach(o=>o.curPos.copy(o.group.position));
-  Object.values(OBJ).forEach(o=>{
-    if(targets[o.def.id]){
-      o.targetPos.copy(targets[o.def.id]);
-      o.opacity = 1; o.scale = 1;
-    } else {
-      o.targetPos.copy(o.nebulaPos);
-      o.opacity = 0.12; o.scale = 0.3;
-    }
-  });
-  updateLabel();
-}
-function updateLabel(){
-  const el=document.getElementById('mode-text');
-  const tip=document.getElementById('tip');
-  if(state.mode==='nebula'){el.textContent='星云探索';tip.textContent='点击星云中带名字的节点开始探索';return;}
-  const o = OBJ[state.focusId];
-  if(!o)return;
-  if(o.def.type==='industry'){el.textContent=o.def.name+' 总览';tip.textContent='点击主链/支链节点深入；点击产业节点返回星云';}
-  else{el.textContent=o.def.name+' · 聚焦';tip.textContent='点击其他主链/支链节点切换；点击上方产业节点返回总览';}
-}
-
-// ---------- 点击交互 ----------
-const rc = new THREE.Raycaster();
-const mv = new THREE.Vector2();
-renderer.domElement.addEventListener('click', e=>{
-  if(state.anim) return;
-  mv.x = (e.clientX/innerWidth)*2-1;
-  mv.y = -(e.clientY/innerHeight)*2+1;
-  rc.setFromCamera(mv,camera);
-  const meshes = Object.values(OBJ).filter(o=>o.opacity>0.3&&o.scale>0.3).map(o=>o.group);
-  const hits = rc.intersectObjects(meshes,true);
-  if(!hits.length) return;
-  let obj=hits[0].object;
-  let safety=0;
-  while(obj && !obj.userData?.nid && safety<20){obj=obj.parent;safety++;}
-  if(!obj||!obj.userData?.nid) return;
-  onNodeClick(obj.userData.nid);
-});
-
-function onNodeClick(nid){
-  const o = OBJ[nid]; if(!o) return;
-  if(o.def.type==='industry'){
-    if(state.mode==='focus'&&state.focusChain===o.def.chainId&&state.focusId===nid){
-      gotoNebula();
-    }else{
-      gotoFocus(o.def.chainId, nid);
-    }
-    return;
-  }
-  // 交叉节点跨链：如果当前在A链，点了A链中标记为cross的节点，切到B链
-  let targetChain = o.def.chainId;
-  let targetId = nid;
-  if(o.def.isCross && state.mode==='focus' && state.focusChain===o.def.chainId){
-    // 切换到另一条链
-    targetChain = CHAINS.find(c=>c.id!==o.def.chainId).id;
-    targetId = targetChain+':'+CROSS_NAME;
-  }
-  gotoFocus(targetChain, targetId);
-}
+scene.add(group);
 
 // ---------- 动画循环 ----------
-const clock = new THREE.Clock();
-function tick(){
+function tick() {
   requestAnimationFrame(tick);
-  const dt = Math.min(clock.getDelta(),0.05);
-  const t_global = clock.getElapsedTime();
-
-  state.nebulaRot += dt*0.012;
-
-  if(state.anim){
-    state.animT += dt/state.animDur;
-    const t = Math.min(state.animT,1);
-    const e = easeOut(t);
-    Object.values(OBJ).forEach(o=>{
-      let tgt = o.targetPos;
-      if(state.mode==='nebula'){
-        const b=o.nebulaPos, ph=hash(o.def.id)*Math.PI*2;
-        const rx=b.x-NEBULA_CENTER.x, rz=b.z-NEBULA_CENTER.z;
-        const rr=Math.sqrt(rx*rx+rz*rz), ang=state.nebulaRot+ph;
-        tgt = new THREE.Vector3(NEBULA_CENTER.x+rr*Math.cos(ang), b.y, NEBULA_CENTER.z+rr*Math.sin(ang));
-      }
-      o.curPos.lerp(tgt,0.1);
-      o.group.position.copy(o.curPos);
-      o.group.scale.setScalar(lerp(o.group.scale.x,o.scale,0.12));
-      o.mesh.material.opacity = lerp(o.mesh.material.opacity,o.opacity,0.12);
-      o.halo.material.opacity = o.mesh.material.opacity*0.6;
-    });
-    camera.position.lerpVectors(cam0,cam1,e);
-    controls.target.lerpVectors(camT0,camT1,e);
-    controls.enabled = t>=1;
-    if(t>=1) state.anim=false;
-  }else{
-    if(state.mode==='nebula'){
-      Object.values(OBJ).forEach(o=>{
-        const b=o.nebulaPos, ph=hash(o.def.id)*Math.PI*2;
-        const rx=b.x-NEBULA_CENTER.x, rz=b.z-NEBULA_CENTER.z;
-        const rr=Math.sqrt(rx*rx+rz*rz), ang=state.nebulaRot+ph;
-        o.group.position.set(NEBULA_CENTER.x+rr*Math.cos(ang), b.y, NEBULA_CENTER.z+rr*Math.sin(ang));
-        o.curPos.copy(o.group.position);
-        o.mesh.material.opacity = 1; o.halo.material.opacity=0.6;
-        o.group.scale.setScalar(1);
-      });
-    }else{
-      Object.values(OBJ).forEach(o=>{
-        o.curPos.lerp(o.targetPos,0.12);
-        o.group.position.copy(o.curPos);
-        if(o.def.type==='branch'&&o.opacity>0.5){
-          o.group.position.y += Math.sin(t_global*2+hash(o.def.id)*10)*0.04;
-        }
-        o.mesh.material.opacity = lerp(o.mesh.material.opacity,o.opacity,0.1);
-        o.halo.material.opacity = o.mesh.material.opacity*0.55;
-        o.group.scale.setScalar(lerp(o.group.scale.x,o.scale,0.1));
-      });
-    }
-  }
-
-  // 边
-  EDGES.forEach(({fromId,toId,line,baseOp})=>{
-    const a=OBJ[fromId],b=OBJ[toId]; if(!a||!b)return;
-    const pa=a.group.position, pb=b.group.position;
-    const pos=line.geometry.attributes.position;
-    pos.setXYZ(0,pa.x,pa.y,pa.z);pos.setXYZ(1,pb.x,pb.y,pb.z);
-    pos.needsUpdate=true;
-    line.material.opacity = baseOp*Math.min(a.mesh.material.opacity,b.mesh.material.opacity);
-  });
-
-  // LOD
-  const cp=camera.position;
-  Object.values(OBJ).forEach(o=>{
-    const d = o.group.position.distanceTo(cp);
-    let s=1, showLabel=false, haloM=4;
-    if(d<35){s=1.1;showLabel=o.opacity>0.4;haloM=5;}
-    else if(d<60){s=0.8;showLabel=false;haloM=4;}
-    else if(d<90){s=0.5;showLabel=false;haloM=3.2;}
-    else {s=0.3;showLabel=false;haloM=2.5;}
-    if(o.def.type==='industry')s*=1.5;
-    else if(o.def.type==='main')s*=1.1;
-    o.mesh.scale.setScalar(s);
-    o.label.visible = showLabel;
-    o.halo.scale.set(o.baseRadius*haloM*s,o.baseRadius*haloM*s,1);
-    o.group.userData.nid = o.def.id;
-  });
-
   controls.update();
-  renderer.render(scene,camera);
+  renderer.render(scene, camera);
 }
 
-// 设置节点userData（射线检测用）
-Object.values(OBJ).forEach(o=>{ o.group.userData.nid = o.def.id; });
+window.addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
 
-// 初始相机位置
-camera.position.copy(NEBULA_POS);
-controls.target.copy(NEBULA_TGT);
-
-window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
-updateLabel();
 tick();
 </script>
 </body>
