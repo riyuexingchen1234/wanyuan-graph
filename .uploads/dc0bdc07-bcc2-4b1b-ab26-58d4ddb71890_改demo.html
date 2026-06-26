@@ -106,6 +106,33 @@ NODES.forEach((n) => {
   objects.push({ mesh, label });
 });
 
+// ---------- 连线 ----------
+const lineMaterial = new THREE.LineBasicMaterial({ color: 0x888888 });
+const chainNodes = NODES.filter(n => n.z === -1).sort((a, b) => a.x - b.x);
+
+// z=-1 节点间 1px 直线连接
+for (let i = 0; i < chainNodes.length - 1; i++) {
+  const a = chainNodes[i];
+  const b = chainNodes[i + 1];
+  const lineGeo = new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3(a.x, a.y, a.z),
+    new THREE.Vector3(b.x, b.y, b.z),
+  ]);
+  scene.add(new THREE.Line(lineGeo, lineMaterial));
+}
+
+// 光伏产业到各 z=-1 节点的曲线
+const pvNode = NODES.find(n => n.name === '光伏产业');
+chainNodes.forEach(n => {
+  const curve = new THREE.QuadraticBezierCurve3(
+    new THREE.Vector3(pvNode.x, pvNode.y, pvNode.z),
+    new THREE.Vector3(n.x / 2, 1.25, -0.5),
+    new THREE.Vector3(n.x, n.y, n.z)
+  );
+  const curveGeo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(50));
+  scene.add(new THREE.Line(curveGeo, lineMaterial));
+});
+
 // ---------- 更新标签 ----------
 function updateLabels() {
   const d = camera.position.distanceTo(new THREE.Vector3(0, 0, 0));
