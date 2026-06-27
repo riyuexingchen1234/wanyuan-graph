@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<title>万源图谱 · 空间布局验证 v3</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#fafaf8;overflow:hidden;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#222;}
+canvas{display:block;}
+#hud{position:fixed;top:14px;left:14px;background:rgba(255,255,255,0.85);border:1px solid #ddd;padding:10px 14px;border-radius:6px;font-size:12px;line-height:1.7;pointer-events:none;z-index:10;}
+#hud b{color:#000;}
+#mode{position:fixed;top:14px;right:14px;background:rgba(255,255,255,0.85);border:1px solid #ddd;padding:8px 14px;border-radius:6px;font-size:12px;pointer-events:none;z-index:10;}
+#mode span{font-weight:700;color:#000;}
+#tip{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.85);border:1px solid #ddd;padding:6px 16px;border-radius:20px;font-size:11px;color:#666;pointer-events:none;z-index:10;white-space:nowrap;}
+#overlay{position:fixed;inset:0;background:#fafaf8;display:flex;align-items:center;justify-content:center;z-index:100;font-size:14px;color:#666;}
+</style>
+</head>
+<body>
+<div id="hud">
+<b>万源图谱 · 空间布局验证</b><br>
+左键旋转 · 滚轮缩放 · 右键平移<br>
+点击节点飞入 · 点击产业节点重置视角
+</div>
+<div id="mode">模式：<span id="modeText">星云探索</span></div>
+<div id="tip">点击星云中的节点开始探索</div>
+<div id="overlay">加载中…</div>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ==================================================================
+// 1. 数据（光伏+银浆 交叉）
+// ==================================================================
+const RAW_NODES = [
+  {id:'pv-ind', name:'光伏产业', type:'industry', chain:'pv'},
+  {id:'pv-1',name:'工业硅',type:'main',chain:'pv'},
+  {id:'pv-2',name:'多晶硅',type:'main',chain:'pv'},
+  {id:'pv-3',name:'硅片',type:'main',chain:'pv'},
+  {id:'pv-4',name:'电池片',type:'main',chain:'pv'},
+  {id:'pv-5',name:'层压件',type:'main',chain:'pv'},
+  {id:'pv-6',name:'光伏组件',type:'main',chain:'pv'},
+  {id:'pv-7',name:'光伏电站',type:'main',chain:'pv'},
+  {id:'n-dj',name:'单晶硅',type:'branch'},
+  {id:'n-yj',name:'银浆',type:'branch'},
+  {id:'n-hd',name:'涂锡焊带',type:'branch'},
+  {id:'n-jm',name:'封装胶膜',type:'branch'},
+  {id:'n-bb',name:'光伏背板',type:'branch'},
+  {id:'n-bl',name:'光伏玻璃',type:'branch'},
+  {id:'n-jxh',name:'接线盒',type:'branch'},
+  {id:'n-mfj',name:'密封胶',type:'branch'},
+  {id:'n-bk',name:'铝边框',type:'branch'},
+  {id:'n-zj',name:'光伏支架',type:'branch'},
+  {id:'n-nbq',name:'逆变器',type:'branch'},
+  {id:'n-hlx',name:'汇流箱',type:'branch'},
+  {id:'n-xn',name:'储能蓄电池',type:'branch'},
+  {id:'n-gz',name:'跟踪系统',type:'branch'},
+  {id:'n-kzq',name:'控制器',type:'branch'},
+  {id:'n-jz',name:'建筑一体化',type:'app'},
+  {id:'n-jt',name:'光伏交通',type:'app'},
+  {id:'n-gr',name:'光伏供热',type:'app'},
+  {id:'n-zq',name:'光伏制氢',type:'app'},
+  {id:'n-eva',name:'EVA胶膜',type:'branch'},
+  {id:'n-poe',name:'POE胶膜',type:'branch'},
+  {id:'n-pet',name:'PET基膜',type:'branch'},
+  {id:'n-fm',name:'氟膜',type:'branch'},
+  {id:'n-syj',name:'纯碱石英砂',type:'branch'},
+  {id:'n-yx',name:'乙烯',type:'branch'},
+  {id:'n-csyx',name:'醋酸乙烯',type:'branch'},
+  {id:'n-gxt',name:'高碳α烯烃',type:'branch'},
+  {id:'sp-ind',name:'银浆产业',type:'industry',chain:'sp'},
+  {id:'sp-1',name:'白银',type:'main',chain:'sp'},
+  {id:'sp-2',name:'银粉',type:'main',chain:'sp'},
+  {id:'sp-3',name:'玻璃粉',type:'main',chain:'sp'},
+  {id:'sp-4',name:'有机载体',type:'main',chain:'sp'},
+  {id:'sp-5',name:'银浆',type:'main',chain:'sp',alias:'n-yj'},
+  {id:'sp-6',name:'正面银浆',type:'main',chain:'sp'},
+  {id:'sp-7',name:'背面银浆',type:'main',chain:'sp'},
+  {id:'n-xyy',name:'硝酸银',type:'branch'},
+  {id:'n-qxy',name:'球形银粉',type:'branch'},
+  {id:'n-pbl',name:'硼硅玻璃',type:'branch'},
+  {id:'n-qbl',name:'铅玻璃',type:'branch'},
+  {id:'n-syc',name:'松油醇',type:'branch'},
+  {id:'n-yjxs',name:'乙基纤维素',type:'branch'},
+];
+
+// 边: s→t 表示 s 是 t 的上游(供给方/原材料), 物流从s流向t
+const RAW_EDGES = [
+  // 光伏主链
+  ['pv-1','pv-2'],['pv-2','pv-3'],['pv-3','pv-4'],['pv-4','pv-5'],['pv-5','pv-6'],['pv-6','pv-7'],
+  ['pv-ind','pv-1'],['pv-ind','pv-2'],['pv-ind','pv-3'],['pv-ind','pv-4'],['pv-ind','pv-5'],['pv-ind','pv-6'],['pv-ind','pv-7'],
+  ['n-dj','pv-3'],['n-yj','pv-3'],
+  ['n-hd','pv-5'],['n-jm','pv-5'],['n-bb','pv-5'],['n-bl','pv-5'],
+  ['n-jxh','pv-6'],['n-mfj','pv-6'],['n-bk','pv-6'],
+  ['n-zj','pv-7'],['n-nbq','pv-7'],['n-hlx','pv-7'],['n-xn','pv-7'],['n-gz','pv-7'],['n-kzq','pv-7'],
+  ['pv-7','n-jz'],['pv-7','n-jt'],['pv-7','n-gr'],['pv-7','n-zq'],
+  ['n-eva','n-jm'],['n-poe','n-jm'],['n-pet','n-bb'],['n-fm','n-bb'],['n-syj','n-bl'],
+  ['n-yx','n-eva'],['n-csyx','n-eva'],['n-yx','n-poe'],['n-gxt','n-poe'],
+  // 银浆主链（白银→银粉→银浆→正/背面银浆; 玻璃粉/有机载体→银浆）
+  ['sp-1','sp-2'],['sp-2','sp-5'],['sp-3','sp-5'],['sp-4','sp-5'],
+  ['sp-5','sp-6'],['sp-5','sp-7'],
+  ['sp-ind','sp-1'],['sp-ind','sp-2'],['sp-ind','sp-3'],['sp-ind','sp-4'],['sp-ind','sp-5'],['sp-ind','sp-6'],['sp-ind','sp-7'],
+  ['n-xyy','sp-2'],['n-qxy','sp-2'],
+  ['n-pbl','sp-3'],['n-qbl','sp-3'],
+  ['n-syc','sp-4'],['n-yjxs','sp-4'],
+  // 交叉：银浆(sp-5) 和 n-yj 是同一个节点，硅片(pv-3) 是银浆的下游
+  ['sp-5','pv-3'],
+];
+
+// ==================================================================
+// 2. 图结构
+// ==================================================================
+const nodeMap = new Map();
+RAW_NODES.forEach(n => nodeMap.set(n.id, {...n, ups:[], downs:[]}));
+// 处理alias: sp-5（银浆）的alias是n-yj，意味着它们物理上是同一个节点
+// 做法：所有指向n-yj的边合并到sp-5，所有n-yj出发的边也从sp-5出发；n-yj不再作为独立节点
+const aliasMap = new Map(); // aliasId -> canonicalId
+RAW_NODES.forEach(n=>{ if(n.alias) aliasMap.set(n.alias, n.id); });
+// 删除alias节点
+aliasMap.forEach((canon,alias)=>{ nodeMap.delete(alias); });
+RAW_EDGES.forEach(([s,t],i)=>{
+  let sN = nodeMap.get(s) || nodeMap.get(aliasMap.get(s));
+  let tN = nodeMap.get(t) || nodeMap.get(aliasMap.get(t));
+  const sId = aliasMap.get(s) || s;
+  const tId = aliasMap.get(t) || t;
+  sN = nodeMap.get(sId); tN = nodeMap.get(tId);
+  if(!sN||!tN) return;
+  if(!sN.downs.includes(tId)) sN.downs.push(tId);
+  if(!tN.ups.includes(sId)) tN.ups.push(sId);
+});
+// 重建边列表（去重、用canonical id）
+const EDGES = [];
+const edgeSeen = new Set();
+RAW_EDGES.forEach(([s,t])=>{
+  const sId=aliasMap.get(s)||s, tId=aliasMap.get(t)||t;
+  if(!nodeMap.has(sId)||!nodeMap.has(tId)) return;
+  const k=[sId,tId].sort().join('|');
+  if(edgeSeen.has(k)) return; edgeSeen.add(k);
+  EDGES.push([sId,tId]);
+});
+
+// ==================================================================
+// 3. 产业定义：主链从上游到下游
+// ==================================================================
+const CHAINS = {
+  pv: { ind:'pv-ind', main:['pv-1','pv-2','pv-3','pv-4','pv-5','pv-6','pv-7'] },
+  sp: { ind:'sp-ind', main:['sp-1','sp-2','sp-3','sp-4','sp-5','sp-6','sp-7'] },
+};
+
+// ==================================================================
+// 4. 布局算法
+// 设计原则：
+// - 主链沿X轴；产业节点在主链上方靠前
+// - BFS从所有主链节点向外展开：
+//   · 对每个主链节点，其ups(流入它的) = 上游辅材，放在后方上半圆
+//   · 其downs(它流出的，且非下一个主链节点) = 下游分支，放在前方
+//     （注意：光伏电站pv-7的downs是应用类→前方下半圆；银浆sp-5的downs包含pv-3硅片→前方）
+// - 继续BFS：已放置的支链节点，其ups继续向后上方展开，downs继续向前方展开
+// - 同一hop层共享Z平面；up方向Z负，down方向Z正
+// ==================================================================
+const C = {
+  mainGap: 1.3,
+  mainZ: 0,
+  indY: 2.2, indZ: -2.0,
+  layerBack: 1.4,    // 上游每层后退距离
+  layerFront: 1.4,   // 下游每层前进距离
+  rBase: 0.55,
+  rShrink: 0.62,
+  rGrowth: 0.5,
+  minGap: 0.45,
+  relaxIter: 80,
+  arcHalf: Math.PI * 0.42,
+  yBiasUp: 0.15,
+  yBiasDown: 0.0,
+  maxHop: 8,
+};
+
+function hash(s){let h=0;for(let i=0;i<s.length;i++)h=((h<<5)-h+s.charCodeAt(i))|0;return(Math.abs(h)%10000)/10000;}
+
+// 判断节点是否在给定主链上
+function isOnMain(id, mainIds){ return mainIds.includes(id); }
+
+// 找任意节点最近的主链祖先（沿ups方向）
+function findMainAncestor(nid, mainIds){
+  const vis=new Set([nid]);let f=[nid];let h=0;
+  while(f.length && h<10){h++;const n=[];
+    for(const id of f){const nd=nodeMap.get(id);if(!nd)continue;
+      for(const p of nd.ups){if(mainIds.includes(p))return{id:p,hops:h};if(!vis.has(p)){vis.add(p);n.push(p);}}
+    }f=n;}
+  return{id:mainIds[Math.floor(mainIds.length/2)],hops:99};
+}
+
+// 从主链BFS向外计算所有可达节点的元信息
+// 方向规则：
+// - 'front'：仅主链末端节点(pv-7光伏电站)的直接downs → 前方最近处（如应用类）
+// - 'up'：所有ups(流入的原材料) + 非末端主链节点的downs分支 + 支链节点的downs分支 → 后方上半圆
+// - 'downBack'：支链节点的downs（产品变体等）→ 后方下半圆
+// 返回 Map<id, {hop, primaryParent, direction('front'|'up'|'downBack'), siblings[]}>
+function computeMeta(mainIds, chainId){
+  const meta = new Map();
+  const placed = new Set(mainIds);
+  const terminalMain = mainIds[mainIds.length-1]; // 末端主链节点(如光伏电站)
+
+  mainIds.forEach(id=>meta.set(id,{hop:0,primaryParent:null,direction:null,siblings:mainIds,siblingIdx:mainIds.indexOf(id)}));
+
+  let frontier = [...mainIds];
+  let hop = 0;
+  while(frontier.length && hop<C.maxHop){
+    hop++;
+    const recs = [];
+    for(const pid of frontier){
+      const pn = nodeMap.get(pid); if(!pn) continue;
+      const pMeta = meta.get(pid);
+      // 流入pid的原材料 → up（后方上半圆）
+      for(const cid of pn.ups){
+        if(placed.has(cid) || isOnMain(cid,mainIds)) continue;
+        recs.push({cid,pid,dir:'up'});
+      }
+      // pid流出的分支：
+      for(const cid of pn.downs){
+        if(placed.has(cid) || isOnMain(cid,mainIds)) continue;
+        let dir;
+        const cNode = nodeMap.get(cid);
+        const isCrossChain = cNode.chain && cNode.chain !== chainId;
+        if(pid===terminalMain && hop===1){
+          dir = 'front'; // 末端主链节点的直接downs → 前方（应用类）
+        } else if(isOnMain(pid,mainIds) && isCrossChain){
+          dir = 'front'; // 主链节点流向其他产业的交叉节点 → 前方（下游客户产业）
+        } else if(pMeta?.direction==='front'){
+          dir = 'front'; // 前方节点的延伸继续向前
+        } else if(pMeta?.direction==='downBack'){
+          dir = 'downBack'; // 后方下半圆节点的延伸保持下半圆
+        } else if(isOnMain(pid,mainIds)){
+          dir = 'downBack'; // 非末端主链节点的同链downs → 后方下半圆（产品变体）
+        } else {
+          dir = 'downBack'; // 支链节点的downs → 后方下半圆
+        }
+        recs.push({cid,pid,dir});
+      }
+    }
+
+    const chosen = new Map();
+    for(const r of recs){
+      if(!chosen.has(r.cid)) chosen.set(r.cid,{pid:r.pid,dir:r.dir});
+    }
+    if(chosen.size===0) break;
+
+    const groups = new Map();
+    chosen.forEach((v,cid)=>{
+      const k=v.pid+':'+v.dir;
+      if(!groups.has(k)) groups.set(k,[]);
+      groups.get(k).push(cid);
+    });
+    groups.forEach(children=>children.sort((a,b)=>hash(a)-hash(b)));
+
+    groups.forEach((children,key)=>{
+      const [pid,dir]=key.split(':');
+      children.forEach((cid,i)=>{
+        if(placed.has(cid)) return;
+        meta.set(cid,{hop,primaryParent:pid,direction:dir,siblings:children,siblingIdx:i});
+        placed.add(cid);
+      });
+    });
+    frontier = Array.from(chosen.keys()).filter(id=>placed.has(id)&&meta.has(id));
+  }
+  return meta;
+}
+
+// 计算完整布局
+function computeLayout(chainId, focusId){
+  const chain = CHAINS[chainId];
+  const mainIds = chain.main;
+  const indId = chain.ind;
+
+  // 确定焦点在主链中的位置
+  let focusIdx = mainIds.indexOf(focusId);
+  const focusNode = nodeMap.get(focusId);
+  const isInd = focusNode?.type==='industry';
+  if(isInd) focusIdx = Math.floor((mainIds.length-1)/2);
+  if(focusIdx===-1){
+    // 焦点是支链节点，找其主链祖先
+    const a = findMainAncestor(focusId, mainIds);
+    focusIdx = mainIds.indexOf(a.id);
+    if(focusIdx===-1) focusIdx = Math.floor((mainIds.length-1)/2);
+  }
+
+  const pos = new Map();
+  const startX = -focusIdx * C.mainGap;
+  mainIds.forEach((mid,i)=>pos.set(mid, new THREE.Vector3(startX+i*C.mainGap, 0, C.mainZ)));
+  const centerMain = pos.get(mainIds[Math.floor((mainIds.length-1)/2)]);
+  pos.set(indId, new THREE.Vector3(centerMain.x, C.indY, C.indZ));
+
+  const meta = computeMeta(mainIds, chainId);
+
+  // 逐层放置
+  const maxHop = Math.max(...Array.from(meta.values()).map(m=>m.hop), 0);
+
+  function placeGroup(group, zPlane, sector){
+    // sector: 'up'=upper half behind, 'downBack'=lower half behind, 'front'=lower half in front
+    if(!group.length) return;
+    const ideal = new Map();
+    group.forEach(nid=>{
+      const m = meta.get(nid);
+      const pp = pos.get(m.primaryParent);
+      if(!pp){ ideal.set(nid, new THREE.Vector3(0,0,zPlane)); return; }
+      const sibs = m.siblings.filter(sid=>{
+        const sm=meta.get(sid); return sm && sm.direction===m.direction;
+      });
+      const N = sibs.length;
+      const idx = sibs.indexOf(nid);
+      const shrink = Math.pow(C.rShrink, m.hop-1);
+      const baseR = C.rBase * (1 + C.rGrowth*Math.sqrt(Math.max(0,N-1))) * shrink;
+      const arcSp = N<=1?0 : C.arcHalf/(N-1);
+      const minR = N<=1 ? baseR : (C.minGap*0.85)/(2*Math.sin(arcSp))*shrink;
+      const r = Math.max(baseR, minR);
+      let cA;
+      if(sector==='up') cA = Math.PI/2;        // 正上方
+      else if(sector==='downBack') cA = 3*Math.PI/2; // 正下方(后方)
+      else cA = 3*Math.PI/2;                  // 前方也在下方
+      let theta;
+      if(N===1) theta = cA;
+      else{
+        const t = idx/(N-1);
+        theta = cA - C.arcHalf + t*2*C.arcHalf;
+        theta += (hash(nid)-0.5)*0.06;
+      }
+      const yE = sector==='up' ? C.yBiasUp*(m.hop-1) : sector==='downBack' ? -C.yBiasUp*0.6*(m.hop-1) : -0.15*(m.hop-1);
+      ideal.set(nid, new THREE.Vector3(
+        pp.x + r*Math.cos(theta),
+        pp.y + r*Math.sin(theta) + yE,
+        zPlane
+      ));
+    });
+
+    const cur = new Map();
+    ideal.forEach((v,k)=>cur.set(k, v.clone()));
+
+    for(let it=0;it<C.relaxIter;it++){
+      const fx=new Map(),fy=new Map();
+      group.forEach(id=>{fx.set(id,0);fy.set(id,0);});
+      for(let i=0;i<group.length;i++)for(let j=i+1;j<group.length;j++){
+        const a=group[i],b=group[j];
+        const pa=cur.get(a),pb=cur.get(b);
+        const dx=pb.x-pa.x,dy=pb.y-pa.y;const d2=dx*dx+dy*dy;const mg=C.minGap;
+        if(d2<mg*mg && d2>1e-6){
+          const d=Math.sqrt(d2);const push=(mg-d)*0.5;const nx=dx/d,ny=dy/d;
+          fx.set(a,fx.get(a)-nx*push);
+          fy.set(a,fy.get(a)-ny*push*0.8);
+          fx.set(b,fx.get(b)+nx*push);
+          fy.set(b,fy.get(b)+ny*push*0.8);
+        }
+      }
+      const sp=0.12;
+      group.forEach(id=>{
+        const p=cur.get(id),ip=ideal.get(id);
+        p.x+=fx.get(id)+(ip.x-p.x)*sp;
+        p.y+=fy.get(id)+(ip.y-p.y)*sp;
+        p.z=zPlane;
+      });
+    }
+    cur.forEach((v,k)=>pos.set(k,v.clone()));
+  }
+
+  for(let hop=1;hop<=maxHop;hop++){
+    const zUp = C.mainZ - hop*C.layerBack;
+    const zDown = C.mainZ - hop*C.layerBack*0.9; // 后方下半圆，与上层略微错开Z
+    const zFront = C.mainZ + hop*C.layerFront;
+    const uN=Array.from(meta.entries()).filter(([,m])=>m.hop===hop&&m.direction==='up').map(([id])=>id);
+    const dN=Array.from(meta.entries()).filter(([,m])=>m.hop===hop&&m.direction==='downBack').map(([id])=>id);
+    const fN=Array.from(meta.entries()).filter(([,m])=>m.hop===hop&&m.direction==='front').map(([id])=>id);
+    placeGroup(uN,zUp,'up');
+    placeGroup(dN,zDown,'downBack');
+    placeGroup(fN,zFront,'front');
+  }
+
+  // 其他产业节点（未通过BFS到达的）放在远处淡化
+  nodeMap.forEach((n,id)=>{
+    if(!pos.has(id)){
+      const a=hash(id)*Math.PI*2;
+      const d=20+hash(id+'d')*12;
+      pos.set(id,new THREE.Vector3(Math.cos(a)*8,(hash(id+'y')-0.5)*8,C.mainZ-d));
+    }
+  });
+
+  let lookAt;
+  if(isInd){
+    lookAt = new THREE.Vector3(centerMain.x, 0, C.mainZ*0.3);
+  } else {
+    const fp=pos.get(focusId);
+    lookAt = fp ? new THREE.Vector3(fp.x, fp.y*0.2, fp.z*0.2) : centerMain.clone();
+  }
+  const camDist=8, polar=Math.PI/2.6;
+  const camPos = new THREE.Vector3(
+    lookAt.x,
+    lookAt.y + camDist*Math.cos(polar)+1.5,
+    lookAt.z + camDist*Math.sin(polar)+2
+  );
+  return{pos,camPos,lookAt,mainIds,indId,meta};
+}
+
+// 星云态位置（球壳上的螺旋分布）
+const NC = new THREE.Vector3(0,0,-60);
+const nebPos = new Map();
+function initNebula(){
+  const industries = Object.values(CHAINS).map(c=>c.ind);
+  const otherNodes = [];
+  nodeMap.forEach((n,id)=>{ if(n.type!=='industry') otherNodes.push(id); });
+  // 产业节点均匀分布在球壳上
+  industries.forEach((id,i)=>{
+    const ang = (i/industries.length)*Math.PI*2;
+    const r=35;
+    nebPos.set(id, new THREE.Vector3(NC.x+r*Math.cos(ang), NC.y+(i%2?4:-4), NC.z+r*Math.sin(ang)*0.6));
+  });
+  // 其他节点围绕各自产业成团
+  nodeMap.forEach((n,id)=>{
+    if(n.type==='industry') return;
+    // 找其所属产业（所属主链）
+    let chainId = n.chain;
+    if(!chainId){
+      // 通过BFS找最近产业节点
+      for(const cid of Object.keys(CHAINS)){
+        const c=CHAINS[cid];
+        if(findMainAncestor(id,c.main).hops<8){chainId=cid;break;}
+      }
+    }
+    const indId = chainId ? CHAINS[chainId]?.ind : 'pv-ind';
+    const ip = nebPos.get(indId)||NC;
+    const a=hash(id)*Math.PI*2;
+    const rr=5+hash(id+'r')*10;
+    nebPos.set(id,new THREE.Vector3(
+      ip.x+rr*Math.cos(a)*0.7,
+      ip.y+(hash(id+'y')-0.5)*8,
+      ip.z+rr*Math.sin(a)*0.5+(hash(id+'z')-0.5)*4,
+    ));
+  });
+}
+initNebula();
+
+// ==================================================================
+// 5. Three.js场景
+// ==================================================================
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xfafaf8);
+const camera = new THREE.PerspectiveCamera(48, innerWidth/innerHeight, 0.1, 500);
+const NEB_CAM = new THREE.Vector3(0,5,25);
+const NEB_TGT = new THREE.Vector3(0,0,-55);
+camera.position.copy(NEB_CAM);
+
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(innerWidth,innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+document.body.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping=true;controls.dampingFactor=0.08;
+controls.target.copy(NEB_TGT);controls.update();
+
+scene.add(new THREE.AmbientLight(0xffffff,1));
+
+// ==================================================================
+// 6. 标签：使用Canvas Sprite实现透视自然缩放
+// ==================================================================
+function makeTextSprite(name, type){
+  const {texture, aspect} = makeTextTexture(name, type);
+  const mat = new THREE.SpriteMaterial({map:texture,depthTest:false,depthWrite:false,transparent:true});
+  const sp = new THREE.Sprite(mat);
+  const worldHeight = type==='industry'?0.55:type==='main'?0.42:0.36;
+  sp.scale.set(worldHeight*aspect, worldHeight, 1);
+  sp.renderOrder = 999;
+  return {sprite:sp, aspect, worldHeight};
+}
+
+const texCache = new Map();
+function makeTextTexture(name,type){
+  const key=name+'|'+type;
+  if(texCache.has(key)) return texCache.get(key);
+  const fontSize = type==='industry'?48:type==='main'?36:30;
+  const weight = type==='industry'?'700':type==='main'?'600':'400';
+  const color = type==='industry'?'#000000':type==='main'?'#1a1a1a':'#333333';
+  const pad=6;
+  const measure = document.createElement('canvas').getContext('2d');
+  measure.font = weight+' '+fontSize+'px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  const tw = Math.ceil(measure.measureText(name).width)+pad*2;
+  const th = fontSize+pad*2;
+  const canvas = document.createElement('canvas');
+  canvas.width=tw*2;canvas.height=th*2;
+  const ctx=canvas.getContext('2d');
+  ctx.scale(2,2);
+  ctx.font = weight+' '+fontSize+'px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.fillStyle=color;
+  ctx.textBaseline='middle';ctx.textAlign='center';
+  ctx.fillText(name,tw/2,th/2);
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.minFilter=THREE.LinearFilter;tex.magFilter=THREE.LinearFilter;
+  const aspect = tw/th;
+  const result={texture:tex,aspect};
+  texCache.set(key,result);
+  return result;
+}
+
+// ==================================================================
+// 7. 节点视觉
+// ==================================================================
+const nObs = new Map();
+const DOT_R = 0.02;
+nodeMap.forEach((n,id)=>{
+  const g = new THREE.Group();
+  const dotMat = new THREE.MeshBasicMaterial({color: n.type==='industry'?0x000:n.type==='main'?0x222:0x888, transparent:true, opacity:0.4});
+  const dot = new THREE.Mesh(new THREE.SphereGeometry(DOT_R,8,8), dotMat);
+  dot.renderOrder=1;
+  g.add(dot);
+  const lb = makeTextSprite(n.name, n.type);
+  lb.sprite.position.set(0, lb.worldHeight/2, 0);
+  g.add(lb.sprite);
+  // 不可见点击平面（更大的热区）
+  const hitMat = new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false});
+  const hit = new THREE.Mesh(new THREE.PlaneGeometry(lb.worldHeight*lb.aspect+0.2, lb.worldHeight+0.2), hitMat);
+  g.add(hit);
+  g.userData.nodeId = id;
+  scene.add(g);
+  nObs.set(id,{g,dot,dotMat,lb,hit,hitMat,n,cur:new THREE.Vector3(),tgt:new THREE.Vector3(),op:1,tgtOp:1});
+});
+
+// 边（LineSegments 以便多条边共享）
+const edgeObjs = [];
+const MAX_EDGES = EDGES.length;
+const edgeGeom = new THREE.BufferGeometry();
+const edgePosArr = new Float32Array(MAX_EDGES*6);
+const edgeColorArr = new Float32Array(MAX_EDGES*6);
+edgeGeom.setAttribute('position',new THREE.BufferAttribute(edgePosArr,3));
+edgeGeom.setAttribute('color',new THREE.BufferAttribute(edgeColorArr,3));
+const edgeMat = new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0.45});
+const edgeLines = new THREE.LineSegments(edgeGeom, edgeMat);
+scene.add(edgeLines);
+// 主链专用边：渲染在普通边之上，颜色更深，模拟加粗效果
+const MAX_MAIN = 20;
+const mainEdgeGeom = new THREE.BufferGeometry();
+const mainEdgePos = new Float32Array(MAX_MAIN*6);
+const mainEdgeCol = new Float32Array(MAX_MAIN*6);
+mainEdgeGeom.setAttribute('position',new THREE.BufferAttribute(mainEdgePos,3));
+mainEdgeGeom.setAttribute('color',new THREE.BufferAttribute(mainEdgeCol,3));
+const mainEdgeMat = new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0.9,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2,depthTest:false});
+const mainEdgeLines = new THREE.LineSegments(mainEdgeGeom, mainEdgeMat);
+mainEdgeLines.renderOrder=10;
+scene.add(mainEdgeLines);
+EDGES.forEach((e,i)=>edgeObjs.push({from:e[0],to:e[1],idx:i}));
+
+// ==================================================================
+// 8. 状态与动画
+// ==================================================================
+const st={mode:'nebula',chain:null,focus:null,anim:false,t:0,dur:0.9,nebAng:0,paused:false,hoverId:null};
+const c0=new THREE.Vector3(),t0v=new THREE.Vector3(),c1=new THREE.Vector3(),t1v=new THREE.Vector3();
+
+function setNebula(){nObs.forEach(o=>{o.tgt.copy(nebPos.get(o.n.id));o.tgtOp=1;});}
+function setFocus(layout){
+  nObs.forEach(o=>{
+    const p=layout.pos.get(o.n.id);
+    if(p){o.tgt.copy(p);const dz=Math.abs(p.z-layout.lookAt.z);o.tgtOp=Math.max(0.12,Math.min(1,1-dz/28));}
+    else{const a=hash(o.n.id)*Math.PI*2;const d=22+hash(o.n.id+'d')*10;o.tgt.set(Math.cos(a)*7,(hash(o.n.id+'y')-0.5)*7,C.mainZ-d);o.tgtOp=0.08;}
+  });
+}
+function toNebula(){
+  st.mode='nebula';st.chain=null;st.focus=null;st.anim=true;st.t=0;
+  c0.copy(camera.position);t0v.copy(controls.target);c1.copy(NEB_CAM);t1v.copy(NEB_TGT);
+  nObs.forEach(o=>o.cur.copy(o.g.position));setNebula();updateUI();
+}
+function toFocus(chainId,focusId){
+  st.mode='focus';st.chain=chainId;st.focus=focusId;st.anim=true;st.t=0;
+  const L=computeLayout(chainId,focusId);st._layout=L;
+  c0.copy(camera.position);t0v.copy(controls.target);c1.copy(L.camPos);t1v.copy(L.lookAt);
+  nObs.forEach(o=>o.cur.copy(o.g.position));setFocus(L);updateUI();
+}
+function updateUI(){
+  const mt=document.getElementById('modeText'),tip=document.getElementById('tip');
+  if(st.mode==='nebula'){mt.textContent='星云探索';tip.textContent='点击星云中的节点飞入产业链';return;}
+  const o=nObs.get(st.focus);if(!o)return;
+  if(o.n.type==='industry'){mt.textContent=o.n.name+' 总览';tip.textContent='点击节点继续探索 · 旋转查看层次';}
+  else{mt.textContent=o.n.name;tip.textContent='点击任意节点继续 · 点击产业节点回正';}
+}
+
+// ==================================================================
+// 9. 鼠标交互
+// ==================================================================
+const rc=new THREE.Raycaster(),mv=new THREE.Vector3();
+let mouseDown=false;
+renderer.domElement.addEventListener('mousedown',()=>mouseDown=true);
+renderer.domElement.addEventListener('mouseup',()=>setTimeout(()=>mouseDown=false,10));
+renderer.domElement.addEventListener('mousemove',e=>{
+  mv.x=(e.clientX/innerWidth)*2-1;mv.y=-(e.clientY/innerHeight)*2+1;
+  rc.setFromCamera(mv,camera);
+  const meshes=[];nObs.forEach(o=>{if(o.op>0.15)meshes.push(o.hit);});
+  const hits=rc.intersectObjects(meshes,false);
+  if(hits.length){
+    let obj=hits[0].object;let s=0;
+    while(obj&&!obj.parent?.userData?.nodeId&&s<20){obj=obj.parent;s++;}
+    const gid=obj?.parent?.userData?.nodeId;
+    st.hoverId=gid||null;
+    document.body.style.cursor = gid?'pointer':'default';
+    if(st.mode==='nebula') st.paused = !!gid;
+    renderer.domElement.style.cursor = gid?'pointer':'default';
+  }else{
+    st.hoverId=null;
+    if(st.mode==='nebula') st.paused=false;
+    renderer.domElement.style.cursor='default';
+  }
+});
+renderer.domElement.addEventListener('click',e=>{
+  if(st.anim)return;
+  mv.x=(e.clientX/innerWidth)*2-1;mv.y=-(e.clientY/innerHeight)*2+1;
+  rc.setFromCamera(mv,camera);
+  const meshes=[];nObs.forEach(o=>{if(o.op>0.15)meshes.push(o.hit);});
+  const hits=rc.intersectObjects(meshes,false);
+  if(!hits.length)return;
+  let obj=hits[0].object;let s=0;
+  while(obj&&!obj.parent?.userData?.nodeId&&s<20){obj=obj.parent;s++;}
+  const gid=obj?.parent?.userData?.nodeId;if(!gid)return;
+  onClick(gid);
+});
+function onClick(nid){
+  const n=nodeMap.get(nid);if(!n)return;
+  if(n.type==='industry'){
+    if(st.mode==='focus' && st.chain===n.chain){
+      // 已在该产业视角，点击产业节点→重置视角（飞回产业总览标准位置）
+      toFocus(n.chain, n.id);
+      return;
+    }
+    toFocus(n.chain,n.id);return;
+  }
+  // 判断应该切到哪个产业：如果当前在focus态，且这个节点属于另一个产业的主链，切到那个产业
+  let targetChain = st.chain;
+  if(!targetChain){
+    // 星云态：找最近产业
+    for(const cid of Object.keys(CHAINS)){
+      if(CHAINS[cid].main.includes(nid)){targetChain=cid;break;}
+    }
+    if(!targetChain){const a=findMainAncestor(nid,CHAINS.pv.main);targetChain=a.hops<findMainAncestor(nid,CHAINS.sp.main).hops?'pv':'sp';}
+  }else{
+    // 焦点态：如果点的节点是其他产业的主链节点(且不是当前产业主链)，切链
+    for(const cid of Object.keys(CHAINS)){
+      if(cid!==st.chain && CHAINS[cid].main.includes(nid)){targetChain=cid;break;}
+    }
+  }
+  toFocus(targetChain, nid);
+}
+
+// ==================================================================
+// 10. 主循环
+// ==================================================================
+const clock=new THREE.Clock();
+function ease(t){return 1-Math.pow(1-t,3);}
+function lv(a,b,t){a.x+=(b.x-a.x)*t;a.y+=(b.y-a.y)*t;a.z+=(b.z-a.z)*t;}
+function isMainEdge(s,t,mainIds){return mainIds.includes(s)&&mainIds.includes(t);}
+function isIndEdge(s,t,indId){return s===indId||t===indId;}
+
+function frame(){
+  requestAnimationFrame(frame);
+  const dt=Math.min(clock.getDelta(),0.05);
+  if(!st.paused) st.nebAng += dt*0.01;
+
+  if(st.anim){
+    st.t+=dt/st.dur;const tt=Math.min(st.t,1),e=ease(tt);
+    nObs.forEach(o=>{
+      let tgt=o.tgt;
+      if(st.mode==='nebula' && !st.hoverId){
+        const b=nebPos.get(o.n.id);const ph=hash(o.n.id)*Math.PI*2;
+        const rx=b.x-NC.x,rz=b.z-NC.z;const rr=Math.sqrt(rx*rx+rz*rz),ang=st.nebAng+ph;
+        tgt=new THREE.Vector3(NC.x+rr*Math.cos(ang),b.y,NC.z+rr*Math.sin(ang));
+      }
+      lv(o.cur,tgt,0.15);o.g.position.copy(o.cur);
+      o.op += (o.tgtOp-o.op)*0.15;
+      o.dotMat.opacity=o.op*0.3;
+      o.lb.sprite.material.opacity=o.op;
+      o.lb.sprite.visible = o.op>0.08;
+      o.hitMat.opacity=0;
+      if(st.hoverId===o.n.id){o.dot.material.color.set(0x0066ff);o.dotMat.opacity=o.op;}
+      else{o.dot.material.color.set(o.n.type==='industry'?0x000:o.n.type==='main'?0x222:0x888);}
+    });
+    camera.position.lerpVectors(c0,c1,e);controls.target.lerpVectors(t0v,t1v,e);
+    controls.enabled=tt>=1;
+    if(tt>=1)st.anim=false;
+  }else{
+    if(st.mode==='nebula'){
+      nObs.forEach(o=>{
+        const b=nebPos.get(o.n.id);
+        if(!st.paused||st.hoverId!==o.n.id){
+          const ph=hash(o.n.id)*Math.PI*2;const rx=b.x-NC.x,rz=b.z-NC.z;
+          const rr=Math.sqrt(rx*rx+rz*rz),ang=st.nebAng+ph;
+          o.cur.set(NC.x+rr*Math.cos(ang),b.y,NC.z+rr*Math.sin(ang));
+        }
+        o.g.position.copy(o.cur);o.op=1;o.dotMat.opacity=0.3;o.lb.sprite.material.opacity=1;
+        o.lb.sprite.visible = true;
+        if(st.hoverId===o.n.id){o.dot.material.color.set(0x0066ff);o.dotMat.opacity=1;}
+        else o.dot.material.color.set(o.n.type==='industry'?0x000:o.n.type==='main'?0x222:0x888);
+      });
+    }else{
+      nObs.forEach(o=>{
+        lv(o.cur,o.tgt,0.16);o.g.position.copy(o.cur);
+        o.op += (o.tgtOp-o.op)*0.14;o.dotMat.opacity=o.op*0.3;o.lb.sprite.material.opacity=o.op;
+        o.lb.sprite.visible=o.op>0.08;
+        if(st.hoverId===o.n.id){o.dot.material.color.set(0x0066ff);o.dotMat.opacity=o.op;}
+        else o.dot.material.color.set(o.n.type==='industry'?0x000:o.n.type==='main'?0x222:0x888);
+      });
+    }
+  }
+
+  // 边更新
+  const mainIds = st._layout?.mainIds || CHAINS.pv.main;
+  const indId = st._layout?.indId || 'pv-ind';
+  let ei=0; let mi=0;
+  // 清空主链边数组
+  for(let k=0;k<MAX_MAIN*6;k++) mainEdgePos[k]=0;
+  EDGES.forEach(([s,t])=>{
+    const a=nObs.get(s),b=nObs.get(t);if(!a||!b)return;
+    const pa=a.g.position,pb=b.g.position;
+    const i=ei++;
+    edgePosArr[i*6]=pa.x;edgePosArr[i*6+1]=pa.y;edgePosArr[i*6+2]=pa.z;
+    edgePosArr[i*6+3]=pb.x;edgePosArr[i*6+4]=pb.y;edgePosArr[i*6+5]=pb.z;
+    const isMainCur=st.mode==='focus' && isMainEdge(s,t,mainIds);
+    const isIndE=isIndEdge(s,t,indId) || (st.mode==='focus' && (s===indId||t===indId));
+    let col;
+    if(isMainCur) col=[0.12,0.12,0.12];
+    else if(isIndE) col=[0.5,0.5,0.5];
+    else col=[0.78,0.78,0.78];
+    edgeColorArr[i*6]=col[0];edgeColorArr[i*6+1]=col[1];edgeColorArr[i*6+2]=col[2];
+    edgeColorArr[i*6+3]=col[0];edgeColorArr[i*6+4]=col[1];edgeColorArr[i*6+5]=col[2];
+    // 主链边额外写入高亮边
+    if(isMainCur && mi<MAX_MAIN){
+      mainEdgePos[mi*6]=pa.x;mainEdgePos[mi*6+1]=pa.y;mainEdgePos[mi*6+2]=pa.z+0.02;
+      mainEdgePos[mi*6+3]=pb.x;mainEdgePos[mi*6+4]=pb.y;mainEdgePos[mi*6+5]=pb.z+0.02;
+      mainEdgeCol[mi*6]=0.05;mainEdgeCol[mi*6+1]=0.05;mainEdgeCol[mi*6+2]=0.05;
+      mainEdgeCol[mi*6+3]=0.05;mainEdgeCol[mi*6+4]=0.05;mainEdgeCol[mi*6+5]=0.05;
+      mi++;
+    }
+  });
+  edgeGeom.attributes.position.needsUpdate=true;
+  edgeGeom.attributes.color.needsUpdate=true;
+  mainEdgeGeom.attributes.position.needsUpdate=true;
+  mainEdgeGeom.attributes.color.needsUpdate=true;
+  mainEdgeGeom.setDrawRange(0,mi*2);
+  edgeMat.opacity = st.mode==='nebula'?0.25:0.4;
+  mainEdgeMat.opacity = st.mode==='nebula'?0:0.95;
+
+  controls.update();
+  renderer.render(scene,camera);
+}
+
+addEventListener('resize',()=>{
+  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+});
+
+// 初始化
+setNebula();
+nObs.forEach(o=>{o.cur.copy(o.tgt);o.g.position.copy(o.cur);});
+camera.position.copy(NEB_CAM);controls.target.copy(NEB_TGT);controls.update();
+updateUI();
+document.getElementById('overlay').remove();
+frame();
+</script>
+</body>
+</html>
