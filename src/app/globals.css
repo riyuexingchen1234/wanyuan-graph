@@ -86,3 +86,17 @@ body {
 .cy-node-glow {
   animation: pulse-glow 2s ease-in-out infinite;
 }
+
+/* 双层架构切换的渐入动画（galaxy ↔ detail） */
+@keyframes layerFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.layer-fade-in {
+  animation: layerFadeIn 0.45s ease;
+}

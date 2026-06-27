@@ -27,6 +27,16 @@ const GraphCanvas = dynamic(() => import('../components/GraphCanvas'), {
   ),
 });
 
+// Three.js / R3F 同样仅浏览器运行，禁用 SSR。
+const GalaxyView = dynamic(() => import('../components/Graph3D/GalaxyView'), {
+  ssr: false,
+  loading: () => (
+    <div className="absolute inset-0 flex items-center justify-center bg-canvas-900 text-white/50 text-sm">
+      星云生成中…
+    </div>
+  ),
+});
+
 const SOURCE_TYPE_LABELS: Record<string, string> = {
   patent: '专利',
   standard: '标准',
@@ -50,11 +60,13 @@ const VERIFICATION_LABEL: Record<string, string> = {
 
 export default function Home() {
   const {
+    viewMode,
     selectedNodeId,
     relationType,
     expandedNodeIds,
     selectNode,
     setRelationType,
+    setViewMode,
     resetView,
     clearSelection,
   } = useGraphStore();
@@ -63,6 +75,22 @@ export default function Home() {
 
   const provider = useMemo(() => getDataProvider(), []);
   const mainChainIds = useMemo(() => getMainChainNodeIds(), []);
+
+  // 星云宏观层展示全图数据
+  const galaxyData = useMemo(() => provider.getGraphData(), [provider]);
+
+  // 在星云中点击节点：进入 2D 微观层并聚焦该节点
+  const handleGalaxySelect = useCallback(
+    (id: string) => {
+      selectNode(id);
+      setViewMode('detail');
+    },
+    [selectNode, setViewMode]
+  );
+
+  const handleBackToGalaxy = useCallback(() => {
+    setViewMode('galaxy');
+  }, [setViewMode]);
 
   /* ---------------- 可见网络推导 ---------------- */
   const visibleNodeIds = useMemo(() => {
@@ -134,9 +162,22 @@ export default function Home() {
   const isEmpty =
     visibleNodes.length === 0 && relationType !== MAIN_CHAIN_RELATION;
 
-  /* ---------------- 渲染 ---------------- */
+  /* ---------------- 星云宏观层 ---------------- */
+  if (viewMode === 'galaxy') {
+    return (
+      <div className="h-screen w-full overflow-hidden bg-canvas-900 layer-fade-in">
+        <GalaxyView
+          nodes={galaxyData.nodes}
+          edges={galaxyData.edges}
+          onSelectNode={handleGalaxySelect}
+        />
+      </div>
+    );
+  }
+
+  /* ---------------- 2D 微观层渲染 ---------------- */
   return (
-    <div className="h-screen w-full flex overflow-hidden bg-surface-2">
+    <div className="h-screen w-full flex overflow-hidden bg-surface-2 layer-fade-in">
       {/* 左侧：图谱区 */}
       <div className="flex-1 relative min-w-0">
         {/* 顶部栏：标题 + 关系类型切换 */}
@@ -174,8 +215,30 @@ export default function Home() {
             </button>
           </div>
 
-          <div className="ml-auto w-[320px] flex-shrink-0">
-            <SearchBar onNodeSelect={handleNodeSelect} />
+          <div className="ml-auto flex items-center gap-2 flex-shrink-0">
+            <button
+              onClick={handleBackToGalaxy}
+              className="h-[44px] inline-flex items-center gap-1.5 px-3.5 rounded-arco-md bg-canvas-900 hover:bg-canvas-800 text-white/90 border border-canvas-700 shadow-arco-1 transition-colors text-arco-sm whitespace-nowrap"
+              title="返回 3D 星云宏观层"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10 19l-7-7 7-7m11 7H3"
+                />
+              </svg>
+              返回星云
+            </button>
+            <div className="w-[320px]">
+              <SearchBar onNodeSelect={handleNodeSelect} />
+            </div>
           </div>
         </header>
 
