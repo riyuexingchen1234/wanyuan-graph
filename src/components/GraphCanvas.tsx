@@ -1,13 +1,14 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import cytoscape, { NodeDefinition, EdgeDefinition } from 'cytoscape';
+import cytoscape, { NodeDefinition, EdgeDefinition, Core } from 'cytoscape';
 import cytoscapeDagre from 'cytoscape-dagre';
-import type { ChainView, GraphNode } from '../lib/types';
+import type { GraphNode, GraphEdge, RelationType, VerificationStatus } from '../lib/types';
 import {
   CYTOSCAPE_CONFIG,
   CYTOSCAPE_STYLESHEET,
   DAGRE_LAYOUT,
+  getNodeColor,
 } from '../lib/cytoscape-config';
 
 let dagreRegistered = false;
@@ -17,88 +18,172 @@ function registerDagre() {
     cytoscape.use(cytoscapeDagre as unknown as cytoscape.Ext);
     dagreRegistered = true;
   } catch (e) {
-    console.warn('dagre 注册失败', e);
+    console.warn('cytoscape-dagre 注册失败', e);
   }
 }
-
 registerDagre();
 
+export interface EdgeHoverInfo {
+  relationType: RelationType;
+  verificationStatus: VerificationStatus;
+  reasoning: string;
+  note: string;
+  sourceName: string;
+  targetName: string;
+  x: number;
+  y: number;
+}
+
 interface GraphCanvasProps {
-  centerNode: GraphNode | null;
-  chainView: ChainView | null;
-  mode?: 'default' | 'material-extension';
+  nodes: GraphNode[];
+  edges: GraphEdge[];
+  selectedNodeId: string | null;
   onNodeSelect: (id: string) => void;
-  loading?: boolean;
-  error?: string | null;
-  onRetry?: () => void;
+  onEdgeHover: (info: EdgeHoverInfo | null) => void;
 }
 
 export default function GraphCanvas({
-  centerNode,
-  chainView,
-  mode = 'default',
+  nodes,
+  edges,
+  selectedNodeId,
   onNodeSelect,
-  loading,
-  error,
-  onRetry,
+  onEdgeHover,
 }: GraphCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const cyRef = useRef<cytoscape.Core | null>(null);
+  const cyRef = useRef<Core | null>(null);
   const isMountedRef = useRef(false);
 
+  // 用 ref 保存最新回调，避免每次渲染重新绑定 cytoscape 事件。
+  const onSelectRef = useRef(onNodeSelect);
+  const onHoverRef = useRef(onEdgeHover);
   useEffect(() => {
-    if (!centerNode) return;
-    if (!containerRef.current) return;
+    onSelectRef.current = onNodeSelect;
+  }, [onNodeSelect]);
+  useEffect(() => {
+    onHoverRef.current = onEdgeHover;
+  }, [onEdgeHover]);
 
+  // 创建 Cytoscape 实例（仅一次）
+  useEffect(() => {
+    if (!containerRef.current) return;
+    registerDagre();
+
+    const cy = cytoscape({
+      container: containerRef.current,
+      elements: [],
+      style: CYTOSCAPE_STYLESHEET as unknown as cytoscape.StylesheetStyle[],
+      layout: { name: 'grid' },
+      ...CYTOSCAPE_CONFIG,
+    });
+    cyRef.current = cy;
     isMountedRef.current = true;
 
-    if (cyRef.current) {
+    cy.on('tap', 'node', (event) => {
+      if (!isMountedRef.current) return;
+      const id = event.target.data('id') as string;
+      onSelectRef.current(id);
+    });
+
+    const emitHover = (event: cytoscape.EventObject, hide = false) => {
+      if (!isMountedRef.current) return;
+      if (hide) {
+        onHoverRef.current(null);
+        return;
+      }
+      const edge = event.target;
+      const cy = cyRef.current;
+      if (!cy) return;
+      const sourceName = cy.getElementById(edge.data('source')).data('name') as string;
+      const targetName = cy.getElementById(edge.data('target')).data('name') as string;
+      const pos = event.renderedPosition;
+      onHoverRef.current({
+        relationType: edge.data('relation_type') as RelationType,
+        verificationStatus: edge.data('verification_status') as VerificationStatus,
+        reasoning: (edge.data('reasoning') as string) || '',
+        note: (edge.data('note') as string) || '',
+        sourceName,
+        targetName,
+        x: pos.x,
+        y: pos.y,
+      });
+    };
+
+    cy.on('mouseover', 'edge', (e) => emitHover(e));
+    cy.on('mousemove', 'edge', (e) => emitHover(e));
+    cy.on('mouseout', 'edge', () => emitHover({} as cytoscape.EventObject, true));
+
+    cy.on('tap', (event) => {
+      if (!isMountedRef.current) return;
+      if (event.target === cy) {
+        cy.elements().deselect();
+        onHoverRef.current(null);
+      }
+    });
+
+    return () => {
+      isMountedRef.current = false;
       try {
-        cyRef.current.stop(true, true);
-        cyRef.current.removeAllListeners();
-        cyRef.current.destroy();
+        cy.stop(true, true);
+        cy.removeAllListeners();
+        cy.destroy();
       } catch {
         // ignore
       }
       cyRef.current = null;
-    }
+    };
+  }, []);
 
-    const centerId = centerNode.id;
+  // 增量同步元素（节点 / 边），结构变化时重排布局
+  useEffect(() => {
+    const cy = cyRef.current;
+    if (!cy || !isMountedRef.current) return;
 
-    let nodes: GraphNode[] = [];
-    let edges: any[] = [];
+    const desiredNodeIds = new Set(nodes.map((n) => n.id));
+    const desiredEdgeIds = new Set(edges.map((e) => e.id));
 
-    if (chainView && chainView.nodes.length > 1) {
-      nodes = chainView.nodes;
-      edges = chainView.edges;
-    } else {
-      nodes = [centerNode];
-    }
+    let removed = false;
+    cy.nodes().forEach((n) => {
+      if (!desiredNodeIds.has(n.id())) {
+        cy.remove(n);
+        removed = true;
+      }
+    });
+    cy.edges().forEach((e) => {
+      if (!desiredEdgeIds.has(e.id())) {
+        cy.remove(e);
+        removed = true;
+      }
+    });
 
-    const cyNodes: NodeDefinition[] = nodes.map((node) => {
-      const isCenter = node.id === centerId;
-      const classes: string[] = [];
-
-      if (isCenter) classes.push('center');
-
-      return {
+    const existingNodeIds = new Set(cy.nodes().map((n) => n.id()));
+    let added = false;
+    const cyNodes: NodeDefinition[] = [];
+    for (const node of nodes) {
+      if (existingNodeIds.has(node.id)) continue;
+      added = true;
+      const color = getNodeColor(node.node_type);
+      cyNodes.push({
         group: 'nodes',
         data: {
           id: node.id,
           name: node.name,
           node_type: node.node_type,
-          is_center: isCenter,
+          color,
+          borderColor: color,
           definition: node.definition,
+          is_center: node.id === selectedNodeId,
         },
-        classes: classes.join(' '),
-      };
-    });
+        classes: node.id === selectedNodeId ? 'center' : '',
+      });
+    }
+    if (cyNodes.length) cy.add(cyNodes);
 
-    const cyEdges: EdgeDefinition[] = edges.map((edge) => {
-      const classes: string[] = [];
-      classes.push(edge.verification_status);
-
-      return {
+    const existingEdgeIds = new Set(cy.edges().map((e) => e.id()));
+    const cyEdges: EdgeDefinition[] = [];
+    for (const edge of edges) {
+      if (existingEdgeIds.has(edge.id)) continue;
+      added = true;
+      cyEdges.push({
         group: 'edges',
         data: {
           id: edge.id,
@@ -106,92 +191,42 @@ export default function GraphCanvas({
           target: edge.target,
           relation_type: edge.relation_type,
           verification_status: edge.verification_status,
-          evidence_count: edge.evidence?.length ?? 0,
-          note: edge.note || '',
+          reasoning: edge.proposed_by?.reasoning ?? '',
+          note: edge.note ?? '',
         },
-        classes: classes.join(' '),
-      };
-    });
+        classes: edge.verification_status,
+      });
+    }
+    if (cyEdges.length) cy.add(cyEdges);
 
-    const cy = cytoscape({
-      container: containerRef.current,
-      elements: [...cyNodes, ...cyEdges],
-      style: CYTOSCAPE_STYLESHEET as any,
-      layout: (dagreRegistered ? DAGRE_LAYOUT : { name: 'grid' }) as any,
-      ...CYTOSCAPE_CONFIG,
-    });
-
-    cyRef.current = cy;
-
-    cy.fit(undefined, 80);
-
-    cy.on('tap', 'node', (event) => {
-      if (!isMountedRef.current || !cyRef.current) return;
-      const node = event.target;
-      const nodeId = node.data('id');
-      const isCenter = node.data('is_center');
-
-      if (isCenter) return;
-      onNodeSelect(nodeId);
-    });
-
-    cy.on('tap', (event) => {
-      if (!isMountedRef.current || !cyRef.current) return;
-      if (event.target === cy) {
-        cy.elements().deselect();
-      }
-    });
-
-    return () => {
-      isMountedRef.current = false;
-      if (cyRef.current) {
-        try {
-          cyRef.current.stop(true, true);
-          cyRef.current.removeAllListeners();
-          cyRef.current.destroy();
-        } catch {
-          // ignore
-        }
-        cyRef.current = null;
-      }
-    };
+    // 元素增删后重新布局；仅选中态变化不在此处理。
+    if (added || removed) {
+      const layoutOpts = dagreRegistered
+        ? (DAGRE_LAYOUT as unknown as cytoscape.LayoutOptions)
+        : ({ name: 'grid' } as cytoscape.LayoutOptions);
+      cy.layout(layoutOpts).run();
+      cy.fit(undefined, 60);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [centerNode?.id, chainView, mode, onNodeSelect]);
+  }, [nodes, edges]);
 
-  if (loading) {
-    return (
-      <div className="absolute inset-0 flex flex-col items-center justify-center bg-white">
-        <span className="text-gray-500 text-sm">加载中…</span>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="absolute inset-0 flex flex-col items-center justify-center bg-white">
-        <span className="text-gray-500 text-sm mb-4">{error}</span>
-        {onRetry && (
-          <button
-            onClick={onRetry}
-            className="px-4 py-2 border border-gray-300 rounded text-sm hover:bg-gray-50"
-          >
-            重试
-          </button>
-        )}
-      </div>
-    );
-  }
-
-  if (!centerNode) {
-    return (
-      <div className="absolute inset-0 flex flex-col items-center justify-center bg-white">
-        <p className="text-gray-500 text-sm">搜索并选择一个节点开始探索</p>
-      </div>
-    );
-  }
+  // 选中态变化：仅切换 class，不重排布局
+  useEffect(() => {
+    const cy = cyRef.current;
+    if (!cy || !isMountedRef.current) return;
+    cy.nodes().removeClass('center');
+    cy.$(':selected').unselect();
+    if (selectedNodeId) {
+      const sel = cy.getElementById(selectedNodeId);
+      if (sel && sel.length) {
+        sel.addClass('center');
+        sel.select();
+      }
+    }
+  }, [selectedNodeId]);
 
   return (
-    <div className="relative w-full h-full overflow-hidden bg-white">
+    <div className="relative w-full h-full overflow-hidden bg-surface-1">
       <div ref={containerRef} className="w-full h-full" />
     </div>
   );

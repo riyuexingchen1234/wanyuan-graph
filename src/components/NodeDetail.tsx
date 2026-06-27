@@ -7,7 +7,7 @@ import {
   NODE_TYPE_LABELS,
   RELATION_TYPE_LABELS,
   RELATION_TYPE_COLORS,
-} from '@/lib/graph-data';
+} from '@/lib/dal';
 
 interface NodeDetailProps {
   node: GraphNode | null;

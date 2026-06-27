@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "万源图谱 - 数据本体 Schema",
-  "description": "定义图谱核心数据资产的结构。v0.2 新增第一阶段最小录入标准（name/definition/node_type/parent_type）与开放的 relation_type 体系，呼应'关系类型不止两类'的修正。呈现层（网站/API/分支产品）应消费此结构，而非自行定义数据格式。",
-  "version": "0.2.0",
+  "description": "定义图谱核心数据资产的结构。v0.3 在 v0.2 基础上新增：node_type 增 demand（需求节点，核心理念第五章）、Node 增 canonical_id（跨产业合并）、Edge 增 reviewed_by/reviewed_at（审核留痕，权威根基）、relation_type 增 satisfies（满足需求）。呈现层（网站/API/分支产品）应消费此结构，而非自行定义数据格式。",
+  "version": "0.3.0",
 
   "definitions": {
 
@@ -29,7 +29,7 @@
 
         "node_type": {
           "type": "string",
-          "enum": ["material", "process", "equipment", "product", "industry", "entity"],
+          "enum": ["material", "process", "equipment", "product", "industry", "entity", "demand"],
           "description": "节点的本体类型：材料 / 工艺 / 设备 / 产品(具体物品，如电池隔膜) / 行业(归类型节点，如'光伏') / entity(具体经营实体，如某家工厂，预留)。industry 和 entity 是归类/具体实体类节点，material/process/equipment/product 是具体客观实体节点，两类性质不同，不要混淆。"
         },
 
@@ -42,6 +42,11 @@
         "parent_type": {
           "type": ["string", "null"],
           "description": "若本节点是另一个节点的子类/细分类型（如'高密度聚乙烯'是'聚乙烯'的子类），填写父节点的 id。这是一种分类学关系，通过这个字段直接表达，不要为此创建一条 is_subtype_of 的 Edge——子类关系是节点自身结构的一部分,边留给真正的功能性连接（流动、延伸、相似）。若本节点已是顶层大类，留 null，不要为了填充而强行找一个上位概念。"
+        },
+
+        "canonical_id": {
+          "type": ["string", "null"],
+          "description": "【v0.3新增】同一事物的规范节点 id，用于跨产业合并。真实建库里同一事物在不同产业各建一个节点是必然的（如'银浆'在银浆产业和光伏产业各有一个节点）。值等于自身 id 时本节点即规范节点；否则指向规范节点，呈现层按此折叠，编辑层保留各产业视角的独立节点。不在数据生产端强求'一人一节点'——那治理成本太高且违背各行业各有分类体系的现实。合并留到运行时。"
         },
 
         "aliases": {
@@ -122,7 +127,8 @@
             "can_be_processed_into",
             "applied_in",
             "structurally_similar_to",
-            "made_of"
+            "made_of",
+            "satisfies"
           ],
           "description": "当前已知关系类型（开放列表，可随时扩展新值）。【优先级规则】raw_material_for/equipment_for/consumable_for 等细分类型应优先使用；upstream_of/downstream_of 是泛化的物理流动兜底类型，仅在一条关系明确属于物理流动性质、但又不属于任何已有细分类型时使用——它们不是被废弃，而是'暂未被细分命名的关系'的过渡占位，不应作为默认首选，避免同一性质的关系因颗粒度选择不一致而破坏图谱内部一致性。具体含义：upstream_of/downstream_of=泛化的产业链上下游（兜底）；raw_material_for=作为原料供给；equipment_for=作为设备供给；consumable_for=作为耗材供给；can_be_processed_into=材料经工艺产出某物；applied_in=被用于某应用/场景；structurally_similar_to=横向相似性（同层跳转，潜在发现的主要载体）；made_of=由某材料构成。raw_material_for/equipment_for/consumable_for 是'物理流动链'的细分类型，对应一个节点同时挂在原料链/设备链/耗材链等不同链路上的现象。"
         },
@@ -151,6 +157,9 @@
         },
 
         "note": { "type": "string", "description": "补充说明，保持客观陈述，不写价值判断（如门槛高低、机会大小，这类信息属于分支产品范畴）" },
+
+        "reviewed_by": { "type": ["string", "null"], "description": "【v0.3新增】审核人标识。verified 状态的边必填，记录谁做了真伪判断。proposed 状态可为 null。这是权威性的根基：每条 verified 边都可追溯到具体审核人。AI 不得填写此字段。" },
+        "reviewed_at": { "type": ["string", "null"], "format": "date-time", "description": "【v0.3新增】审核时间。verified 状态必填。" },
 
         "created_at": { "type": "string", "format": "date-time" },
         "updated_at": { "type": "string", "format": "date-time" }

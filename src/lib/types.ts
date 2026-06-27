@@ -1,4 +1,4 @@
-export type NodeType = 'material' | 'process' | 'equipment' | 'product' | 'industry' | 'entity';
+export type NodeType = 'material' | 'process' | 'equipment' | 'product' | 'industry' | 'entity' | 'demand';
 
 export type NodeStage = 'draft' | 'reviewed';
 
@@ -23,7 +23,8 @@ export type RelationType =
   | 'can_be_processed_into'
   | 'applied_in'
   | 'structurally_similar_to'
-  | 'made_of';
+  | 'made_of'
+  | 'satisfies';
 
 export type ProposedByMethod =
   | 'expert_submission'
@@ -64,6 +65,7 @@ export interface GraphNode {
   node_type: NodeType;
   stage: NodeStage;
   parent_type: string | null;
+  canonical_id?: string | null;
   aliases?: Alias[];
   attributes?: NodeAttributes;
   description?: string;
@@ -81,6 +83,8 @@ export interface GraphEdge {
   evidence?: Source[];
   proposed_by?: ProposedBy;
   note?: string;
+  reviewed_by?: string | null;
+  reviewed_at?: string | null;
   created_at: string;
   updated_at: string;
 }

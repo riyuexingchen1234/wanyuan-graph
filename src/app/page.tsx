@@ -1,300 +1,489 @@
 'use client';
 
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
 import SearchBar from '../components/SearchBar';
 import { useGraphStore } from '../store/graphStore';
-import type { GraphNode, RelationType } from '@/lib/types';
-import graphData from '../data/graph-data.json';
+import type { GraphEdge, GraphNode, NodeType } from '@/lib/types';
+import {
+  getDataProvider,
+  getMainChainNodeIds,
+  MAIN_CHAIN_RELATION,
+  NODE_TYPE_COLORS,
+  NODE_TYPE_LABELS,
+  RELATION_TYPE_COLORS,
+  RELATION_TYPE_LABELS,
+} from '@/lib/dal';
+import { SWITCHABLE_RELATIONS } from '@/lib/cytoscape-config';
+import type { EdgeHoverInfo } from '../components/GraphCanvas';
 
-const GraphScene = dynamic(
-  () => import('../components/Graph3D/GraphScene'),
-  { ssr: false }
-);
+// Cytoscape 仅在浏览器运行，禁用 SSR 以避免 DOM 依赖。
+const GraphCanvas = dynamic(() => import('../components/GraphCanvas'), {
+  ssr: false,
+  loading: () => (
+    <div className="absolute inset-0 flex items-center justify-center text-ink-3 text-sm">
+      图谱加载中…
+    </div>
+  ),
+});
 
-const RECOMMENDED_NODES = [
-  { id: 'industry-光伏产业', name: '光伏产业', desc: '新能源产业链' },
-  { id: 'product-硅片', name: '硅片', desc: '光伏电池核心衬底材料' },
-  { id: 'material-太阳能级多晶硅', name: '太阳能级多晶硅', desc: '光伏产业链上游原料' },
-  { id: 'product-光伏组件', name: '光伏组件', desc: '光伏发电核心单元' },
-];
+const SOURCE_TYPE_LABELS: Record<string, string> = {
+  patent: '专利',
+  standard: '标准',
+  industry_report: '行业报告',
+  news: '新闻报道',
+  expert_interview: '专家访谈',
+  official_data: '官方数据',
+  encyclopedia: '百科',
+  other: '其他',
+};
 
-const NODE_TYPE_LABELS: Record<string, string> = {
-  material: '材料',
-  product: '产品',
-  equipment: '设备',
-  process: '工艺',
-  industry: '行业',
-  entity: '实体',
+const VERIFICATION_DOT: Record<string, string> = {
+  proposed: '#FF7D00',
+  verified: '#1D2129',
+};
+
+const VERIFICATION_LABEL: Record<string, string> = {
+  proposed: '待验证',
+  verified: '已验证',
 };
 
 export default function Home() {
   const {
-    setNodes,
-    setEdges,
-    navigateToNode,
-    navigateBack,
-    resetView,
     selectedNodeId,
-    mode,
-    navigationPath,
-    browseHistory,
-    clearBrowseHistory,
-    initBrowseHistory,
+    relationType,
+    expandedNodeIds,
+    selectNode,
+    setRelationType,
+    resetView,
+    clearSelection,
   } = useGraphStore();
 
-  const allNodes = useMemo(() => graphData.nodes as GraphNode[], []);
-  const allEdges = useMemo(() => graphData.edges as any[], []);
+  const [hover, setHover] = useState<EdgeHoverInfo | null>(null);
 
-  useEffect(() => {
-    setNodes(allNodes);
-    setEdges(allEdges);
-    initBrowseHistory();
-  }, [allNodes, allEdges, setNodes, setEdges, initBrowseHistory]);
+  const provider = useMemo(() => getDataProvider(), []);
+  const mainChainIds = useMemo(() => getMainChainNodeIds(), []);
 
-  const handleNodeSelect = useCallback(
-    (id: string) => {
-      navigateToNode(id);
-    },
-    [navigateToNode]
+  /* ---------------- 可见网络推导 ---------------- */
+  const visibleNodeIds = useMemo(() => {
+    const ids = new Set<string>();
+    // 主链：仅当查看 can_be_processed_into 时作为初始可见集合
+    if (relationType === MAIN_CHAIN_RELATION) {
+      for (const id of mainChainIds) ids.add(id);
+    }
+    if (selectedNodeId) ids.add(selectedNodeId);
+    for (const id of Array.from(expandedNodeIds)) {
+      ids.add(id);
+      const neighbors = provider.getNodeNeighbors(id, relationType);
+      for (const nb of neighbors) ids.add(nb.id);
+    }
+    return ids;
+  }, [relationType, selectedNodeId, expandedNodeIds, mainChainIds, provider]);
+
+  const visibleNodes = useMemo(
+    () =>
+      Array.from(visibleNodeIds)
+        .map((id) => provider.getNodeById(id))
+        .filter((n): n is GraphNode => Boolean(n)),
+    [visibleNodeIds, provider]
   );
 
-  const pathNodes = useMemo(() => {
-    return navigationPath
-      .map((id) => allNodes.find((n) => n.id === id))
-      .filter(Boolean) as GraphNode[];
-  }, [navigationPath, allNodes]);
+  const visibleEdges = useMemo(() => {
+    const all = provider.getGraphData().edges;
+    return all.filter(
+      (e) =>
+        e.relation_type === relationType &&
+        visibleNodeIds.has(e.source) &&
+        visibleNodeIds.has(e.target)
+    );
+  }, [relationType, visibleNodeIds, provider]);
 
-  const historyNodes = useMemo(() => {
-    return browseHistory
-      .map((id) => allNodes.find((n) => n.id === id))
-      .filter(Boolean) as GraphNode[];
-  }, [browseHistory, allNodes]);
+  const selectedNode = useMemo(
+    () => (selectedNodeId ? provider.getNodeById(selectedNodeId) ?? null : null),
+    [selectedNodeId, provider]
+  );
 
-  const handleCloseDetail = useCallback(() => {
-    resetView();
-  }, [resetView]);
+  // 节点的全部关联边（跨所有关系类型），供详情面板列出。
+  const selectedNodeEdges = useMemo(() => {
+    if (!selectedNodeId) return [] as GraphEdge[];
+    const all = provider.getGraphData().edges;
+    return all.filter(
+      (e) => e.source === selectedNodeId || e.target === selectedNodeId
+    );
+  }, [selectedNodeId, provider]);
 
-  const displayNode = useMemo(() => {
-    if (!selectedNodeId) return null;
-    return allNodes.find((n) => n.id === selectedNodeId) || null;
-  }, [selectedNodeId, allNodes]);
+  /* ---------------- 交互 ---------------- */
+  const handleNodeSelect = useCallback(
+    (id: string) => {
+      selectNode(id);
+    },
+    [selectNode]
+  );
 
-  const showWelcome = mode === 'ambient' && !displayNode;
+  const handleEdgeNavigate = useCallback(
+    (edge: GraphEdge) => {
+      const otherId = edge.source === selectedNodeId ? edge.target : edge.source;
+      if (edge.relation_type !== relationType) {
+        setRelationType(edge.relation_type);
+      }
+      selectNode(otherId);
+    },
+    [selectedNodeId, relationType, selectNode, setRelationType]
+  );
 
+  const isEmpty =
+    visibleNodes.length === 0 && relationType !== MAIN_CHAIN_RELATION;
+
+  /* ---------------- 渲染 ---------------- */
   return (
-    <div className="h-screen w-full flex overflow-hidden bg-white">
-      <div className="flex-1 relative">
-        <header className="absolute top-4 left-4 z-30 flex items-center gap-3 max-w-[calc(100%-360px)]">
-          <div className="bg-white border border-gray-200 rounded px-5 py-3">
-            <h1 className="text-lg font-semibold text-black">万源图谱</h1>
-            <p className="text-xs text-gray-500">发现真实世界的连接</p>
+    <div className="h-screen w-full flex overflow-hidden bg-surface-2">
+      {/* 左侧：图谱区 */}
+      <div className="flex-1 relative min-w-0">
+        {/* 顶部栏：标题 + 关系类型切换 */}
+        <header className="absolute top-4 left-4 right-4 z-30 flex items-start gap-3">
+          <div className="bg-white border border-line-1 rounded-arco-md px-5 py-3 shadow-arco-1 flex-shrink-0">
+            <h1 className="text-arco-lg font-semibold text-ink-1">万源图谱</h1>
+            <p className="text-arco-xs text-ink-3 mt-0.5">看见产业关系网</p>
           </div>
-          {pathNodes.length > 0 && (
-            <div className="bg-white border border-gray-200 rounded px-4 py-2.5 flex items-center gap-1 overflow-x-auto max-w-[600px]">
-              {pathNodes.map((node, index) => (
-                <div key={node.id} className="flex items-center gap-1 flex-shrink-0">
-                  {index > 0 && (
-                    <svg className="w-3 h-3 text-gray-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  )}
-                  <button
-                    onClick={() => navigateBack(index)}
-                    className={`text-sm transition-colors whitespace-nowrap ${
-                      index === pathNodes.length - 1
-                        ? 'text-black font-medium'
-                        : 'text-gray-500 hover:text-black'
-                    }`}
-                  >
-                    {node.name}
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </header>
 
-        <div className="absolute top-4 right-4 z-40 w-[320px]">
-          <SearchBar onNodeSelect={handleNodeSelect} />
-        </div>
-
-        {showWelcome && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none">
-            <div className="text-center">
-              <h2 className="text-2xl font-semibold text-black mb-2">
-                从一个节点出发，探索真实世界的连接
-              </h2>
-              <p className="text-gray-500 text-sm mb-8 max-w-md mx-auto">
-                搜索任意节点，沿着不同类型的关系逐步游走
-              </p>
-
-              <div className="flex flex-col items-center gap-3 pointer-events-auto">
-                <p className="text-gray-400 text-xs">或者从这些节点开始：</p>
-                <div className="flex gap-3 flex-wrap justify-center">
-                  {RECOMMENDED_NODES.map((node) => (
-                    <button
-                      key={node.id}
-                      onClick={() => handleNodeSelect(node.id)}
-                      className="px-4 py-3 border border-gray-300 rounded hover:bg-gray-50 transition-colors text-left max-w-[200px] bg-white"
-                    >
-                      <div className="text-black text-sm font-medium">
-                        {node.name}
-                      </div>
-                      <div className="text-gray-500 text-xs mt-1">{node.desc}</div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="w-full h-full relative">
-          <GraphScene />
-        </div>
-
-        {displayNode && (
-          <div className="absolute bottom-4 left-4 z-30 bg-white border border-gray-200 rounded px-4 py-3">
-            <div className="text-xs text-gray-500 mb-2">图例</div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <div className="w-6 h-0.5 bg-black" />
-                <span className="text-xs text-gray-700">已验证</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div
-                  className="w-6 h-0.5"
-                  style={{
-                    backgroundImage:
-                      'repeating-linear-gradient(to right, #000 0, #000 4px, transparent 4px, transparent 7px)',
-                  }}
-                />
-                <span className="text-xs text-gray-700">待验证</span>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {displayNode && (
-        <div className="w-[360px] h-full bg-white border-l border-gray-200 flex flex-col">
-          {historyNodes.length > 0 && (
-            <div className="border-b border-gray-100 px-4 py-2.5">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-gray-400">最近访问</span>
+          <div className="bg-white border border-line-1 rounded-arco-md px-3 py-2 shadow-arco-1 flex items-center gap-1.5 flex-wrap max-w-[680px]">
+            <span className="text-arco-xs text-ink-3 mr-1 ml-1">关系类型</span>
+            {SWITCHABLE_RELATIONS.map((rt) => {
+              const active = rt === relationType;
+              const color = RELATION_TYPE_COLORS[rt];
+              return (
                 <button
-                  onClick={clearBrowseHistory}
-                  className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                  key={rt}
+                  onClick={() => setRelationType(rt)}
+                  className={`px-3 py-1.5 rounded-arco-sm text-arco-sm transition-colors border ${
+                    active
+                      ? 'text-white border-transparent shadow-sm'
+                      : 'text-ink-2 border-line-1 hover:bg-surface-2'
+                  }`}
+                  style={active ? { backgroundColor: color } : undefined}
                 >
-                  清空
+                  {RELATION_TYPE_LABELS[rt]}
                 </button>
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {historyNodes.slice(0, 10).map((h) => (
-                  <button
-                    key={h.id}
-                    onClick={() => handleNodeSelect(h.id)}
-                    className="px-2 py-1 text-xs bg-gray-50 text-gray-600 rounded hover:bg-gray-100 hover:text-black transition-colors"
-                  >
-                    {h.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="flex items-center justify-between p-4 border-b border-gray-200">
-            <div className="flex items-center gap-2">
-              <span
-                className="inline-flex items-center px-2 py-0.5 rounded text-xs text-gray-700 bg-gray-100"
-              >
-                {NODE_TYPE_LABELS[displayNode.node_type] || displayNode.node_type}
-              </span>
-            </div>
+              );
+            })}
             <button
-              onClick={handleCloseDetail}
-              className="text-gray-400 hover:text-black transition-colors"
+              onClick={resetView}
+              className="ml-1 px-3 py-1.5 rounded-arco-sm text-arco-sm text-ink-3 hover:text-ink-1 hover:bg-surface-2 border border-line-1 transition-colors"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              重置
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4">
-            <h2 className="text-xl font-semibold text-black mb-3">
-              {displayNode.name}
-            </h2>
+          <div className="ml-auto w-[320px] flex-shrink-0">
+            <SearchBar onNodeSelect={handleNodeSelect} />
+          </div>
+        </header>
 
-            <div className="mb-4">
-              <div className="text-sm font-medium text-black mb-2">定义</div>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                {displayNode.definition}
-              </p>
-            </div>
+        {/* 状态条 */}
+        <div className="absolute top-[88px] left-4 z-20 bg-white/90 border border-line-1 rounded-arco-sm px-3 py-1.5 text-arco-xs text-ink-3 shadow-arco-1">
+          当前关系：<span className="text-ink-1 font-medium">{RELATION_TYPE_LABELS[relationType]}</span>
+          <span className="mx-2 text-line-2">|</span>
+          可见节点 <span className="text-ink-1 font-medium">{visibleNodes.length}</span>
+          <span className="mx-2 text-line-2">|</span>
+          可见连接 <span className="text-ink-1 font-medium">{visibleEdges.length}</span>
+          {selectedNode && (
+            <>
+              <span className="mx-2 text-line-2">|</span>
+              选中：<span className="text-ink-1 font-medium">{selectedNode.name}</span>
+            </>
+          )}
+        </div>
 
-            {displayNode.parent_type && (
-              <div className="pt-4 border-t border-gray-200">
-                <div className="text-sm font-medium text-black mb-2">父类型</div>
-                <button
-                  onClick={() => handleNodeSelect(displayNode.parent_type!)}
-                  className="text-sm text-blue-600 hover:underline"
+        {/* 图谱画布 + tooltip */}
+        <div className="absolute inset-0">
+          <GraphCanvas
+            nodes={visibleNodes}
+            edges={visibleEdges}
+            selectedNodeId={selectedNodeId}
+            onNodeSelect={handleNodeSelect}
+            onEdgeHover={setHover}
+          />
+          {hover && (
+            <div
+              className="absolute z-40 pointer-events-none bg-white border border-line-1 rounded-arco-md shadow-arco-3 px-3 py-2 max-w-[280px]"
+              style={{
+                left: hover.x,
+                top: hover.y - 10,
+                transform: 'translate(-50%, -100%)',
+              }}
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <span
+                  className="w-2 h-2 rounded-full"
+                  style={{ backgroundColor: RELATION_TYPE_COLORS[hover.relationType] }}
+                />
+                <span className="text-arco-sm text-ink-1 font-medium">
+                  {RELATION_TYPE_LABELS[hover.relationType]}
+                </span>
+                <span
+                  className="px-1.5 py-0.5 text-[10px] rounded-arco-sm"
+                  style={{
+                    backgroundColor: `${VERIFICATION_DOT[hover.verificationStatus]}1A`,
+                    color: VERIFICATION_DOT[hover.verificationStatus],
+                  }}
                 >
-                  {allNodes.find((n) => n.id === displayNode.parent_type)?.name ||
-                    displayNode.parent_type}
-                </button>
+                  {VERIFICATION_LABEL[hover.verificationStatus]}
+                </span>
               </div>
-            )}
+              <div className="text-arco-xs text-ink-2">
+                {hover.sourceName} <span className="text-ink-4">→</span> {hover.targetName}
+              </div>
+              {hover.reasoning && (
+                <div className="text-arco-xs text-ink-3 mt-1 leading-relaxed">
+                  <span className="text-ink-4">提出依据：</span>
+                  {hover.reasoning}
+                </div>
+              )}
+              {hover.note && (
+                <div className="text-arco-xs text-ink-3 mt-1 leading-relaxed">
+                  <span className="text-ink-4">备注：</span>
+                  {hover.note}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
 
-            <div className="pt-4 border-t border-gray-200">
-              <div className="text-sm font-medium text-black mb-2">相关关系</div>
-              <div className="space-y-2">
-                {allEdges
-                  .filter(
-                    (e) =>
-                      e.source === displayNode.id || e.target === displayNode.id
-                  )
-                  .slice(0, 10)
-                  .map((edge) => {
-                    const otherId =
-                      edge.source === displayNode.id
-                        ? edge.target
-                        : edge.source;
-                    const otherNode = allNodes.find((n) => n.id === otherId);
-                    if (!otherNode) return null;
-                    const direction =
-                      edge.source === displayNode.id ? '→' : '←';
-                    return (
-                      <button
-                        key={edge.id}
-                        onClick={() => handleNodeSelect(otherId)}
-                        className="w-full text-left p-2 rounded hover:bg-gray-50 transition-colors"
-                      >
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs text-gray-400 w-6 text-center">
-                            {direction}
-                          </span>
-                          <span className="text-sm text-black">
-                            {otherNode.name}
-                          </span>
-                          <span className="text-xs text-gray-400 ml-auto">
-                            {edge.relation_type}
-                          </span>
-                        </div>
-                        {edge.verification_status === 'proposed' && (
-                          <div className="text-xs text-gray-400 ml-8 mt-0.5">
-                            待验证
-                          </div>
-                        )}
-                      </button>
-                    );
-                  })}
+        {/* 空状态提示 */}
+        {isEmpty && (
+          <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+            <div className="bg-white border border-line-1 rounded-arco-lg shadow-arco-2 px-6 py-5 text-center pointer-events-auto">
+              <p className="text-arco-sm text-ink-1 font-medium mb-1">
+                当前关系类型下无可见网络
+              </p>
+              <p className="text-arco-xs text-ink-3 mb-3">
+                请先在「可加工为」主链中点击一个节点作为起点，再切换关系类型查看其网络。
+              </p>
+              <button
+                onClick={resetView}
+                className="px-4 py-2 bg-arco-primary text-white rounded-arco-sm text-arco-sm hover:bg-arco-primary-hover transition-colors"
+              >
+                查看主链
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* 初始引导（主链可见但未选中节点时） */}
+        {relationType === MAIN_CHAIN_RELATION && !selectedNodeId && !isEmpty && (
+          <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+            <div className="bg-white/90 border border-line-1 rounded-arco-md shadow-arco-1 px-4 py-2 text-arco-xs text-ink-2">
+              点击任意节点查看详情并展开其邻居 · 顶部切换关系类型可看到完全不同的网络
+            </div>
+          </div>
+        )}
+
+        {/* 图例 */}
+        <div className="absolute bottom-4 left-4 z-20 bg-white border border-line-1 rounded-arco-md px-3 py-2.5 shadow-arco-1">
+          <div className="text-arco-xs text-ink-3 mb-1.5">节点类型</div>
+          <div className="flex flex-wrap gap-x-3 gap-y-1 max-w-[360px]">
+            {(Object.keys(NODE_TYPE_LABELS) as NodeType[]).map((t) => (
+              <div key={t} className="flex items-center gap-1.5">
+                <span
+                  className="w-2.5 h-2.5 rounded-full"
+                  style={{ backgroundColor: NODE_TYPE_COLORS[t] }}
+                />
+                <span className="text-arco-xs text-ink-2">
+                  {NODE_TYPE_LABELS[t]}
+                </span>
               </div>
+            ))}
+          </div>
+          <div className="text-arco-xs text-ink-3 mt-2 mb-1.5">连接可信度</div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1.5">
+              <span
+                className="w-6 h-0.5"
+                style={{
+                  backgroundImage:
+                    'repeating-linear-gradient(to right, #FF7D00 0, #FF7D00 5px, transparent 5px, transparent 9px)',
+                }}
+              />
+              <span className="text-arco-xs text-ink-2">待验证 (proposed)</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-6 h-0.5 bg-ink-1" />
+              <span className="text-arco-xs text-ink-2">已验证 (verified)</span>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* 右侧：节点详情面板 */}
+      {selectedNode && (
+        <NodeDetailPanel
+          node={selectedNode}
+          edges={selectedNodeEdges}
+          onClose={clearSelection}
+          onEdgeNavigate={handleEdgeNavigate}
+          getNode={(id) => provider.getNodeById(id)}
+        />
       )}
     </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* 节点详情面板                                                                 */
+/* -------------------------------------------------------------------------- */
+
+interface NodeDetailPanelProps {
+  node: GraphNode;
+  edges: GraphEdge[];
+  onClose: () => void;
+  onEdgeNavigate: (edge: GraphEdge) => void;
+  getNode: (id: string) => GraphNode | undefined;
+}
+
+function NodeDetailPanel({
+  node,
+  edges,
+  onClose,
+  onEdgeNavigate,
+  getNode,
+}: NodeDetailPanelProps) {
+  const typeColor = NODE_TYPE_COLORS[node.node_type];
+  const hasAliases = node.aliases && node.aliases.length > 0;
+  const hasSources = node.sources && node.sources.length > 0;
+
+  return (
+    <aside className="w-[360px] h-full bg-white border-l border-line-1 flex flex-col flex-shrink-0">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-line-1">
+        <span
+          className="inline-flex items-center px-2 py-0.5 rounded-arco-sm text-arco-xs text-white"
+          style={{ backgroundColor: typeColor }}
+        >
+          {NODE_TYPE_LABELS[node.node_type]}
+        </span>
+        <button
+          onClick={onClose}
+          className="text-ink-3 hover:text-ink-1 transition-colors"
+          aria-label="关闭"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-4">
+        <h2 className="text-arco-xl font-semibold text-ink-1 mb-1">
+          {node.name}
+        </h2>
+        {node.stage === 'draft' && (
+          <span className="inline-block px-1.5 py-0.5 text-[10px] bg-surface-3 text-ink-3 rounded-arco-sm mb-3">
+            录入中 (draft)
+          </span>
+        )}
+
+        <section className="mt-3">
+          <div className="text-arco-sm font-medium text-ink-1 mb-1.5">定义</div>
+          <p className="text-arco-sm text-ink-2 leading-relaxed">
+            {node.definition}
+          </p>
+        </section>
+
+        {hasAliases && (
+          <section className="mt-4 pt-4 border-t border-line-1">
+            <div className="text-arco-sm font-medium text-ink-1 mb-2">别名</div>
+            <div className="flex flex-wrap gap-1.5">
+              {node.aliases!.map((alias, i) => (
+                <div key={i} className="flex flex-col">
+                  <span className="px-2 py-1 bg-surface-2 rounded-arco-sm text-ink-2 text-arco-xs">
+                    {alias.term}
+                  </span>
+                  {alias.context && (
+                    <span className="text-[10px] text-ink-3 mt-0.5">
+                      {alias.context}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {hasSources && (
+          <section className="mt-4 pt-4 border-t border-line-1">
+            <div className="text-arco-sm font-medium text-ink-1 mb-2">
+              来源 ({node.sources!.length})
+            </div>
+            <div className="space-y-2">
+              {node.sources!.map((src, i) => (
+                <div key={i} className="p-2.5 bg-surface-2 rounded-arco-sm">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="px-1.5 py-0.5 text-[10px] bg-surface-3 text-ink-2 rounded-arco-sm">
+                      {SOURCE_TYPE_LABELS[src.source_type] || src.source_type}
+                    </span>
+                  </div>
+                  <p className="text-arco-xs text-ink-2">{src.description}</p>
+                  {src.url && (
+                    <a
+                      href={src.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-arco-xs text-arco-primary mt-1 hover:underline inline-block"
+                    >
+                      查看来源 →
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section className="mt-4 pt-4 border-t border-line-1">
+          <div className="text-arco-sm font-medium text-ink-1 mb-2">
+            关联连接 ({edges.length})
+          </div>
+          {edges.length === 0 ? (
+            <p className="text-arco-xs text-ink-3">暂无关联连接</p>
+          ) : (
+            <div className="space-y-1.5">
+              {edges.map((edge) => {
+                const outgoing = edge.source === node.id;
+                const otherId = outgoing ? edge.target : edge.source;
+                const other = getNode(otherId);
+                const dotColor = VERIFICATION_DOT[edge.verification_status];
+                return (
+                  <button
+                    key={edge.id}
+                    onClick={() => onEdgeNavigate(edge)}
+                    className="w-full flex items-center gap-2 p-2 rounded-arco-sm hover:bg-surface-2 transition-colors text-left"
+                  >
+                    <span
+                      className="w-2 h-2 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: dotColor }}
+                      title={VERIFICATION_LABEL[edge.verification_status]}
+                    />
+                    <span className="text-arco-xs text-ink-4 w-4 text-center flex-shrink-0">
+                      {outgoing ? '→' : '←'}
+                    </span>
+                    <span className="text-arco-sm text-ink-1 truncate flex-1">
+                      {other?.name ?? otherId}
+                    </span>
+                    <span
+                      className="px-1.5 py-0.5 text-[10px] rounded-arco-sm flex-shrink-0"
+                      style={{
+                        backgroundColor: `${RELATION_TYPE_COLORS[edge.relation_type]}1A`,
+                        color: RELATION_TYPE_COLORS[edge.relation_type],
+                      }}
+                    >
+                      {RELATION_TYPE_LABELS[edge.relation_type]}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </section>
+      </div>
+    </aside>
   );
 }
