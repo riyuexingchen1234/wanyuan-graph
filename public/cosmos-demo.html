@@ -5,24 +5,54 @@
 <title>万源图谱 · 空间布局验证 v3</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:#fafaf8;overflow:hidden;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#222;}
+body{background:radial-gradient(ellipse at 50% 40%,#fdfdfb 0%,#f0efe8 60%,#e2e0d6 100%);overflow:hidden;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#222;}
 canvas{display:block;}
-#hud{position:fixed;top:14px;left:14px;background:rgba(255,255,255,0.85);border:1px solid #ddd;padding:10px 14px;border-radius:6px;font-size:12px;line-height:1.7;pointer-events:none;z-index:10;}
+#hud{position:fixed;top:14px;left:14px;background:rgba(255,255,255,0.82);backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.08);padding:10px 14px;border-radius:8px;font-size:12px;line-height:1.7;pointer-events:none;z-index:10;box-shadow:0 2px 12px rgba(0,0,0,0.04);}
 #hud b{color:#000;}
-#mode{position:fixed;top:14px;right:14px;background:rgba(255,255,255,0.85);border:1px solid #ddd;padding:8px 14px;border-radius:6px;font-size:12px;pointer-events:none;z-index:10;}
+#mode{position:fixed;top:14px;right:14px;background:rgba(255,255,255,0.82);backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.08);padding:8px 14px;border-radius:8px;font-size:12px;pointer-events:none;z-index:10;box-shadow:0 2px 12px rgba(0,0,0,0.04);}
 #mode span{font-weight:700;color:#000;}
-#tip{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.85);border:1px solid #ddd;padding:6px 16px;border-radius:20px;font-size:11px;color:#666;pointer-events:none;z-index:10;white-space:nowrap;}
-#overlay{position:fixed;inset:0;background:#fafaf8;display:flex;align-items:center;justify-content:center;z-index:100;font-size:14px;color:#666;}
+#tip{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.88);backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.08);padding:8px 20px;border-radius:24px;font-size:12px;color:#444;pointer-events:none;z-index:10;white-space:nowrap;box-shadow:0 2px 12px rgba(0,0,0,0.06);transition:opacity 0.4s;}
+#legend{position:fixed;bottom:20px;left:14px;background:rgba(255,255,255,0.82);backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.08);padding:10px 14px;border-radius:8px;font-size:11px;color:#555;pointer-events:none;z-index:10;line-height:1.9;box-shadow:0 2px 12px rgba(0,0,0,0.04);opacity:0;transition:opacity 0.6s;}
+#legend.visible{opacity:1;}
+#legend .row{display:flex;align-items:center;gap:8px;}
+#legend .row svg{flex-shrink:0;}
+#legend .up{color:#2d7d46;}
+#legend .down{color:#b8860b;}
+#legend .title{font-weight:600;color:#222;margin-bottom:2px;font-size:11px;}
+#legend .arrow-hint{font-size:10px;color:#888;margin-top:2px;border-top:1px solid rgba(0,0,0,0.06);padding-top:4px;}
+#overlay{position:fixed;inset:0;background:radial-gradient(ellipse at 50% 40%,#fdfdfb 0%,#f0efe8 60%,#e2e0d6 100%);display:flex;align-items:center;justify-content:center;z-index:100;font-size:14px;color:#888;transition:opacity 0.6s;}
+#overlay.hide{opacity:0;pointer-events:none;}
+#tour-tip{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.7);color:#fff;padding:12px 24px;border-radius:30px;font-size:14px;pointer-events:none;z-index:20;opacity:0;transition:opacity 0.5s;text-align:center;backdrop-filter:blur(8px);max-width:360px;line-height:1.6;}
+#tour-tip.show{opacity:1;}
 </style>
 </head>
 <body>
 <div id="hud">
-<b>万源图谱 · 空间布局验证</b><br>
+<b>万源图谱</b><br>
 左键旋转 · 滚轮缩放 · 右键平移<br>
-点击节点飞入 · 点击产业节点重置视角
+点击节点探索 · 点击产业节点回正
 </div>
-<div id="mode">模式：<span id="modeText">星云探索</span></div>
-<div id="tip">点击星云中的节点开始探索</div>
+<div id="mode">视角：<span id="modeText">星云探索</span></div>
+<div id="tip">点击星云中的产业节点开始探索</div>
+<div id="legend">
+  <div class="title">图例</div>
+  <div class="row">
+    <svg width="36" height="8"><line x1="2" y1="4" x2="34" y2="4" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/></svg>
+    <span>主产业链（核心流程）</span>
+  </div>
+  <div class="row">
+    <svg width="36" height="8"><line x1="2" y1="4" x2="34" y2="4" stroke="#999" stroke-width="1.2" stroke-linecap="round"/></svg>
+    <span>支链关联</span>
+  </div>
+  <div class="row">
+    <svg width="36" height="16"><polygon points="4,8 16,3 16,13" fill="#2d7d46"/><text x="20" y="12" font-size="9" fill="#2d7d46">上游原材料</text></svg>
+  </div>
+  <div class="row">
+    <svg width="36" height="16"><polygon points="16,3 28,8 16,13" fill="#b8860b"/><text x="2" y="12" font-size="9" fill="#b8860b">下游产品→</text></svg>
+  </div>
+  <div class="arrow-hint">箭头方向 = 物料流向</div>
+</div>
+<div id="tour-tip"></div>
 <div id="overlay">加载中…</div>
 
 <script type="importmap">
@@ -423,15 +453,17 @@ initNebula();
 // 5. Three.js场景
 // ==================================================================
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xfafaf8);
+scene.background = null;
+scene.fog = new THREE.Fog(0xeae8e0, 6, 36);
 const camera = new THREE.PerspectiveCamera(48, innerWidth/innerHeight, 0.1, 500);
 const NEB_CAM = new THREE.Vector3(0,5,25);
 const NEB_TGT = new THREE.Vector3(0,0,-55);
 camera.position.copy(NEB_CAM);
 
-const renderer = new THREE.WebGLRenderer({antialias:true});
+const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
 renderer.setSize(innerWidth,innerHeight);
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setClearColor(0x000000,0);
 document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -445,7 +477,7 @@ scene.add(new THREE.AmbientLight(0xffffff,1));
 // ==================================================================
 function makeTextSprite(name, type){
   const {texture, aspect} = makeTextTexture(name, type);
-  const mat = new THREE.SpriteMaterial({map:texture,depthTest:false,depthWrite:false,transparent:true});
+  const mat = new THREE.SpriteMaterial({map:texture,depthTest:false,depthWrite:false,transparent:true,fog:false});
   const sp = new THREE.Sprite(mat);
   const worldHeight = type==='industry'?0.55:type==='main'?0.42:0.36;
   sp.scale.set(worldHeight*aspect, worldHeight, 1);
@@ -528,11 +560,31 @@ mainEdgeLines.renderOrder=10;
 scene.add(mainEdgeLines);
 EDGES.forEach((e,i)=>edgeObjs.push({from:e[0],to:e[1],idx:i}));
 
+// 主链方向箭头：小圆锥指向物料流向（下游方向）
+const ARROW_LEN = 0.16, ARROW_R = 0.06;
+const arrowGeom = new THREE.ConeGeometry(ARROW_R, ARROW_LEN, 8);
+arrowGeom.translate(0, -ARROW_LEN/2, 0); // 枢轴在底部，让箭头"站立"在基线上
+const arrowMat = new THREE.MeshBasicMaterial({color:0x1a1a1a, transparent:true, opacity:0.7, depthTest:false, polygonOffset:true, polygonOffsetFactor:-3, polygonOffsetUnits:-3, fog:false});
+const MAX_ARROWS = 20;
+const arrows = [];
+for(let i=0;i<MAX_ARROWS;i++){
+  const m = new THREE.Mesh(arrowGeom, arrowMat.clone());
+  m.renderOrder=11; m.visible=false;
+  scene.add(m);
+  arrows.push(m);
+}
+
 // ==================================================================
 // 8. 状态与动画
 // ==================================================================
-const st={mode:'nebula',chain:null,focus:null,anim:false,t:0,dur:0.9,nebAng:0,paused:false,hoverId:null};
+const st={mode:'nebula',chain:null,focus:null,anim:false,t:0,dur:0.9,nebAng:0,paused:false,hoverId:null,
+  tour:true,tourT:0,tourPhase:0,orbitA:0};
 const c0=new THREE.Vector3(),t0v=new THREE.Vector3(),c1=new THREE.Vector3(),t1v=new THREE.Vector3();
+const TOUR_PHASES = [
+  {dur:2.8, tip:'欢迎来到万源图谱 · 产业星云中的每个光点，都是产业链上的一个节点'},
+  {dur:4.2, tip:'飞入光伏产业——横贯眼前的是主产业链，上方是原材料供给，下方是产品应用', flyTo:'pv-ind'},
+  {dur:2.5, tip:'箭头指向物料流向。黑色粗线是核心流程，灰色细线是支链关联'},
+];
 
 function setNebula(){nObs.forEach(o=>{o.tgt.copy(nebPos.get(o.n.id));o.tgtOp=1;});}
 function setFocus(layout){
@@ -659,7 +711,7 @@ function frame(){
       else{o.dot.material.color.set(o.n.type==='industry'?0x000:o.n.type==='main'?0x222:0x888);}
     });
     camera.position.lerpVectors(c0,c1,e);controls.target.lerpVectors(t0v,t1v,e);
-    controls.enabled=tt>=1;
+    controls.enabled= tt>=1 && !st.tour;
     if(tt>=1)st.anim=false;
   }else{
     if(st.mode==='nebula'){
@@ -689,9 +741,12 @@ function frame(){
   // 边更新
   const mainIds = st._layout?.mainIds || CHAINS.pv.main;
   const indId = st._layout?.indId || 'pv-ind';
-  let ei=0; let mi=0;
+  let ei=0; let mi=0; let ai=0;
+  const _arrowDir = new THREE.Vector3();
+  const _arrowUp = new THREE.Vector3(0,1,0);
   // 清空主链边数组
   for(let k=0;k<MAX_MAIN*6;k++) mainEdgePos[k]=0;
+  arrows.forEach(ar=>{ar.visible=false;});
   EDGES.forEach(([s,t])=>{
     const a=nObs.get(s),b=nObs.get(t);if(!a||!b)return;
     const pa=a.g.position,pb=b.g.position;
@@ -713,6 +768,17 @@ function frame(){
       mainEdgeCol[mi*6]=0.05;mainEdgeCol[mi*6+1]=0.05;mainEdgeCol[mi*6+2]=0.05;
       mainEdgeCol[mi*6+3]=0.05;mainEdgeCol[mi*6+4]=0.05;mainEdgeCol[mi*6+5]=0.05;
       mi++;
+      // 在主链边中点放箭头，指向t方向（下游）
+      if(ai<MAX_ARROWS){
+        const ar=arrows[ai++];
+        ar.visible=true;
+        const mx=(pa.x+pb.x)*0.5, my=(pa.y+pb.y)*0.5, mz=(pa.z+pb.z)*0.5+0.03;
+        ar.position.set(mx,my,mz);
+        _arrowDir.set(pb.x-pa.x,pb.y-pa.y,pb.z-pa.z).normalize();
+        ar.quaternion.setFromUnitVectors(_arrowUp,_arrowDir);
+        const avgOp = Math.min(a.op,b.op);
+        ar.material.opacity = 0.65*avgOp;
+      }
     }
   });
   edgeGeom.attributes.position.needsUpdate=true;
@@ -722,6 +788,73 @@ function frame(){
   mainEdgeGeom.setDrawRange(0,mi*2);
   edgeMat.opacity = st.mode==='nebula'?0.25:0.4;
   mainEdgeMat.opacity = st.mode==='nebula'?0:0.95;
+
+  // ===== 首次进入自动导览 =====
+  if(st.tour){
+    st.tourT += dt;
+    const tipEl = document.getElementById('tour-tip');
+    const legendEl = document.getElementById('legend');
+    // 计算累计时间
+    let acc=0; let phaseIdx=0; let phaseStart=0;
+    for(let i=0;i<TOUR_PHASES.length;i++){
+      if(st.tourT < acc+TOUR_PHASES[i].dur){ phaseIdx=i; phaseStart=acc; break; }
+      acc+=TOUR_PHASES[i].dur;
+      if(i===TOUR_PHASES.length-1) phaseIdx=i;
+    }
+    const phase = TOUR_PHASES[phaseIdx];
+    const localT = st.tourT - phaseStart;
+    // 阶段切换触发
+    if(st.tourPhase !== phaseIdx){
+      st.tourPhase = phaseIdx;
+      tipEl.textContent = phase.tip;
+      tipEl.classList.add('show');
+      if(phase.flyTo){
+        // 触发飞入
+        st.paused = true;
+        onClick(phase.flyTo);
+      }
+    }
+    // Phase 1 飞入后的相机环绕效果：左右摆动展示深度
+    if(phaseIdx===1 && !st.anim && st.mode==='focus'){
+      st.orbitA += dt*0.4;
+      const L = st._layout;
+      if(L){
+        const cd = 11, polar = Math.PI/3.6;
+        const swing = Math.sin(st.orbitA)*0.28;
+        const radius = cd*Math.sin(polar);
+        camera.position.set(
+          L.lookAt.x + Math.sin(swing)*radius*0.35,
+          L.lookAt.y + cd*Math.cos(polar)+1,
+          L.lookAt.z + Math.cos(swing)*radius + 1
+        );
+        controls.target.copy(L.lookAt);
+      }
+    }
+    // Phase 2: 停稳、展示图例
+    if(phaseIdx===2){
+      const L = st._layout;
+      if(L){
+        camera.position.lerp(L.camPos, 0.04);
+        controls.target.lerp(L.lookAt, 0.04);
+      }
+      if(localT > 0.5) legendEl.classList.add('visible');
+    }
+    // 导览结束
+    const totalDur = TOUR_PHASES.reduce((s,p)=>s+p.dur,0);
+    if(st.tourT > totalDur){
+      st.tour = false;
+      st.paused = false;
+      tipEl.classList.remove('show');
+      legendEl.classList.add('visible');
+      document.getElementById('tip').style.opacity='1';
+    }
+    controls.enabled = false;
+  }else{
+    // 非导览状态：图例在focus态显示
+    const legendEl = document.getElementById('legend');
+    if(st.mode==='focus') legendEl.classList.add('visible');
+    else legendEl.classList.remove('visible');
+  }
 
   controls.update();
   renderer.render(scene,camera);
@@ -737,7 +870,12 @@ setNebula();
 nObs.forEach(o=>{o.cur.copy(o.tgt);o.g.position.copy(o.cur);});
 camera.position.copy(NEB_CAM);controls.target.copy(NEB_TGT);controls.update();
 updateUI();
-document.getElementById('overlay').remove();
+const overlay=document.getElementById('overlay');
+overlay.classList.add('hide');
+setTimeout(()=>overlay.remove(), 700);
+document.getElementById('tip').style.opacity='0';
+document.getElementById('tour-tip').classList.add('show');
+document.getElementById('tour-tip').textContent=TOUR_PHASES[0].tip;
 frame();
 </script>
 </body>
