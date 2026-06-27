@@ -3,1131 +3,1753 @@
     {
       "id": "material-industrial-silicon",
       "name": "工业硅",
-      "definition": "【待补充】需摘录自权威来源",
+      "definition": "金属硅/工业硅，硅料上游",
       "node_type": "material",
       "stage": "draft",
       "parent_type": null,
+      "canonical_id": "material-industrial-silicon",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z",
       "aliases": [
         {
           "term": "金属硅"
         }
-      ],
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "material-industrial-silicon"
+      ]
     },
     {
-      "id": "material-solar-grade-polysilicon",
-      "name": "太阳能级多晶硅",
-      "definition": "【待补充】需摘录自权威来源",
+      "id": "material-polysilicon",
+      "name": "多晶硅",
+      "definition": "太阳能级多晶硅料，铸锭/拉棒原料",
       "node_type": "material",
       "stage": "draft",
       "parent_type": null,
+      "canonical_id": "material-polysilicon",
       "sources": [
         {
           "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
+          "description": "初始示例数据，待补充权威来源"
         }
       ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "material-solar-grade-polysilicon"
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z",
+      "aliases": [
+        {
+          "term": "太阳能级多晶硅"
+        }
+      ]
     },
     {
       "id": "product-silicon-wafer",
       "name": "硅片",
-      "definition": "【待补充】需摘录自权威来源",
+      "definition": "多晶硅料经拉棒/铸锭+切片得到的硅片，电池片基板",
       "node_type": "product",
       "stage": "draft",
       "parent_type": null,
+      "canonical_id": "product-silicon-wafer",
       "sources": [
         {
           "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
+          "description": "初始示例数据，待补充权威来源"
         }
       ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "product-silicon-wafer"
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
       "id": "product-pv-cell",
       "name": "光伏电池片",
-      "definition": "【待补充】需摘录自权威来源",
+      "definition": "硅片经制绒/扩散/镀膜/金属化印刷烧结形成的电池片",
       "node_type": "product",
       "stage": "draft",
       "parent_type": null,
+      "canonical_id": "product-pv-cell",
       "sources": [
         {
           "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
+          "description": "初始示例数据，待补充权威来源"
         }
       ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "product-pv-cell"
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
       "id": "product-pv-laminate",
       "name": "光伏层压件",
-      "definition": "【待补充】需摘录自权威来源",
+      "definition": "电池片与辅材层压后的半成品",
       "node_type": "product",
       "stage": "draft",
       "parent_type": null,
+      "canonical_id": "product-pv-laminate",
       "sources": [
         {
           "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
+          "description": "初始示例数据，待补充权威来源"
         }
       ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "product-pv-laminate"
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
       "id": "product-pv-module",
       "name": "光伏组件",
-      "definition": "【待补充】需摘录自权威来源",
+      "definition": "层压件加装边框/接线盒等后的成品组件",
       "node_type": "product",
       "stage": "draft",
       "parent_type": null,
+      "canonical_id": "product-pv-module",
       "sources": [
         {
           "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
+          "description": "初始示例数据，待补充权威来源"
         }
       ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "product-pv-module"
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
       "id": "product-pv-power-station",
       "name": "光伏电站",
-      "definition": "【待补充】需摘录自权威来源",
+      "definition": "光伏组件系统化集成形成的发电站",
       "node_type": "product",
       "stage": "draft",
       "parent_type": null,
+      "canonical_id": "product-pv-power-station",
       "sources": [
         {
           "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
+          "description": "初始示例数据，待补充权威来源"
         }
       ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "product-pv-power-station"
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
-      "id": "material-silver-paste",
-      "name": "银浆",
-      "definition": "【待补充】需摘录自权威来源",
+      "id": "material-mono-silicon",
+      "name": "单晶硅",
+      "definition": "直拉法生长的单晶硅，硅片的一种原料形态",
       "node_type": "material",
       "stage": "draft",
       "parent_type": null,
+      "canonical_id": "material-mono-silicon",
       "sources": [
         {
           "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
+          "description": "初始示例数据，待补充权威来源"
         }
       ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "material-silver-paste"
-    },
-    {
-      "id": "product-tinned-copper-ribbon",
-      "name": "光伏涂锡焊带",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "product",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "product-tinned-copper-ribbon"
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
       "id": "material-eva-film",
       "name": "EVA胶膜",
-      "definition": "【待补充】需摘录自权威来源",
+      "definition": "乙烯-醋酸乙烯共聚物胶膜，封装胶膜原料",
       "node_type": "material",
       "stage": "draft",
       "parent_type": null,
+      "canonical_id": "material-eva-film",
       "sources": [
         {
           "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
+          "description": "初始示例数据，待补充权威来源"
         }
       ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "material-eva-film"
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
       "id": "material-poe-film",
       "name": "POE胶膜",
-      "definition": "【待补充】需摘录自权威来源",
+      "definition": "聚烯烃弹性体胶膜，封装胶膜原料",
       "node_type": "material",
       "stage": "draft",
       "parent_type": null,
+      "canonical_id": "material-poe-film",
       "sources": [
         {
           "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
+          "description": "初始示例数据，待补充权威来源"
         }
       ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "material-poe-film"
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
       "id": "material-ethylene",
       "name": "乙烯",
-      "definition": "【待补充】需摘录自权威来源",
+      "definition": "EVA/POE 的上游化工原料",
       "node_type": "material",
       "stage": "draft",
       "parent_type": null,
+      "canonical_id": "material-ethylene",
       "sources": [
         {
           "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
+          "description": "初始示例数据，待补充权威来源"
         }
       ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "material-ethylene"
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
       "id": "material-vinyl-acetate",
       "name": "醋酸乙烯",
-      "definition": "【待补充】需摘录自权威来源",
+      "definition": "EVA 的共聚单体",
       "node_type": "material",
       "stage": "draft",
       "parent_type": null,
+      "canonical_id": "material-vinyl-acetate",
       "sources": [
         {
           "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
+          "description": "初始示例数据，待补充权威来源"
         }
       ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "material-vinyl-acetate"
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
       "id": "material-high-carbon-alpha-olefin",
       "name": "高碳α烯烃",
-      "definition": "【待补充】需摘录自权威来源",
+      "definition": "POE 的共聚单体",
       "node_type": "material",
       "stage": "draft",
       "parent_type": null,
+      "canonical_id": "material-high-carbon-alpha-olefin",
       "sources": [
         {
           "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
+          "description": "初始示例数据，待补充权威来源"
         }
       ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "material-high-carbon-alpha-olefin"
-    },
-    {
-      "id": "product-pv-backsheet",
-      "name": "光伏背板",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "product",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "product-pv-backsheet"
-    },
-    {
-      "id": "material-pv-glass",
-      "name": "光伏玻璃",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "material",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "material-pv-glass"
-    },
-    {
-      "id": "material-pet-film",
-      "name": "PET基膜",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "material",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "material-pet-film"
-    },
-    {
-      "id": "material-fluoropolymer-film",
-      "name": "氟膜",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "material",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "material-fluoropolymer-film"
-    },
-    {
-      "id": "material-soda-ash-quartz-sand",
-      "name": "纯碱石英砂",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "material",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "material-soda-ash-quartz-sand"
-    },
-    {
-      "id": "product-pv-junction-box",
-      "name": "光伏接线盒",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "product",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "product-pv-junction-box"
-    },
-    {
-      "id": "material-sealant",
-      "name": "密封胶",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "material",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "material-sealant"
-    },
-    {
-      "id": "material-aluminum-frame",
-      "name": "铝边框",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "material",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "material-aluminum-frame"
-    },
-    {
-      "id": "equipment-pv-mounting-structure",
-      "name": "光伏支架",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "equipment",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "equipment-pv-mounting-structure"
-    },
-    {
-      "id": "equipment-pv-inverter",
-      "name": "光伏逆变器",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "equipment",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "equipment-pv-inverter"
-    },
-    {
-      "id": "equipment-combiner-box",
-      "name": "汇流箱",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "equipment",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "equipment-combiner-box"
-    },
-    {
-      "id": "equipment-energy-storage-battery",
-      "name": "储能蓄电池",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "equipment",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "equipment-energy-storage-battery"
-    },
-    {
-      "id": "equipment-pv-tracker",
-      "name": "光伏跟踪系统",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "equipment",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "equipment-pv-tracker"
-    },
-    {
-      "id": "product-bipv",
-      "name": "光伏建筑一体化",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "product",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": true,
-      "canonical_id": "product-bipv"
-    },
-    {
-      "id": "product-pv-transportation",
-      "name": "光伏交通",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "product",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": true,
-      "canonical_id": "product-pv-transportation"
-    },
-    {
-      "id": "product-pv-heating",
-      "name": "光伏供热",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "product",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": true,
-      "canonical_id": "product-pv-heating"
-    },
-    {
-      "id": "process-pv-hydrogen",
-      "name": "光伏制氢",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "process",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": true,
-      "canonical_id": "process-pv-hydrogen"
-    },
-    {
-      "id": "equipment-pv-controller",
-      "name": "光伏控制器",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "equipment",
-      "stage": "draft",
-      "parent_type": null,
-      "sources": [
-        {
-          "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
-        }
-      ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "equipment-pv-controller"
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
       "id": "material-pv-encapsulant-film",
       "name": "光伏封装胶膜",
-      "definition": "【待补充】需摘录自权威来源",
+      "definition": "EVA/POE 加工成的封装胶膜成品",
       "node_type": "material",
       "stage": "draft",
       "parent_type": null,
+      "canonical_id": "material-pv-encapsulant-film",
       "sources": [
         {
           "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
+          "description": "初始示例数据，待补充权威来源"
         }
       ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": true,
-      "canonical_id": "material-pv-encapsulant-film"
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
-      "id": "material-monocrystalline-silicon",
-      "name": "单晶硅",
-      "definition": "【待补充】需摘录自权威来源",
-      "node_type": "material",
+      "id": "product-pv-backsheet",
+      "name": "光伏背板",
+      "definition": "层压件背面的保护层",
+      "node_type": "product",
       "stage": "draft",
       "parent_type": null,
+      "canonical_id": "product-pv-backsheet",
       "sources": [
         {
           "source_type": "other",
-          "description": "初始示例数据(光伏主产业链.drawio)"
+          "description": "初始示例数据，待补充权威来源"
         }
       ],
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_type": false,
-      "canonical_id": "material-monocrystalline-silicon"
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "material-pet-film",
+      "name": "PET基膜",
+      "definition": "背板的上游基材",
+      "node_type": "material",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "material-pet-film",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "material-fluoropolymer-film",
+      "name": "氟膜",
+      "definition": "背板的耐候层材料",
+      "node_type": "material",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "material-fluoropolymer-film",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "material-pv-glass",
+      "name": "光伏玻璃",
+      "definition": "层压件正面超白压延玻璃",
+      "node_type": "material",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "material-pv-glass",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "material-soda-ash-quartz-sand",
+      "name": "纯碱石英砂",
+      "definition": "光伏玻璃的上游原料",
+      "node_type": "material",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "material-soda-ash-quartz-sand",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "product-tinned-copper-ribbon",
+      "name": "光伏涂锡焊带",
+      "definition": "电池片互联焊接用的涂锡铜带",
+      "node_type": "product",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "product-tinned-copper-ribbon",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "product-pv-junction-box",
+      "name": "光伏接线盒",
+      "definition": "组件引出电流的接线装置",
+      "node_type": "product",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "product-pv-junction-box",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "material-sealant",
+      "name": "密封胶",
+      "definition": "组件边框密封用胶",
+      "node_type": "material",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "material-sealant",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "material-aluminum-frame",
+      "name": "铝边框",
+      "definition": "组件边框铝材",
+      "node_type": "material",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "material-aluminum-frame",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "equipment-pv-mounting-structure",
+      "name": "光伏支架",
+      "definition": "组件支撑结构",
+      "node_type": "equipment",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "equipment-pv-mounting-structure",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "equipment-pv-inverter",
+      "name": "光伏逆变器",
+      "definition": "直流转交流的电力变换设备",
+      "node_type": "equipment",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "equipment-pv-inverter",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "equipment-combiner-box",
+      "name": "汇流箱",
+      "definition": "多路组件电流汇流装置",
+      "node_type": "equipment",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "equipment-combiner-box",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "equipment-energy-storage-battery",
+      "name": "储能蓄电池",
+      "definition": "电站储能单元",
+      "node_type": "equipment",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "equipment-energy-storage-battery",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "equipment-pv-tracker",
+      "name": "光伏跟踪系统",
+      "definition": "跟踪太阳的支架系统",
+      "node_type": "equipment",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "equipment-pv-tracker",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "equipment-pv-controller",
+      "name": "光伏控制器",
+      "definition": "充放电控制设备",
+      "node_type": "equipment",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "equipment-pv-controller",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "product-bipv",
+      "name": "光伏建筑一体化",
+      "definition": "光伏组件作为建筑构件（瓦/幕墙/采光顶）的应用形态，兼具发电与建材功能",
+      "node_type": "product",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "product-bipv",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "product-pv-transportation",
+      "name": "光伏交通",
+      "definition": "光伏在交通设施（路灯/车棚/声屏障）上的应用形态集合",
+      "node_type": "product",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "product-pv-transportation",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "product-pv-heating",
+      "name": "光伏供热",
+      "definition": "PVT热电联供组件构成的光伏供能系统",
+      "node_type": "product",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "product-pv-heating",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z",
+      "aliases": [
+        {
+          "term": "PVT"
+        }
+      ]
+    },
+    {
+      "id": "process-pv-hydrogen",
+      "name": "光伏制氢",
+      "definition": "光伏发电耦合电解水制氢的工艺路线",
+      "node_type": "process",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "process-pv-hydrogen",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "material-silver",
+      "name": "白银",
+      "definition": "银金属，银浆上游主原料，占银浆成本88-91%",
+      "node_type": "material",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "material-silver",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "material-silver-nitrate",
+      "name": "硝酸银",
+      "definition": "白银溶于硝酸得到的银盐，制备银粉的中间体",
+      "node_type": "material",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "material-silver-nitrate",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "material-silver-powder",
+      "name": "银粉",
+      "definition": "硝酸银还原得到的微米级球形银粉，银浆导电相",
+      "node_type": "material",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "material-silver-powder",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z",
+      "aliases": [
+        {
+          "term": "球形银粉"
+        }
+      ]
+    },
+    {
+      "id": "material-glass-powder",
+      "name": "玻璃粉",
+      "definition": "铋锌硼系无机粉料，银浆粘结剂兼刻蚀剂",
+      "node_type": "material",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "material-glass-powder",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z",
+      "aliases": [
+        {
+          "term": "无铅玻璃粉"
+        }
+      ]
+    },
+    {
+      "id": "material-organic-vehicle",
+      "name": "有机载体",
+      "definition": "松油醇+乙基纤维素等组成的有机相，烧结时挥发",
+      "node_type": "material",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "material-organic-vehicle",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "material-terpineol",
+      "name": "松油醇",
+      "definition": "有机载体的溶剂组分",
+      "node_type": "material",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "material-terpineol",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "material-ethyl-cellulose",
+      "name": "乙基纤维素",
+      "definition": "有机载体的树脂组分",
+      "node_type": "material",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "material-ethyl-cellulose",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "material-silver-paste",
+      "name": "银浆(光伏视角)",
+      "definition": "银粉+玻璃粉+有机载体配制成的导电浆料，烧结形成电极",
+      "node_type": "material",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "material-silver-paste-sp",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "material-silver-paste-sp",
+      "name": "银浆",
+      "definition": "【规范节点】银浆：银粉+玻璃粉+有机载体配制成的导电浆料",
+      "node_type": "material",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "material-silver-paste-sp",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "product-front-silver-paste",
+      "name": "正面银浆",
+      "definition": "印在电池片受光面的银浆，技术门槛最高，银含量约85%",
+      "node_type": "product",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "product-front-silver-paste",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z",
+      "aliases": [
+        {
+          "term": "正银"
+        }
+      ]
+    },
+    {
+      "id": "product-rear-silver-paste",
+      "name": "背面银浆",
+      "definition": "印在电池片背光面的银浆，起焊接锚点作用",
+      "node_type": "product",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "product-rear-silver-paste",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z",
+      "aliases": [
+        {
+          "term": "背银"
+        }
+      ]
+    },
+    {
+      "id": "industry-silver-paste",
+      "name": "银浆产业",
+      "definition": "导电银浆产业的归类型节点",
+      "node_type": "industry",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "industry-silver-paste",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "demand-electricity",
+      "name": "用电需求",
+      "definition": "人对电力的需求，光伏电站/BIPV/光伏交通等最终满足此需求",
+      "node_type": "demand",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "demand-electricity",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "demand-housing",
+      "name": "居住需求",
+      "definition": "人对建筑空间的需求，BIPV 同时服务于居住与发电",
+      "node_type": "demand",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "demand-housing",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "demand-heating",
+      "name": "供热需求",
+      "definition": "人对热能（采暖/热水）的需求，PVT 光伏供热满足此需求",
+      "node_type": "demand",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "demand-heating",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "demand-energy",
+      "name": "能源需求",
+      "definition": "人对能源载体的需求，氢能作为能源载体满足此需求",
+      "node_type": "demand",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "demand-energy",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "demand-chemical-feedstock",
+      "name": "化工原料需求",
+      "definition": "工业对化工原料的需求，光伏制氢产的氢可用于合成氨/甲醇",
+      "node_type": "demand",
+      "stage": "draft",
+      "parent_type": null,
+      "canonical_id": "demand-chemical-feedstock",
+      "sources": [
+        {
+          "source_type": "other",
+          "description": "初始示例数据，待补充权威来源"
+        }
+      ],
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     }
   ],
   "edges": [
     {
-      "id": "e1",
+      "id": "pv-main-1",
       "source": "material-industrial-silicon",
-      "target": "material-solar-grade-polysilicon",
+      "target": "material-polysilicon",
       "relation_type": "can_be_processed_into",
       "verification_status": "proposed",
       "proposed_by": {
         "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
+        "reasoning": "光伏主链工艺转化关系",
+        "proposed_at": "2026-06-27T08:08:44Z"
       },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
-      "id": "e2",
-      "source": "material-solar-grade-polysilicon",
+      "id": "pv-main-2",
+      "source": "material-polysilicon",
       "target": "product-silicon-wafer",
       "relation_type": "can_be_processed_into",
       "verification_status": "proposed",
       "proposed_by": {
         "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
+        "reasoning": "光伏主链工艺转化关系",
+        "proposed_at": "2026-06-27T08:08:44Z"
       },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
-      "id": "e3",
+      "id": "pv-main-3",
       "source": "product-silicon-wafer",
       "target": "product-pv-cell",
       "relation_type": "can_be_processed_into",
       "verification_status": "proposed",
       "proposed_by": {
         "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
+        "reasoning": "光伏主链工艺转化关系",
+        "proposed_at": "2026-06-27T08:08:44Z"
       },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
-      "id": "e4",
+      "id": "pv-main-4",
       "source": "product-pv-cell",
       "target": "product-pv-laminate",
       "relation_type": "can_be_processed_into",
       "verification_status": "proposed",
       "proposed_by": {
         "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
+        "reasoning": "光伏主链工艺转化关系",
+        "proposed_at": "2026-06-27T08:08:44Z"
       },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
-      "id": "e5",
+      "id": "pv-main-5",
       "source": "product-pv-laminate",
       "target": "product-pv-module",
       "relation_type": "can_be_processed_into",
       "verification_status": "proposed",
       "proposed_by": {
         "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
+        "reasoning": "光伏主链工艺转化关系",
+        "proposed_at": "2026-06-27T08:08:44Z"
       },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
-      "id": "e6",
+      "id": "pv-main-6",
       "source": "product-pv-module",
       "target": "product-pv-power-station",
       "relation_type": "can_be_processed_into",
       "verification_status": "proposed",
       "proposed_by": {
         "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
+        "reasoning": "光伏主链工艺转化关系",
+        "proposed_at": "2026-06-27T08:08:44Z"
       },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
-      "id": "e7",
-      "source": "product-pv-power-station",
-      "target": "product-bipv",
-      "relation_type": "applied_in",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e8",
-      "source": "product-pv-power-station",
-      "target": "product-pv-transportation",
-      "relation_type": "applied_in",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e9",
-      "source": "product-pv-power-station",
-      "target": "product-pv-heating",
-      "relation_type": "applied_in",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e10",
-      "source": "product-pv-power-station",
-      "target": "process-pv-hydrogen",
-      "relation_type": "applied_in",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e11",
-      "source": "material-silver-paste",
+      "id": "pv-raw-1",
+      "source": "material-mono-silicon",
       "target": "product-silicon-wafer",
-      "relation_type": "consumable_for",
+      "relation_type": "raw_material_for",
       "verification_status": "proposed",
       "proposed_by": {
         "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
+        "reasoning": "单晶硅棒切片得到单晶硅片",
+        "proposed_at": "2026-06-27T08:08:44Z"
       },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": true
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
-      "id": "e12",
+      "id": "pv-raw-2",
       "source": "product-tinned-copper-ribbon",
       "target": "product-pv-laminate",
       "relation_type": "raw_material_for",
       "verification_status": "proposed",
       "proposed_by": {
         "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
+        "reasoning": "焊带用于电池片互联",
+        "proposed_at": "2026-06-27T08:08:44Z"
       },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
-      "id": "e13",
-      "source": "material-eva-film",
-      "target": "material-pv-encapsulant-film",
-      "relation_type": "raw_material_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e14",
-      "source": "material-poe-film",
-      "target": "material-pv-encapsulant-film",
-      "relation_type": "raw_material_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e15",
-      "source": "material-ethylene",
-      "target": "material-eva-film",
-      "relation_type": "raw_material_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e16",
-      "source": "material-ethylene",
-      "target": "material-poe-film",
-      "relation_type": "raw_material_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e17",
-      "source": "material-vinyl-acetate",
-      "target": "material-eva-film",
-      "relation_type": "raw_material_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e18",
-      "source": "material-high-carbon-alpha-olefin",
-      "target": "material-poe-film",
-      "relation_type": "raw_material_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e19",
+      "id": "pv-raw-3",
       "source": "product-pv-backsheet",
       "target": "product-pv-laminate",
       "relation_type": "raw_material_for",
       "verification_status": "proposed",
       "proposed_by": {
         "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
+        "reasoning": "背板是层压件背面保护层",
+        "proposed_at": "2026-06-27T08:08:44Z"
       },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
-      "id": "e20",
+      "id": "pv-raw-4",
       "source": "material-pv-glass",
       "target": "product-pv-laminate",
       "relation_type": "raw_material_for",
       "verification_status": "proposed",
       "proposed_by": {
         "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
+        "reasoning": "玻璃是层压件正面盖板",
+        "proposed_at": "2026-06-27T08:08:44Z"
       },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
-      "id": "e21",
-      "source": "material-pet-film",
-      "target": "product-pv-backsheet",
-      "relation_type": "raw_material_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e22",
-      "source": "material-fluoropolymer-film",
-      "target": "product-pv-backsheet",
-      "relation_type": "raw_material_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e23",
-      "source": "material-soda-ash-quartz-sand",
-      "target": "material-pv-glass",
-      "relation_type": "raw_material_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e24",
-      "source": "product-pv-junction-box",
-      "target": "product-pv-module",
-      "relation_type": "raw_material_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e25",
-      "source": "material-sealant",
-      "target": "product-pv-module",
-      "relation_type": "raw_material_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e26",
-      "source": "material-aluminum-frame",
-      "target": "product-pv-module",
-      "relation_type": "raw_material_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e27",
-      "source": "equipment-pv-mounting-structure",
-      "target": "product-pv-power-station",
-      "relation_type": "equipment_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e28",
-      "source": "equipment-pv-inverter",
-      "target": "product-pv-power-station",
-      "relation_type": "equipment_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e29",
-      "source": "equipment-combiner-box",
-      "target": "product-pv-power-station",
-      "relation_type": "equipment_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e30",
-      "source": "equipment-energy-storage-battery",
-      "target": "product-pv-power-station",
-      "relation_type": "equipment_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e31",
-      "source": "equipment-pv-tracker",
-      "target": "product-pv-power-station",
-      "relation_type": "equipment_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e32",
-      "source": "equipment-pv-controller",
-      "target": "product-pv-power-station",
-      "relation_type": "equipment_for",
-      "verification_status": "proposed",
-      "proposed_by": {
-        "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
-      },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
-    },
-    {
-      "id": "e33",
+      "id": "pv-raw-5",
       "source": "material-pv-encapsulant-film",
       "target": "product-pv-laminate",
       "relation_type": "raw_material_for",
       "verification_status": "proposed",
       "proposed_by": {
         "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
+        "reasoning": "封装胶膜包裹电池片",
+        "proposed_at": "2026-06-27T08:08:44Z"
       },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     },
     {
-      "id": "e34",
-      "source": "material-monocrystalline-silicon",
-      "target": "product-silicon-wafer",
+      "id": "pv-raw-6",
+      "source": "product-pv-junction-box",
+      "target": "product-pv-module",
+      "relation_type": "equipment_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "接线盒引出组件电流",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-raw-7",
+      "source": "material-sealant",
+      "target": "product-pv-module",
       "relation_type": "raw_material_for",
       "verification_status": "proposed",
       "proposed_by": {
         "method": "editorial_research",
-        "reasoning": "来自初始示例数据,待补充权威来源验证",
-        "proposed_at": "2026-06-27T07:22:12Z"
+        "reasoning": "密封胶用于边框密封",
+        "proposed_at": "2026-06-27T08:08:44Z"
       },
-      "created_at": "2026-06-27T07:22:12Z",
-      "updated_at": "2026-06-27T07:22:12Z",
-      "_uncertain_relation": false
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-raw-8",
+      "source": "material-aluminum-frame",
+      "target": "product-pv-module",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "铝边框保护组件边缘",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-raw-9",
+      "source": "material-eva-film",
+      "target": "material-pv-encapsulant-film",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "EVA是封装胶膜原料之一",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-raw-10",
+      "source": "material-poe-film",
+      "target": "material-pv-encapsulant-film",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "POE是封装胶膜原料之一",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-raw-11",
+      "source": "material-ethylene",
+      "target": "material-eva-film",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "乙烯是EVA聚合单体",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-raw-12",
+      "source": "material-ethylene",
+      "target": "material-poe-film",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "乙烯是POE聚合单体",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-raw-13",
+      "source": "material-vinyl-acetate",
+      "target": "material-eva-film",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "醋酸乙烯是EVA共聚单体",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-raw-14",
+      "source": "material-high-carbon-alpha-olefin",
+      "target": "material-poe-film",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "高碳α烯烃是POE共聚单体",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-raw-15",
+      "source": "material-pet-film",
+      "target": "product-pv-backsheet",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "PET基膜是背板基材",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-raw-16",
+      "source": "material-fluoropolymer-film",
+      "target": "product-pv-backsheet",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "氟膜是背板耐候层",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-raw-17",
+      "source": "material-soda-ash-quartz-sand",
+      "target": "material-pv-glass",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "石英砂是玻璃主要原料",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-eq-1",
+      "source": "equipment-pv-mounting-structure",
+      "target": "product-pv-power-station",
+      "relation_type": "equipment_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "支架支撑组件",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-eq-2",
+      "source": "equipment-pv-inverter",
+      "target": "product-pv-power-station",
+      "relation_type": "equipment_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "逆变器完成直流转交流",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-eq-3",
+      "source": "equipment-combiner-box",
+      "target": "product-pv-power-station",
+      "relation_type": "equipment_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "汇流箱汇聚多路电流",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-eq-4",
+      "source": "equipment-energy-storage-battery",
+      "target": "product-pv-power-station",
+      "relation_type": "equipment_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "蓄电池储能",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-eq-5",
+      "source": "equipment-pv-tracker",
+      "target": "product-pv-power-station",
+      "relation_type": "equipment_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "跟踪系统提高发电量",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-eq-6",
+      "source": "equipment-pv-controller",
+      "target": "product-pv-power-station",
+      "relation_type": "equipment_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "控制器管理充放电",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-app-1",
+      "source": "product-pv-power-station",
+      "target": "product-bipv",
+      "relation_type": "applied_in",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "BIPV是光伏电站在建筑上的分布式应用形态",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-app-2",
+      "source": "product-pv-power-station",
+      "target": "product-pv-transportation",
+      "relation_type": "applied_in",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "光伏交通是光伏在交通设施上的应用",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-app-3",
+      "source": "product-pv-power-station",
+      "target": "product-pv-heating",
+      "relation_type": "applied_in",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "PVT是光伏组件的热电联供变体",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "pv-app-4",
+      "source": "product-pv-power-station",
+      "target": "process-pv-hydrogen",
+      "relation_type": "applied_in",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "光伏制氢是光伏电站下游的电-氢转换工艺",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sp-ind-1",
+      "source": "industry-silver-paste",
+      "target": "material-silver-paste-sp",
+      "relation_type": "upstream_of",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "银浆产业包含银浆生产",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sp-1",
+      "source": "material-silver",
+      "target": "material-silver-nitrate",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "白银溶于硝酸生成硝酸银",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sp-2",
+      "source": "material-silver-nitrate",
+      "target": "material-silver-powder",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "硝酸银还原反应生成银粉",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sp-3",
+      "source": "material-silver-powder",
+      "target": "material-silver-paste-sp",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "银粉是银浆主原料（占成本88-91%）",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sp-4",
+      "source": "material-glass-powder",
+      "target": "material-silver-paste-sp",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "玻璃粉是银浆无机粘结剂",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sp-5",
+      "source": "material-organic-vehicle",
+      "target": "material-silver-paste-sp",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "有机载体是银浆有机相",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sp-6",
+      "source": "material-terpineol",
+      "target": "material-organic-vehicle",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "松油醇是有机载体溶剂",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sp-7",
+      "source": "material-ethyl-cellulose",
+      "target": "material-organic-vehicle",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "乙基纤维素是有机载体树脂",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sp-8",
+      "source": "material-silver-paste-sp",
+      "target": "product-front-silver-paste",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "银浆按用途分为正银",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sp-9",
+      "source": "material-silver-paste-sp",
+      "target": "product-rear-silver-paste",
+      "relation_type": "can_be_processed_into",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "银浆按用途分为背银",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "cross-1",
+      "source": "material-silver-paste-sp",
+      "target": "product-pv-cell",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "【跨产业连接】银浆经丝网印刷+烧结在电池片表面形成银电极，是电池片功能性辅材（非耗材：银变成电极永久留在电池片上）。依据：华西证券研报、专利文献",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "cross-2",
+      "source": "product-front-silver-paste",
+      "target": "product-pv-cell",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "正面银浆印在电池片受光面形成正电极栅线",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "cross-3",
+      "source": "product-rear-silver-paste",
+      "target": "product-pv-cell",
+      "relation_type": "raw_material_for",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "背面银浆印在电池片背光面形成背电极焊接锚点",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sat-1",
+      "source": "product-pv-power-station",
+      "target": "demand-electricity",
+      "relation_type": "satisfies",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "光伏电站满足用电需求",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sat-2",
+      "source": "product-bipv",
+      "target": "demand-electricity",
+      "relation_type": "satisfies",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "BIPV 发电满足用电需求",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sat-3",
+      "source": "product-bipv",
+      "target": "demand-housing",
+      "relation_type": "satisfies",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "BIPV 作为建筑构件满足居住需求",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sat-4",
+      "source": "product-pv-transportation",
+      "target": "demand-electricity",
+      "relation_type": "satisfies",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "光伏交通设施发电满足交通用电",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sat-5",
+      "source": "product-pv-heating",
+      "target": "demand-electricity",
+      "relation_type": "satisfies",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "PVT 发电满足用电需求",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sat-6",
+      "source": "product-pv-heating",
+      "target": "demand-heating",
+      "relation_type": "satisfies",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "PVT 收集热量满足供热需求",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sat-7",
+      "source": "process-pv-hydrogen",
+      "target": "demand-energy",
+      "relation_type": "satisfies",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "光伏制氢产出氢能满足能源需求",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
+    },
+    {
+      "id": "sat-8",
+      "source": "process-pv-hydrogen",
+      "target": "demand-chemical-feedstock",
+      "relation_type": "satisfies",
+      "verification_status": "proposed",
+      "proposed_by": {
+        "method": "editorial_research",
+        "reasoning": "绿氢可作为合成氨/甲醇的化工原料",
+        "proposed_at": "2026-06-27T08:08:44Z"
+      },
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "created_at": "2026-06-27T08:08:44Z",
+      "updated_at": "2026-06-27T08:08:44Z"
     }
   ]
 }
