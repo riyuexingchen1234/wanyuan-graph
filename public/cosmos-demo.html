@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8"/>
-<title>万源图谱 · 空间布局验证 v3</title>
+<title>万源图谱</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:radial-gradient(ellipse at 50% 40%,#fdfdfb 0%,#f0efe8 60%,#e2e0d6 100%);overflow:hidden;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#222;}
@@ -29,10 +29,9 @@ canvas{display:block;}
 <body>
 <div id="hud">
 <b>万源图谱</b><br>
-左键旋转 · 滚轮缩放 · 右键平移<br>
-点击节点探索 · 点击产业节点回正
+拖拽旋转 · 滚轮缩放 · 点击节点探索
 </div>
-<div id="mode">视角：<span id="modeText">星云探索</span></div>
+<div id="mode"><span id="modeText">星云探索</span></div>
 <div id="tip">点击星云中的产业节点开始探索</div>
 <div id="legend">
   <div class="title">图例</div>
@@ -377,9 +376,10 @@ function computeLayout(chainId, focusId){
   }
 
   for(let hop=1;hop<=maxHop;hop++){
-    // 上游在后方更深处(Z更小=更负)，下游在后方稍近处，两层错开避免同平面重叠
-    const zUp = C.mainZ - hop*C.layerBack;
-    const zDown = C.mainZ - (hop-1)*C.layerBack - C.layerBack*0.5;
+    // 所有支链都在主链后方(Z负)，按hop递退
+    // 交错Z避免z-fighting：down比同hop的up稍近一档
+    const zUp = C.mainZ - (hop-0.3)*C.layerBack;
+    const zDown = C.mainZ - (hop-0.7)*C.layerBack;
     const uN=Array.from(meta.entries()).filter(([,m])=>m.hop===hop&&m.direction==='up').map(([id])=>id);
     const dN=Array.from(meta.entries()).filter(([,m])=>m.hop===hop&&m.direction==='down').map(([id])=>id);
     placeGroup(uN,zUp,'up');
@@ -517,23 +517,23 @@ function makeTextTexture(name,type){
 // 7. 节点视觉
 // ==================================================================
 const nObs = new Map();
-const DOT_R = 0.02;
+const DOT_R = 0.04;
 nodeMap.forEach((n,id)=>{
   const g = new THREE.Group();
-  const dotMat = new THREE.MeshBasicMaterial({color: n.type==='industry'?0x000:n.type==='main'?0x222:0x888, transparent:true, opacity:0.4});
+  const dotColor = n.type==='industry'?0x1a1a1a:n.type==='main'?0x333333:0x999999;
+  const dotMat = new THREE.MeshBasicMaterial({color: dotColor, transparent:true, opacity:0.6, fog:false});
   const dot = new THREE.Mesh(new THREE.SphereGeometry(DOT_R,8,8), dotMat);
   dot.renderOrder=1;
   g.add(dot);
   const lb = makeTextSprite(n.name, n.type);
   lb.sprite.position.set(0, lb.worldHeight/2, 0);
   g.add(lb.sprite);
-  // 不可见点击平面（更大的热区）
   const hitMat = new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false});
   const hit = new THREE.Mesh(new THREE.PlaneGeometry(lb.worldHeight*lb.aspect+0.2, lb.worldHeight+0.2), hitMat);
   g.add(hit);
   g.userData.nodeId = id;
   scene.add(g);
-  nObs.set(id,{g,dot,dotMat,lb,hit,hitMat,n,cur:new THREE.Vector3(),tgt:new THREE.Vector3(),op:1,tgtOp:1});
+  nObs.set(id,{g,dot,dotMat,lb,hit,hitMat,n,dotColor,cur:new THREE.Vector3(),tgt:new THREE.Vector3(),op:1,tgtOp:1});
 });
 
 // 边（LineSegments 以便多条边共享）
@@ -547,17 +547,18 @@ edgeGeom.setAttribute('color',new THREE.BufferAttribute(edgeColorArr,3));
 const edgeMat = new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0.45});
 const edgeLines = new THREE.LineSegments(edgeGeom, edgeMat);
 scene.add(edgeLines);
-// 主链专用边：渲染在普通边之上，颜色更深，模拟加粗效果
-const MAX_MAIN = 20;
-const mainEdgeGeom = new THREE.BufferGeometry();
-const mainEdgePos = new Float32Array(MAX_MAIN*6);
-const mainEdgeCol = new Float32Array(MAX_MAIN*6);
-mainEdgeGeom.setAttribute('position',new THREE.BufferAttribute(mainEdgePos,3));
-mainEdgeGeom.setAttribute('color',new THREE.BufferAttribute(mainEdgeCol,3));
-const mainEdgeMat = new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0.9,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2,depthTest:false});
-const mainEdgeLines = new THREE.LineSegments(mainEdgeGeom, mainEdgeMat);
-mainEdgeLines.renderOrder=10;
-scene.add(mainEdgeLines);
+// 主链spine：独立绘制，沿mainIds顺序连接相邻节点，形成连续黑色粗线+箭头
+// 不依赖edge数据，保证视觉上是一条连贯的产业链骨架
+const MAX_SPINE = 20;
+const spineGeom = new THREE.BufferGeometry();
+const spinePos = new Float32Array(MAX_SPINE*6);
+const spineCol = new Float32Array(MAX_SPINE*6);
+spineGeom.setAttribute('position',new THREE.BufferAttribute(spinePos,3));
+spineGeom.setAttribute('color',new THREE.BufferAttribute(spineCol,3));
+const spineMat = new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0.9,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2,depthTest:false});
+const spineLines = new THREE.LineSegments(spineGeom, spineMat);
+spineLines.renderOrder=10;
+scene.add(spineLines);
 EDGES.forEach((e,i)=>edgeObjs.push({from:e[0],to:e[1],idx:i}));
 
 // 主链方向箭头：小圆锥指向物料流向（下游方向）
@@ -596,11 +597,13 @@ function setFocus(layout){
 }
 function toNebula(){
   st.mode='nebula';st.chain=null;st.focus=null;st.anim=true;st.t=0;
+  if(scene.fog){ scene.fog.near=40; scene.fog.far=180; }
   c0.copy(camera.position);t0v.copy(controls.target);c1.copy(NEB_CAM);t1v.copy(NEB_TGT);
   nObs.forEach(o=>o.cur.copy(o.g.position));setNebula();updateUI();
 }
 function toFocus(chainId,focusId){
   st.mode='focus';st.chain=chainId;st.focus=focusId;st.anim=true;st.t=0;
+  if(scene.fog){ scene.fog.near=5; scene.fog.far=22; scene.fog.color.setHex(0xeae8e0); }
   const L=computeLayout(chainId,focusId);st._layout=L;
   c0.copy(camera.position);t0v.copy(controls.target);c1.copy(L.camPos);t1v.copy(L.lookAt);
   nObs.forEach(o=>o.cur.copy(o.g.position));setFocus(L);updateUI();
@@ -684,8 +687,6 @@ function onClick(nid){
 const clock=new THREE.Clock();
 function ease(t){return 1-Math.pow(1-t,3);}
 function lv(a,b,t){a.x+=(b.x-a.x)*t;a.y+=(b.y-a.y)*t;a.z+=(b.z-a.z)*t;}
-function isMainEdge(s,t,mainIds){return mainIds.includes(s)&&mainIds.includes(t);}
-function isIndEdge(s,t,indId){return s===indId||t===indId;}
 
 function frame(){
   requestAnimationFrame(frame);
@@ -707,8 +708,8 @@ function frame(){
       o.lb.sprite.material.opacity=o.op;
       o.lb.sprite.visible = o.op>0.08;
       o.hitMat.opacity=0;
-      if(st.hoverId===o.n.id){o.dot.material.color.set(0x0066ff);o.dotMat.opacity=o.op;}
-      else{o.dot.material.color.set(o.n.type==='industry'?0x000:o.n.type==='main'?0x222:0x888);}
+      if(st.hoverId===o.n.id){o.dot.material.color.set(0x0066ff);o.dotMat.opacity=Math.min(1,o.op*1.2);}
+      else{o.dot.material.color.set(o.dotColor);}
     });
     camera.position.lerpVectors(c0,c1,e);controls.target.lerpVectors(t0v,t1v,e);
     controls.enabled= tt>=1 && !st.tour;
@@ -722,18 +723,18 @@ function frame(){
           const rr=Math.sqrt(rx*rx+rz*rz),ang=st.nebAng+ph;
           o.cur.set(NC.x+rr*Math.cos(ang),b.y,NC.z+rr*Math.sin(ang));
         }
-        o.g.position.copy(o.cur);o.op=1;o.dotMat.opacity=0.3;o.lb.sprite.material.opacity=1;
+        o.g.position.copy(o.cur);o.op=1;o.dotMat.opacity=0.6;o.lb.sprite.material.opacity=1;
         o.lb.sprite.visible = true;
         if(st.hoverId===o.n.id){o.dot.material.color.set(0x0066ff);o.dotMat.opacity=1;}
-        else o.dot.material.color.set(o.n.type==='industry'?0x000:o.n.type==='main'?0x222:0x888);
+        else o.dot.material.color.set(o.dotColor);
       });
     }else{
       nObs.forEach(o=>{
         lv(o.cur,o.tgt,0.16);o.g.position.copy(o.cur);
-        o.op += (o.tgtOp-o.op)*0.14;o.dotMat.opacity=o.op*0.3;o.lb.sprite.material.opacity=o.op;
+        o.op += (o.tgtOp-o.op)*0.14;o.dotMat.opacity=o.op*0.6;o.lb.sprite.material.opacity=o.op;
         o.lb.sprite.visible=o.op>0.08;
-        if(st.hoverId===o.n.id){o.dot.material.color.set(0x0066ff);o.dotMat.opacity=o.op;}
-        else o.dot.material.color.set(o.n.type==='industry'?0x000:o.n.type==='main'?0x222:0x888);
+        if(st.hoverId===o.n.id){o.dot.material.color.set(0x0066ff);o.dotMat.opacity=Math.min(1,o.op);}
+        else o.dot.material.color.set(o.dotColor);
       });
     }
   }
@@ -741,53 +742,74 @@ function frame(){
   // 边更新
   const mainIds = st._layout?.mainIds || CHAINS.pv.main;
   const indId = st._layout?.indId || 'pv-ind';
-  let ei=0; let mi=0; let ai=0;
+  let ei=0; let si=0; let ai=0;
   const _arrowDir = new THREE.Vector3();
   const _arrowUp = new THREE.Vector3(0,1,0);
-  // 清空主链边数组
-  for(let k=0;k<MAX_MAIN*6;k++) mainEdgePos[k]=0;
+  // 清空spine
+  for(let k=0;k<MAX_SPINE*6;k++) spinePos[k]=0;
   arrows.forEach(ar=>{ar.visible=false;});
+
+  // 绘制spine：沿mainIds顺序连接相邻节点，粗黑线+箭头（仅focus态）
+  if(st.mode==='focus'){
+    for(let i=0;i<mainIds.length-1;i++){
+      const a=nObs.get(mainIds[i]), b=nObs.get(mainIds[i+1]);
+      if(!a||!b) continue;
+      const pa=a.g.position, pb=b.g.position;
+      const seg=i;
+      if(si<MAX_SPINE){
+        spinePos[si*6]=pa.x;spinePos[si*6+1]=pa.y;spinePos[si*6+2]=pa.z+0.02;
+        spinePos[si*6+3]=pb.x;spinePos[si*6+4]=pb.y;spinePos[si*6+5]=pb.z+0.02;
+        const c=0.1;
+        spineCol[si*6]=c;spineCol[si*6+1]=c;spineCol[si*6+2]=c;
+        spineCol[si*6+3]=c;spineCol[si*6+4]=c;spineCol[si*6+5]=c;
+        si++;
+        // 箭头在每段spine的2/3处（偏向末端节点），指向右/下游
+        if(ai<MAX_ARROWS){
+          const t=0.62;
+          const ar=arrows[ai++];
+          ar.visible=true;
+          const mx=pa.x+(pb.x-pa.x)*t, my=pa.y+(pb.y-pa.y)*t, mz=pa.z+(pb.z-pa.z)*t+0.04;
+          ar.position.set(mx,my,mz);
+          _arrowDir.set(pb.x-pa.x,pb.y-pa.y,pb.z-pa.z).normalize();
+          ar.quaternion.setFromUnitVectors(_arrowUp,_arrowDir);
+          const avgOp = Math.min(a.op,b.op);
+          ar.material.opacity = 0.7*avgOp;
+        }
+      }
+    }
+  }
+
   EDGES.forEach(([s,t])=>{
+    // 产业节点（标签）不画辐射边
+    const sN=nodeMap.get(s), tN=nodeMap.get(t);
+    if(sN?.type==='industry'||tN?.type==='industry') return;
     const a=nObs.get(s),b=nObs.get(t);if(!a||!b)return;
     const pa=a.g.position,pb=b.g.position;
+    if(a.op<0.2||b.op<0.2) return;
     const i=ei++;
     edgePosArr[i*6]=pa.x;edgePosArr[i*6+1]=pa.y;edgePosArr[i*6+2]=pa.z;
     edgePosArr[i*6+3]=pb.x;edgePosArr[i*6+4]=pb.y;edgePosArr[i*6+5]=pb.z;
-    const isMainCur=st.mode==='focus' && isMainEdge(s,t,mainIds);
-    const isIndE=isIndEdge(s,t,indId) || (st.mode==='focus' && (s===indId||t===indId));
-    let col;
-    if(isMainCur) col=[0.12,0.12,0.12];
-    else if(isIndE) col=[0.5,0.5,0.5];
-    else col=[0.78,0.78,0.78];
+    const col=[0.78,0.78,0.78];
     edgeColorArr[i*6]=col[0];edgeColorArr[i*6+1]=col[1];edgeColorArr[i*6+2]=col[2];
     edgeColorArr[i*6+3]=col[0];edgeColorArr[i*6+4]=col[1];edgeColorArr[i*6+5]=col[2];
-    // 主链边额外写入高亮边
-    if(isMainCur && mi<MAX_MAIN){
-      mainEdgePos[mi*6]=pa.x;mainEdgePos[mi*6+1]=pa.y;mainEdgePos[mi*6+2]=pa.z+0.02;
-      mainEdgePos[mi*6+3]=pb.x;mainEdgePos[mi*6+4]=pb.y;mainEdgePos[mi*6+5]=pb.z+0.02;
-      mainEdgeCol[mi*6]=0.05;mainEdgeCol[mi*6+1]=0.05;mainEdgeCol[mi*6+2]=0.05;
-      mainEdgeCol[mi*6+3]=0.05;mainEdgeCol[mi*6+4]=0.05;mainEdgeCol[mi*6+5]=0.05;
-      mi++;
-      // 在主链边中点放箭头，指向t方向（下游）
-      if(ai<MAX_ARROWS){
-        const ar=arrows[ai++];
-        ar.visible=true;
-        const mx=(pa.x+pb.x)*0.5, my=(pa.y+pb.y)*0.5, mz=(pa.z+pb.z)*0.5+0.03;
-        ar.position.set(mx,my,mz);
-        _arrowDir.set(pb.x-pa.x,pb.y-pa.y,pb.z-pa.z).normalize();
-        ar.quaternion.setFromUnitVectors(_arrowUp,_arrowDir);
-        const avgOp = Math.min(a.op,b.op);
-        ar.material.opacity = 0.65*avgOp;
-      }
-    }
   });
+
   edgeGeom.attributes.position.needsUpdate=true;
   edgeGeom.attributes.color.needsUpdate=true;
-  mainEdgeGeom.attributes.position.needsUpdate=true;
-  mainEdgeGeom.attributes.color.needsUpdate=true;
-  mainEdgeGeom.setDrawRange(0,mi*2);
-  edgeMat.opacity = st.mode==='nebula'?0.25:0.4;
-  mainEdgeMat.opacity = st.mode==='nebula'?0:0.95;
+  edgeGeom.setDrawRange(0,ei*2);
+  spineGeom.attributes.position.needsUpdate=true;
+  spineGeom.attributes.color.needsUpdate=true;
+  spineGeom.setDrawRange(0,si*2);
+  edgeMat.opacity = st.mode==='nebula'?0.2:0.35;
+  spineMat.opacity = st.mode==='nebula'?0:0.92;
+
+  // ===== 雾效动态调整 =====
+  // 星云态：雾很远（几乎不雾化），保证星云可见；focus态：近雾营造深度
+  if(st.mode==='nebula'){
+    if(scene.fog){ scene.fog.near=40; scene.fog.far=180; }
+  }else{
+    if(scene.fog){ scene.fog.near=5; scene.fog.far=22; scene.fog.color.setHex(0xeae8e0); }
+  }
 
   // ===== 首次进入自动导览 =====
   if(st.tour){
@@ -809,21 +831,19 @@ function frame(){
       tipEl.textContent = phase.tip;
       tipEl.classList.add('show');
       if(phase.flyTo){
-        // 触发飞入
         st.paused = true;
         onClick(phase.flyTo);
       }
     }
-    // Phase 1 飞入后的相机环绕效果：左右摆动展示深度
+    // Phase 1 飞入后的相机摆动：左右摆动明显展示前后层次
     if(phaseIdx===1 && !st.anim && st.mode==='focus'){
-      st.orbitA += dt*0.4;
+      st.orbitA += dt*0.5;
       const L = st._layout;
       if(L){
-        const cd = 11, polar = Math.PI/3.6;
-        const swing = Math.sin(st.orbitA)*0.28;
-        const radius = cd*Math.sin(polar);
+        const cd=11, polar=Math.PI/3.6, radius=cd*Math.sin(polar);
+        const swing=Math.sin(st.orbitA)*0.45;
         camera.position.set(
-          L.lookAt.x + Math.sin(swing)*radius*0.35,
+          L.lookAt.x + Math.sin(swing)*radius*0.55,
           L.lookAt.y + cd*Math.cos(polar)+1,
           L.lookAt.z + Math.cos(swing)*radius + 1
         );
@@ -834,10 +854,10 @@ function frame(){
     if(phaseIdx===2){
       const L = st._layout;
       if(L){
-        camera.position.lerp(L.camPos, 0.04);
-        controls.target.lerp(L.lookAt, 0.04);
+        camera.position.lerp(L.camPos, 0.05);
+        controls.target.lerp(L.lookAt, 0.05);
       }
-      if(localT > 0.5) legendEl.classList.add('visible');
+      if(localT > 0.3) legendEl.classList.add('visible');
     }
     // 导览结束
     const totalDur = TOUR_PHASES.reduce((s,p)=>s+p.dur,0);
@@ -849,7 +869,9 @@ function frame(){
       document.getElementById('tip').style.opacity='1';
     }
     controls.enabled = false;
+    renderer.domElement.style.pointerEvents='none';
   }else{
+    renderer.domElement.style.pointerEvents='auto';
     // 非导览状态：图例在focus态显示
     const legendEl = document.getElementById('legend');
     if(st.mode==='focus') legendEl.classList.add('visible');
