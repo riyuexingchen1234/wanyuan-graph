@@ -11,6 +11,9 @@ canvas{display:block;}
 #hud b{color:#000;}
 #mode{position:fixed;top:14px;right:14px;background:rgba(255,255,255,0.82);backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.08);padding:8px 14px;border-radius:8px;font-size:12px;pointer-events:none;z-index:10;box-shadow:0 2px 12px rgba(0,0,0,0.04);}
 #mode span{font-weight:700;color:#000;}
+#backBtn{position:fixed;top:52px;right:14px;background:rgba(255,255,255,0.88);backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.1);padding:7px 16px;border-radius:20px;font-size:12px;color:#333;cursor:pointer;z-index:10;box-shadow:0 2px 10px rgba(0,0,0,0.05);display:none;transition:all 0.2s;user-select:none;}
+#backBtn:hover{background:rgba(255,255,255,0.98);box-shadow:0 3px 14px rgba(0,0,0,0.1);}
+#backBtn.show{display:block;}
 #tip{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.88);backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.08);padding:8px 20px;border-radius:24px;font-size:12px;color:#444;pointer-events:none;z-index:10;white-space:nowrap;box-shadow:0 2px 12px rgba(0,0,0,0.06);transition:opacity 0.4s;}
 #legend{position:fixed;bottom:20px;left:14px;background:rgba(255,255,255,0.82);backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,0.08);padding:10px 14px;border-radius:8px;font-size:11px;color:#555;pointer-events:none;z-index:10;line-height:1.9;box-shadow:0 2px 12px rgba(0,0,0,0.04);opacity:0;transition:opacity 0.6s;}
 #legend.visible{opacity:1;}
@@ -36,22 +39,23 @@ canvas{display:block;}
 <div id="legend">
   <div class="title">图例</div>
   <div class="row">
-    <svg width="36" height="8"><line x1="2" y1="4" x2="34" y2="4" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/></svg>
+    <svg width="36" height="10"><line x1="2" y1="5" x2="34" y2="5" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round"/></svg>
     <span>主产业链（核心流程）</span>
   </div>
   <div class="row">
-    <svg width="36" height="8"><line x1="2" y1="4" x2="34" y2="4" stroke="#999" stroke-width="1.2" stroke-linecap="round"/></svg>
+    <svg width="36" height="10"><line x1="2" y1="5" x2="34" y2="5" stroke="#999" stroke-width="1.2" stroke-linecap="round"/></svg>
     <span>支链关联</span>
   </div>
   <div class="row">
-    <svg width="36" height="16"><polygon points="4,8 16,3 16,13" fill="#2d7d46"/><text x="20" y="12" font-size="9" fill="#2d7d46">上游原材料</text></svg>
+    <svg width="36" height="12"><circle cx="8" cy="6" r="4" fill="#2d7d46"/><text x="16" y="9" font-size="9" fill="#2d7d46">上游原材料</text></svg>
   </div>
   <div class="row">
-    <svg width="36" height="16"><polygon points="16,3 28,8 16,13" fill="#b8860b"/><text x="2" y="12" font-size="9" fill="#b8860b">下游产品→</text></svg>
+    <svg width="36" height="12"><circle cx="8" cy="6" r="4" fill="#b8860b"/><text x="16" y="9" font-size="9" fill="#9a7200">下游产品</text></svg>
   </div>
-  <div class="arrow-hint">箭头方向 = 物料流向</div>
+  <div class="arrow-hint">箭头方向 = 物料流向（上游→下游）</div>
 </div>
 <div id="tour-tip"></div>
+<div id="backBtn">← 返回星云</div>
 <div id="overlay">加载中…</div>
 
 <script type="importmap">
@@ -191,19 +195,19 @@ const CHAINS = {
 // - 同一hop层共享Z平面；up方向Z负，down方向Z正
 // ==================================================================
 const C = {
-  mainGap: 1.3,
+  mainGap: 1.8,
   mainZ: 0,
-  indY: 2.2, indZ: -2.0,
-  layerBack: 1.4,    // 上游每层后退距离
-  layerFront: 1.4,   // 下游每层前进距离
-  rBase: 0.55,
-  rShrink: 0.62,
-  rGrowth: 0.5,
-  minGap: 0.45,
-  relaxIter: 80,
-  arcHalf: Math.PI * 0.32,
-  yBiasUp: 0.25,
-  yBiasDown: 0.25,
+  indY: 2.8, indZ: -2.4,
+  layerBack: 1.8,
+  layerFront: 1.8,
+  rBase: 0.9,
+  rShrink: 0.72,
+  rGrowth: 0.6,
+  minGap: 1.0,
+  relaxIter: 160,
+  arcHalf: Math.PI * 0.42,
+  yBiasUp: 0.45,
+  yBiasDown: 0.45,
   maxHop: 8,
 };
 
@@ -242,16 +246,16 @@ function computeMeta(mainIds, chainId){
     for(const pid of frontier){
       const pn = nodeMap.get(pid); if(!pn) continue;
       const pMeta = meta.get(pid);
-      // 流入pid的原材料 → up（后方上半圆）
       for(const cid of pn.ups){
         if(placed.has(cid) || isOnMain(cid,mainIds)) continue;
+        const cn = nodeMap.get(cid); if(!cn) continue;
+        if(cn.type==='industry') continue;
         recs.push({cid,pid,dir:'up'});
       }
-      // pid流出的 → down（后方下半圆）
-      // 规则：沿边方向，原材料(ups)永远向上后方，产出(downs)永远向下后方
-      // 即使父节点在up区，它的产出也向下后方展开；反之在down区的节点其原材料也向上后方
       for(const cid of pn.downs){
         if(placed.has(cid) || isOnMain(cid,mainIds)) continue;
+        const cn = nodeMap.get(cid); if(!cn) continue;
+        if(cn.type==='industry') continue;
         recs.push({cid,pid,dir:'down'});
       }
     }
@@ -402,7 +406,7 @@ function computeLayout(chainId, focusId){
     const fp=pos.get(focusId);
     lookAt = fp ? new THREE.Vector3(fp.x, fp.y*0.3, fp.z*0.5) : centerMain.clone();
   }
-  const camDist=11, polar=Math.PI/3.6;
+  const camDist=13, polar=Math.PI/3.4;
   const camPos = new THREE.Vector3(
     lookAt.x,
     lookAt.y + camDist*Math.cos(polar)+1,
@@ -475,24 +479,32 @@ scene.add(new THREE.AmbientLight(0xffffff,1));
 // ==================================================================
 // 6. 标签：使用Canvas Sprite实现透视自然缩放
 // ==================================================================
-function makeTextSprite(name, type){
-  const {texture, aspect} = makeTextTexture(name, type);
+function makeTextSprite(name, type, dir){
+  const {texture, aspect} = makeTextTexture(name, type, dir);
   const mat = new THREE.SpriteMaterial({map:texture,depthTest:false,depthWrite:false,transparent:true,fog:false});
+  let worldHeight;
+  if(type==='industry') worldHeight=0.75;
+  else if(type==='main') worldHeight=0.50;
+  else if(type==='app') worldHeight=0.28;
+  else worldHeight=0.30;
   const sp = new THREE.Sprite(mat);
-  const worldHeight = type==='industry'?0.55:type==='main'?0.42:0.36;
   sp.scale.set(worldHeight*aspect, worldHeight, 1);
   sp.renderOrder = 999;
   return {sprite:sp, aspect, worldHeight};
 }
 
 const texCache = new Map();
-function makeTextTexture(name,type){
-  const key=name+'|'+type;
+function makeTextTexture(name,type,dir){
+  const key=name+'|'+type+'|'+(dir||'');
   if(texCache.has(key)) return texCache.get(key);
-  const fontSize = type==='industry'?48:type==='main'?36:30;
-  const weight = type==='industry'?'700':type==='main'?'600':'400';
-  const color = type==='industry'?'#000000':type==='main'?'#1a1a1a':'#333333';
-  const pad=6;
+  let fontSize, weight, color;
+  if(type==='industry'){fontSize=62;weight='700';color='#0a0a0a';}
+  else if(type==='main'){fontSize=44;weight='600';color='#1a1a1a';}
+  else if(type==='app'){fontSize=24;weight='400';color='#8a6a00';}
+  else if(dir==='up'){fontSize=25;weight='400';color='#2d6a3e';}
+  else if(dir==='down'){fontSize=25;weight='400';color='#9a7200';}
+  else{fontSize=25;weight='400';color='#444';}
+  const pad=7;
   const measure = document.createElement('canvas').getContext('2d');
   measure.font = weight+' '+fontSize+'px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';
   const tw = Math.ceil(measure.measureText(name).width)+pad*2;
@@ -517,55 +529,65 @@ function makeTextTexture(name,type){
 // 7. 节点视觉
 // ==================================================================
 const nObs = new Map();
-const DOT_R = 0.04;
+const DOT_R_MAIN = 0.06;
+const DOT_R_BRANCH = 0.045;
+const COL_MAIN = 0x1a1a1a;
+const COL_IND = 0x0a0a0a;
+const COL_UP = 0x2d7d46;
+const COL_DOWN = 0xb8860b;
+const COL_APP = 0xc89215;
+
 nodeMap.forEach((n,id)=>{
   const g = new THREE.Group();
-  const dotColor = n.type==='industry'?0x1a1a1a:n.type==='main'?0x333333:0x999999;
-  const dotMat = new THREE.MeshBasicMaterial({color: dotColor, transparent:true, opacity:0.6, fog:false});
-  const dot = new THREE.Mesh(new THREE.SphereGeometry(DOT_R,8,8), dotMat);
+  let dotColor, baseDotR = DOT_R_BRANCH;
+  if(n.type==='industry'){dotColor=COL_IND;baseDotR=0.07;}
+  else if(n.type==='main'){dotColor=COL_MAIN;baseDotR=DOT_R_MAIN;}
+  else if(n.type==='app'){dotColor=0x999999;}
+  else{dotColor=0x888888;}
+  const dotMat = new THREE.MeshBasicMaterial({color: dotColor, transparent:true, opacity:0.75, fog:false});
+  const dot = new THREE.Mesh(new THREE.SphereGeometry(DOT_R_BRANCH,10,10), dotMat);
+  dot.scale.setScalar(baseDotR/DOT_R_BRANCH);
   dot.renderOrder=1;
   g.add(dot);
-  const lb = makeTextSprite(n.name, n.type);
-  lb.sprite.position.set(0, lb.worldHeight/2, 0);
+  const lb = makeTextSprite(n.name, n.type, null);
+  lb.sprite.position.set(0, lb.worldHeight/2 + baseDotR*0.6, 0);
   g.add(lb.sprite);
   const hitMat = new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false});
-  const hit = new THREE.Mesh(new THREE.PlaneGeometry(lb.worldHeight*lb.aspect+0.2, lb.worldHeight+0.2), hitMat);
+  const hit = new THREE.Mesh(new THREE.PlaneGeometry(lb.worldHeight*lb.aspect+0.3, lb.worldHeight+0.3), hitMat);
   g.add(hit);
   g.userData.nodeId = id;
   scene.add(g);
-  nObs.set(id,{g,dot,dotMat,lb,hit,hitMat,n,dotColor,cur:new THREE.Vector3(),tgt:new THREE.Vector3(),op:1,tgtOp:1});
+  nObs.set(id,{g,dot,dotMat,lb,hit,hitMat,n,dotColor,baseDotR,cur:new THREE.Vector3(),tgt:new THREE.Vector3(),op:1,tgtOp:1});
 });
 
-// 边（LineSegments 以便多条边共享）
-const edgeObjs = [];
+// 支链边（灰色细线，保留LineSegments，在星云态和focus态都可见）
 const MAX_EDGES = EDGES.length;
 const edgeGeom = new THREE.BufferGeometry();
 const edgePosArr = new Float32Array(MAX_EDGES*6);
 const edgeColorArr = new Float32Array(MAX_EDGES*6);
 edgeGeom.setAttribute('position',new THREE.BufferAttribute(edgePosArr,3));
 edgeGeom.setAttribute('color',new THREE.BufferAttribute(edgeColorArr,3));
-const edgeMat = new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0.45});
+const edgeMat = new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0.35});
 const edgeLines = new THREE.LineSegments(edgeGeom, edgeMat);
 scene.add(edgeLines);
-// 主链spine：独立绘制，沿mainIds顺序连接相邻节点，形成连续黑色粗线+箭头
-// 不依赖edge数据，保证视觉上是一条连贯的产业链骨架
-const MAX_SPINE = 20;
-const spineGeom = new THREE.BufferGeometry();
-const spinePos = new Float32Array(MAX_SPINE*6);
-const spineCol = new Float32Array(MAX_SPINE*6);
-spineGeom.setAttribute('position',new THREE.BufferAttribute(spinePos,3));
-spineGeom.setAttribute('color',new THREE.BufferAttribute(spineCol,3));
-const spineMat = new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0.9,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2,depthTest:false});
-const spineLines = new THREE.LineSegments(spineGeom, spineMat);
-spineLines.renderOrder=10;
-scene.add(spineLines);
-EDGES.forEach((e,i)=>edgeObjs.push({from:e[0],to:e[1],idx:i}));
 
-// 主链方向箭头：小圆锥指向物料流向（下游方向）
-const ARROW_LEN = 0.16, ARROW_R = 0.06;
-const arrowGeom = new THREE.ConeGeometry(ARROW_R, ARROW_LEN, 8);
-arrowGeom.translate(0, -ARROW_LEN/2, 0); // 枢轴在底部，让箭头"站立"在基线上
-const arrowMat = new THREE.MeshBasicMaterial({color:0x1a1a1a, transparent:true, opacity:0.7, depthTest:false, polygonOffset:true, polygonOffsetFactor:-3, polygonOffsetUnits:-3, fog:false});
+// 主链Spine：用细长Box条带模拟粗黑线（WebGL LineBasicMaterial不支持>1px宽度）
+const SPINE_W = 0.055;
+const spineSegs = [];
+for(let i=0;i<20;i++){
+  const geom = new THREE.BoxGeometry(1, SPINE_W, SPINE_W*0.6);
+  const mat = new THREE.MeshBasicMaterial({color:0x1a1a1a, transparent:true, opacity:0.88, fog:false, depthTest:false});
+  const m = new THREE.Mesh(geom, mat);
+  m.renderOrder=5; m.visible=false;
+  scene.add(m);
+  spineSegs.push(m);
+}
+
+// 主链方向箭头：放大、黑色圆锥
+const ARROW_LEN = 0.24, ARROW_R = 0.09;
+const arrowGeom = new THREE.ConeGeometry(ARROW_R, ARROW_LEN, 10);
+arrowGeom.translate(0, -ARROW_LEN/2, 0);
+const arrowMat = new THREE.MeshBasicMaterial({color:0x1a1a1a, transparent:true, opacity:0.85, depthTest:false, fog:false});
 const MAX_ARROWS = 20;
 const arrows = [];
 for(let i=0;i<MAX_ARROWS;i++){
@@ -587,34 +609,77 @@ const TOUR_PHASES = [
   {dur:2.5, tip:'箭头指向物料流向。黑色粗线是核心流程，灰色细线是支链关联'},
 ];
 
-function setNebula(){nObs.forEach(o=>{o.tgt.copy(nebPos.get(o.n.id));o.tgtOp=1;});}
+function setNebula(){
+  nObs.forEach(o=>{
+    o.tgt.copy(nebPos.get(o.n.id));o.tgtOp=1;
+    o.curDir=null;
+    o.dot.material.color.set(o.dotColor);
+    o.dot.scale.setScalar(o.baseDotR/DOT_R_BRANCH);
+    const tex = makeTextTexture(o.n.name, o.n.type, null);
+    o.lb.sprite.material.map = tex.texture;
+    o.lb.aspect = tex.aspect;
+    o.lb.worldHeight = o.n.type==='industry'?0.75:o.n.type==='main'?0.50:o.n.type==='app'?0.28:0.30;
+    o.lb.sprite.scale.set(o.lb.worldHeight*tex.aspect, o.lb.worldHeight, 1);
+    o.lb.sprite.position.set(0, o.lb.worldHeight/2 + o.baseDotR*0.6, 0);
+  });
+}
 function setFocus(layout){
+  const {mainIds} = layout;
   nObs.forEach(o=>{
     const p=layout.pos.get(o.n.id);
-    if(p){o.tgt.copy(p);const dz=Math.abs(p.z-layout.lookAt.z);o.tgtOp=Math.max(0.12,Math.min(1,1-dz/28));}
-    else{const a=hash(o.n.id)*Math.PI*2;const d=22+hash(o.n.id+'d')*10;o.tgt.set(Math.cos(a)*7,(hash(o.n.id+'y')-0.5)*7,C.mainZ-d);o.tgtOp=0.08;}
+    const m = layout.meta.get(o.n.id);
+    const dir = m?.direction;
+    o.curDir = dir;
+    const isOnCurMain = mainIds.includes(o.n.id);
+    const isInd = o.n.type==='industry' && o.n.id===layout.indId;
+    const visType = isInd ? 'industry' : isOnCurMain ? 'main' : o.n.type==='app' ? 'app' : 'branch';
+    let baseColor, labelDir, worldH;
+    if(isInd){baseColor=COL_IND;labelDir=null;worldH=0.75;}
+    else if(isOnCurMain){baseColor=COL_MAIN;labelDir=null;worldH=0.50;}
+    else if(o.n.type==='app'){baseColor=COL_APP;labelDir='down';worldH=0.28;}
+    else if(dir==='up'){baseColor=COL_UP;labelDir='up';worldH=0.30;}
+    else if(dir==='down'){baseColor=COL_DOWN;labelDir='down';worldH=0.30;}
+    else{baseColor=0x888888;labelDir=null;worldH=0.30;}
+    o.dot.material.color.set(baseColor);
+    const tex = makeTextTexture(o.n.name, visType, labelDir);
+    o.lb.sprite.material.map = tex.texture;
+    o.lb.aspect = tex.aspect;
+    o.lb.worldHeight = worldH;
+    o.lb.sprite.scale.set(worldH*tex.aspect, worldH, 1);
+    const dotR = isInd?0.07:isOnCurMain?DOT_R_MAIN:DOT_R_BRANCH;
+    o.dot.scale.setScalar(dotR/DOT_R_BRANCH);
+    o.lb.sprite.position.set(0, worldH/2 + dotR*0.6, 0);
+    if(p){o.tgt.copy(p);const dz=Math.abs(p.z-layout.lookAt.z);o.tgtOp=Math.max(0.12,Math.min(1,1-dz/32));}
+    else{const a=hash(o.n.id)*Math.PI*2;const d=22+hash(o.n.id+'d')*10;o.tgt.set(Math.cos(a)*7,(hash(o.n.id+'y')-0.5)*7,C.mainZ-d);o.tgtOp=0.06;}
   });
 }
 function toNebula(){
   st.mode='nebula';st.chain=null;st.focus=null;st.anim=true;st.t=0;
-  if(scene.fog){ scene.fog.near=40; scene.fog.far=180; }
+  if(scene.fog){ scene.fog.near=40; scene.fog.far=200; }
   c0.copy(camera.position);t0v.copy(controls.target);c1.copy(NEB_CAM);t1v.copy(NEB_TGT);
   nObs.forEach(o=>o.cur.copy(o.g.position));setNebula();updateUI();
 }
 function toFocus(chainId,focusId){
   st.mode='focus';st.chain=chainId;st.focus=focusId;st.anim=true;st.t=0;
-  if(scene.fog){ scene.fog.near=5; scene.fog.far=22; scene.fog.color.setHex(0xeae8e0); }
+  if(scene.fog){ scene.fog.near=6; scene.fog.far=28; scene.fog.color.setHex(0xeae8e0); }
   const L=computeLayout(chainId,focusId);st._layout=L;
   c0.copy(camera.position);t0v.copy(controls.target);c1.copy(L.camPos);t1v.copy(L.lookAt);
   nObs.forEach(o=>o.cur.copy(o.g.position));setFocus(L);updateUI();
 }
 function updateUI(){
-  const mt=document.getElementById('modeText'),tip=document.getElementById('tip');
-  if(st.mode==='nebula'){mt.textContent='星云探索';tip.textContent='点击星云中的节点飞入产业链';return;}
+  const mt=document.getElementById('modeText'),tip=document.getElementById('tip'),backBtn=document.getElementById('backBtn');
+  if(st.mode==='nebula'){mt.textContent='星云探索';tip.textContent='点击星云中的节点飞入产业链';backBtn.classList.remove('show');return;}
+  backBtn.classList.add('show');
   const o=nObs.get(st.focus);if(!o)return;
-  if(o.n.type==='industry'){mt.textContent=o.n.name+' 总览';tip.textContent='点击节点继续探索 · 旋转查看层次';}
+  if(o.n.type==='industry'){mt.textContent=o.n.name+' 总览';tip.textContent='点击节点继续探索 · 拖拽旋转查看层次';}
   else{mt.textContent=o.n.name;tip.textContent='点击任意节点继续 · 点击产业节点回正';}
 }
+
+document.getElementById('backBtn').addEventListener('click',(e)=>{
+  e.stopPropagation();
+  if(st.anim||st.tour)return;
+  toNebula();
+});
 
 // ==================================================================
 // 9. 鼠标交互
@@ -704,12 +769,10 @@ function frame(){
       }
       lv(o.cur,tgt,0.15);o.g.position.copy(o.cur);
       o.op += (o.tgtOp-o.op)*0.15;
-      o.dotMat.opacity=o.op*0.3;
+      o.dotMat.opacity=o.op*0.7;
       o.lb.sprite.material.opacity=o.op;
       o.lb.sprite.visible = o.op>0.08;
       o.hitMat.opacity=0;
-      if(st.hoverId===o.n.id){o.dot.material.color.set(0x0066ff);o.dotMat.opacity=Math.min(1,o.op*1.2);}
-      else{o.dot.material.color.set(o.dotColor);}
     });
     camera.position.lerpVectors(c0,c1,e);controls.target.lerpVectors(t0v,t1v,e);
     controls.enabled= tt>=1 && !st.tour;
@@ -723,92 +786,110 @@ function frame(){
           const rr=Math.sqrt(rx*rx+rz*rz),ang=st.nebAng+ph;
           o.cur.set(NC.x+rr*Math.cos(ang),b.y,NC.z+rr*Math.sin(ang));
         }
-        o.g.position.copy(o.cur);o.op=1;o.dotMat.opacity=0.6;o.lb.sprite.material.opacity=1;
+        o.g.position.copy(o.cur);o.op=1;o.dotMat.opacity=0.75;o.lb.sprite.material.opacity=1;
         o.lb.sprite.visible = true;
-        if(st.hoverId===o.n.id){o.dot.material.color.set(0x0066ff);o.dotMat.opacity=1;}
-        else o.dot.material.color.set(o.dotColor);
       });
     }else{
       nObs.forEach(o=>{
         lv(o.cur,o.tgt,0.16);o.g.position.copy(o.cur);
-        o.op += (o.tgtOp-o.op)*0.14;o.dotMat.opacity=o.op*0.6;o.lb.sprite.material.opacity=o.op;
+        o.op += (o.tgtOp-o.op)*0.14;o.dotMat.opacity=o.op*0.75;o.lb.sprite.material.opacity=o.op;
         o.lb.sprite.visible=o.op>0.08;
-        if(st.hoverId===o.n.id){o.dot.material.color.set(0x0066ff);o.dotMat.opacity=Math.min(1,o.op);}
-        else o.dot.material.color.set(o.dotColor);
       });
     }
   }
 
+  // 节点颜色恢复（非hover时使用focus态设定的颜色或默认颜色）
+  nObs.forEach(o=>{
+    if(st.hoverId===o.n.id){
+      o.dot.material.color.set(0x0066ff);
+      o.dotMat.opacity=Math.min(1,o.op);
+    }else{
+      if(st.mode==='focus'){
+        o.dot.material.color.set(o.curDir==='up'?COL_UP:o.curDir==='down'?COL_DOWN:o.n.type==='app'?COL_APP:o.n.type==='industry'?COL_IND:o.n.type==='main'?COL_MAIN:o.dotColor);
+      }else{
+        o.dot.material.color.set(o.dotColor);
+      }
+    }
+  });
+
   // 边更新
   const mainIds = st._layout?.mainIds || CHAINS.pv.main;
-  const indId = st._layout?.indId || 'pv-ind';
+  const meta = st._layout?.meta;
   let ei=0; let si=0; let ai=0;
   const _arrowDir = new THREE.Vector3();
   const _arrowUp = new THREE.Vector3(0,1,0);
-  // 清空spine
-  for(let k=0;k<MAX_SPINE*6;k++) spinePos[k]=0;
+  const _mid = new THREE.Vector3();
+  const _segDir = new THREE.Vector3();
+  const _segQuat = new THREE.Quaternion();
+  const _segX = new THREE.Vector3(1,0,0);
+  spineSegs.forEach(s=>{s.visible=false;});
   arrows.forEach(ar=>{ar.visible=false;});
 
-  // 绘制spine：沿mainIds顺序连接相邻节点，粗黑线+箭头（仅focus态）
+  // 绘制spine：Box条带连接主链相邻节点，粗黑线+箭头（仅focus态）
   if(st.mode==='focus'){
     for(let i=0;i<mainIds.length-1;i++){
       const a=nObs.get(mainIds[i]), b=nObs.get(mainIds[i+1]);
       if(!a||!b) continue;
       const pa=a.g.position, pb=b.g.position;
-      const seg=i;
-      if(si<MAX_SPINE){
-        spinePos[si*6]=pa.x;spinePos[si*6+1]=pa.y;spinePos[si*6+2]=pa.z+0.02;
-        spinePos[si*6+3]=pb.x;spinePos[si*6+4]=pb.y;spinePos[si*6+5]=pb.z+0.02;
-        const c=0.1;
-        spineCol[si*6]=c;spineCol[si*6+1]=c;spineCol[si*6+2]=c;
-        spineCol[si*6+3]=c;spineCol[si*6+4]=c;spineCol[si*6+5]=c;
-        si++;
-        // 箭头在每段spine的2/3处（偏向末端节点），指向右/下游
+      if(a.op<0.2||b.op<0.2) continue;
+      if(si<spineSegs.length){
+        const seg=spineSegs[si++];
+        seg.visible=true;
+        _mid.lerpVectors(pa,pb,0.5);
+        _mid.z += 0.03;
+        seg.position.copy(_mid);
+        _segDir.set(pb.x-pa.x,pb.y-pa.y,pb.z-pa.z).normalize();
+        const len=Math.sqrt((pb.x-pa.x)**2+(pb.y-pa.y)**2+(pb.z-pa.z)**2);
+        seg.scale.set(len,1,1);
+        _segQuat.setFromUnitVectors(_segX, _segDir);
+        seg.quaternion.copy(_segQuat);
+        const avgOp = Math.min(a.op,b.op);
+        seg.material.opacity = 0.85*avgOp;
         if(ai<MAX_ARROWS){
-          const t=0.62;
+          const t=0.6;
           const ar=arrows[ai++];
           ar.visible=true;
-          const mx=pa.x+(pb.x-pa.x)*t, my=pa.y+(pb.y-pa.y)*t, mz=pa.z+(pb.z-pa.z)*t+0.04;
+          const mx=pa.x+(pb.x-pa.x)*t, my=pa.y+(pb.y-pa.y)*t, mz=pa.z+(pb.z-pa.z)*t+0.06;
           ar.position.set(mx,my,mz);
-          _arrowDir.set(pb.x-pa.x,pb.y-pa.y,pb.z-pa.z).normalize();
-          ar.quaternion.setFromUnitVectors(_arrowUp,_arrowDir);
-          const avgOp = Math.min(a.op,b.op);
-          ar.material.opacity = 0.7*avgOp;
+          ar.quaternion.setFromUnitVectors(_arrowUp,_segDir);
+          ar.material.opacity = 0.85*avgOp;
         }
       }
     }
   }
 
+  // 绘制支链边（灰色细线，按方向微染色）
   EDGES.forEach(([s,t])=>{
-    // 产业节点（标签）不画辐射边
     const sN=nodeMap.get(s), tN=nodeMap.get(t);
     if(sN?.type==='industry'||tN?.type==='industry') return;
     const a=nObs.get(s),b=nObs.get(t);if(!a||!b)return;
     const pa=a.g.position,pb=b.g.position;
-    if(a.op<0.2||b.op<0.2) return;
+    if(a.op<0.18||b.op<0.18) return;
     const i=ei++;
     edgePosArr[i*6]=pa.x;edgePosArr[i*6+1]=pa.y;edgePosArr[i*6+2]=pa.z;
     edgePosArr[i*6+3]=pb.x;edgePosArr[i*6+4]=pb.y;edgePosArr[i*6+5]=pb.z;
-    const col=[0.78,0.78,0.78];
-    edgeColorArr[i*6]=col[0];edgeColorArr[i*6+1]=col[1];edgeColorArr[i*6+2]=col[2];
-    edgeColorArr[i*6+3]=col[0];edgeColorArr[i*6+4]=col[1];edgeColorArr[i*6+5]=col[2];
+    let r=0.78,g=0.78,bl=0.78;
+    if(st.mode==='focus' && meta){
+      const aDir = meta.get(s)?.direction;
+      const bDir = meta.get(t)?.direction;
+      if(aDir==='up'||bDir==='up'){r=0.55;g=0.75;bl=0.6;}
+      else if(aDir==='down'||bDir==='down'||sN?.type==='app'||tN?.type==='app'){r=0.85;g=0.72;bl=0.4;}
+    }
+    edgeColorArr[i*6]=r;edgeColorArr[i*6+1]=g;edgeColorArr[i*6+2]=bl;
+    edgeColorArr[i*6+3]=r;edgeColorArr[i*6+4]=g;edgeColorArr[i*6+5]=bl;
   });
 
   edgeGeom.attributes.position.needsUpdate=true;
   edgeGeom.attributes.color.needsUpdate=true;
   edgeGeom.setDrawRange(0,ei*2);
-  spineGeom.attributes.position.needsUpdate=true;
-  spineGeom.attributes.color.needsUpdate=true;
-  spineGeom.setDrawRange(0,si*2);
-  edgeMat.opacity = st.mode==='nebula'?0.2:0.35;
-  spineMat.opacity = st.mode==='nebula'?0:0.92;
+  edgeMat.opacity = st.mode==='nebula'?0.18:0.3;
 
   // ===== 雾效动态调整 =====
   // 星云态：雾很远（几乎不雾化），保证星云可见；focus态：近雾营造深度
   if(st.mode==='nebula'){
-    if(scene.fog){ scene.fog.near=40; scene.fog.far=180; }
+    if(scene.fog){ scene.fog.near=40; scene.fog.far=200; }
   }else{
-    if(scene.fog){ scene.fog.near=5; scene.fog.far=22; scene.fog.color.setHex(0xeae8e0); }
+    if(scene.fog){ scene.fog.near=6; scene.fog.far=28; scene.fog.color.setHex(0xeae8e0); }
   }
 
   // ===== 首次进入自动导览 =====
@@ -840,12 +921,12 @@ function frame(){
       st.orbitA += dt*0.5;
       const L = st._layout;
       if(L){
-        const cd=11, polar=Math.PI/3.6, radius=cd*Math.sin(polar);
-        const swing=Math.sin(st.orbitA)*0.45;
+        const cd=13, polar=Math.PI/3.4, radius=cd*Math.sin(polar);
+        const swing=Math.sin(st.orbitA)*0.5;
         camera.position.set(
-          L.lookAt.x + Math.sin(swing)*radius*0.55,
-          L.lookAt.y + cd*Math.cos(polar)+1,
-          L.lookAt.z + Math.cos(swing)*radius + 1
+          L.lookAt.x + Math.sin(swing)*radius*0.6,
+          L.lookAt.y + cd*Math.cos(polar)+1.2,
+          L.lookAt.z + Math.cos(swing)*radius + 1.2
         );
         controls.target.copy(L.lookAt);
       }
@@ -867,15 +948,17 @@ function frame(){
       tipEl.classList.remove('show');
       legendEl.classList.add('visible');
       document.getElementById('tip').style.opacity='1';
+      document.getElementById('backBtn').style.display='';
     }
     controls.enabled = false;
     renderer.domElement.style.pointerEvents='none';
+    document.getElementById('backBtn').style.display='none';
   }else{
     renderer.domElement.style.pointerEvents='auto';
-    // 非导览状态：图例在focus态显示
     const legendEl = document.getElementById('legend');
-    if(st.mode==='focus') legendEl.classList.add('visible');
-    else legendEl.classList.remove('visible');
+    const backBtn = document.getElementById('backBtn');
+    if(st.mode==='focus'){ legendEl.classList.add('visible'); backBtn.classList.add('show'); }
+    else{ legendEl.classList.remove('visible'); backBtn.classList.remove('show'); }
   }
 
   controls.update();
