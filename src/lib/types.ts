@@ -71,6 +71,45 @@ export interface ProposedBy {
   proposed_at: string;
 }
 
+export type AiSuggestionType =
+  | 'duplicate_candidate'
+  | 'alias_candidate'
+  | 'contextual_name_candidate'
+  | 'primary_chain_candidate'
+  | 'edge_candidate'
+  | 'is_subclass_candidate'
+  | 'document_title_flag';
+
+export interface AiSuggestion {
+  id: string;
+  suggestion_type: AiSuggestionType;
+  subject_ids: [string, string?];
+  payload: Record<string, unknown>;
+  confidence: number;
+  reasoning: string;
+  model: string;
+  prompt_version: string;
+  created_at: string;
+  reviewed?: 'accepted' | 'rejected' | 'modified';
+  reviewed_at?: string;
+  reviewed_by?: string;
+  review_note?: string;
+}
+
+export interface AiCallLog {
+  id: string;
+  model: string;
+  prompt_template: string;
+  prompt_version: string;
+  input_summary: string;
+  output_summary: string;
+  input_tokens: number;
+  output_tokens: number;
+  latency_ms: number;
+  created_at: string;
+  suggestion_ids: string[];
+}
+
 export interface GraphNode {
   id: string;
   name: string;
@@ -84,9 +123,11 @@ export interface GraphNode {
   primary_chain?: string;
   merged_from?: string[];
   merged_into?: string;
+  reference_only?: boolean;
   attributes?: NodeAttributes;
   description?: string;
   sources?: Source[];
+  content_hash?: string;
   created_at: string;
   updated_at: string;
 }
@@ -100,11 +141,15 @@ export interface GraphEdge {
   evidence?: Source[];
   proposed_by?: ProposedBy;
   note?: string;
+  reference_edge?: boolean;
+  content_hash?: string;
   created_at: string;
   updated_at: string;
 }
 
 export interface GraphData {
+  version?: string;
+  published_at?: string;
   nodes: GraphNode[];
   edges: GraphEdge[];
 }

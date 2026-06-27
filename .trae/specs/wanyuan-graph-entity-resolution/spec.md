@@ -892,6 +892,162 @@ data/runs/2026-06-26-143000/
    - 打印汇总统计
 10. **不自动覆盖**src/data/graph-data.json，需手动确认后cp或用`--publish`参数
 
+---
+
+## LLM混合增强架构
+
+> **核心原则**：AI不直接写入数据。AI只产生"候选建议+置信度+推理依据"，决策由规则+权威验证+人工审核三级共同完成。
+
+### 为什么引入LLM
+
+经过业界调研（VRTE-LLM产业链实践、Senzing关系感知ER、海致图模融合等），纯规则方案在产业链领域有以下天花板：
+- **召回率受限**：definition_patterns正则只能覆盖有限的语言模式，大量隐含语义关系会漏检
+- **跨领域冷启动慢**：每新增一条产业链需补充该领域的document后缀词、修饰词、关系模式
+- **manual_review负担重**：规则无法判断的灰色地带全部交给人工，928节点下预计manual_review量达候选总数的30-50%
+
+LLM的预训练知识包含大量产业链常识（光伏/锂电/新能源等热门产业链主干关系准确率90%+），可以大幅提升召回率、降低人工审核量。但LLM在细分材料、边界模糊、关系类型精确判断、标准编号等场景存在不可忽视的幻觉风险（纯LLM抽取F1≈0.68，每5条约1条错误），不能直接作为写入依据。
+
+### 架构定位：AI是候选生成器，不是决策者
+
+```
+┌──────────────────────────────────────────────────────┐
+│         LLM 候选生成层（高召回，不做最终决策）          │
+│  职责：发现规则漏掉的候选，给出理由，不写入             │
+│  产出：AiSuggestion[] + AiCallLog[]                   │
+└────────────────────┬─────────────────────────────────┘
+                     ↓
+┌──────────────────────────────────────────────────────┐
+│         规则/权威层（高精度，硬约束守门员）             │
+│  - 权威来源判词（standard/stats_gov）→ 直接执行        │
+│  - Schema/完整性/无环/撞名验证 → 阻断                 │
+│  - ChainDef/RELATION_FLOW 流向约束                    │
+│  - 高置信度规则匹配 → 自动执行                         │
+│  - 可以拒绝AI建议（与权威矛盾/违反约束）               │
+└────────────────────┬─────────────────────────────────┘
+                     ↓
+┌──────────────────────────────────────────────────────┐
+│         决策引擎（综合所有证据，产出决策）              │
+│  - AI高置信(≥0.85) + 规则通过 + 无权威冲突 → auto     │
+│  - AI中置信(0.6-0.85) → auto但标记ai_assisted        │
+│  - AI低置信 / 规则冲突 / 权威未覆盖 / 歧义 → manual   │
+│  - 规则/权威明确阻断 → 拒绝，记录原因                  │
+└────────────────────┬─────────────────────────────────┘
+                     ↓
+┌──────────────────────────────────────────────────────┐
+│         人工审核（处理灰色地带，标注反哺AI）            │
+│  - 看到：规则证据 + AI建议+推理 + 原始数据            │
+│  - 操作：接受/修改/驳回                                │
+│  - 标注结果持久化，可作为未来主动学习训练数据          │
+└──────────────────────────────────────────────────────┘
+```
+
+### 决策优先级（从高到低，高优先级覆盖低优先级）
+
+1. **权威来源直接判词**（standard/stats_gov/expert_interview中明确的"又名/简称/即"）
+2. **硬约束验证**（Schema/引用完整性/流向无环/撞名）
+3. **人工审核结论**（accepted/rejected/modified）
+4. **高置信规则匹配**（exact_alias/definition_patterns明确匹配）
+5. **AI高置信建议**（confidence≥0.85，且不与上述冲突）
+6. **AI中置信建议**（confidence 0.6-0.85，进入ai_assisted auto但可被review质疑）
+7. **AI低置信/规则弱信号**（全部进入manual_review）
+
+**核心铁律**：
+- 权威说什么就是什么，AI和国标矛盾时以国标为准
+- AI建议必须附带reasoning，且记录使用的model和prompt_version
+- AI不能绕过V层验证，所有AI产出的节点/边都要过V1-V5
+- 人工随时可在review界面看到哪些决策是AI辅助做出的，并可一键驳回
+
+### LLM接入点设计
+
+AI不替代现有N/E管线的任何模块，而是作为"额外候选生成器"在以下环节注入建议：
+
+| 接入点 | 文件 | AI输入 | AI输出（AiSuggestion） | 置信度阈值 | 自动应用条件 |
+|--------|------|--------|----------------------|-----------|------------|
+| **N2补充** | `candidate-detector.ts` | 规则已选出的候选对+漏检的疑似对 | `duplicate_candidate`（含建议merge_keep哪个为name、是否跨类型） | ≥0.85 auto；0.6-0.85 ai_assisted；<0.6 manual | 规则无冲突+无权威冲突 |
+| **N2新增** | `candidate-detector.ts` | 所有draft节点对（或规则阻塞后子集） | `duplicate_candidate`（规则漏检的语义相似对） | ≥0.85 进review；<0.85 不进入候选（低置信不打扰人工） | 必须经过规则复算+权威验证才可能auto |
+| **N1/N5补充** | `name-normalizer.ts`/`name-assigner.ts` | 节点definition、来源上下文 | `alias_candidate`、`contextual_name_candidate`、`document_title_flag` | ≥0.7 auto加入aliases（source=ai_suggested） | 不与已有aliases撞名 |
+| **N6补充** | `chain-assigner.ts` | 节点definition+邻居摘要 | `primary_chain_candidate`（含建议chain_id和理由） | ≥0.8 auto；<0.8 manual | 邻居密度规则无强反例 |
+| **E1补充** | `edge-extractor.ts` | 节点对+两者definition | `edge_candidate`（含建议relation_type、方向、置信度） | ≥0.85 且通过E2-E4验证后auto | 必须通过流向无环+类型兼容验证 |
+| **E1新增** | `edge-extractor.ts` | 单个节点definition文本 | `is_subclass_candidate`（从"X是Y的一种""Y包括X"等语义推断父子） | ≥0.7 进review（is_subclass_of不影响主轴布局，风险低） | 不自动应用，需review |
+| **R阶段辅助** | `review-assistant.ts` | manual_review项+所有相关证据 | 为审核者提供"AI判断建议+依据摘要"，帮助人工决策 | n/a（仅供参考） | 不自动应用 |
+
+### 可追溯性设计（AI可审计）
+
+每条AI建议必须满足"三可"：
+
+1. **可溯源**：
+   - AiSuggestion记录`model`（如"gpt-4o-2024-11"）、`prompt_version`（如"v1.2"）、`reasoning`（AI给出的判断依据文本）
+   - AiCallLog记录完整的input_summary和output_summary、token消耗、延迟，便于成本审计和错误定位
+2. **可驳回**：
+   - `reviewed`字段记录人工决策（accepted/rejected/modified）
+   - 驳回后AI建议不再被auto应用，但保留在历史记录中供分析
+   - auto-decisions.json中ai_assisted的决策必须带`ai_suggestion_id`引用，便于一键回滚AI贡献的所有决策
+3. **可回滚**：
+   - AI辅助的merge/alias/edge操作在merge-log.json中标记`via: 'ai_assisted'`
+   - 提供`rollback --ai`命令一键回滚所有AI辅助的自动决策，回到纯规则结果
+   - 模型升级或prompt版本变更时，可重新对历史AiSuggestion打分，对比新旧决策差异
+
+### Prompt设计原则
+
+1. **领域约束注入**：每个prompt开头明确告诉AI它在处理产业链知识图谱，列出允许的node_type、relation_type、产业链ID枚举，避免开放域幻觉
+2. **少样本示例**：每个任务类型提供3-5个产业链领域示例（含正确/错误对照）
+3. **输出结构化**：要求JSON输出，字段严格对应AiSuggestion.payload schema，未确定字段填null而非编造
+4. **不确定性表达**：要求AI对每条判断给出1-100置信度，且明确要求"不确定就给低分，不要猜"
+5. **来源限定**：要求AI只基于提供的节点文本判断，不要引入外部信息（联网验证是独立阶段，由N4负责）
+6. **反幻觉指令**：明确告诉AI"如果你不知道，回答不知道，不要编造标准编号、公司名称、化学分子式"
+
+### 分阶段启用策略
+
+LLM接入不是v1必做项，而是按以下节奏启用：
+
+- **v1（当前阶段）**：pipeline纯规则运行，不调用LLM。AiSuggestion/AiCallLog类型预留，代码结构上留出ai-suggester.ts接口位置但默认不启用。928节点先跑纯规则baseline。
+- **v1.5（baseline验证后）**：启用N2补充、E1补充、R阶段辅助三个低风险接入点。在928节点上对比纯规则vs AI辅助的manual_review量、错误率，量化AI增益。
+- **v2（交互上线后）**：根据v1.5数据，决定是否启用N5/N6/E1新增等接入点；引入主动学习闭环——人工review的accepted/rejected数据定期反馈，用于优化prompt或微调小模型。
+- **v2+（规模化后）**：当节点量超过5万，考虑引入本地部署的小模型（如Qwen2.5-7B/14B）做初筛，高难度任务才调用云端大模型，降低成本。
+
+### LLM能力边界（明确不交给AI的决策）
+
+以下决策即使AI给出高置信，也必须走人工或规则：
+- **节点删除**：AI只能建议merge，不能建议delete（delete可能丢失无法恢复的数据）
+- **primary_chain跨链强冲突**：当一个节点在多条链中都有密集边连接时（如铜箔在锂电+PCB都重要），primary_chain必须人工裁定
+- **权威矛盾仲裁**：两个权威来源给出不同名称/分类时，AI不做仲裁
+- **新relation_type创建**：AI可以建议"这看起来像一种新关系"，但新relation_type必须人工审批后加入RelationType枚举
+- **ChainDef配置变更**：产业链的主轴/支链关系定义影响全局布局，纯人工决策
+
+### 与现有代码的集成点
+
+新增文件：
+- `scripts/pipeline/ai/ai-suggester.ts` —— AI建议生成入口，封装模型调用、prompt管理、结果解析
+- `scripts/pipeline/ai/prompts/` —— 按任务类型存放prompt模板（duplicate-candidate.txt、edge-candidate.txt等），版本化管理
+- `scripts/pipeline/ai/ai-decision-gate.ts` —— 决策引擎，综合规则/权威/AI产出决策
+- `data/pipeline/ai-suggestions.json` —— 持久化AiSuggestion，增量处理时复用（同一节点对未变更时不重复调LLM）
+- `data/pipeline/ai-call-logs.json` —— 调用日志（可选保留，用于成本分析）
+
+现有模块的修改：
+- N2 candidate-detector.ts：在规则检测之后，调用aiSuggester.suggestDuplicates()补充候选，合并去重
+- E1 edge-extractor.ts：在来源边+parent_type派生之后，调用aiSuggester.suggestEdges()补充候选边
+- R阶段review-assistant.ts：新增模块，为manual_review项附加AI判断摘要
+- V层validator.ts：V层验证不区分规则产出vs AI产出，同等对待，AI产出的边/节点也必须通过全部V验证
+
+### CLI参数扩展
+
+```bash
+npx tsx scripts/pipeline.ts run --ai          # 启用AI建议（默认关闭）
+npx tsx scripts/pipeline.ts run --ai --ai-model=gpt-4o-mini  # 指定模型
+npx tsx scripts/pipeline.ts rollback --ai     # 回滚所有AI辅助决策
+npx tsx scripts/pipeline.ts ai-stats          # 查看AI调用成本、建议接受率
+```
+
+### 成功标准（AI增强后的额外指标）
+
+在保持现有7条成功标准的基础上，增加：
+8. **AI建议接受率**：manual_review中AI建议被人工接受（含modified）比例≥60%（低于此值说明AI建议质量不够，需要优化prompt）
+9. **自动化率提升**：启用AI后，manual_review项数量较纯规则baseline降低≥30%
+10. **AI错误率可控**：AI高置信自动应用的决策中，经抽样检查错误率<3%
+11. **成本可控**：单次928节点pipeline AI调用成本<5美元（以GPT-4o-mini定价估算）
+
+---
+
 ### 命令行接口
 
 ```bash
@@ -1131,23 +1287,41 @@ API路由是JsonDataProvider的HTTP包装，不重复业务逻辑。但前端在
 
 | 文件 | 改动 |
 |------|------|
-| [src/lib/types.ts](file:///workspace/src/lib/types.ts) | NodeStage增加merged；SourceType增加stats_gov/cninfo/ai_suggested；新增RelationFlow/ChainRelation/ChainDef/ContextualName类型；Alias加source；GraphNode加chains/primary_chain/contextual_names/merged_from/merged_into |
+| [src/lib/types.ts](file:///workspace/src/lib/types.ts) | NodeStage增加merged；SourceType增加stats_gov/cninfo/ai_suggested；新增RelationFlow/ChainRelation/ChainDef/ContextualName/AiSuggestion/AiCallLog类型；Alias加source；GraphNode加chains/primary_chain/contextual_names/merged_from/merged_into |
 | [schema.json](file:///workspace/schema.json) | 同步类型扩展 |
 | [src/lib/graph-data.ts](file:///workspace/src/lib/graph-data.ts) | JsonDataProvider扩展：新增产业链/命名/流向查询方法；searchNodes支持chainId和contextual_names；buildIndexes增加chain索引 |
 | [src/lib/data-validator.ts](file:///workspace/src/lib/data-validator.ts) | validateDataIntegrity扩展：检查merged_into/contextual_names.chain_id/chains引用有效性；被pipeline调用 |
 | [scripts/crawler/utils.ts](file:///workspace/scripts/crawler/utils.ts) | crawledNodeToGraphNode支持新字段（默认值）；generateId改进；保持向后兼容 |
 | [scripts/crawler/merge-data.ts](file:///workspace/scripts/crawler/merge-data.ts) | 保留作为兼容入口，内部可调用新pipeline或标注deprecated |
-| [.gitignore](file:///workspace/.gitignore) | 添加data/runs/、data/backup/ |
+| [.gitignore](file:///workspace/.gitignore) | 添加data/runs/、data/backup/、data/pipeline/ai-call-logs.json |
 
 ### 需要新增的文件
 
+**v1（pipeline核心）：**
+
 | 文件 | 说明 |
 |------|------|
-| `src/lib/chains.ts` | RELATION_FLOW、ChainRelation、ChainDef、CHAIN_DEFS |
+| `src/lib/chains.ts` | RELATION_FLOW、ChainRelation、ChainDef、CHAIN_DEFS（已创建） |
 | `src/lib/name-display.ts` | getDisplayName/matchesSearch/sortSearchResults |
+| `src/lib/relation-utils.ts` | calculateEffectiveFlow等公共函数，E阶段和DAL共用 |
 | `scripts/pipeline.ts` | CLI主入口 |
-| `scripts/pipeline/`目录下所有模块 | 见文件组织章节 |
-| `data/processed/ignored-pairs.json` | 不重复对持久化（首次pipeline自动生成） |
+| `scripts/pipeline/`目录下核心模块 | N1-N7、E1-E5、V1-V5、R/A、阻塞索引、内容hash、文件锁、原子写入 |
+| `scripts/pipeline/review-cli.ts` | 交互式审核CLI（风险分级、快捷键、单条撤销、断点续审） |
+| `scripts/pipeline/feedback.ts` | 用户反馈加载与处理 |
+| `data/processed/ignored-pairs.json` | 不重复对持久化（含content hash，首次pipeline自动生成） |
+| `data/chains/*.json` | ChainDef JSON配置（pv_chain/battery_chain/material_chain模板） |
+| `data/feedback/`目录 | 用户反馈JSON文件存放 |
+| `data/backups/`目录 | 独立备份目录 |
+
+**v1.5（LLM增强）：**
+
+| 文件 | 说明 |
+|------|------|
+| `scripts/pipeline/ai/ai-suggester.ts` | AI建议生成入口，封装模型调用、prompt管理、结果解析 |
+| `scripts/pipeline/ai/ai-decision-gate.ts` | 决策引擎，综合规则/权威/AI产出auto/manual/reject决策 |
+| `scripts/pipeline/ai/review-assistant.ts` | 为manual_review项附加AI判断摘要 |
+| `scripts/pipeline/ai/prompts/*.txt` | 按任务类型的prompt模板，版本化管理 |
+| `data/pipeline/ai-suggestions.json` | AiSuggestion持久化（含input_hash），增量复用避免重复调LLM |
 
 ### 保持不变的文件
 
@@ -1173,6 +1347,9 @@ API路由是JsonDataProvider的HTTP包装，不重复业务逻辑。但前端在
 6. **流向定义错误导致布局错乱**：RELATION_FLOW作为独立可审查配置文件（chains.ts）；ChainDef可覆盖；cycle detection验证；classifyEdgeForChain统一封装方向判定
 7. **pipeline破坏已有前端**：输出到独立目录，需显式publish才覆盖src/data/graph-data.json；publish前可在测试环境验证
 8. **parent_type分类边混入产业链主轴**：is_subclass_of为horizontal流向，不出现在任何ChainDef.main_axis_relations中，保证不会误用于产业链横向布局
+9. **LLM幻觉污染数据**：AI不直接写入数据，只产出AiSuggestion；必须经过V层验证+决策引擎；高置信阈值保守（≥0.85才auto）；所有ai_assisted决策可通过`rollback --ai`一键回滚；权威判词优先级高于AI建议
+10. **自动化偏见（审核者放松警惕）**：review-report.md中ai_assisted决策必须明确标记AI参与，附AI reasoning原文；提供"隐藏AI建议先独立判断"模式；定期抽样复核AI高置信自动决策
+11. **LLM成本失控**：AiCallLog记录token消耗；提供`--ai-model`选择；ai-suggestions.json持久化缓存，相同输入不重复调用；节点量>5万时切换本地小模型初筛
 
 ### 设计边界与已知限制
 
@@ -1188,6 +1365,9 @@ API路由是JsonDataProvider的HTTP包装，不重复业务逻辑。但前端在
 2. **歧义简称检测增强**：alias.term等于其他节点的name/contextual_name时标记撞名警告；可能跨领域歧义的简称（"PC""PS""PP"等）不放入全局aliases，只放入特定chain的contextual_names。
 3. **跨链节点视觉标记辅助字段**：在DAL返回的节点视图数据中增加`is_cross_chain: boolean`字段，减少前端重复计算。
 4. **is_subclass_of层级遍历**：利用is_subclass_of边构建完整分类树，支持"查看同类材料"等横向导航。
+5. **LLM混合增强深化**：详见"LLM混合增强架构"章节，v1.5启用N2/E1/R低风险接入点，v2扩展到N5/N6/E1新增，引入主动学习闭环。
+6. **本地小模型初筛**：节点量>5万时部署Qwen2.5-7B/14B等级别的本地模型做初筛，高难度任务才调云端大模型，降低成本。
+7. **Web审核后台**：CLI审核之上提供Web UI审核工作台，支持多人协作审核、可视化预览合并效果。
 
 ### 权威来源边界
 
@@ -1209,14 +1389,18 @@ API路由是JsonDataProvider的HTTP包装，不重复业务逻辑。但前端在
 
 ## 实施阶段建议
 
-考虑到交互方案还在设计中，建议分两阶段实施：
+考虑到交互方案还在设计中、AI增强需要在baseline验证后才引入，建议分四阶段实施：
 
-### 阶段一（当前，可立即开始）：数据模型+pipeline核心+928节点验证
-- 修改types.ts、schema.json
-- 创建chains.ts、name-display.ts
-- 实现pipeline的核心模块（N1-N7、E1-E5、V1-V5）
-- 扩展JsonDataProvider的查询接口
-- 跑通928节点实验，输出review-report.md
+### 阶段一（当前，可立即开始）：数据模型+pipeline核心+928节点验证（纯规则baseline）
+- 修改types.ts、schema.json（GraphNode增加reference_only/content_hash，GraphData增加version/published_at）
+- 创建chains.ts、name-display.ts、relation-utils.ts
+- 实现pipeline核心模块（N1-N7三遍收敛、E1-E5、V1-V5、R/A阶段）
+- v1必做工程可靠性：文件锁+原子写入、阻塞索引(Blocking)、独立备份目录、原子发布(tmp+rename+版本号)、resolveNodeId路径压缩
+- 实现交互式CLI审核（pipeline:review），支持风险分级、快捷键、单条撤销
+- 实现反馈入口（data/feedback/文件级）
+- ChainDef支持从data/chains/*.json加载+校验+预览命令
+- 扩展JsonDataProvider查询接口（支持reference_only过滤、maxDepth、offset分页、预构建缓存）
+- 跑通928节点实验（纯规则），输出review-report.md，记录manual_review数量/耗时作为baseline
 - **等交互方案完成后**，根据交互需求调整DAL接口细节
 
 ### 阶段二（交互方案完成后）：对接渲染层+API
@@ -1227,16 +1411,344 @@ API路由是JsonDataProvider的HTTP包装，不重复业务逻辑。但前端在
 - 主轴/支链边视觉区分
 - 相机动画扩展
 - 补充chain相关API路由
+- 节点详情面板增加"反馈问题"按钮
+- 上线内部试用，收集人工审核反馈和用户反馈
+
+### 阶段三（baseline验证后，v1.5）：LLM低风险接入点启用
+- 实现ai-suggester.ts、ai-decision-gate.ts及prompt模板
+- 启用N2补充、E1补充、R阶段辅助三个低风险接入点
+- 在928节点上对比纯规则vs AI辅助的效果：manual_review量、AI建议接受率、AI高置信错误率、单次pipeline成本
+- 若指标达标（接受率≥60%、manual_review降低≥50%、高置信错误率<3%、成本<$5），默认启用`--ai`
+- 上线`rollback --ai`能力，确保可一键回退到纯规则结果
+
+### 阶段四（v2+，规模化阶段）：AI增强深化+性能扩展
+- 扩展N5/N6/E1新增接入点
+- 引入主动学习闭环（人工review标注反哺prompt优化）
+- 节点量>5万时部署本地小模型做初筛
+- 评估ChainDef主路径权重等高级特性
+- 可选：Web审核后台
+
+---
+
+## 架构评审修订（2026-06-27 架构师+产品经理双视角评审）
+
+经架构师和产品经理双视角系统性评审，发现以下需在v1落地的P0/P1级设计修正。本节作为对前述设计的修订和补充，与前述内容冲突处以本节为准。
+
+### 一、工程可靠性修订（架构P0修复）
+
+#### 1. 并发控制（P0-1修复）
+
+- **run_id格式**：改为`YYYY-MM-DD-HHmmss-{shortuuid4}`（短UUID后缀防同一秒冲突），不用纯时间戳
+- **文件锁**：pipeline启动时检查`data/pipeline/.lock`，文件存在（含PID和启动时间）则拒绝启动；进程正常/异常退出时通过finally块清理锁文件
+- **原子写入**：所有JSON文件写入采用"写.tmp临时文件→fsync→rename原子替换"模式，杜绝半写文件
+- **单实例约束**：同一时刻只允许一个pipeline进程运行
+
+#### 2. 幂等性保障（P0-2修复）
+
+- **内容hash**：每个节点/边计算`content_hash = sha1(name + definition + sortedSources + keyAttributes)`，pipeline加载时与持久化hash对比，未变更节点跳过候选检测和重处理
+- **ignored-pairs.json格式**定义如下，记录判定时数据状态，数据变更后自动失效重评：
+```json
+{
+  "version": 1,
+  "pairs": [
+    {
+      "node_a": "id-a",
+      "node_b": "id-b",
+      "reason": "authority_confirmed_distinct | manual_rejected | ...",
+      "decided_at": "ISO-timestamp",
+      "decided_by": "auto | manual:<user>",
+      "node_a_hash": "...",
+      "node_b_hash": "...",
+      "authority_basis": ["source_id1", ...]
+    }
+  ]
+}
+```
+- **重复apply保护**：apply执行前检查节点是否已是merged_into目标状态，已执行的合并跳过
+- **ai-suggestions.json缓存键**：`{task_type}:{model}:{prompt_version}:{nodeA_hash}:{nodeB_hash?}`，内容/prompt/model任一变化则自动失效
+
+#### 3. apply/publish边界明确（P0-3修复，替换原描述）
+
+**四步流程清晰分离：**
+
+| 命令 | 作用 | 影响目录 | 前端是否可见 |
+|------|------|---------|------------|
+| `pipeline run` | dry-run，生成review-report和auto-decisions草稿 | data/runs/{run_id}/ | ❌ 不可见 |
+| 人工审核 | 编辑auto-decisions.json（建议通过交互式CLI进行） | data/runs/{run_id}/ | ❌ 不可见 |
+| `pipeline apply --run=<id>` | 执行决策，在run目录生成resolved-graph-data.json，更新data/processed/状态文件 | data/runs/{run_id}/、data/processed/ | ❌ 不可见 |
+| `pipeline publish --run=<id>` | 原子替换src/data/graph-data.json，前端生效 | src/data/ | ✅ 生效 |
+
+npm scripts补充：`"pipeline:publish": "tsx scripts/pipeline.ts publish"`
+
+#### 4. 类型归属明确（P0-4修复）
+
+- **公共类型**（放入`src/lib/types.ts`，pipeline和DAL共用）：NodeType、NodeStage、VerificationStatus、SourceType、RelationType、RelationFlow、ChainDef、ChainRelation、EdgeRole、Alias、ContextualName、NodeAttributes、Source、ProposedBy、AiSuggestion、AiSuggestionType、AiCallLog、GraphNode、GraphEdge、GraphData
+- **pipeline内部类型**（放入`scripts/pipeline/types.ts`）：Candidate、Decision、DecisionType、RunContext、MergePlan、ContentHashes、ReviewItem、ReviewItemRisk
+- **RELATION_FLOW完整性约束**：用`Record<RelationType, RelationFlow>`强制TypeScript编译期检查覆盖所有RelationType，遗漏即编译错误
+- **CrawlResult接口**定义：
+```typescript
+interface CrawlResult {
+  metadata: {
+    source_id: string;
+    source_type: SourceType;
+    crawled_at: string;
+    record_count: number;
+    success: boolean;
+    errors?: string[];
+    partial_data?: boolean;
+  };
+  nodes: Omit<GraphNode, 'id'|'created_at'|'updated_at'|'stage'>[];
+  edges?: Omit<GraphEdge, 'id'|'created_at'|'updated_at'|'verification_status'>[];
+}
+```
+
+#### 5. 备份回滚机制重构（P0-5修复）
+
+- **独立备份目录**：`data/backups/{backup_id}/`（backup_id=run_id），与run目录解耦，run目录可清理但备份保留
+- **全量备份**：每次apply前备份所有状态文件（graph-data.json、ignored-pairs.json、ai-suggestions.json、chains/配置），不只graph-data.json
+- **备份元数据**：metadata.json记录timestamp、run_id、via_ai、节点/边数量变化摘要、checksum
+- **备份保留策略**：默认保留最近10个或最近30天的备份，手动标记`keep: true`的永久保留
+- **链式合并扁平化**：A→B→C链式引用在apply时扁平化，A的merged_into直接指向C，C的merged_from加入A，避免多级跳转
+- **merged_into循环检测**：V2验证增加merged_into引用循环检测
+- **rollback --ai策略**：不尝试反向拆分合并（复杂度极高易出错），而是恢复到"启用AI前最近一次全量备份"，明确告知用户会丢失该备份后的所有人工决策，并要求二次确认
+- **快速回滚**：publish后保留`graph-data.json.prev`指向发布前版本，5分钟内可`pipeline quick-rollback`一键回退（无需指定run_id）
+
+#### 6. 阻塞索引进v1（P0-6修复，从v2上移）
+
+- **v1必须实现Blocking**：节点规模1万时O(n²)=5000万对已明显变慢，阻塞索引不是优化而是必需
+- **多组Blocking Key取并集**：
+  - 中文首字分块（同一首字内比较）
+  - 二字前缀分块（name前两字相同）
+  - 拼音首字母分块（处理音译/缩写）
+  - 类型兼容性分块（按类型兼容性矩阵只比较允许跨类型的组合）
+- **复杂度目标**：通过Blocking将候选对数量压到O(n·k)（k为块内平均大小，目标k<50），10万节点单机可跑
+- **DAL预构建缓存**（加载时一次性构建，查询时直接用）：
+  - nodeMap: Map<id, GraphNode>
+  - adjacencyList: Map<nodeId, {outgoing: Edge[], incoming: Edge[]}>（区分方向！）
+  - chainNodeMap: Map<chainId, Set<nodeId>>
+  - edgeRoleCache: Map<`${chainId}:${edgeId}`, EdgeRole>（首次查询时计算缓存）
+- **索引增量更新**：只有变更节点/边重新索引，不全量重建
+- **内存估算**：10万节点+50万边≈250MB内存，全内存JSON加载可行
+- **V4无环检测算法**：三色DFS（白/灰/黑），O(V+E)复杂度，发现回边即定位环
+
+#### 7. N/E循环依赖解决：两遍收敛（P0-7修复，替换原顺序）
+
+pipeline阶段执行顺序改为三遍收敛：
+
+**第一遍：基础构建（不依赖chains）**
+- 爬取（Crawl）→ N1名称规范化 → N2候选检测（首轮，基于字符串/definition规则）→ N3权威验证 → N4联网验证 → N5命名分层（初始name/aliases）
+- E1a：提取来源自带边 + parent_type派生边（不依赖chains）
+- E2：流向标注（基于全局RELATION_FLOW默认值）
+
+**第二遍：产业链归属+边细化（依赖初始边）**
+- N6：基于"节点来源数据集"+"初始边邻居链分布"做chains/primary_chain初始推断
+- N7：撞名检测（基于初始chains/contextual_names）
+- E1b：补充基于chains的关系推导（如有）
+- E3：重复边合并（方向无关的规范化去重）
+- E4：边验证（含类型兼容、流向合理）
+
+**第三遍：验证+收敛检查**
+- V1-V5全量验证
+- 对比chains/primary_chain变化率，若变化节点>5%则再跑一轮N6→V（最多迭代3次，防振荡）
+
+#### 8. 合并原子性+resolveNodeId路径压缩（P0-8修复）
+
+- **原子合并**：A阶段所有节点/边变更在内存中完成后一次性序列化为JSON，通过tmp+rename替换文件，不出现"节点已merged但边未迁移"的中间态
+- **resolveNodeId实现规范**（带循环检测+路径压缩）：
+```typescript
+function resolveNodeId(id: string, visited: Set<string> = new Set()): string {
+  if (visited.has(id)) throw new Error(`Circular merged_into: ${[...visited, id].join(' -> ')}`);
+  const node = nodeMap.get(id);
+  if (!node || node.stage !== 'merged' || !node.merged_into) return id;
+  visited.add(id);
+  const resolved = resolveNodeId(node.merged_into, visited);
+  if (resolved !== node.merged_into) node.merged_into = resolved; // 路径压缩
+  return resolved;
+}
+```
+- **A阶段前置要求**：执行合并前先将所有被合并节点递归resolve到最终主节点，禁止"merged节点作为主节点继续合并其他节点"
+
+### 二、产品工作流修订（产品P0修复）
+
+#### 9. 用户角色矩阵（PM-P0-5修复）
+
+明确四类用户角色及v1支撑：
+
+| 角色 | 核心任务 | v1支撑方式 | 责任边界 |
+|------|---------|-----------|---------|
+| **数据工程师** | pipeline开发、部署、故障排查、ChainDef配置 | CLI命令、日志、备份、TypeScript类型 | 负责系统稳定性、ChainDef评审 |
+| **数据管理员** | 运行pipeline、低/中风险项审核、发布/回滚、处理用户反馈 | CLI+交互式review CLI+反馈文件 | 负责日常运行、低风险决策、发布操作 |
+| **产业专家** | 高风险项审核确认、产业链逻辑验证、权威来源确认 | review-report.md（优化版）+反馈标注 | 负责高风险实体消歧、产业链定义评审 |
+| **前端浏览用户** | 浏览图谱、搜索节点、发现错误反馈 | 前端渲染+反馈按钮 | 只使用、反馈问题 |
+
+v1不做权限系统，通过操作文档和CLI命令设计自然区分角色权限（高风险命令加二次确认）。
+
+#### 10. 交互式CLI审核替代纯Markdown编辑（PM-P0-3修复）
+
+v1必须实现`npm run pipeline:review`交互式审核CLI，替代"手动编辑JSON/Markdown勾选"：
+- 按风险等级🔴🟡🟢排序展示待审核项
+- 每项展示：节点A/B卡片式对比（name/definition/sources/邻居摘要/合并影响预览）
+- 快捷键：1=合并(keep A) 2=合并(keep B) 3=父子(A⊃B) 4=父子(B⊃A) 5=不重复 6=跳过 s=保存退出 a=全部接受低风险项
+- 每次操作前自动备份auto-decisions.json到`.bak.{timestamp}`
+- 支持`pipeline:review --undo`撤销最后一次修改
+- 支持`pipeline:review --resume`从上次中断处继续
+- review-report.md仍生成（作为可读归档），但不再作为编辑入口
+
+#### 11. manual_review量预估校准+风险分级（PM-P0-2修复）
+
+- **成功标准重写**（替换原第4、7条）：
+  - v1纯规则baseline：manual_review项≤60项为可接受（基于928节点实测校准）
+  - v1.5+AI后：manual_review项≤25项（较baseline降低≥50%）
+  - 审核效率：平均每项≤3分钟（通过CLI交互+影响预览实现）
+- **审核项三级风险分级**：
+  - 🔴 高风险（必须逐项确认）：跨类型material↔product合并、节点name变更、primary_chain冲突、边流向冲突、撞名阻断级
+  - 🟡 中风险：primary_chain=null、is_possible_document判断、普通同类型重复候选、is_subclass_of推断
+  - 🟢 低风险（支持批量接受）：alias补充、contextual_name补充、reference_only标记
+- **首次运行预估**：review-report首页显示"待审核项：XX项（🔴X/🟡Y/🟢Z），预计审核时间：XX分钟"
+- **100节点预试**：首次完整pipeline前先在100节点样本上试跑，校准预估值
+
+#### 12. 原子发布+版本号（PM-P0-4修复）
+
+- **原子发布流程**：publish时先写graph-data.json.tmp→JSON合法性校验→rename原子替换，杜绝半写文件
+- **GraphData根级别增加字段**：
+```typescript
+interface GraphData {
+  version: string;       // = run_id
+  published_at: string; // ISO timestamp
+  nodes: GraphNode[];
+  edges: GraphEdge[];
+}
+```
+- **发布前检查清单**：publish命令自动运行V1-V5全量验证，通过后展示变更摘要"节点X→Y(Δ+Z)，边A→B(Δ+C)，合并D组"，要求输入`y`确认
+- **双版本缓冲**：publish时将旧版本保留为graph-data.json.prev，支持`pipeline quick-rollback`5分钟内一键回退
+- **前端版本感知**：DAL初始化时记录version，通过API轮询检测版本变化，提示用户"数据已更新，点击刷新"（非阻断）
+
+#### 13. 数据质量反馈闭环（PM-P0-1修复）
+
+v1实现文件级反馈入口（不做UI后台）：
+- 前端节点详情面板增加"反馈问题"按钮（v1.1对接渲染层时加），点击弹出轻量表单：问题类型（名称错误/关系错误/建议合并/其他）+描述，提交后写入`data/feedback/{timestamp}-{nodeId}.json`
+- feedback条目格式：
+```json
+{
+  "id": "fb-{timestamp}",
+  "node_id": "xxx",
+  "related_node_id?: "xxx",
+  "issue_type": "name_error | relation_error | suggest_merge | other",
+  "description": "...",
+  "current_chain_id?: "pv_chain",
+  "created_at": "ISO-timestamp",
+  "resolved": false
+}
+```
+- pipeline集成：每次run时自动加载未resolved的feedback，作为🔴高优先级manual_review项纳入（标记"用户反馈"来源）
+- 审核处理后反馈条目标记resolved=true和处理结果
+- 提供`pipeline feedback:list`查看待处理/已处理反馈
+
+### 三、关键P1修订
+
+#### 14. N/E阶段顺序微调（P1-11修复）
+
+N阶段最终顺序调整为：**N1→N2→N3→N4→N5→N7（撞名检测前移）→N6（产业链归属）**。命名后立即检测撞名，撞名解决后再分配chains。
+
+撞名严重程度分级：
+- **阻断错误**（V3/V5阻断apply）：同一chain_id下多个节点有相同name或contextual_name
+- **高优先级警告**：节点contextual_name等于另一节点name（可能是父子/代称）
+- 阻断级撞名未解决时--apply拒绝执行（除非--force）
+
+#### 15. dry-run写入边界明确（P1-15修复）
+
+- **dry-run不碰任何持久化状态**：只写data/runs/{run_id}/目录，不修改data/raw/、data/processed/、src/data/、data/pipeline/ai-suggestions.json、data/processed/ignored-pairs.json
+- 爬取阶段dry-run时输出到run目录的raw-snapshot/，`--apply`成功后才正式更新data/raw/
+- 状态文件（ignored-pairs.json、ai-suggestions.json）只在apply成功后更新
+- 提供`--save-crawled`参数显式持久化爬取结果到data/raw/
+
+#### 16. effective_flow计算统一（P1-16修复）
+
+- 抽到`src/lib/relation-utils.ts`公共模块：`calculateEffectiveFlow(relationType, chainId?): RelationFlow`
+- E阶段和DAL**必须调用同一函数**，禁止各自实现
+- DAL构建索引时预计算每条边在每个viewable chain下的effective_flow和EdgeRole并缓存
+
+#### 17. 文档名软隐藏方案（P1-17修复）
+
+is_document_title节点不删除，采用软隐藏：
+- 节点保留，但chains设为空数组，增加`reference_only: true`标记
+- DAL默认过滤：searchNodes/getMainAxisNodes/getBranchNodes跳过reference_only节点
+- getNodeById仍可访问（用于来源追溯）
+- 端点为reference_only的边标记`reference_edge: true`，DAL默认不返回
+
+#### 18. LLM缓存与失效（P1-12修复）
+
+- ai-suggestions.json每条记录包含input_hash字段
+- 提供`--ai-refresh`参数强制忽略缓存重新生成
+- prompt_version/model变更时旧缓存自动失效（不匹配缓存键）
+
+#### 19. ignored_pairs失效机制（P1-13修复）
+
+- 重新pipeline时，如果任一节点content hash变化，对应ignored_pair自动失效进入候选重评
+- review-report列出"曾被忽略但有新数据需重新评估"的对
+- 提供`pipeline reset-ignored --pair=id1,id2`手动重置
+
+#### 20. DAL接口补全（P1-14修复）
+
+- getMainAxisNodes增加maxDepth参数（默认从ChainDef读取或硬上限8跳）
+- searchNodes增加offset支持分页
+- getNodeNeighbors明确返回一跳邻居，多跳用独立接口getNeighborsAtDepth(nodeId, depth, relationTypes?)
+- 所有BFS遍历内建环检测防御
+
+#### 21. 爬虫错误处理约定（P1-10修复）
+
+- CrawlResult.metadata包含success/errors/partial_data字段
+- 单个爬虫失败不阻断pipeline（记录error继续），所有爬虫失败才阻断
+- 默认30秒超时，失败自动重试2次（指数退避）
+- 增量爬取基于HTTP Last-Modified/ETag
+
+#### 22. 分阶段验证范围明确（P1-18修复）
+
+- N阶段结束：V1(Schema) + V2(节点内部引用) + V5(撞名)
+- E阶段结束：V1 + V2(边引用) + V3(语义) + V4(无环)
+- R/A阶段：全套V1-V5
+- `pipeline validate`命令可对当前生产数据独立跑全套验证
+
+#### 23. 链式ChainDef配置支持（P1产品6修复）
+
+v1支持ChainDef从JSON加载：
+- CHAIN_DEFS内置链保留在chains.ts作为默认，同时加载`data/chains/*.json`合并/覆盖
+- 新增产业链只需复制模板JSON填空式配置
+- 提供`pipeline chain:validate --chain=<id>`校验ChainDef合法性
+- 提供`pipeline chain:preview --chain=<id> --root=<nodeId>`输出主轴/支链节点数、流向冲突警告
+- V层验证增加：main_axis_relations中relation_type不能是horizontal flow
+
+#### 24. AI可追溯性增强（P1产品7修复）
+
+- auto-decisions.json中ai_assisted决策必须带ai_suggestion_id引用
+- merge-log.json中ai辅助操作标记`via: 'ai_assisted'`并记录ai_suggestion_id
+- review-report.md中ai_assisted项明确标记⚠️AI辅助，折叠reasoning默认不展示（防自动化偏见）
+- 支持`pipeline:review --blind`模式：先隐藏AI建议让人工独立判断，再展示对比
+- 审核时标记"此AI建议错误"的反馈记入ai-suggestions.json，作为未来prompt优化依据
+
+#### 25. 审核影响预览（P1产品9修复）
+
+每个候选对在review中展示影响预览：
+- 节点A有X入边/Y出边，节点B有M入边/N出边
+- 合并后预计重定向X+M条边，预计合并Z条重复边
+- 列出主要邻居节点（前5个）
+- 撞名风险高亮
+
+### 四、成功标准修订（替换原成功标准章节）
+
+1. **pipeline一键可跑**：`npm run pipeline` 在当前928节点上完整执行，输出结构化报告
+2. **验证自动运行**：pipeline各阶段和publish前都调用validator，验证不通过阻断
+3. **权威判词100%执行**：国标/统计局明确"又名/简称/即"的实体，合并准确率100%
+4. **实体消歧质量基线**：928节点baseline（纯规则）节点净减少15-35个；人工抽样100个样本检验，规则合并准确率≥90%，召回率≥75%
+5. **回滚可靠性**：连续5次apply→rollback循环，数据一致性100%；quick-rollback和rollback --ai可用
+6. **DAL接口覆盖**：十字交叉场景走查100%通过，无接口缺失
+7. **审核效率达标**：v1纯规则manual_review≤60项，平均每项审核≤3分钟；CLI交互式review可用
+8. **零生产事故**：publish后前端无崩溃无报错，主要功能正常；原子发布杜绝半写文件
+9. **数据可追溯**：100%合并/名称变更都有source依据或审核记录，无黑盒决策
+10. **AI增强质量门**（v1.5）：AI建议接受率≥60%，较baseline manual_review降低≥50%，AI高置信自动决策错误率<3%，单次成本<$5
 
 ---
 
 ## 成功标准
 
-1. **pipeline一键可跑**：`npm run pipeline` 在当前928节点上能完整执行，输出结构化报告
-2. **验证自动运行**：merge-data.ts和未来pipeline都调用validator，验证不通过阻断发布
-3. **权威判词执行**：能从gb-standards/stats-gov数据中识别出"又名/简称/分类层级"并自动判决
-4. **928节点清洗后质量提升**：节点净减少10-50（重复合并），aliases/contextual_names/chains/primary_chain合理填充
-5. **回滚可用**：任意apply都能rollback到之前状态
-6. **DAL接口覆盖**：扩展后的GraphDataProvider满足"十字交叉"场景所有数据查询需求
-7. **manual_review可控**：不超过候选总数20%
-8. **零破坏**：pipeline运行后不手动替换文件前，前端现有功能完全不受影响
+（已在上方"架构评审修订/四、成功标准修订"中重写，此处保留为索引）
