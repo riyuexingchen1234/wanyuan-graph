@@ -9,6 +9,7 @@ import {
   CYTOSCAPE_STYLESHEET,
   DAGRE_LAYOUT,
   getNodeColor,
+  isCrossIndustryEdge,
 } from '../lib/cytoscape-config';
 
 let dagreRegistered = false;
@@ -140,6 +141,7 @@ export default function GraphCanvas({
 
     const desiredNodeIds = new Set(nodes.map((n) => n.id));
     const desiredEdgeIds = new Set(edges.map((e) => e.id));
+    const nodeMap = new Map(nodes.map((n) => [n.id, n]));
 
     let removed = false;
     cy.nodes().forEach((n) => {
@@ -183,6 +185,10 @@ export default function GraphCanvas({
     for (const edge of edges) {
       if (existingEdgeIds.has(edge.id)) continue;
       added = true;
+      // 跨产业判定：被行业分类切断的连接是核心理念的价值载体
+      const srcNode = nodeMap.get(edge.source);
+      const tgtNode = nodeMap.get(edge.target);
+      const isCross = srcNode && tgtNode ? isCrossIndustryEdge(srcNode, tgtNode) : false;
       cyEdges.push({
         group: 'edges',
         data: {
@@ -193,8 +199,9 @@ export default function GraphCanvas({
           verification_status: edge.verification_status,
           reasoning: edge.proposed_by?.reasoning ?? '',
           note: edge.note ?? '',
+          cross_industry: isCross,
         },
-        classes: edge.verification_status,
+        classes: `${edge.verification_status}${isCross ? ' cross-industry' : ''}`,
       });
     }
     if (cyEdges.length) cy.add(cyEdges);

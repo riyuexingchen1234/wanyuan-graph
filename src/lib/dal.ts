@@ -305,6 +305,78 @@ export const RELATION_TYPE_COLORS: Record<RelationType, string> = {
 export const MAIN_CHAIN_RELATION: RelationType = 'can_be_processed_into';
 
 /**
+ * 节点产业归属（用于跨产业判定）。
+ * 这是基于种子数据的显式归属，data 中无 per-node industry 字段。
+ * 与 3D 星云的 galaxyLayout.ts 共享同一套规则，避免双层视觉不一致。
+ * 未来如果 schema 增加 industry 字段，这里改为读字段。
+ */
+export type IndustryCluster = 'photovoltaic' | 'silver-paste' | 'chemical' | 'demand' | 'other';
+
+const SILVER_PASTE_IDS = new Set<string>([
+  'industry-silver-paste',
+  'material-silver',
+  'material-silver-nitrate',
+  'material-silver-powder',
+  'material-glass-powder',
+  'material-organic-vehicle',
+  'material-terpineol',
+  'material-ethyl-cellulose',
+  'material-silver-paste',
+  'material-silver-paste-sp',
+  'product-front-silver-paste',
+  'product-rear-silver-paste',
+]);
+
+const CHEMICAL_IDS = new Set<string>([
+  'material-ethylene',
+  'material-vinyl-acetate',
+  'material-high-carbon-alpha-olefin',
+  'material-pet-film',
+  'material-fluoropolymer-film',
+  'material-soda-ash-quartz-sand',
+]);
+
+export function getNodeCluster(node: GraphNode): IndustryCluster {
+  if (node.node_type === 'demand') return 'demand';
+  if (SILVER_PASTE_IDS.has(node.id)) return 'silver-paste';
+  if (CHEMICAL_IDS.has(node.id)) return 'chemical';
+  if (node.node_type === 'industry') {
+    if (node.id === 'industry-silver-paste') return 'silver-paste';
+    return 'other';
+  }
+  return 'photovoltaic';
+}
+
+/**
+ * 判断一条边是否"跨产业"——即跨越了不同物质/产品体系。
+ * 核心理念：跨产业连接是"被行业分类切断的连接"，是项目的价值载体。
+ * 注意：与需求节点相关的边（如电站→用电需求）不算跨产业——
+ *   那是"产业到终端"的汇集，不叫"被切断"。
+ * 化工原料到光伏辅材的边也不算跨产业——那是同一产业链的不同深度。
+ */
+export function isCrossIndustryEdge(
+  source: GraphNode,
+  target: GraphNode
+): boolean {
+  const cs = getNodeCluster(source);
+  const ct = getNodeCluster(target);
+  // 涉及需求节点：不计
+  if (cs === 'demand' || ct === 'demand') return false;
+  // 化工原料到光伏辅材：同一产业链上下游，不计
+  if (
+    (cs === 'chemical' && ct === 'photovoltaic') ||
+    (cs === 'photovoltaic' && ct === 'chemical')
+  ) return false;
+  // 银浆产业 ↔ 光伏产业：这是核心理念的跨产业
+  if (
+    (cs === 'silver-paste' && ct === 'photovoltaic') ||
+    (cs === 'photovoltaic' && ct === 'silver-paste')
+  ) return true;
+  // 其他非同簇组合（如 industry-other）按真跨产业计
+  return cs !== ct;
+}
+
+/**
  * 计算主链节点 id 集合：以 can_be_processed_into 边构成的连通分量中，
  * 包含 material-industrial-silicon 的那一条主链（光伏主产业链）。
  */

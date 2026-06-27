@@ -1,6 +1,8 @@
 import type { NodeType, RelationType } from './types';
 import { NODE_TYPE_COLORS } from './dal';
 
+export { isCrossIndustryEdge } from './dal';
+
 export const NODE_SIZES = {
   center: 46,
   normal: 34,
@@ -112,6 +114,24 @@ export const CYTOSCAPE_STYLESHEET = [
       'line-color': '#FF7D00',
       'target-arrow-color': '#FF7D00',
       width: 1.5,
+    },
+  },
+  // 跨产业连接：金色加粗，是核心理念"被行业分类切断的连接"的视觉强提示
+  // 优先级：cross-industry 覆盖 verified/proposed 的颜色
+  {
+    selector: 'edge.cross-industry',
+    style: {
+      'line-color': '#FFC53D',
+      'target-arrow-color': '#FFC53D',
+      width: 3,
+      'z-index': 2,
+    },
+  },
+  {
+    selector: 'edge.cross-industry.proposed',
+    style: {
+      'line-style': 'dashed',
+      'line-dash-pattern': [8, 4],
     },
   },
   {

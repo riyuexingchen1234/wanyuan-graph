@@ -83,7 +83,8 @@ export function getCluster(node: GraphNode): ClusterId {
   return 'photovoltaic';
 }
 
-/** 跨产业连接的"核心"端点（银浆↔光伏桥线的端点，视觉上加大）。 */
+/** 跨产业连接的"核心"端点（银浆↔光伏桥线的端点）。
+ * 注意：节点大小不再用此集合加成，hover/选中由交互层用 ring/marker 高亮承担。 */
 const HERO_ENDPOINT_IDS = new Set<string>([
   'material-silver-paste-sp',
   'product-front-silver-paste',
@@ -221,12 +222,11 @@ export function buildGalaxyLayout(
       colors[idx * 3 + 1] = tmpColor.g;
       colors[idx * 3 + 2] = tmpColor.b;
 
+      // 节点大小：基数小而统一，让 hover/选中的 ring 高亮承担信息层级。
+      // 不再按 node_type/HERO_ENDPOINT 加成，避免需求节点/HERO 节点过大喧宾夺主。
       const d = degree.get(nd.id) ?? 0;
-      let s = 6 + Math.min(d, 6) * 1.4;
-      if (nd.node_type === 'industry') s += 3;
-      if (nd.node_type === 'demand') s += 2;
-      if (HERO_ENDPOINT_IDS.has(nd.id)) s += 4;
-      sizes[idx] = Math.min(s, 22);
+      const s = 3.5 + Math.min(d, 6) * 0.5;
+      sizes[idx] = Math.min(s, 8);
 
       ids[idx] = nd.id;
       positionById.set(nd.id, [x, y, z]);
@@ -258,6 +258,9 @@ export function buildGalaxyLayout(
       // 主链骨架（数据中均同簇）
       mainChainSegs.push(pa[0], pa[1], pa[2], pb[0], pb[1], pb[2]);
     } else if (cross) {
+      // 跨簇边只保留：银浆↔光伏（核心理念：被行业分类切断的连接）。
+      // 化工→光伏、光伏→需求在 3D 宏观层不画，避免视觉混淆。
+      // 这些关系在 2D 微观层的关系类型切换中可按需呈现。
       const isHero =
         (ca === 'silver-paste' && cb === 'photovoltaic') ||
         (ca === 'photovoltaic' && cb === 'silver-paste');
@@ -268,12 +271,8 @@ export function buildGalaxyLayout(
           sourceId: e.source,
           targetId: e.target,
         });
-      } else {
-        const isDemand = ca === 'demand' || cb === 'demand';
-        const c = isDemand ? demandColor : chemColor;
-        secondarySegs.push(pa[0], pa[1], pa[2], pb[0], pb[1], pb[2]);
-        secondaryCols.push(c.r, c.g, c.b, c.r, c.g, c.b);
       }
+      // 其他跨簇边：不画
     }
     // 同簇非主链边：跳过（避免杂乱）
   }

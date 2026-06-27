@@ -508,38 +508,53 @@ function NodeDetailPanel({
           {edges.length === 0 ? (
             <p className="text-arco-xs text-ink-3">暂无关联连接</p>
           ) : (
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               {edges.map((edge) => {
                 const outgoing = edge.source === node.id;
                 const otherId = outgoing ? edge.target : edge.source;
                 const other = getNode(otherId);
                 const dotColor = VERIFICATION_DOT[edge.verification_status];
+                const reasoning = edge.proposed_by?.reasoning ?? edge.note ?? '';
                 return (
                   <button
                     key={edge.id}
                     onClick={() => onEdgeNavigate(edge)}
-                    className="w-full flex items-center gap-2 p-2 rounded-arco-sm hover:bg-surface-2 transition-colors text-left"
+                    className="w-full p-2.5 rounded-arco-sm hover:bg-surface-2 transition-colors text-left border border-line-1"
                   >
-                    <span
-                      className="w-2 h-2 rounded-full flex-shrink-0"
-                      style={{ backgroundColor: dotColor }}
-                      title={VERIFICATION_LABEL[edge.verification_status]}
-                    />
-                    <span className="text-arco-xs text-ink-4 w-4 text-center flex-shrink-0">
-                      {outgoing ? '→' : '←'}
-                    </span>
-                    <span className="text-arco-sm text-ink-1 truncate flex-1">
-                      {other?.name ?? otherId}
-                    </span>
-                    <span
-                      className="px-1.5 py-0.5 text-[10px] rounded-arco-sm flex-shrink-0"
-                      style={{
-                        backgroundColor: `${RELATION_TYPE_COLORS[edge.relation_type]}1A`,
-                        color: RELATION_TYPE_COLORS[edge.relation_type],
-                      }}
-                    >
-                      {RELATION_TYPE_LABELS[edge.relation_type]}
-                    </span>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span
+                        className="w-2 h-2 rounded-full flex-shrink-0"
+                        style={{ backgroundColor: dotColor }}
+                        title={VERIFICATION_LABEL[edge.verification_status]}
+                      />
+                      <span className="text-arco-xs text-ink-4 flex-shrink-0">
+                        {outgoing ? '→' : '←'}
+                      </span>
+                      <span className="text-arco-sm text-ink-1 truncate flex-1 font-medium">
+                        {other?.name ?? otherId}
+                      </span>
+                      <span
+                        className="px-1.5 py-0.5 text-[10px] rounded-arco-sm flex-shrink-0"
+                        style={{
+                          backgroundColor: `${RELATION_TYPE_COLORS[edge.relation_type]}1A`,
+                          color: RELATION_TYPE_COLORS[edge.relation_type],
+                        }}
+                      >
+                        {RELATION_TYPE_LABELS[edge.relation_type]}
+                      </span>
+                    </div>
+                    {/* 证据链：核心理念"判断信息真假最终权力在人"在交互层的兑现 */}
+                    {reasoning && (
+                      <div className="text-arco-xs text-ink-3 leading-relaxed pl-4 border-l-2 border-line-2 mt-1">
+                        <span className="text-ink-4">依据：</span>
+                        {reasoning}
+                      </div>
+                    )}
+                    {edge.reviewed_by && (
+                      <div className="text-[10px] text-ink-3 mt-1 pl-4">
+                        审核人：{edge.reviewed_by} · {edge.reviewed_at?.slice(0, 10)}
+                      </div>
+                    )}
                   </button>
                 );
               })}

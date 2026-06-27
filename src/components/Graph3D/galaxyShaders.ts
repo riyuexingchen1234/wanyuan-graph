@@ -45,12 +45,12 @@ export const galaxyPointFragmentShader = /* glsl */ `
     // 圆形裁剪
     if (d > 0.5) discard;
 
-    // 实心核心 + 柔化光晕
+    // 实心核心 + 柔化光晕（halo 收紧，避免近距离过度发光吞没其他节点）
     float core = smoothstep(0.5, 0.0, d);
-    float halo = smoothstep(0.5, 0.18, d);
+    float halo = smoothstep(0.5, 0.32, d);
 
-    float alpha = core * 0.95 + halo * 0.35;
-    vec3 col = vColor * (0.7 + core * 1.1);
+    float alpha = core * 0.95 + halo * 0.22;
+    vec3 col = vColor * (0.85 + core * 1.0);
 
     gl_FragColor = vec4(col, alpha);
   }
