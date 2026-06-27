@@ -172,9 +172,9 @@ const C = {
   rGrowth: 0.5,
   minGap: 0.45,
   relaxIter: 80,
-  arcHalf: Math.PI * 0.42,
-  yBiasUp: 0.15,
-  yBiasDown: 0.0,
+  arcHalf: Math.PI * 0.32,
+  yBiasUp: 0.25,
+  yBiasDown: 0.25,
   maxHop: 8,
 };
 
@@ -194,15 +194,14 @@ function findMainAncestor(nid, mainIds){
 }
 
 // 从主链BFS向外计算所有可达节点的元信息
-// 方向规则：
-// - 'front'：仅主链末端节点(pv-7光伏电站)的直接downs → 前方最近处（如应用类）
-// - 'up'：所有ups(流入的原材料) + 非末端主链节点的downs分支 + 支链节点的downs分支 → 后方上半圆
-// - 'downBack'：支链节点的downs（产品变体等）→ 后方下半圆
-// 返回 Map<id, {hop, primaryParent, direction('front'|'up'|'downBack'), siblings[]}>
+// 视觉约定：主链在前景(Z=0)沿X横向展开；所有支链都在主链后方(Z负方向)
+// - 'up'：上游/原材料，后方上半圆(Y正)
+// - 'down'：下游/产品/应用，后方下半圆(Y负)
+// 末端应用、跨链下游节点均归为down（后方下半圆），不往前放
+// 返回 Map<id, {hop, primaryParent, direction('up'|'down'), siblings[]}>
 function computeMeta(mainIds, chainId){
   const meta = new Map();
   const placed = new Set(mainIds);
-  const terminalMain = mainIds[mainIds.length-1]; // 末端主链节点(如光伏电站)
 
   mainIds.forEach(id=>meta.set(id,{hop:0,primaryParent:null,direction:null,siblings:mainIds,siblingIdx:mainIds.indexOf(id)}));
 
@@ -219,26 +218,12 @@ function computeMeta(mainIds, chainId){
         if(placed.has(cid) || isOnMain(cid,mainIds)) continue;
         recs.push({cid,pid,dir:'up'});
       }
-      // pid流出的分支：
+      // pid流出的 → down（后方下半圆）
+      // 规则：沿边方向，原材料(ups)永远向上后方，产出(downs)永远向下后方
+      // 即使父节点在up区，它的产出也向下后方展开；反之在down区的节点其原材料也向上后方
       for(const cid of pn.downs){
         if(placed.has(cid) || isOnMain(cid,mainIds)) continue;
-        let dir;
-        const cNode = nodeMap.get(cid);
-        const isCrossChain = cNode.chain && cNode.chain !== chainId;
-        if(pid===terminalMain && hop===1){
-          dir = 'front'; // 末端主链节点的直接downs → 前方（应用类）
-        } else if(isOnMain(pid,mainIds) && isCrossChain){
-          dir = 'front'; // 主链节点流向其他产业的交叉节点 → 前方（下游客户产业）
-        } else if(pMeta?.direction==='front'){
-          dir = 'front'; // 前方节点的延伸继续向前
-        } else if(pMeta?.direction==='downBack'){
-          dir = 'downBack'; // 后方下半圆节点的延伸保持下半圆
-        } else if(isOnMain(pid,mainIds)){
-          dir = 'downBack'; // 非末端主链节点的同链downs → 后方下半圆（产品变体）
-        } else {
-          dir = 'downBack'; // 支链节点的downs → 后方下半圆
-        }
-        recs.push({cid,pid,dir});
+        recs.push({cid,pid,dir:'down'});
       }
     }
 
@@ -299,7 +284,7 @@ function computeLayout(chainId, focusId){
   const maxHop = Math.max(...Array.from(meta.values()).map(m=>m.hop), 0);
 
   function placeGroup(group, zPlane, sector){
-    // sector: 'up'=upper half behind, 'downBack'=lower half behind, 'front'=lower half in front
+    // sector: 'up'=upper half behind (Y+), 'down'=lower half behind (Y-)
     if(!group.length) return;
     const ideal = new Map();
     group.forEach(nid=>{
@@ -316,10 +301,7 @@ function computeLayout(chainId, focusId){
       const arcSp = N<=1?0 : C.arcHalf/(N-1);
       const minR = N<=1 ? baseR : (C.minGap*0.85)/(2*Math.sin(arcSp))*shrink;
       const r = Math.max(baseR, minR);
-      let cA;
-      if(sector==='up') cA = Math.PI/2;        // 正上方
-      else if(sector==='downBack') cA = 3*Math.PI/2; // 正下方(后方)
-      else cA = 3*Math.PI/2;                  // 前方也在下方
+      const cA = sector==='up' ? Math.PI/2 : 3*Math.PI/2;
       let theta;
       if(N===1) theta = cA;
       else{
@@ -327,7 +309,7 @@ function computeLayout(chainId, focusId){
         theta = cA - C.arcHalf + t*2*C.arcHalf;
         theta += (hash(nid)-0.5)*0.06;
       }
-      const yE = sector==='up' ? C.yBiasUp*(m.hop-1) : sector==='downBack' ? -C.yBiasUp*0.6*(m.hop-1) : -0.15*(m.hop-1);
+      const yE = sector==='up' ? C.yBiasUp*(m.hop-1) : -C.yBiasDown*(m.hop-1) - 0.15;
       ideal.set(nid, new THREE.Vector3(
         pp.x + r*Math.cos(theta),
         pp.y + r*Math.sin(theta) + yE,
@@ -365,15 +347,13 @@ function computeLayout(chainId, focusId){
   }
 
   for(let hop=1;hop<=maxHop;hop++){
+    // 上游在后方更深处(Z更小=更负)，下游在后方稍近处，两层错开避免同平面重叠
     const zUp = C.mainZ - hop*C.layerBack;
-    const zDown = C.mainZ - hop*C.layerBack*0.9; // 后方下半圆，与上层略微错开Z
-    const zFront = C.mainZ + hop*C.layerFront;
+    const zDown = C.mainZ - (hop-1)*C.layerBack - C.layerBack*0.5;
     const uN=Array.from(meta.entries()).filter(([,m])=>m.hop===hop&&m.direction==='up').map(([id])=>id);
-    const dN=Array.from(meta.entries()).filter(([,m])=>m.hop===hop&&m.direction==='downBack').map(([id])=>id);
-    const fN=Array.from(meta.entries()).filter(([,m])=>m.hop===hop&&m.direction==='front').map(([id])=>id);
+    const dN=Array.from(meta.entries()).filter(([,m])=>m.hop===hop&&m.direction==='down').map(([id])=>id);
     placeGroup(uN,zUp,'up');
-    placeGroup(dN,zDown,'downBack');
-    placeGroup(fN,zFront,'front');
+    placeGroup(dN,zDown,'down');
   }
 
   // 其他产业节点（未通过BFS到达的）放在远处淡化
@@ -387,16 +367,16 @@ function computeLayout(chainId, focusId){
 
   let lookAt;
   if(isInd){
-    lookAt = new THREE.Vector3(centerMain.x, 0, C.mainZ*0.3);
+    lookAt = new THREE.Vector3(centerMain.x, 0, C.mainZ - 1.5);
   } else {
     const fp=pos.get(focusId);
-    lookAt = fp ? new THREE.Vector3(fp.x, fp.y*0.2, fp.z*0.2) : centerMain.clone();
+    lookAt = fp ? new THREE.Vector3(fp.x, fp.y*0.3, fp.z*0.5) : centerMain.clone();
   }
-  const camDist=8, polar=Math.PI/2.6;
+  const camDist=11, polar=Math.PI/3.6;
   const camPos = new THREE.Vector3(
     lookAt.x,
-    lookAt.y + camDist*Math.cos(polar)+1.5,
-    lookAt.z + camDist*Math.sin(polar)+2
+    lookAt.y + camDist*Math.cos(polar)+1,
+    lookAt.z + camDist*Math.sin(polar)+1
   );
   return{pos,camPos,lookAt,mainIds,indId,meta};
 }
