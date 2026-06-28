@@ -5,7 +5,7 @@ import { useGraphStore } from './store';
 import { PhysicsEngine } from './PhysicsEngine';
 
 interface CameraControllerProps {
-  physicsEngine: PhysicsEngine | null;
+  physicsEngine: PhysicsEngine;
 }
 
 export function CameraController({ physicsEngine }: CameraControllerProps) {

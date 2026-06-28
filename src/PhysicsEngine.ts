@@ -1,19 +1,8 @@
 import * as THREE from 'three';
 
-export interface PhysicsNode {
-  position: THREE.Vector3;
-  velocity: THREE.Vector3;
-  mass: number;
-}
-
 export class PhysicsEngine {
-  private nodes: Map<string, PhysicsNode> = new Map();
-  private relationships: Array<{ source: string; target: string }>;
-  private rotationTime = 0;
-
-  constructor() {
-    this.relationships = [];
-  }
+  private nodes: Map<string, { position: THREE.Vector3; velocity: THREE.Vector3 }> = new Map();
+  private relationships: Array<{ source: string; target: string }> = [];
 
   initializeNodes(nodeIds: string[]) {
     nodeIds.forEach((id, index) => {
@@ -26,8 +15,7 @@ export class PhysicsEngine {
           (Math.random() - 0.5) * 20,
           Math.sin(angle) * radius
         ),
-        velocity: new THREE.Vector3(0, 0, 0),
-        mass: 1,
+        velocity: new THREE.Vector3(0, 0, 0)
       });
     });
   }
@@ -43,15 +31,12 @@ export class PhysicsEngine {
   step(delta: number, isPaused: boolean) {
     const clampedDelta = Math.min(delta, 0.05);
 
-    // 公转（仅在未暂停时）
     if (!isPaused) {
-      this.rotationTime += clampedDelta;
       const rotationSpeed = 0.1;
       const rotationAngle = rotationSpeed * clampedDelta;
       this.applyGlobalRotation(rotationAngle);
     }
 
-    // 物理模拟（暂停时跳过）
     if (isPaused) return;
 
     const springK = 0.01;
@@ -59,38 +44,48 @@ export class PhysicsEngine {
     const damping = 0.95;
 
     const nodeEntries = Array.from(this.nodes.entries());
+    const forces = new Map<string, THREE.Vector3>();
 
-    // 计算力
-    nodeEntries.forEach(([nodeId, node]) => {
-      const force = new THREE.Vector3(0, 0, 0);
+    nodeEntries.forEach(([nodeId]) => {
+      forces.set(nodeId, new THREE.Vector3(0, 0, 0));
+    });
 
-      nodeEntries.forEach(([otherId, other]) => {
-        if (nodeId === otherId) return;
+    for (let i = 0; i < nodeEntries.length; i++) {
+      for (let j = i + 1; j < nodeEntries.length; j++) {
+        const [nodeId, node] = nodeEntries[i];
+        const [otherId, other] = nodeEntries[j];
 
         const diff = new THREE.Vector3().subVectors(node.position, other.position);
         const distance = diff.length();
+
+        if (distance < 0.1) continue;
 
         const hasConnection = this.relationships.some(
           rel => (rel.source === nodeId && rel.target === otherId) ||
                  (rel.target === nodeId && rel.source === otherId)
         );
 
+        let forceMagnitude = 0;
+
         if (hasConnection) {
           const restLength = 8;
           const displacement = distance - restLength;
-          const springForce = diff.normalize().multiplyScalar(-springK * displacement);
-          force.add(springForce);
-        } else if (distance < 15 && distance > 0.1) {
-          const repulsionForce = diff.normalize().multiplyScalar(repulsionK / (distance * distance));
-          force.add(repulsionForce);
+          forceMagnitude = -springK * displacement;
+        } else if (distance < 15) {
+          forceMagnitude = repulsionK / (distance * distance);
         }
-      });
 
+        if (forceMagnitude !== 0) {
+          const force = diff.normalize().multiplyScalar(forceMagnitude);
+          forces.get(nodeId)!.add(force);
+          forces.get(otherId)!.sub(force);
+        }
+      }
+    }
+
+    nodeEntries.forEach(([nodeId, node]) => {
+      const force = forces.get(nodeId)!;
       node.velocity.add(force.multiplyScalar(clampedDelta)).multiplyScalar(damping);
-    });
-
-    // 更新位置
-    nodeEntries.forEach(([_, node]) => {
       node.position.add(node.velocity.clone().multiplyScalar(clampedDelta));
     });
   }
