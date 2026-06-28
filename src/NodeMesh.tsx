@@ -13,21 +13,20 @@ export function NodeMesh({ node }: NodeMeshProps) {
   const groupRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
   
-  const nodePositions = useGraphStore(state => state.nodePositions);
+  const physicsEngine = useGraphStore(state => state.physicsEngine);
   const selectedNodeId = useGraphStore(state => state.selectedNodeId);
   const selectNode = useGraphStore(state => state.selectNode);
   const setHoveredNode = useGraphStore(state => state.setHoveredNode);
   
-  const position = nodePositions.get(node.id) || { x: 0, y: 0, z: 0 };
   const isSelected = selectedNodeId === node.id;
   
-  // 平滑移动到目标位置
+  // 每帧从物理引擎读取位置
   useFrame(() => {
-    if (groupRef.current) {
-      groupRef.current.position.lerp(
-        new THREE.Vector3(position.x, position.y, position.z),
-        0.1
-      );
+    if (!groupRef.current || !physicsEngine) return;
+    
+    const position = physicsEngine.getNodePosition(node.id);
+    if (position) {
+      groupRef.current.position.copy(position);
     }
   });
   

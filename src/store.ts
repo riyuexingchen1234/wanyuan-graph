@@ -1,17 +1,18 @@
 import { create } from 'zustand';
-import { Relationship, NodePosition, GraphData } from './types';
+import { Relationship, GraphData } from './types';
+import { PhysicsEngine } from './physics';
 
 interface GraphState {
   data: GraphData | null;
   selectedNodeId: string | null;
   hoveredNodeId: string | null;
-  nodePositions: Map<string, NodePosition>;
+  physicsEngine: PhysicsEngine | null;
   cameraTarget: { position: [number, number, number]; lookAt: [number, number, number] } | null;
   
   setData: (data: GraphData) => void;
   selectNode: (nodeId: string | null) => void;
   setHoveredNode: (nodeId: string | null) => void;
-  setNodePositions: (positions: Map<string, NodePosition>) => void;
+  setPhysicsEngine: (engine: PhysicsEngine) => void;
   setCameraTarget: (target: { position: [number, number, number]; lookAt: [number, number, number] } | null) => void;
   
   getConnectedNodes: (nodeId: string) => { upstream: string[]; downstream: string[]; crossChain: string[] };
@@ -22,7 +23,7 @@ export const useGraphStore = create<GraphState>((set, get) => ({
   data: null,
   selectedNodeId: null,
   hoveredNodeId: null,
-  nodePositions: new Map(),
+  physicsEngine: null,
   cameraTarget: null,
   
   setData: (data) => set({ data }),
@@ -31,7 +32,7 @@ export const useGraphStore = create<GraphState>((set, get) => ({
   
   setHoveredNode: (nodeId) => set({ hoveredNodeId: nodeId }),
   
-  setNodePositions: (positions) => set({ nodePositions: positions }),
+  setPhysicsEngine: (engine) => set({ physicsEngine: engine }),
   
   setCameraTarget: (target) => set({ cameraTarget: target }),
   

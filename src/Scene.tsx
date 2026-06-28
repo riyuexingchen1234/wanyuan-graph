@@ -1,34 +1,86 @@
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars } from '@react-three/drei';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useGraphStore } from './store';
 import { NodeMesh } from './NodeMesh';
 import { RelationshipLines } from './RelationshipLines';
 import { CameraController } from './CameraController';
-import { calculateLayout, calculateGlobalLayout } from './layout';
+import { PhysicsEngine } from './physics';
+import * as THREE from 'three';
+
+function PhysicsSimulation() {
+  const data = useGraphStore(state => state.data);
+  const selectedNodeId = useGraphStore(state => state.selectedNodeId);
+  const physicsEngine = useGraphStore(state => state.physicsEngine);
+  const setPhysicsEngine = useGraphStore(state => state.setPhysicsEngine);
+  const rotationTime = useRef(0);
+  
+  // 初始化物理引擎
+  useEffect(() => {
+    if (!data || physicsEngine) return;
+    
+    const engine = new PhysicsEngine();
+    engine.initializeNodes(data.nodes);
+    engine.setRelationships(data.relationships);
+    setPhysicsEngine(engine);
+  }, [data, physicsEngine, setPhysicsEngine]);
+  
+  // 处理节点选中
+  useEffect(() => {
+    if (!physicsEngine || !data) return;
+    
+    if (selectedNodeId) {
+      // 计算主链节点的目标位置
+      const mainChains = data.chains.filter(chain => 
+        chain.nodeIds.includes(selectedNodeId)
+      );
+      
+      if (mainChains.length > 0) {
+        const mainChain = mainChains[0];
+        const nodeIndex = mainChain.nodeIds.indexOf(selectedNodeId);
+        
+        // 主链节点按上下游排列
+        mainChain.nodeIds.forEach((nodeId, index) => {
+          const offset = index - nodeIndex;
+          const targetPosition = new THREE.Vector3(
+            offset * 10, // X轴：上下游分布
+            0,           // Y轴：保持水平
+            0            // Z轴：保持在前
+          );
+          physicsEngine.setConstraint(nodeId, targetPosition);
+        });
+      }
+    } else {
+      // 清除所有约束，回到自由状态
+      physicsEngine.clearAllConstraints();
+    }
+  }, [selectedNodeId, physicsEngine, data]);
+  
+  // 每帧更新物理模拟
+  useFrame((_, delta) => {
+    if (!physicsEngine) return;
+    
+    // 物理模拟步进
+    physicsEngine.step(delta);
+    
+    // 全局缓慢旋转（星云公转效果）
+    if (!selectedNodeId) {
+      rotationTime.current += delta;
+      const rotationSpeed = 0.05; // 旋转速度
+      const rotationAxis = new THREE.Vector3(0, 1, 0); // 绕Y轴旋转
+      physicsEngine.applyGlobalRotation(
+        rotationAxis,
+        rotationSpeed * delta
+      );
+    }
+  });
+  
+  return null;
+}
 
 export function Scene() {
   const data = useGraphStore(state => state.data);
-  const selectedNodeId = useGraphStore(state => state.selectedNodeId);
-  const setNodePositions = useGraphStore(state => state.setNodePositions);
   const selectNode = useGraphStore(state => state.selectNode);
-  
-  useEffect(() => {
-    if (!data) return;
-    
-    if (selectedNodeId) {
-      const positions = calculateLayout(
-        selectedNodeId,
-        data.nodes,
-        data.relationships,
-        data.chains
-      );
-      setNodePositions(positions);
-    } else {
-      const positions = calculateGlobalLayout(data.nodes, data.chains);
-      setNodePositions(positions);
-    }
-  }, [data, selectedNodeId, setNodePositions]);
   
   if (!data) return null;
   
@@ -41,7 +93,7 @@ export function Scene() {
   
   return (
     <Canvas
-      camera={{ position: [0, 0, 30], fov: 60 }}
+      camera={{ position: [0, 0, 50], fov: 60 }}
       style={{ background: '#0a0a1a' }}
       onClick={handleCanvasClick}
     >
@@ -50,6 +102,7 @@ export function Scene() {
       
       <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade />
       
+      <PhysicsSimulation />
       <CameraController />
       
       {data.nodes.map(node => (
@@ -64,7 +117,6 @@ export function Scene() {
         enableRotate={true}
         minDistance={5}
         maxDistance={100}
-        enabled={!selectedNodeId}
       />
     </Canvas>
   );

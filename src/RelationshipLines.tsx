@@ -1,18 +1,21 @@
-import { useMemo } from 'react';
+import { useFrame } from '@react-three/fiber';
 import { Line } from '@react-three/drei';
 import { useGraphStore } from './store';
+import { useState } from 'react';
 
 export function RelationshipLines() {
   const data = useGraphStore(state => state.data);
-  const nodePositions = useGraphStore(state => state.nodePositions);
+  const physicsEngine = useGraphStore(state => state.physicsEngine);
   const selectedNodeId = useGraphStore(state => state.selectedNodeId);
+  const [lines, setLines] = useState<any[]>([]);
   
-  const lines = useMemo(() => {
-    if (!data) return [];
+  // 每帧更新线条位置
+  useFrame(() => {
+    if (!data || !physicsEngine) return;
     
-    return data.relationships.map(rel => {
-      const sourcePos = nodePositions.get(rel.sourceId);
-      const targetPos = nodePositions.get(rel.targetId);
+    const newLines = data.relationships.map(rel => {
+      const sourcePos = physicsEngine.getNodePosition(rel.sourceId);
+      const targetPos = physicsEngine.getNodePosition(rel.targetId);
       
       if (!sourcePos || !targetPos) return null;
       
@@ -30,7 +33,9 @@ export function RelationshipLines() {
         chainId: rel.chainId
       };
     }).filter(Boolean);
-  }, [data, nodePositions, selectedNodeId]);
+    
+    setLines(newLines);
+  });
   
   return (
     <>
