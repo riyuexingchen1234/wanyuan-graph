@@ -88,12 +88,20 @@ export interface ChainDef {
   is_viewable: boolean;
 }
 
+export interface NodePosition {
+  x: number;
+  y: number;
+  z: number;
+  r?: number;
+}
+
 export interface GraphData {
   version: string;
   published_at: string;
   chains: Record<string, ChainDef>;
   nodes: GraphNode[];
   edges: GraphEdge[];
+  positions?: Record<string, NodePosition>;
 }
 
 export type EdgeRole = 'main_axis' | 'branch' | 'cross_chain' | 'equipment' | 'outside';

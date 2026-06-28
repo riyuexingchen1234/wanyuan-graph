@@ -1,5 +1,4 @@
-import type { GraphNode, GraphEdge } from './types';
-import type { NodePosition } from '../store/graphStore';
+import type { GraphNode, GraphEdge, NodePosition } from './types';
 
 export interface FocusLayoutOptions {
   centerX?: number;

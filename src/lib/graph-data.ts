@@ -188,7 +188,7 @@ class JsonDataProvider implements GraphDataProvider {
     const belong = new Set<string>(mainAxis);
     const auxQueue: string[] = [];
 
-    for (const pid of mainAxis) {
+    for (const pid of Array.from(mainAxis)) {
       const pn = this.nodeMap.get(pid);
       if (!pn) continue;
       if (pn.node_type === 'process') {

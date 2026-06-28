@@ -1,145 +1,117 @@
 'use client';
 
-import { useState, Component, ReactNode, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-import GraphNode3D from './GraphNode3D';
-import GraphEdge3D from './GraphEdge3D';
+import Starfield from './Starfield';
+import StarNode from './StarNode';
+import FlowBand from './FlowBand';
+import ChainLabel from '../UI/ChainLabel';
 import { useCameraFlight } from './useCameraFlight';
 import { useGraphStore } from '../../store/graphStore';
-
-interface ErrorBoundaryState {
-  hasError: boolean;
-  error: Error | null;
-}
-
-class SceneErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryState> {
-  constructor(props: { children: ReactNode }) {
-    super(props);
-    this.state = { hasError: false, error: null };
-  }
-
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error: Error) {
-    console.error('3D Scene error:', error);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div className="w-full h-full flex items-center justify-center bg-white">
-          <div className="text-center">
-            <p className="text-gray-600 mb-2">3D 场景加载失败</p>
-            <p className="text-xs text-gray-400">{this.state.error?.message}</p>
-          </div>
-        </div>
-      );
-    }
-    return this.props.children;
-  }
-}
+import type { Vec3 } from '../../store/graphStore';
 
 function SceneContent() {
-  const {
-    nodes,
-    edges,
-    positions,
-    depths,
-    focusNodeId,
-    selectedNodeId,
-    hoveredNodeId,
-    setHoveredNodeId,
-    navigateToNode,
-    setSelectedNodeId,
-  } = useGraphStore();
+  const nodes = useGraphStore((s) => s.nodes);
+  const edges = useGraphStore((s) => s.edges);
+  const chains = useGraphStore((s) => s.chains);
+  const positions = useGraphStore((s) => s.positions);
+  const initialCameraTarget = useGraphStore((s) => s.initialCameraTarget);
 
   useCameraFlight();
 
-  const handleNodeClick = (nodeId: string) => {
-    navigateToNode(nodeId);
-  };
-
-  const visibleEdges = useMemo(() => {
-    return edges.filter(
-      (e) => positions.has(e.source) && positions.has(e.target)
-    );
+  const validEdges = useMemo(() => {
+    return edges.filter((e) => positions.has(e.source) && positions.has(e.target));
   }, [edges, positions]);
+
+  const validNodes = useMemo(() => {
+    return nodes.filter((n) => positions.has(n.id));
+  }, [nodes, positions]);
 
   return (
     <>
-      <ambientLight intensity={1} />
+      <color attach="background" args={['#050810']} />
+      <ambientLight intensity={0.3} />
+      <pointLight position={[30, 30, 30]} intensity={0.6} />
+      <pointLight position={[-30, -10, -20]} intensity={0.3} color="#3B82F6" />
 
-      {nodes.map((node) => {
-        const pos = positions.get(node.id);
-        const depth = depths.get(node.id) ?? 99;
-        if (!pos) return null;
-        return (
-          <GraphNode3D
-            key={node.id}
-            node={node}
-            position={pos}
-            depth={depth}
-            isCenter={node.id === focusNodeId}
-            isSelected={node.id === selectedNodeId}
-            isHovered={node.id === hoveredNodeId}
-            onClick={() => handleNodeClick(node.id)}
-            onPointerOver={() => setHoveredNodeId(node.id)}
-            onPointerOut={() => setHoveredNodeId(null)}
-          />
-        );
-      })}
+      <Starfield />
 
-      {visibleEdges.map((edge) => {
-        const sourcePos = positions.get(edge.source);
-        const targetPos = positions.get(edge.target);
-        const sourceDepth = depths.get(edge.source) ?? 99;
-        const targetDepth = depths.get(edge.target) ?? 99;
-        const edgeDepth = Math.min(sourceDepth, targetDepth);
-        if (!sourcePos || !targetPos) return null;
-        return (
-          <GraphEdge3D
-            key={edge.id}
-            edge={edge}
-            sourcePos={sourcePos}
-            targetPos={targetPos}
-            depth={edgeDepth}
-          />
-        );
-      })}
+      {validEdges.map((edge) => (
+        <FlowBand key={edge.id} edgeId={edge.id} />
+      ))}
+
+      {validNodes.map((node) => (
+        <StarNode key={node.id} nodeId={node.id} />
+      ))}
+
+      {chains.map((chain) => (
+        <ChainLabel key={chain.id} chainId={chain.id} />
+      ))}
 
       <OrbitControls
         makeDefault
         enableDamping
-        dampingFactor={0.05}
-        minDistance={2}
+        dampingFactor={0.1}
+        minDistance={5}
         maxDistance={100}
+        target={initialCameraTarget as Vec3}
       />
     </>
   );
 }
 
 export default function GraphScene() {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [webglError, setWebglError] = useState(false);
+  const init = useGraphStore((s) => s.init);
+  const initialCameraPosition = useGraphStore((s) => s.initialCameraPosition);
+
+  useEffect(() => {
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+      if (!gl) {
+        setWebglError(true);
+        return;
+      }
+    } catch {
+      setWebglError(true);
+      return;
+    }
+    init();
+    setReady(true);
+  }, [init]);
+
+  if (webglError) {
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-[#050810]">
+        <div className="text-center px-6">
+          <div className="text-white/60 text-lg mb-3">需要 WebGL 支持</div>
+          <div className="text-white/30 text-sm max-w-sm">
+            当前浏览器或环境不支持 WebGL，无法渲染 3D 星空。请使用 Chrome / Firefox / Edge 等现代浏览器打开。
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!ready) {
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-[#050810]">
+        <div className="text-white/30 text-sm">加载中...</div>
+      </div>
+    );
+  }
 
   return (
-    <SceneErrorBoundary>
-      <Canvas
-        camera={{ position: [0, 0, 30], fov: 60 }}
-        gl={{ antialias: true, powerPreference: 'default' }}
-        dpr={[1, 2]}
-        onCreated={() => setIsLoaded(true)}
-      >
-        <color attach="background" args={['#ffffff']} />
-        <SceneContent />
-      </Canvas>
-      {!isLoaded && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white pointer-events-none">
-          <div className="text-gray-400 text-sm">加载中...</div>
-        </div>
-      )}
-    </SceneErrorBoundary>
+    <Canvas
+      camera={{ position: initialCameraPosition as Vec3, fov: 60, near: 0.1, far: 500 }}
+      gl={{ antialias: true, powerPreference: 'high-performance', alpha: false }}
+      dpr={[1, 2]}
+      onPointerMissed={() => {}}
+    >
+      <SceneContent />
+    </Canvas>
   );
 }

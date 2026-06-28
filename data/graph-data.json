@@ -1296,10 +1296,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "fluidized_bed_reactor",
@@ -1319,10 +1316,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "rectification_column",
@@ -1342,10 +1336,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "siemens_reduction_furnace",
@@ -1365,10 +1356,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "cz_crystal_puller",
@@ -1388,10 +1376,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "ingot_processing_machine",
@@ -1411,10 +1396,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "diamond_wire_slicer",
@@ -1434,10 +1416,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "cell_production_line",
@@ -1457,10 +1436,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "screen_printer_sinter",
@@ -1480,10 +1456,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "stringer_soldering_machine",
@@ -1503,10 +1476,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "lay_up_machine",
@@ -1526,10 +1496,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "vacuum_laminator",
@@ -1549,10 +1516,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "framing_machine",
@@ -1572,10 +1536,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "construction_equipment",
@@ -1595,11 +1556,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain",
-        "battery_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "aluminum_extrusion_press",
@@ -1619,10 +1576,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "copper_rolling_mill",
@@ -1642,10 +1596,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "electroplating_line",
@@ -1665,10 +1616,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "stranding_machine",
@@ -1688,10 +1636,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "pv_chain"
-      ],
-      "primary_chain": "pv_chain"
+      "chains": []
     },
     {
       "id": "spodumene_ore",
@@ -3074,10 +3019,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "battery_chain"
-      ],
-      "primary_chain": "battery_chain"
+      "chains": []
     },
     {
       "id": "rotary_kiln",
@@ -3097,10 +3039,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "battery_chain"
-      ],
-      "primary_chain": "battery_chain"
+      "chains": []
     },
     {
       "id": "precipitation_reactor",
@@ -3120,10 +3059,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "battery_chain"
-      ],
-      "primary_chain": "battery_chain"
+      "chains": []
     },
     {
       "id": "causticization_reactor",
@@ -3143,10 +3079,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "battery_chain"
-      ],
-      "primary_chain": "battery_chain"
+      "chains": []
     },
     {
       "id": "lfp_sintering_furnace",
@@ -3166,10 +3099,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "battery_chain"
-      ],
-      "primary_chain": "battery_chain"
+      "chains": []
     },
     {
       "id": "ncm_sintering_furnace",
@@ -3189,10 +3119,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "battery_chain"
-      ],
-      "primary_chain": "battery_chain"
+      "chains": []
     },
     {
       "id": "graphitization_furnace",
@@ -3212,10 +3139,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "battery_chain"
-      ],
-      "primary_chain": "battery_chain"
+      "chains": []
     },
     {
       "id": "electrolyte_mixing_tank",
@@ -3235,10 +3159,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "battery_chain"
-      ],
-      "primary_chain": "battery_chain"
+      "chains": []
     },
     {
       "id": "separator_extrusion_line",
@@ -3258,10 +3179,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "battery_chain"
-      ],
-      "primary_chain": "battery_chain"
+      "chains": []
     },
     {
       "id": "copper_foil_machine",
@@ -3281,10 +3199,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "battery_chain"
-      ],
-      "primary_chain": "battery_chain"
+      "chains": []
     },
     {
       "id": "aluminum_foil_mill",
@@ -3304,10 +3219,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "battery_chain"
-      ],
-      "primary_chain": "battery_chain"
+      "chains": []
     },
     {
       "id": "cell_assembly_line",
@@ -3327,10 +3239,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "battery_chain"
-      ],
-      "primary_chain": "battery_chain"
+      "chains": []
     },
     {
       "id": "formation_aging_cabinet",
@@ -3350,10 +3259,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "battery_chain"
-      ],
-      "primary_chain": "battery_chain"
+      "chains": []
     },
     {
       "id": "pack_assembly_line",
@@ -3373,10 +3279,7 @@
       ],
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z",
-      "chains": [
-        "battery_chain"
-      ],
-      "primary_chain": "battery_chain"
+      "chains": []
     }
   ],
   "edges": [
@@ -6425,5 +6328,865 @@
       "created_at": "2026-06-28T00:00:00Z",
       "updated_at": "2026-06-28T00:00:00Z"
     }
-  ]
+  ],
+  "positions": {
+    "silica_sand": {
+      "x": -16.501,
+      "y": 0.262,
+      "z": -6.047,
+      "r": 0.7
+    },
+    "metallurgical_silicon": {
+      "x": -19.927,
+      "y": -4.023,
+      "z": -3.811,
+      "r": 0.7
+    },
+    "crude_trichlorosilane": {
+      "x": -15.251,
+      "y": -8.384,
+      "z": -7.48,
+      "r": 0.7
+    },
+    "pure_trichlorosilane": {
+      "x": -10.017,
+      "y": -13.039,
+      "z": -8.445,
+      "r": 0.7
+    },
+    "polysilicon": {
+      "x": -11.99,
+      "y": -20.633,
+      "z": -9.042,
+      "r": 0.7
+    },
+    "monocrystalline_ingot": {
+      "x": -7.586,
+      "y": -25.293,
+      "z": -5.404,
+      "r": 0.7
+    },
+    "silicon_square_brick": {
+      "x": -1.723,
+      "y": -21.399,
+      "z": -3.214,
+      "r": 0.7
+    },
+    "silicon_wafer": {
+      "x": 0.25,
+      "y": -16.962,
+      "z": -8.76,
+      "r": 0.7
+    },
+    "solar_cell": {
+      "x": 7.961,
+      "y": -13.192,
+      "z": -9.59,
+      "r": 0.7
+    },
+    "cell_string": {
+      "x": 11.099,
+      "y": -16.337,
+      "z": -12.835,
+      "r": 0.7
+    },
+    "module_layup": {
+      "x": 11.517,
+      "y": -20.236,
+      "z": -9.025,
+      "r": 0.7
+    },
+    "laminated_module": {
+      "x": 10.043,
+      "y": -13.963,
+      "z": -5.445,
+      "r": 0.7
+    },
+    "pv_module": {
+      "x": 13.981,
+      "y": -9.497,
+      "z": -7.518,
+      "r": 0.7
+    },
+    "pv_power_station": {
+      "x": 13.904,
+      "y": -4.867,
+      "z": -8.565,
+      "r": 1.3
+    },
+    "carbon_reductant": {
+      "x": -20.898,
+      "y": 2.507,
+      "z": -2.203,
+      "r": 0.7
+    },
+    "hydrogen_chloride": {
+      "x": -19.575,
+      "y": -5.573,
+      "z": -9.351,
+      "r": 0.7
+    },
+    "hydrogen_gas": {
+      "x": -10.786,
+      "y": -14.735,
+      "z": -13.298,
+      "r": 0.7
+    },
+    "dopant": {
+      "x": -4.699,
+      "y": -21.219,
+      "z": -9.957,
+      "r": 0.7
+    },
+    "argon_gas": {
+      "x": -9.435,
+      "y": -20.14,
+      "z": -10.34,
+      "r": 0.7
+    },
+    "silver_paste": {
+      "x": 2.332,
+      "y": -11.999,
+      "z": -10.979,
+      "r": 0.7
+    },
+    "aluminum_paste": {
+      "x": 4.504,
+      "y": -19.043,
+      "z": -10.959,
+      "r": 0.7
+    },
+    "pv_glass": {
+      "x": 13.45,
+      "y": -16.956,
+      "z": -5.876,
+      "r": 0.7
+    },
+    "eva_film": {
+      "x": 15.517,
+      "y": -14.768,
+      "z": -10.316,
+      "r": 0.7
+    },
+    "backsheet": {
+      "x": 16.325,
+      "y": -16.486,
+      "z": -7.638,
+      "r": 0.7
+    },
+    "junction_box": {
+      "x": 16.518,
+      "y": -10.404,
+      "z": -4.46,
+      "r": 0.7
+    },
+    "sealant": {
+      "x": 10.253,
+      "y": -10.919,
+      "z": -2.962,
+      "r": 0.7
+    },
+    "mounting_structure": {
+      "x": 10.137,
+      "y": 0.101,
+      "z": -4.631,
+      "r": 1
+    },
+    "inverter": {
+      "x": 15.159,
+      "y": -2.24,
+      "z": -8.046,
+      "r": 0.7
+    },
+    "combiner_box": {
+      "x": 14.939,
+      "y": -3.347,
+      "z": -3.567,
+      "r": 0.7
+    },
+    "aluminum_ingot": {
+      "x": 7.652,
+      "y": -2.695,
+      "z": 5.757,
+      "r": 1
+    },
+    "copper_ingot": {
+      "x": 5.05,
+      "y": 5.449,
+      "z": -8.407,
+      "r": 1
+    },
+    "copper_strip": {
+      "x": 7.285,
+      "y": -3.239,
+      "z": -11.394,
+      "r": 0.7
+    },
+    "aluminum_frame": {
+      "x": 12.26,
+      "y": -9.125,
+      "z": -0.344,
+      "r": 0.7
+    },
+    "solder_ribbon": {
+      "x": 10.129,
+      "y": -9.904,
+      "z": -11.598,
+      "r": 0.7
+    },
+    "pv_cable": {
+      "x": 8.393,
+      "y": -4.779,
+      "z": -6.592,
+      "r": 0.7
+    },
+    "smelting": {
+      "x": -18.634,
+      "y": -0.073,
+      "z": -3.086,
+      "r": 0.8
+    },
+    "tcs_synthesis": {
+      "x": -18.403,
+      "y": -6.859,
+      "z": -5.956,
+      "r": 0.8
+    },
+    "rectification": {
+      "x": -11.78,
+      "y": -9.761,
+      "z": -7.389,
+      "r": 0.8
+    },
+    "cvd_reduction": {
+      "x": -10.322,
+      "y": -16.454,
+      "z": -10.112,
+      "r": 0.8
+    },
+    "crystal_pulling": {
+      "x": -8.758,
+      "y": -23.547,
+      "z": -8.853,
+      "r": 0.8
+    },
+    "ingot_preparation": {
+      "x": -4.215,
+      "y": -24.357,
+      "z": -3.104,
+      "r": 0.8
+    },
+    "wafer_slicing": {
+      "x": 0.168,
+      "y": -18.743,
+      "z": -5.005,
+      "r": 0.8
+    },
+    "wafer_post_process": {
+      "x": -2.61,
+      "y": -17.377,
+      "z": -9.982,
+      "r": 0.8
+    },
+    "cell_metallization": {
+      "x": 4.348,
+      "y": -15.225,
+      "z": -9.954,
+      "r": 0.8
+    },
+    "cell_stringing": {
+      "x": 9.411,
+      "y": -13.073,
+      "z": -12.736,
+      "r": 0.8
+    },
+    "lay_up": {
+      "x": 14.072,
+      "y": -18.101,
+      "z": -10.027,
+      "r": 0.8
+    },
+    "lamination": {
+      "x": 9.464,
+      "y": -18.216,
+      "z": -5.569,
+      "r": 0.8
+    },
+    "framing_jbox": {
+      "x": 12.733,
+      "y": -10.882,
+      "z": -4.468,
+      "r": 0.8
+    },
+    "power_station_installation": {
+      "x": 12.3,
+      "y": -4.603,
+      "z": -6.165,
+      "r": 0.8
+    },
+    "aluminum_extrusion": {
+      "x": 10.938,
+      "y": -6.338,
+      "z": 3.182,
+      "r": 0.8
+    },
+    "copper_rolling": {
+      "x": 5.763,
+      "y": 0.923,
+      "z": -10.508,
+      "r": 0.8
+    },
+    "tin_plating": {
+      "x": 9.383,
+      "y": -6.269,
+      "z": -13.315,
+      "r": 0.8
+    },
+    "cable_stranding": {
+      "x": 5.528,
+      "y": -5.008,
+      "z": -8.565,
+      "r": 0.8
+    },
+    "electric_arc_furnace": {
+      "x": -16.233,
+      "y": 7.494,
+      "z": -4.981,
+      "r": 0.45
+    },
+    "fluidized_bed_reactor": {
+      "x": -12.877,
+      "y": -4.465,
+      "z": -1.705,
+      "r": 0.45
+    },
+    "rectification_column": {
+      "x": -8.141,
+      "y": -6.834,
+      "z": -12.06,
+      "r": 0.45
+    },
+    "siemens_reduction_furnace": {
+      "x": -16.658,
+      "y": -15.547,
+      "z": -6.454,
+      "r": 0.45
+    },
+    "cz_crystal_puller": {
+      "x": -8.41,
+      "y": -18.296,
+      "z": -3.235,
+      "r": 0.45
+    },
+    "ingot_processing_machine": {
+      "x": -7.992,
+      "y": -22.4,
+      "z": 2.875,
+      "r": 0.45
+    },
+    "diamond_wire_slicer": {
+      "x": -0.303,
+      "y": -15.539,
+      "z": 1.028,
+      "r": 0.45
+    },
+    "cell_production_line": {
+      "x": -3.711,
+      "y": -12.367,
+      "z": -4.688,
+      "r": 0.45
+    },
+    "screen_printer_sinter": {
+      "x": 4.057,
+      "y": -15.343,
+      "z": -17.319,
+      "r": 0.45
+    },
+    "stringer_soldering_machine": {
+      "x": 3.568,
+      "y": -10.649,
+      "z": -4.244,
+      "r": 0.45
+    },
+    "lay_up_machine": {
+      "x": 17.298,
+      "y": -23.677,
+      "z": -6.34,
+      "r": 0.45
+    },
+    "vacuum_laminator": {
+      "x": 5.624,
+      "y": -19.761,
+      "z": -0.152,
+      "r": 0.45
+    },
+    "framing_machine": {
+      "x": 17.879,
+      "y": -13.892,
+      "z": -0.133,
+      "r": 0.45
+    },
+    "construction_equipment": {
+      "x": 5.941,
+      "y": -3.43,
+      "z": -1.376,
+      "r": 0.45
+    },
+    "aluminum_extrusion_press": {
+      "x": 8.481,
+      "y": -9.742,
+      "z": 8.442,
+      "r": 0.45
+    },
+    "copper_rolling_mill": {
+      "x": 11.633,
+      "y": 3.48,
+      "z": -11.077,
+      "r": 0.45
+    },
+    "electroplating_line": {
+      "x": 4.126,
+      "y": -7.485,
+      "z": -16.525,
+      "r": 0.45
+    },
+    "stranding_machine": {
+      "x": 0.528,
+      "y": -0.724,
+      "z": -5.585,
+      "r": 0.45
+    },
+    "spodumene_ore": {
+      "x": -8.297,
+      "y": 3.436,
+      "z": -3.15,
+      "r": 0.7
+    },
+    "lithium_concentrate": {
+      "x": -10.237,
+      "y": 7.162,
+      "z": -0.706,
+      "r": 0.7
+    },
+    "lithium_sulfate_solution": {
+      "x": -14.299,
+      "y": 9.449,
+      "z": 5.004,
+      "r": 0.7
+    },
+    "lithium_carbonate": {
+      "x": -11.67,
+      "y": 11.241,
+      "z": 11.55,
+      "r": 0.7
+    },
+    "lithium_hydroxide": {
+      "x": -7.876,
+      "y": 12.067,
+      "z": 16.382,
+      "r": 0.7
+    },
+    "lfp_cathode": {
+      "x": -3.744,
+      "y": 12.788,
+      "z": 6.311,
+      "r": 0.7
+    },
+    "ncm_cathode": {
+      "x": -1.717,
+      "y": 13.197,
+      "z": 9.867,
+      "r": 0.7
+    },
+    "artificial_graphite_anode": {
+      "x": -1.744,
+      "y": 16.566,
+      "z": 5.523,
+      "r": 0.7
+    },
+    "electrolyte": {
+      "x": 5.096,
+      "y": 14.887,
+      "z": 7.805,
+      "r": 0.7
+    },
+    "separator": {
+      "x": 6.061,
+      "y": 10.951,
+      "z": 5.142,
+      "r": 0.7
+    },
+    "copper_foil": {
+      "x": 3.711,
+      "y": 13.257,
+      "z": -0.312,
+      "r": 0.7
+    },
+    "aluminum_foil": {
+      "x": 1.753,
+      "y": 7.43,
+      "z": 6.86,
+      "r": 0.7
+    },
+    "battery_cell": {
+      "x": -0.94,
+      "y": 12.402,
+      "z": 2.579,
+      "r": 0.7
+    },
+    "battery_pack": {
+      "x": 1.55,
+      "y": 6.213,
+      "z": -0.557,
+      "r": 0.7
+    },
+    "energy_storage_power_station": {
+      "x": 7.692,
+      "y": 5.326,
+      "z": -1.526,
+      "r": 1.3
+    },
+    "sulfuric_acid": {
+      "x": -14.618,
+      "y": 4.48,
+      "z": 2.378,
+      "r": 0.7
+    },
+    "soda_ash": {
+      "x": -13.805,
+      "y": 4.925,
+      "z": 9.915,
+      "r": 0.7
+    },
+    "quicklime": {
+      "x": -17.676,
+      "y": 7.807,
+      "z": 11.331,
+      "r": 0.7
+    },
+    "iron_source": {
+      "x": -7.096,
+      "y": 9.382,
+      "z": 6.571,
+      "r": 0.7
+    },
+    "phosphate_source": {
+      "x": -10.202,
+      "y": 15.053,
+      "z": 9.05,
+      "r": 0.7
+    },
+    "carbon_source_lfp": {
+      "x": -7.293,
+      "y": 8.377,
+      "z": 10.026,
+      "r": 0.7
+    },
+    "nickel_sulfate": {
+      "x": -1.878,
+      "y": 9.895,
+      "z": 15.183,
+      "r": 0.7
+    },
+    "cobalt_sulfate": {
+      "x": -5.833,
+      "y": 16.092,
+      "z": 15.254,
+      "r": 0.7
+    },
+    "manganese_sulfate": {
+      "x": -0.936,
+      "y": 14.45,
+      "z": 17.089,
+      "r": 0.7
+    },
+    "needle_coke": {
+      "x": -6.813,
+      "y": 20.346,
+      "z": 9.313,
+      "r": 0.7
+    },
+    "coal_tar_pitch": {
+      "x": -3.51,
+      "y": 22.57,
+      "z": 6.686,
+      "r": 0.7
+    },
+    "lipf6": {
+      "x": 10.322,
+      "y": 17.2,
+      "z": 7.934,
+      "r": 0.7
+    },
+    "ec_dmc_emc_solvents": {
+      "x": 6.554,
+      "y": 19.695,
+      "z": 10.543,
+      "r": 0.7
+    },
+    "electrolyte_additives": {
+      "x": 6.635,
+      "y": 16.115,
+      "z": 13.65,
+      "r": 0.7
+    },
+    "pe_resin": {
+      "x": 9.013,
+      "y": 6.414,
+      "z": 6.079,
+      "r": 0.7
+    },
+    "ceramic_coating": {
+      "x": 11.451,
+      "y": 10.908,
+      "z": 6.82,
+      "r": 0.7
+    },
+    "conductive_agent": {
+      "x": 3.149,
+      "y": 10.341,
+      "z": 2.663,
+      "r": 0.7
+    },
+    "pvdf_binder": {
+      "x": 2.094,
+      "y": 17.163,
+      "z": 5.248,
+      "r": 0.7
+    },
+    "cmc_sbr_binder": {
+      "x": 1.133,
+      "y": 15.765,
+      "z": 1.652,
+      "r": 0.7
+    },
+    "nmp_solvent": {
+      "x": 2.826,
+      "y": 11.221,
+      "z": 9.665,
+      "r": 0.7
+    },
+    "tab_material": {
+      "x": 1.017,
+      "y": 15.083,
+      "z": 8.991,
+      "r": 0.7
+    },
+    "aluminum_laminated_film": {
+      "x": -0.619,
+      "y": 10.24,
+      "z": 7.509,
+      "r": 0.7
+    },
+    "steel_case": {
+      "x": 0.265,
+      "y": 9.12,
+      "z": 4.723,
+      "r": 0.7
+    },
+    "aluminum_case": {
+      "x": 5.035,
+      "y": 14.606,
+      "z": 3.5,
+      "r": 0.7
+    },
+    "battery_bms": {
+      "x": -1.742,
+      "y": 6.857,
+      "z": -2.212,
+      "r": 0.7
+    },
+    "thermal_management": {
+      "x": -2.186,
+      "y": 10.132,
+      "z": -3.442,
+      "r": 0.7
+    },
+    "busbar": {
+      "x": -3.103,
+      "y": 5.41,
+      "z": 1.694,
+      "r": 0.7
+    },
+    "energy_storage_inverter": {
+      "x": 6.365,
+      "y": 2.847,
+      "z": 1.069,
+      "r": 0.7
+    },
+    "mining_flotation": {
+      "x": -8.96,
+      "y": 6.603,
+      "z": -4.18,
+      "r": 0.8
+    },
+    "roasting_leaching": {
+      "x": -12.501,
+      "y": 7.398,
+      "z": 2.237,
+      "r": 0.8
+    },
+    "precipitation": {
+      "x": -14.599,
+      "y": 8.824,
+      "z": 9.158,
+      "r": 0.8
+    },
+    "causticization": {
+      "x": -11.462,
+      "y": 11.333,
+      "z": 15.339,
+      "r": 0.8
+    },
+    "lfp_sintering": {
+      "x": -8.101,
+      "y": 12.249,
+      "z": 8.548,
+      "r": 0.8
+    },
+    "ncm_sintering": {
+      "x": -3.636,
+      "y": 13.095,
+      "z": 14.352,
+      "r": 0.8
+    },
+    "graphite_processing": {
+      "x": -4.616,
+      "y": 19.299,
+      "z": 6.789,
+      "r": 0.8
+    },
+    "electrolyte_mixing": {
+      "x": 7.882,
+      "y": 16.488,
+      "z": 10.056,
+      "r": 0.8
+    },
+    "separator_production": {
+      "x": 9.351,
+      "y": 9.158,
+      "z": 5.957,
+      "r": 0.8
+    },
+    "copper_foil_production": {
+      "x": 4.945,
+      "y": 11.575,
+      "z": -4.308,
+      "r": 0.8
+    },
+    "aluminum_foil_production": {
+      "x": 2.807,
+      "y": 2.666,
+      "z": 7.219,
+      "r": 0.8
+    },
+    "cell_assembly": {
+      "x": 1.863,
+      "y": 12.853,
+      "z": 5.435,
+      "r": 0.8
+    },
+    "formation_aging": {
+      "x": -3.318,
+      "y": 13.732,
+      "z": 1.605,
+      "r": 0.8
+    },
+    "pack_assembly": {
+      "x": -1.763,
+      "y": 8.938,
+      "z": 0.344,
+      "r": 0.8
+    },
+    "storage_installation": {
+      "x": 4.692,
+      "y": 3.835,
+      "z": -1.354,
+      "r": 0.8
+    },
+    "flotation_machine": {
+      "x": -5.811,
+      "y": 1.676,
+      "z": -8.669,
+      "r": 0.45
+    },
+    "rotary_kiln": {
+      "x": -8.423,
+      "y": 2.189,
+      "z": 5.652,
+      "r": 0.45
+    },
+    "precipitation_reactor": {
+      "x": -17.581,
+      "y": 14.77,
+      "z": 8.912,
+      "r": 0.45
+    },
+    "causticization_reactor": {
+      "x": -9.146,
+      "y": 5.17,
+      "z": 18.656,
+      "r": 0.45
+    },
+    "lfp_sintering_furnace": {
+      "x": -3.557,
+      "y": 4.529,
+      "z": 11.174,
+      "r": 0.45
+    },
+    "ncm_sintering_furnace": {
+      "x": -3.72,
+      "y": 9.7,
+      "z": 21.992,
+      "r": 0.45
+    },
+    "graphitization_furnace": {
+      "x": -0.601,
+      "y": 20.882,
+      "z": 13.246,
+      "r": 0.45
+    },
+    "electrolyte_mixing_tank": {
+      "x": 13.537,
+      "y": 13.525,
+      "z": 13.744,
+      "r": 0.45
+    },
+    "separator_extrusion_line": {
+      "x": 13.492,
+      "y": 5.039,
+      "z": 10.786,
+      "r": 0.45
+    },
+    "copper_foil_machine": {
+      "x": 11.07,
+      "y": 12.828,
+      "z": -0.403,
+      "r": 0.45
+    },
+    "aluminum_foil_mill": {
+      "x": 5.425,
+      "y": 0.48,
+      "z": 13.36,
+      "r": 0.45
+    },
+    "cell_assembly_line": {
+      "x": 6.164,
+      "y": 8.834,
+      "z": 12.597,
+      "r": 0.45
+    },
+    "formation_aging_cabinet": {
+      "x": -3.897,
+      "y": 20.649,
+      "z": -0.627,
+      "r": 0.45
+    },
+    "pack_assembly_line": {
+      "x": -7.894,
+      "y": 13.029,
+      "z": 0.214,
+      "r": 0.45
+    }
+  }
 }
