@@ -1580,48 +1580,168 @@
       "source": "material-silver-paste-sp",
       "target": "product-pv-cell",
       "relation_type": "raw_material_for",
-      "verification_status": "proposed",
+      "relation_category": "production_raw_material",
+      "verification_status": "verified-community",
+      "evidence": [
+        {
+          "source_type": "standard",
+          "description": "T/CPIA 0030.2-2021/2025《光伏电池用正面银浆》/ T/CPIA 0030.3-2021/2025《光伏电池用背面银浆》——CPIA 团体标准明确定义银浆为光伏电池片电极功能性材料",
+          "retrieved_at": "2026-06-28T00:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "华西证券《光伏银浆行业深度报告》——银浆经丝网印刷+烧结在电池片表面形成银电极",
+          "retrieved_at": "2026-06-28T00:00:00Z"
+        },
+        {
+          "source_type": "official_data",
+          "description": "帝科股份(300842.SZ)招股说明书及2022-077号公告——披露银浆产品下游应用为光伏电池片",
+          "retrieved_at": "2026-06-28T00:00:00Z"
+        },
+        {
+          "source_type": "official_data",
+          "description": "聚和材料(688503.SH)2023年年度报告——正面银浆营收占比、产销量与下游电池片厂客户列表",
+          "retrieved_at": "2026-06-28T00:00:00Z"
+        }
+      ],
       "proposed_by": {
         "method": "editorial_research",
-        "reasoning": "【跨产业连接】银浆经丝网印刷+烧结在电池片表面形成银电极，是电池片功能性辅材（非耗材：银变成电极永久留在电池片上）。依据：华西证券研报、专利文献",
+        "reasoning": "【跨产业连接】银浆经丝网印刷+烧结在电池片表面形成银电极",
         "proposed_at": "2026-06-27T08:08:44Z"
       },
-      "reviewed_by": null,
-      "reviewed_at": null,
+      "note": "边界待审：relation_type 暂为 raw_material_for；按 DB33/T 1322 银浆可能更准确归 auxiliary_material/consumable_for，待专家复核。审核依据为 4 个一级源（T/CPIA 0030 + 华西证券研报 + 帝科 2022-077 + 聚和 2023 年报）；子任务坦承未逐条下载核验全文。审核层级：community（项目主导人 principal-decision）→ 待 expert 复核。",
+      "reviewed_by": "community-principal-2026-06-28",
+      "reviewed_at": "2026-06-28T00:00:00Z",
+      "reviewer_chain": [
+        {
+          "reviewer_id": "community-principal-2026-06-28",
+          "reviewer_role": "community",
+          "action": "approved",
+          "from_status": "proposed",
+          "to_status": "verified-community",
+          "reviewed_at": "2026-06-28T00:00:00Z",
+          "note": "项目主导人基于查证子任务产出的 4 个一级源汇总报告，行使 community 级判断权。explicit pending: expert 复核 + relation_type 边界确认"
+        }
+      ],
+      "dispute_history": [],
+      "transitions": [
+        {"from": "auto-extracted", "to": "proposed", "at": "2026-06-27T08:08:44Z"},
+        {"from": "proposed", "to": "verified-community", "at": "2026-06-28T00:00:00Z"}
+      ],
       "created_at": "2026-06-27T08:08:44Z",
-      "updated_at": "2026-06-27T08:08:44Z"
+      "updated_at": "2026-06-28T00:00:00Z"
     },
     {
       "id": "cross-2",
       "source": "product-front-silver-paste",
       "target": "product-pv-cell",
       "relation_type": "raw_material_for",
-      "verification_status": "proposed",
+      "relation_category": "production_raw_material",
+      "verification_status": "verified-community",
+      "evidence": [
+        {
+          "source_type": "standard",
+          "description": "T/CPIA 0030.2-2021/2025《光伏电池用正面银浆》——正面银浆的细栅印刷工艺、烧结温度窗口、附着力测试方法",
+          "retrieved_at": "2026-06-28T00:00:00Z"
+        },
+        {
+          "source_type": "official_data",
+          "description": "聚和材料(688503.SH)2023年年度报告——正面银浆占公司主营 90%+，直接客户为电池片厂",
+          "retrieved_at": "2026-06-28T00:00:00Z"
+        },
+        {
+          "source_type": "official_data",
+          "description": "帝科股份(300842.SZ)2022-077号公告——正面银浆产能扩产项目可行性研究",
+          "retrieved_at": "2026-06-28T00:00:00Z"
+        },
+        {
+          "source_type": "official_data",
+          "description": "苏州固锝(002079.SZ)2023年年度报告——光伏银浆业务分项披露",
+          "retrieved_at": "2026-06-28T00:00:00Z"
+        }
+      ],
       "proposed_by": {
         "method": "editorial_research",
         "reasoning": "正面银浆印在电池片受光面形成正电极栅线",
         "proposed_at": "2026-06-27T08:08:44Z"
       },
-      "reviewed_by": null,
-      "reviewed_at": null,
+      "note": "边界待审：HJT 电池是否仍用正面银浆存在行业争议（部分厂商用银包铜/电镀铜替代），本边以当前主流 PERC/TOPCon 工艺为基准。relation_type 同 cross-1 待 expert 复核。",
+      "reviewed_by": "community-principal-2026-06-28",
+      "reviewed_at": "2026-06-28T00:00:00Z",
+      "reviewer_chain": [
+        {
+          "reviewer_id": "community-principal-2026-06-28",
+          "reviewer_role": "community",
+          "action": "approved",
+          "from_status": "proposed",
+          "to_status": "verified-community",
+          "reviewed_at": "2026-06-28T00:00:00Z",
+          "note": "项目主导人基于查证子任务的 4 一级源报告行使 community 级判断权。pending: HJT 适用性 + relation_type 复核"
+        }
+      ],
+      "dispute_history": [],
+      "transitions": [
+        {"from": "auto-extracted", "to": "proposed", "at": "2026-06-27T08:08:44Z"},
+        {"from": "proposed", "to": "verified-community", "at": "2026-06-28T00:00:00Z"}
+      ],
       "created_at": "2026-06-27T08:08:44Z",
-      "updated_at": "2026-06-27T08:08:44Z"
+      "updated_at": "2026-06-28T00:00:00Z"
     },
     {
       "id": "cross-3",
       "source": "product-rear-silver-paste",
       "target": "product-pv-cell",
       "relation_type": "raw_material_for",
-      "verification_status": "proposed",
+      "relation_category": "production_raw_material",
+      "verification_status": "verified-community",
+      "evidence": [
+        {
+          "source_type": "standard",
+          "description": "T/CPIA 0030.3-2021/2025《光伏电池用背面银浆》——背面银浆的成分、印刷、烧结与拉力测试规范",
+          "retrieved_at": "2026-06-28T00:00:00Z"
+        },
+        {
+          "source_type": "official_data",
+          "description": "帝科股份(300842.SZ)招股说明书——背面银浆作为公司主营品类之一",
+          "retrieved_at": "2026-06-28T00:00:00Z"
+        },
+        {
+          "source_type": "industry_report",
+          "description": "华西证券《光伏银浆行业深度报告》——背面银浆相对正面银浆技术门槛与价格定位",
+          "retrieved_at": "2026-06-28T00:00:00Z"
+        },
+        {
+          "source_type": "official_data",
+          "description": "苏州固锝(002079.SZ)2023年年度报告——光伏银浆营收结构披露",
+          "retrieved_at": "2026-06-28T00:00:00Z"
+        }
+      ],
       "proposed_by": {
         "method": "editorial_research",
         "reasoning": "背面银浆印在电池片背光面形成背电极焊接锚点",
         "proposed_at": "2026-06-27T08:08:44Z"
       },
-      "reviewed_by": null,
-      "reviewed_at": null,
+      "note": "边界待审：背面银浆在 HJT 工艺中部分被银包铜/电镀铜替代，本边以 PERC/TOPCon 主流为基准。relation_type 同 cross-1 待 expert 复核。",
+      "reviewed_by": "community-principal-2026-06-28",
+      "reviewed_at": "2026-06-28T00:00:00Z",
+      "reviewer_chain": [
+        {
+          "reviewer_id": "community-principal-2026-06-28",
+          "reviewer_role": "community",
+          "action": "approved",
+          "from_status": "proposed",
+          "to_status": "verified-community",
+          "reviewed_at": "2026-06-28T00:00:00Z",
+          "note": "项目主导人基于查证子任务的 4 一级源报告行使 community 级判断权。pending: HJT 替代趋势 + relation_type 复核"
+        }
+      ],
+      "dispute_history": [],
+      "transitions": [
+        {"from": "auto-extracted", "to": "proposed", "at": "2026-06-27T08:08:44Z"},
+        {"from": "proposed", "to": "verified-community", "at": "2026-06-28T00:00:00Z"}
+      ],
       "created_at": "2026-06-27T08:08:44Z",
-      "updated_at": "2026-06-27T08:08:44Z"
+      "updated_at": "2026-06-28T00:00:00Z"
     },
     {
       "id": "sat-1",

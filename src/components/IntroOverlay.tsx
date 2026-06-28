@@ -41,11 +41,41 @@ export default function IntroOverlay({ onStart, onExplore }: IntroOverlayProps) 
             <div className="w-6 h-6 rounded-full bg-gray-100 border border-gray-300 flex items-center justify-center flex-shrink-0">
               <span className="text-gray-700 text-xs font-bold">3</span>
             </div>
-            <div>
-              <p className="text-black text-sm font-medium mb-1">每条连接都有可信度</p>
-              <p className="text-gray-500 text-xs">
-                实线代表已验证的真实连接，虚线代表有依据但待验证的潜在可能性。
+            <div className="flex-1">
+              <p className="text-black text-sm font-medium mb-1">每条连接都有 6 档可信度</p>
+              <p className="text-gray-500 text-xs mb-2">
+                不只是「已验证 / 待验证」两档。万源图谱区分：
+                自动抽取 / 待审 / 社区确认 / 专家确认 / 质疑中 / 已废弃——透明度比简洁更重要。
               </p>
+              <div className="grid grid-cols-2 gap-1 text-[10px]">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-3 h-0.5" style={{ background: '#00B42A' }} />
+                  <span className="text-gray-600">专家确认（可作权威引用）</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-3 h-0.5" style={{ background: '#165DFF' }} />
+                  <span className="text-gray-600">社区确认（3+ 用户附议）</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span
+                    className="w-3 h-0.5"
+                    style={{ background: '#FF7D00', borderTop: '1px dashed #FF7D00' }}
+                  />
+                  <span className="text-gray-600">待审（有人提依据）</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-3 h-0.5" style={{ background: '#F53F3F' }} />
+                  <span className="text-gray-600">质疑中（被触发复核）</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-3 h-0.5 bg-gray-400" />
+                  <span className="text-gray-600">自动抽取（脚本产出）</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-3 h-0.5" style={{ background: '#C9CDD4' }} />
+                  <span className="text-gray-600">已废弃（不参与推理）</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

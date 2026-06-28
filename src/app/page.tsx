@@ -1,8 +1,11 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
 import SearchBar from '../components/SearchBar';
+import EdgeReviewerList from '../components/EdgeReviewerList';
+import EdgeChallenger from '../components/EdgeChallenger';
+import StatusLegend from '../components/StatusLegend';
 import { useGraphStore } from '../store/graphStore';
 import type { GraphEdge, GraphNode, NodeType } from '@/lib/types';
 import {
@@ -69,12 +72,18 @@ export default function Home() {
     setViewMode,
     resetView,
     clearSelection,
+    setEdges,
   } = useGraphStore();
 
   const [hover, setHover] = useState<EdgeHoverInfo | null>(null);
 
   const provider = useMemo(() => getDataProvider(), []);
   const mainChainIds = useMemo(() => getMainChainNodeIds(), []);
+
+  // 把服务端加载的边灌入客户端 store（供审核员面板做状态机操作）
+  useEffect(() => {
+    setEdges(provider.getGraphData().edges);
+  }, [provider, setEdges]);
 
   // 星云宏观层展示全图数据
   const galaxyData = useMemo(() => provider.getGraphData(), [provider]);
@@ -132,13 +141,14 @@ export default function Home() {
   );
 
   // 节点的全部关联边（跨所有关系类型），供详情面板列出。
+  // 来源是 graphStore.edges（而非 provider 原始数据），这样状态机变更能即时反映到 UI。
+  const storeEdges = useGraphStore((s) => s.edges);
   const selectedNodeEdges = useMemo(() => {
     if (!selectedNodeId) return [] as GraphEdge[];
-    const all = provider.getGraphData().edges;
-    return all.filter(
+    return storeEdges.filter(
       (e) => e.source === selectedNodeId || e.target === selectedNodeId
     );
-  }, [selectedNodeId, provider]);
+  }, [selectedNodeId, storeEdges]);
 
   /* ---------------- 交互 ---------------- */
   const handleNodeSelect = useCallback(
@@ -266,6 +276,8 @@ export default function Home() {
             onNodeSelect={handleNodeSelect}
             onEdgeHover={setHover}
           />
+          {/* 2D 视图右下角状态图例：只在微观层显示 */}
+          {viewMode === 'detail' && <StatusLegend />}
           {hover && (
             <div
               className="absolute z-40 pointer-events-none bg-white border border-line-1 rounded-arco-md shadow-arco-3 px-3 py-2 max-w-[280px]"
@@ -413,6 +425,7 @@ function NodeDetailPanel({
   const typeColor = NODE_TYPE_COLORS[node.node_type];
   const hasAliases = node.aliases && node.aliases.length > 0;
   const hasSources = node.sources && node.sources.length > 0;
+  const [challengingEdge, setChallengingEdge] = useState<GraphEdge | null>(null);
 
   return (
     <aside className="w-[360px] h-full bg-white border-l border-line-1 flex flex-col flex-shrink-0">
@@ -515,53 +528,90 @@ function NodeDetailPanel({
                 const other = getNode(otherId);
                 const dotColor = VERIFICATION_DOT[edge.verification_status];
                 const reasoning = edge.proposed_by?.reasoning ?? edge.note ?? '';
+                const canChallenge = edge.verification_status !== 'deprecated';
                 return (
-                  <button
+                  <div
                     key={edge.id}
-                    onClick={() => onEdgeNavigate(edge)}
-                    className="w-full p-2.5 rounded-arco-sm hover:bg-surface-2 transition-colors text-left border border-line-1"
+                    className="w-full p-2.5 rounded-arco-sm hover:bg-surface-2 transition-colors text-left border border-line-1 relative group"
                   >
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <span
-                        className="w-2 h-2 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: dotColor }}
-                        title={VERIFICATION_LABEL[edge.verification_status]}
-                      />
-                      <span className="text-arco-xs text-ink-4 flex-shrink-0">
-                        {outgoing ? '→' : '←'}
-                      </span>
-                      <span className="text-arco-sm text-ink-1 truncate flex-1 font-medium">
-                        {other?.name ?? otherId}
-                      </span>
-                      <span
-                        className="px-1.5 py-0.5 text-[10px] rounded-arco-sm flex-shrink-0"
-                        style={{
-                          backgroundColor: `${RELATION_TYPE_COLORS[edge.relation_type]}1A`,
-                          color: RELATION_TYPE_COLORS[edge.relation_type],
+                    <button
+                      onClick={() => onEdgeNavigate(edge)}
+                      className="w-full text-left"
+                    >
+                      <div className="flex items-center gap-2 mb-1.5 pr-6">
+                        <span
+                          className="w-2 h-2 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: dotColor }}
+                          title={VERIFICATION_LABEL[edge.verification_status]}
+                        />
+                        <span className="text-arco-xs text-ink-4 flex-shrink-0">
+                          {outgoing ? '→' : '←'}
+                        </span>
+                        <span className="text-arco-sm text-ink-1 truncate flex-1 font-medium">
+                          {other?.name ?? otherId}
+                        </span>
+                        <span
+                          className="px-1.5 py-0.5 text-[10px] rounded-arco-sm flex-shrink-0"
+                          style={{
+                            backgroundColor: `${RELATION_TYPE_COLORS[edge.relation_type]}1A`,
+                            color: RELATION_TYPE_COLORS[edge.relation_type],
+                          }}
+                        >
+                          {RELATION_TYPE_LABELS[edge.relation_type]}
+                        </span>
+                      </div>
+                      {/* 证据链：核心理念"判断信息真假最终权力在人"在交互层的兑现 */}
+                      {reasoning && (
+                        <div className="text-arco-xs text-ink-3 leading-relaxed pl-4 border-l-2 border-line-2 mt-1">
+                          <span className="text-ink-4">依据：</span>
+                          {reasoning}
+                        </div>
+                      )}
+                      {edge.reviewed_by && (
+                        <div className="text-[10px] text-ink-3 mt-1 pl-4">
+                          审核人：{edge.reviewed_by} · {edge.reviewed_at?.slice(0, 10)}
+                        </div>
+                      )}
+                    </button>
+                    {/* 质疑按钮：右上角悬浮，仅非 deprecated 边可质疑 */}
+                    {canChallenge && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setChallengingEdge(edge);
                         }}
+                        className="absolute top-1.5 right-1.5 px-1.5 py-0.5 text-[10px] text-arco-danger border border-arco-danger/40 rounded-arco-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50"
+                        title="质疑此边（任何用户可发起）"
                       >
-                        {RELATION_TYPE_LABELS[edge.relation_type]}
-                      </span>
-                    </div>
-                    {/* 证据链：核心理念"判断信息真假最终权力在人"在交互层的兑现 */}
-                    {reasoning && (
-                      <div className="text-arco-xs text-ink-3 leading-relaxed pl-4 border-l-2 border-line-2 mt-1">
-                        <span className="text-ink-4">依据：</span>
-                        {reasoning}
-                      </div>
+                        ⚑ 质疑
+                      </button>
                     )}
-                    {edge.reviewed_by && (
-                      <div className="text-[10px] text-ink-3 mt-1 pl-4">
-                        审核人：{edge.reviewed_by} · {edge.reviewed_at?.slice(0, 10)}
-                      </div>
-                    )}
-                  </button>
+                  </div>
                 );
               })}
             </div>
           )}
         </section>
+
+        {/* 状态机审核面板：可手动触发 6 档状态转换 */}
+        <section className="mt-4 pt-4 border-t border-line-1">
+          <div className="text-arco-sm font-medium text-ink-1 mb-2 flex items-center gap-2">
+            <span>状态机审核</span>
+            <span className="text-[10px] text-ink-3 font-normal">
+              （v0.4 · 6 档可信度 · 操作留痕）
+            </span>
+          </div>
+          <EdgeReviewerList />
+        </section>
       </div>
+
+      {/* 质疑者表单（modal） */}
+      {challengingEdge && (
+        <EdgeChallenger
+          edge={challengingEdge}
+          onClose={() => setChallengingEdge(null)}
+        />
+      )}
     </aside>
   );
 }

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
-import type { RelationType } from '../lib/types';
+import type { GraphEdge, RelationType, ReviewerRole, ReviewerAction } from '../lib/types';
 import { MAIN_CHAIN_RELATION } from '../lib/dal';
+import { applyTransition as applyStateMachineTransition } from '../lib/state-machine';
 
 /**
  * 图谱探索页状态（双层架构：3D 星云宏观层 + 2D 微观层）。
@@ -16,6 +17,9 @@ import { MAIN_CHAIN_RELATION } from '../lib/dal';
  *
  * 切换关系类型时，会重置展开集合为 { selectedNodeId }，从而呈现
  * 「同一节点，切换关系类型看到完全不同的网络」。
+ *
+ * edges：审核员/状态机操作的边集合。初次进入页面时由 page.tsx 用 provider.getGraphData().edges 灌入。
+ *   客户端的 applyEdgeTransition 修改这里的边，不写回 JSON（演示用；生产环境需 API + 数据库）。
  */
 
 export type ViewMode = 'galaxy' | 'detail';
@@ -25,12 +29,27 @@ interface GraphState {
   selectedNodeId: string | null;
   relationType: RelationType;
   expandedNodeIds: Set<string>;
+  /** 全部边（含已应用客户端状态变更）。 */
+  edges: GraphEdge[];
 
   setViewMode: (mode: ViewMode) => void;
   selectNode: (id: string) => void;
   setRelationType: (rt: RelationType) => void;
   resetView: () => void;
   clearSelection: () => void;
+  setEdges: (edges: GraphEdge[]) => void;
+  /**
+   * 客户端应用一次状态机转换。失败时返回错误信息（用于 UI 提示）。
+   * 不写回 JSON / DB——纯演示用。生产环境应改为 API 调用。
+   */
+  applyEdgeTransition: (params: {
+    edgeId: string;
+    to: GraphEdge['verification_status'];
+    actor_id: string;
+    actor_role: ReviewerRole;
+    action: ReviewerAction;
+    reason?: string;
+  }) => { ok: true } | { ok: false; error: string };
 }
 
 export const useGraphStore = create<GraphState>((set) => ({
@@ -38,6 +57,7 @@ export const useGraphStore = create<GraphState>((set) => ({
   selectedNodeId: null,
   relationType: MAIN_CHAIN_RELATION,
   expandedNodeIds: new Set<string>(),
+  edges: [],
 
   setViewMode: (mode) => set({ viewMode: mode }),
 
@@ -64,4 +84,34 @@ export const useGraphStore = create<GraphState>((set) => ({
     }),
 
   clearSelection: () => set({ selectedNodeId: null }),
+
+  setEdges: (edges) => set({ edges }),
+
+  applyEdgeTransition: (params) => {
+    let result: { ok: true } | { ok: false; error: string } = { ok: true };
+    set((state) => {
+      const idx = state.edges.findIndex((e) => e.id === params.edgeId);
+      if (idx === -1) {
+        result = { ok: false, error: `未找到边 ${params.edgeId}` };
+        return state;
+      }
+      try {
+        const next = applyStateMachineTransition({
+          edge: state.edges[idx],
+          to: params.to,
+          actor_id: params.actor_id,
+          actor_role: params.actor_role,
+          action: params.action,
+          reason: params.reason,
+        });
+        const newEdges = state.edges.slice();
+        newEdges[idx] = next;
+        return { edges: newEdges };
+      } catch (e) {
+        result = { ok: false, error: e instanceof Error ? e.message : String(e) };
+        return state;
+      }
+    });
+    return result;
+  },
 }));

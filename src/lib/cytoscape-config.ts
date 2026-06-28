@@ -30,15 +30,40 @@ export const CYTOSCAPE_CONFIG = {
 } as const;
 
 /**
- * Cytoscape 样式表。
+ * Cytoscape 样式表（v0.4 — 6 档可信度全量视觉编码）
  *
  * 可信度视觉编码（核心）：
- *   - proposed 边 → 橙色 (#FF7D00) 虚线
- *   - verified 边 → 深色 (#1D2129) 实线
+ *   - auto-extracted   → 灰色实线（脚本直接产出，未经任何人核验）
+ *   - proposed         → 橙色虚线（有人提交依据，但未通过任何审核）
+ *   - verified-community → 蓝色实线（社区共识，3+ 独立用户附议）
+ *   - verified-expert    → 绿色实线（行业专家/资质审核员终审，可作权威引用）
+ *   - disputed         → 红色粗实线（被质疑，原 verified 等级失效）
+ *   - deprecated       → 灰色点线（已废弃，不参与下游推理）
+ *
+ * 跨产业连接（cross-industry）是"被行业分类切断的连接"——视觉上金色加粗，
+ * 优先级覆盖 verified/proposed 的颜色，但仍保留基础可信度视觉（线型/亮度）。
  *
  * 节点视觉区分：按 node_type 取色，颜色经 data(color) 注入；
  * 选中/中心节点放大并加粗描边。
  */
+export const STATUS_COLORS: Record<string, string> = {
+  'auto-extracted': '#86909C',
+  proposed: '#FF7D00',
+  disputed: '#F53F3F',
+  deprecated: '#C9CDD4',
+  'verified-community': '#165DFF',
+  'verified-expert': '#00B42A',
+};
+
+export const STATUS_LABELS: Record<string, string> = {
+  'auto-extracted': '自动抽取',
+  proposed: '待审',
+  disputed: '质疑中',
+  deprecated: '已废弃',
+  'verified-community': '社区确认',
+  'verified-expert': '专家确认',
+};
+
 export const CYTOSCAPE_STYLESHEET = [
   {
     selector: 'node',
@@ -82,6 +107,7 @@ export const CYTOSCAPE_STYLESHEET = [
       'z-index': 25,
     },
   },
+  // 边默认（兜底）
   {
     selector: 'edge',
     style: {
@@ -95,17 +121,17 @@ export const CYTOSCAPE_STYLESHEET = [
       'z-index': 1,
     },
   },
-  // verified：实线深色
+  // v0.4 — 6 档可信度视觉编码
   {
-    selector: 'edge.verified',
+    selector: 'edge.auto-extracted',
     style: {
       'line-style': 'solid',
-      'line-color': '#1D2129',
-      'target-arrow-color': '#1D2129',
-      width: 1.8,
+      'line-color': '#86909C',
+      'target-arrow-color': '#86909C',
+      'line-opacity': 0.5,
+      width: 1.2,
     },
   },
-  // proposed：橙色虚线（种子数据全部为 proposed）
   {
     selector: 'edge.proposed',
     style: {
@@ -116,8 +142,47 @@ export const CYTOSCAPE_STYLESHEET = [
       width: 1.5,
     },
   },
-  // 跨产业连接：金色加粗，是核心理念"被行业分类切断的连接"的视觉强提示
-  // 优先级：cross-industry 覆盖 verified/proposed 的颜色
+  {
+    selector: 'edge.verified-community',
+    style: {
+      'line-style': 'solid',
+      'line-color': '#165DFF',
+      'target-arrow-color': '#165DFF',
+      width: 1.8,
+    },
+  },
+  {
+    selector: 'edge.verified-expert',
+    style: {
+      'line-style': 'solid',
+      'line-color': '#00B42A',
+      'target-arrow-color': '#00B42A',
+      width: 2.2,
+      'font-weight': 700,
+    },
+  },
+  {
+    selector: 'edge.disputed',
+    style: {
+      'line-style': 'solid',
+      'line-color': '#F53F3F',
+      'target-arrow-color': '#F53F3F',
+      width: 2.5,
+      'line-opacity': 1,
+    },
+  },
+  {
+    selector: 'edge.deprecated',
+    style: {
+      'line-style': 'dotted',
+      'line-color': '#C9CDD4',
+      'target-arrow-color': '#C9CDD4',
+      'line-opacity': 0.4,
+      width: 1,
+    },
+  },
+  // 跨产业连接：金色加粗（覆盖基础可信度颜色），但保留线型（虚/实）反映状态
+  // 优先级：cross-industry 后于状态色
   {
     selector: 'edge.cross-industry',
     style: {
@@ -135,9 +200,33 @@ export const CYTOSCAPE_STYLESHEET = [
     },
   },
   {
+    selector: 'edge.cross-industry.verified-expert',
+    style: {
+      'line-color': '#00B42A',
+      'target-arrow-color': '#00B42A',
+      width: 3.5,
+    },
+  },
+  {
+    selector: 'edge.cross-industry.disputed',
+    style: {
+      'line-color': '#F53F3F',
+      'target-arrow-color': '#F53F3F',
+      width: 3.5,
+    },
+  },
+  {
+    selector: 'edge.cross-industry.verified-community',
+    style: {
+      'line-color': '#165DFF',
+      'target-arrow-color': '#165DFF',
+      width: 3.2,
+    },
+  },
+  {
     selector: 'edge:selected',
     style: {
-      width: 2.5,
+      width: 3.5,
       'line-color': '#165DFF',
       'target-arrow-color': '#165DFF',
       'z-index': 5,
