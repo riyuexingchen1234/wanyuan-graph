@@ -4,51 +4,48 @@ import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { Node } from './types';
 import { useGraphStore } from './store';
+import { PhysicsEngine } from './PhysicsEngine';
 
 interface NodeMeshProps {
   node: Node;
+  physicsEngine: PhysicsEngine;
 }
 
-export function NodeMesh({ node }: NodeMeshProps) {
-  const groupRef = useRef<THREE.Group>(null);
+export function NodeMesh({ node, physicsEngine }: NodeMeshProps) {
+  const meshRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
-  
-  const physicsEngine = useGraphStore(state => state.physicsEngine);
-  const selectedNodeId = useGraphStore(state => state.selectedNodeId);
+
   const selectNode = useGraphStore(state => state.selectNode);
   const setHoveredNode = useGraphStore(state => state.setHoveredNode);
-  
-  const isSelected = selectedNodeId === node.id;
-  
-  // 每帧从物理引擎读取位置
+  const selectedNodeId = useGraphStore(state => state.selectedNodeId);
+
   useFrame(() => {
-    if (!groupRef.current || !physicsEngine) return;
-    
+    if (!meshRef.current) return;
+
     const position = physicsEngine.getNodePosition(node.id);
     if (position) {
-      groupRef.current.position.copy(position);
+      meshRef.current.position.copy(position);
     }
   });
-  
+
   const handleClick = (e: any) => {
     e.stopPropagation();
     selectNode(node.id);
   };
-  
+
   const handlePointerOver = (e: any) => {
     e.stopPropagation();
     setHovered(true);
     setHoveredNode(node.id);
     document.body.style.cursor = 'pointer';
   };
-  
+
   const handlePointerOut = () => {
     setHovered(false);
     setHoveredNode(null);
     document.body.style.cursor = 'auto';
   };
-  
-  // 根据节点类型设置颜色
+
   const getColor = () => {
     switch (node.type) {
       case 'material': return '#4a90e2';
@@ -59,10 +56,13 @@ export function NodeMesh({ node }: NodeMeshProps) {
       default: return '#ffffff';
     }
   };
-  
+
+  const isSelected = selectedNodeId === node.id;
+
   return (
-    <group ref={groupRef}>
+    <group>
       <mesh
+        ref={meshRef}
         onClick={handleClick}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
@@ -71,27 +71,27 @@ export function NodeMesh({ node }: NodeMeshProps) {
         <meshStandardMaterial
           color={getColor()}
           emissive={getColor()}
-          emissiveIntensity={isSelected ? 0.8 : hovered ? 0.5 : 0.2}
+          emissiveIntensity={hovered ? 0.5 : 0.2}
         />
       </mesh>
-      
-      <Html
-        position={[0, 1.2, 0]}
-        center
-        style={{
-          color: isSelected ? '#fff' : hovered ? '#fff' : 'rgba(255, 255, 255, 0.7)',
-          background: isSelected ? 'rgba(0, 0, 0, 0.9)' : hovered ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0.5)',
-          padding: isSelected || hovered ? '6px 10px' : '3px 6px',
-          borderRadius: '4px',
-          fontSize: isSelected || hovered ? '13px' : '11px',
-          fontWeight: isSelected ? 'bold' : 'normal',
-          whiteSpace: 'nowrap',
-          pointerEvents: 'none',
-          transition: 'all 0.2s ease'
-        }}
-      >
-        {node.name}
-      </Html>
+
+      {(hovered || isSelected) && (
+        <Html
+          position={[0, 1, 0]}
+          center
+          style={{
+            color: 'white',
+            background: 'rgba(0, 0, 0, 0.8)',
+            padding: '4px 8px',
+            borderRadius: '4px',
+            fontSize: '12px',
+            whiteSpace: 'nowrap',
+            pointerEvents: 'none'
+          }}
+        >
+          {node.name}
+        </Html>
+      )}
     </group>
   );
 }
