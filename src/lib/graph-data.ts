@@ -4,51 +4,249 @@ import type {
   GraphNode,
   GraphEdge,
   GraphDataProvider,
-  ChainView,
-  NodeChainSummary,
-  RelationType,
-  Alias,
   ChainDef,
   EdgeRole,
-  RelationFlow,
+  NodeType,
+  EdgeType,
+  ValidationError,
+  Source,
 } from './types';
-import { CHAIN_DEFS, RELATION_FLOW, getEffectiveFlow as getFlowForType, isMainAxisRelation, isBranchRelation } from './chains';
+
+
+function normalizeNodeType(oldType: string): NodeType {
+  const map: Record<string, NodeType> = {
+    material: 'substance',
+    product: 'substance',
+    substance: 'substance',
+    process: 'process',
+    equipment: 'equipment',
+    facility: 'facility',
+    industry: 'facility',
+    entity: 'facility',
+  };
+  return map[oldType] || 'substance';
+}
+
+function normalizeEdgeType(oldType: string): EdgeType {
+  const map: Record<string, EdgeType> = {
+    input: 'input',
+    output: 'output',
+    equipment_for: 'equipment_for',
+    composed_of: 'composed_of',
+    is_a: 'is_a',
+    raw_material_for: 'input',
+    can_be_processed_into: 'output',
+    made_of: 'composed_of',
+    applied_in: 'output',
+    downstream_of: 'output',
+    upstream_of: 'input',
+    consumable_for: 'input',
+    structurally_similar_to: 'is_a',
+    product_flow: 'output',
+  };
+  return map[oldType] || 'is_a';
+}
+
+function normalizeSource(oldSrc: any): Source {
+  return {
+    source_type: oldSrc.source_type || 'other',
+    description: oldSrc.description || '',
+    url: oldSrc.url,
+    accessed_at: oldSrc.accessed_at || oldSrc.retrieved_at || oldSrc.created_at,
+  };
+}
+
+function normalizeData(raw: any): GraphData {
+  const nodes: GraphNode[] = (raw.nodes || []).map((n: any) => ({
+    id: n.id,
+    name: n.name,
+    node_type: normalizeNodeType(n.node_type),
+    definition: n.definition || '',
+    stage: n.stage || 'draft',
+    external_input: n.external_input,
+    attributes: n.attributes,
+    aliases: (n.aliases || []).map((a: any) => ({
+      term: a.term,
+      note: a.note || a.context,
+      source: a.source ? normalizeSource(a.source) : undefined,
+    })),
+    contextual_names: n.contextual_names || [],
+    chains: n.chains || [],
+    primary_chain: n.primary_chain,
+    sources: (n.sources || []).map(normalizeSource),
+    created_at: n.created_at || new Date().toISOString(),
+    updated_at: n.updated_at || new Date().toISOString(),
+  }));
+
+  const edges: GraphEdge[] = (raw.edges || []).map((e: any) => ({
+    id: e.id,
+    source: e.source,
+    target: e.target,
+    edge_type: normalizeEdgeType(e.edge_type || e.relation_type),
+    verification_status: e.verification_status || 'proposed',
+    evidence: (e.evidence || []).map(normalizeSource),
+    note: e.note,
+    created_at: e.created_at || new Date().toISOString(),
+    updated_at: e.updated_at || new Date().toISOString(),
+  }));
+
+  const chains: Record<string, ChainDef> = raw.chains || {};
+
+  return {
+    version: raw.version || '1.0.0',
+    published_at: raw.published_at || new Date().toISOString(),
+    chains,
+    nodes,
+    edges,
+  };
+}
 
 class JsonDataProvider implements GraphDataProvider {
   private data: GraphData;
   private nodeMap: Map<string, GraphNode>;
-  private adjacencyList: Map<string, GraphEdge[]>;
-  private childrenMap: Map<string, GraphNode[]>;
+  private outEdges: Map<string, GraphEdge[]>;
+  private inEdges: Map<string, GraphEdge[]>;
 
-  constructor(rawData: GraphData) {
-    this.data = rawData;
+  constructor(rawData: any) {
+    this.data = normalizeData(rawData);
     this.nodeMap = new Map();
-    this.adjacencyList = new Map();
-    this.childrenMap = new Map();
+    this.outEdges = new Map();
+    this.inEdges = new Map();
     this.buildIndexes();
   }
 
   private buildIndexes(): void {
     for (const node of this.data.nodes) {
       this.nodeMap.set(node.id, node);
-      this.adjacencyList.set(node.id, []);
-
-      if (node.parent_type) {
-        if (!this.childrenMap.has(node.parent_type)) {
-          this.childrenMap.set(node.parent_type, []);
-        }
-        this.childrenMap.get(node.parent_type)!.push(node);
-      }
+      this.outEdges.set(node.id, []);
+      this.inEdges.set(node.id, []);
     }
-
     for (const edge of this.data.edges) {
-      if (this.adjacencyList.has(edge.source)) {
-        this.adjacencyList.get(edge.source)!.push(edge);
+      if (this.outEdges.has(edge.source)) {
+        this.outEdges.get(edge.source)!.push(edge);
       }
-      if (this.adjacencyList.has(edge.target)) {
-        this.adjacencyList.get(edge.target)!.push(edge);
+      if (this.inEdges.has(edge.target)) {
+        this.inEdges.get(edge.target)!.push(edge);
       }
     }
+    this.computeNodeChains();
+  }
+
+  private computeNodeChains(): void {
+    const chains = this.getViewableChains();
+    for (const node of this.data.nodes) {
+      const belonging: string[] = [];
+      for (const chain of chains) {
+        if (this.isNodeInChainFlow(node.id, chain)) {
+          belonging.push(chain.id);
+        }
+      }
+      node.chains = belonging;
+      if (belonging.length >= 1) {
+        node.primary_chain = belonging[0];
+      }
+    }
+  }
+
+  private isNodeInChainFlow(nodeId: string, chain: ChainDef): boolean {
+    const startIds = chain.start_substance_ids;
+    const endId = chain.end_facility_id;
+
+    const mainAxis = new Set<string>();
+    const queue: string[] = [...startIds];
+    for (const s of startIds) mainAxis.add(s);
+    while (queue.length > 0) {
+      const cur = queue.shift()!;
+      const curNode = this.nodeMap.get(cur);
+      if (!curNode) continue;
+      if (curNode.node_type === 'substance' || curNode.node_type === 'facility') {
+        if (cur === endId) continue;
+        for (const e of this.outEdges.get(cur) || []) {
+          if (e.edge_type === 'input' && !mainAxis.has(e.target)) {
+            const tn = this.nodeMap.get(e.target);
+            if (tn && tn.node_type === 'process') {
+              mainAxis.add(e.target);
+              queue.push(e.target);
+            }
+          }
+        }
+      } else if (curNode.node_type === 'process') {
+        for (const e of this.outEdges.get(cur) || []) {
+          if (e.edge_type === 'output' && !mainAxis.has(e.target)) {
+            const tn = this.nodeMap.get(e.target);
+            if (tn && (tn.node_type === 'substance' || tn.node_type === 'facility')) {
+              mainAxis.add(e.target);
+              queue.push(e.target);
+            }
+          }
+        }
+      }
+    }
+
+    if (mainAxis.has(nodeId)) return true;
+
+    const belong = new Set<string>(mainAxis);
+    const auxQueue: string[] = [];
+
+    for (const pid of mainAxis) {
+      const pn = this.nodeMap.get(pid);
+      if (!pn) continue;
+      if (pn.node_type === 'process') {
+        for (const e of this.inEdges.get(pid) || []) {
+          if (e.edge_type === 'input' && !belong.has(e.source)) {
+            const sn = this.nodeMap.get(e.source);
+            if (sn && sn.node_type === 'substance') {
+              belong.add(e.source);
+              auxQueue.push(e.source);
+            }
+          }
+        }
+      }
+      if (pn.node_type === 'substance' || pn.node_type === 'facility') {
+        for (const e of this.outEdges.get(pid) || []) {
+          if (e.edge_type === 'composed_of' && !belong.has(e.target)) {
+            belong.add(e.target);
+            auxQueue.push(e.target);
+          }
+        }
+      }
+    }
+
+    while (auxQueue.length > 0) {
+      const cur = auxQueue.shift()!;
+      if (cur === nodeId) return true;
+      const curNode = this.nodeMap.get(cur);
+      if (!curNode) continue;
+      if (curNode.node_type === 'substance') {
+        for (const e of this.inEdges.get(cur) || []) {
+          if (e.edge_type === 'output' && !belong.has(e.source)) {
+            const pn = this.nodeMap.get(e.source);
+            if (pn && pn.node_type === 'process') {
+              belong.add(e.source);
+              auxQueue.push(e.source);
+            }
+          }
+        }
+        for (const e of this.outEdges.get(cur) || []) {
+          if (e.edge_type === 'composed_of' && !belong.has(e.target)) {
+            belong.add(e.target);
+            auxQueue.push(e.target);
+          }
+        }
+      } else if (curNode.node_type === 'process') {
+        for (const e of this.inEdges.get(cur) || []) {
+          if (e.edge_type === 'input' && !belong.has(e.source)) {
+            const sn = this.nodeMap.get(e.source);
+            if (sn && sn.node_type === 'substance') {
+              belong.add(e.source);
+              auxQueue.push(e.source);
+            }
+          }
+        }
+      }
+    }
+
+    return belong.has(nodeId);
   }
 
   getGraphData(): GraphData {
@@ -59,441 +257,507 @@ class JsonDataProvider implements GraphDataProvider {
     return this.nodeMap.get(id);
   }
 
-  searchNodes(query: string, chainId?: string, limit: number = 20): GraphNode[] {
-    const lowerQuery = query.toLowerCase().trim();
-    if (!lowerQuery) return [];
+  getEdgeById(id: string): GraphEdge | undefined {
+    return this.data.edges.find(e => e.id === id);
+  }
 
+  getNodesByType(type: NodeType): GraphNode[] {
+    return this.data.nodes.filter(n => n.node_type === type);
+  }
+
+  searchNodes(query: string, chainId?: string, limit: number = 20): GraphNode[] {
+    const q = query.toLowerCase().trim();
+    if (!q) return [];
     const results: GraphNode[] = [];
     for (const node of this.data.nodes) {
-      if (this.matchesSearch(node, lowerQuery)) {
-        results.push(node);
+      if (chainId && node.chains && !node.chains.includes(chainId) && node.primary_chain !== chainId) {
+        continue;
       }
-      if (results.length >= limit) break;
+      if (this.matchesSearch(node, q)) {
+        results.push(node);
+        if (results.length >= limit) break;
+      }
     }
     return results;
   }
 
   matchesSearch(node: GraphNode, query: string): boolean {
-    const lowerQuery = query.toLowerCase();
-    if (node.name.toLowerCase().includes(lowerQuery)) return true;
-    if (node.aliases?.some((a) => a.term.toLowerCase().includes(lowerQuery))) return true;
-    if (node.contextual_names?.some((c) => c.term.toLowerCase().includes(lowerQuery))) return true;
+    const q = query.toLowerCase();
+    if (node.name.toLowerCase().includes(q)) return true;
+    if (node.id.toLowerCase().includes(q)) return true;
+    if (node.definition && node.definition.toLowerCase().includes(q)) return true;
+    if (node.aliases) {
+      for (const a of node.aliases) {
+        if (a.term.toLowerCase().includes(q)) return true;
+      }
+    }
+    if (node.contextual_names) {
+      for (const c of node.contextual_names) {
+        if (c.term.toLowerCase().includes(q)) return true;
+      }
+    }
     return false;
   }
 
+  getInputs(processId: string): GraphNode[] {
+    const edges = this.inEdges.get(processId) || [];
+    return edges
+      .filter(e => e.edge_type === 'input')
+      .map(e => this.nodeMap.get(e.source))
+      .filter((n): n is GraphNode => !!n);
+  }
+
+  getOutputs(processId: string): GraphNode[] {
+    const edges = this.outEdges.get(processId) || [];
+    return edges
+      .filter(e => e.edge_type === 'output')
+      .map(e => this.nodeMap.get(e.target))
+      .filter((n): n is GraphNode => !!n);
+  }
+
+  getProcessesUsing(substanceId: string): { process: GraphNode; edge: GraphEdge }[] {
+    const edges = this.outEdges.get(substanceId) || [];
+    return edges
+      .filter(e => e.edge_type === 'input')
+      .map(e => ({
+        process: this.nodeMap.get(e.target)!,
+        edge: e,
+      }))
+      .filter(x => !!x.process);
+  }
+
+  getProcessesProducing(substanceId: string): { process: GraphNode; edge: GraphEdge }[] {
+    const edges = this.inEdges.get(substanceId) || [];
+    return edges
+      .filter(e => e.edge_type === 'output')
+      .map(e => ({
+        process: this.nodeMap.get(e.source)!,
+        edge: e,
+      }))
+      .filter(x => !!x.process);
+  }
+
+  getEquipmentForProcess(processId: string): GraphNode[] {
+    const edges = this.inEdges.get(processId) || [];
+    return edges
+      .filter(e => e.edge_type === 'equipment_for')
+      .map(e => this.nodeMap.get(e.source))
+      .filter((n): n is GraphNode => !!n);
+  }
+
+  getComponents(nodeId: string): GraphNode[] {
+    const edges = this.outEdges.get(nodeId) || [];
+    return edges
+      .filter(e => e.edge_type === 'composed_of')
+      .map(e => this.nodeMap.get(e.target))
+      .filter((n): n is GraphNode => !!n);
+  }
+
+  getParentFacility(substanceId: string): GraphNode | undefined {
+    const edges = this.inEdges.get(substanceId) || [];
+    const comp = edges.find(e => e.edge_type === 'composed_of');
+    if (comp) return this.nodeMap.get(comp.source);
+    return undefined;
+  }
+
+  getUpstreamSubstances(substanceId: string, depth: number = 10): GraphNode[] {
+    const result: GraphNode[] = [];
+    const visited = new Set<string>([substanceId]);
+    const queue: Array<{ id: string; d: number }> = [{ id: substanceId, d: 0 }];
+    while (queue.length > 0) {
+      const { id, d } = queue.shift()!;
+      if (d >= depth) continue;
+      const node = this.nodeMap.get(id);
+      if (!node) continue;
+      if (node.node_type === 'process') {
+        for (const e of this.inEdges.get(id) || []) {
+          if (e.edge_type === 'input' && !visited.has(e.source)) {
+            visited.add(e.source);
+            const sn = this.nodeMap.get(e.source);
+            if (sn && sn.node_type !== 'equipment') {
+              result.push(sn);
+            }
+            queue.push({ id: e.source, d: d + 1 });
+          }
+        }
+      } else {
+        for (const e of this.inEdges.get(id) || []) {
+          if (e.edge_type === 'output' && !visited.has(e.source)) {
+            visited.add(e.source);
+            queue.push({ id: e.source, d: d });
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  getDownstreamSubstances(substanceId: string, depth: number = 10): GraphNode[] {
+    const result: GraphNode[] = [];
+    const visited = new Set<string>([substanceId]);
+    const queue: Array<{ id: string; d: number }> = [{ id: substanceId, d: 0 }];
+    while (queue.length > 0) {
+      const { id, d } = queue.shift()!;
+      if (d >= depth) continue;
+      const node = this.nodeMap.get(id);
+      if (!node) continue;
+      if (node.node_type === 'substance' || node.node_type === 'facility') {
+        for (const e of this.outEdges.get(id) || []) {
+          if (e.edge_type === 'input' && !visited.has(e.target)) {
+            visited.add(e.target);
+            queue.push({ id: e.target, d: d });
+          }
+        }
+      } else if (node.node_type === 'process') {
+        for (const e of this.outEdges.get(id) || []) {
+          if (e.edge_type === 'output' && !visited.has(e.target)) {
+            visited.add(e.target);
+            const tn = this.nodeMap.get(e.target);
+            if (tn && tn.node_type !== 'equipment') {
+              result.push(tn);
+            }
+            queue.push({ id: e.target, d: d + 1 });
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  getChainDef(chainId: string): ChainDef | undefined {
+    return this.data.chains[chainId];
+  }
+
+  getViewableChains(): ChainDef[] {
+    return Object.values(this.data.chains).filter(c => c.is_viewable);
+  }
+
+  getNodeChains(nodeId: string): string[] {
+    const node = this.nodeMap.get(nodeId);
+    return node?.chains || [];
+  }
+
+  getNodePrimaryChain(nodeId: string): string | undefined {
+    const node = this.nodeMap.get(nodeId);
+    return node?.primary_chain;
+  }
+
+  getMainAxisPath(chainId: string): { nodes: GraphNode[]; edges: GraphEdge[] } {
+    const chain = this.data.chains[chainId];
+    if (!chain) return { nodes: [], edges: [] };
+
+    const startIds = chain.start_substance_ids;
+    const endId = chain.end_facility_id;
+
+    const prev = new Map<string, { from: string; edge: GraphEdge } | null>();
+    for (const s of startIds) prev.set(s, null);
+    const queue: string[] = [...startIds];
+    let foundEnd: string | null = null;
+
+    while (queue.length > 0) {
+      const cur = queue.shift()!;
+      if (cur === endId) {
+        foundEnd = cur;
+        break;
+      }
+      const curNode = this.nodeMap.get(cur);
+      if (!curNode) continue;
+
+      let nextIds: Array<{ id: string; edge: GraphEdge }> = [];
+      if (curNode.node_type === 'substance' || curNode.node_type === 'facility') {
+        for (const e of this.outEdges.get(cur) || []) {
+          if (e.edge_type === 'input') nextIds.push({ id: e.target, edge: e });
+        }
+      } else if (curNode.node_type === 'process') {
+        for (const e of this.outEdges.get(cur) || []) {
+          if (e.edge_type === 'output') nextIds.push({ id: e.target, edge: e });
+        }
+      }
+
+      for (const { id, edge } of nextIds) {
+        if (!prev.has(id)) {
+          prev.set(id, { from: cur, edge });
+          queue.push(id);
+        }
+      }
+    }
+
+    if (!foundEnd) {
+      return { nodes: [], edges: [] };
+    }
+
+    const pathNodes: GraphNode[] = [];
+    const pathEdges: GraphEdge[] = [];
+    let cur: string | null = foundEnd;
+    while (cur) {
+      const n = this.nodeMap.get(cur);
+      if (n) pathNodes.unshift(n);
+      const p = prev.get(cur);
+      if (!p) break;
+      pathEdges.unshift(p.edge);
+      cur = p.from;
+    }
+    return { nodes: pathNodes, edges: pathEdges };
+  }
+
+  getBranchNodes(mainAxisNodeIds: Set<string>, chainId: string): GraphNode[] {
+    const branch = new Set<string>();
+    for (const nid of Array.from(mainAxisNodeIds)) {
+      const node = this.nodeMap.get(nid);
+      if (!node) continue;
+      if (node.node_type === 'substance' || node.node_type === 'facility') {
+        for (const e of this.outEdges.get(nid) || []) {
+          if (e.edge_type === 'input') {
+            const proc = this.nodeMap.get(e.target);
+            if (!proc || proc.node_type !== 'process') continue;
+            for (const oe of this.outEdges.get(proc.id) || []) {
+              if (oe.edge_type === 'output' && !mainAxisNodeIds.has(oe.target)) {
+                branch.add(e.source);
+                const outs = this.collectProcessOutputs(proc.id, mainAxisNodeIds, 2);
+                outs.forEach(o => branch.add(o));
+              }
+            }
+            const equipEdges = this.inEdges.get(proc.id) || [];
+            for (const ee of equipEdges) {
+              if (ee.edge_type === 'equipment_for') {
+                branch.add(ee.source);
+              }
+            }
+          }
+        }
+        for (const e of this.inEdges.get(nid) || []) {
+          if (e.edge_type === 'output') {
+            const proc = this.nodeMap.get(e.source);
+            if (!proc) continue;
+            for (const ie of this.inEdges.get(proc.id) || []) {
+              if (ie.edge_type === 'input' && !mainAxisNodeIds.has(ie.source)) {
+                branch.add(ie.source);
+              }
+            }
+            for (const ee of this.inEdges.get(proc.id) || []) {
+              if (ee.edge_type === 'equipment_for') {
+                branch.add(ee.source);
+              }
+            }
+          }
+        }
+      }
+    }
+    return Array.from(branch).map(id => this.nodeMap.get(id)).filter((n): n is GraphNode => !!n);
+  }
+
+  private collectProcessOutputs(procId: string, mainAxis: Set<string>, maxDepth: number): string[] {
+    const result: string[] = [];
+    const visited = new Set<string>([procId]);
+    const queue: Array<{ id: string; d: number }> = [{ id: procId, d: 0 }];
+    while (queue.length > 0) {
+      const { id, d } = queue.shift()!;
+      if (d >= maxDepth) continue;
+      const node = this.nodeMap.get(id);
+      if (!node) continue;
+      if (node.node_type === 'process') {
+        for (const e of this.outEdges.get(id) || []) {
+          if (e.edge_type === 'output' && !mainAxis.has(e.target) && !visited.has(e.target)) {
+            visited.add(e.target);
+            result.push(e.target);
+          }
+        }
+      } else if (node.node_type === 'substance' && d > 0) {
+        for (const e of this.outEdges.get(id) || []) {
+          if (e.edge_type === 'input' && !visited.has(e.target)) {
+            visited.add(e.target);
+            queue.push({ id: e.target, d: d + 1 });
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  classifyEdgeForChain(
+    edge: GraphEdge,
+    _chainId: string,
+    mainAxisNodeIds: Set<string>
+  ): EdgeRole {
+    const sn = this.nodeMap.get(edge.source);
+    const tn = this.nodeMap.get(edge.target);
+    if (!sn || !tn) return 'outside';
+
+    if (edge.edge_type === 'equipment_for') {
+      return mainAxisNodeIds.has(edge.target) ? 'equipment' : 'outside';
+    }
+    if (edge.edge_type === 'composed_of' || edge.edge_type === 'is_a') {
+      return 'outside';
+    }
+
+    const sIn = mainAxisNodeIds.has(edge.source);
+    const tIn = mainAxisNodeIds.has(edge.target);
+
+    if (sIn && tIn) {
+      const sChains = sn.chains || [];
+      const tChains = tn.chains || [];
+      const isCross =
+        sn.primary_chain && tn.primary_chain && sn.primary_chain !== tn.primary_chain;
+      if (isCross) {
+        const otherNode = sChains.length > 1 || tChains.length > 1;
+        if (otherNode) return 'cross_chain';
+      }
+      return 'main_axis';
+    }
+
+    if (sIn || tIn) {
+      const otherNode = sIn ? tn : sn;
+      if (otherNode.chains && otherNode.chains.length > 1) {
+        return 'cross_chain';
+      }
+      return 'branch';
+    }
+
+    return 'outside';
+  }
+
+  getCrossChainNodes(chainId: string): Array<{ node: GraphNode; otherChains: string[] }> {
+    const result: Array<{ node: GraphNode; otherChains: string[] }> = [];
+    for (const node of this.data.nodes) {
+      if (node.node_type !== 'substance') continue;
+      const chains = node.chains || [];
+      if (chains.includes(chainId) && chains.length > 1) {
+        result.push({
+          node,
+          otherChains: chains.filter(c => c !== chainId),
+        });
+      }
+    }
+    return result;
+  }
+
   getDisplayName(nodeId: string, chainId?: string): string {
-    const node = this.nodeMap.get(this.resolveNodeId(nodeId));
+    const node = this.nodeMap.get(nodeId);
     if (!node) return nodeId;
     if (chainId && node.contextual_names) {
-      const cn = node.contextual_names.find((c) => c.chain_id === chainId);
+      const cn = node.contextual_names.find(c => c.chain_id === chainId);
       if (cn) return cn.term;
     }
     return node.name;
   }
 
-  getNodeAliases(nodeId: string): Alias[] {
-    const node = this.nodeMap.get(this.resolveNodeId(nodeId));
-    return node?.aliases ?? [];
-  }
+  validateData(): ValidationError[] {
+    const errors: ValidationError[] = [];
+    const nodeIds = new Set(this.data.nodes.map(n => n.id));
+    const nodeMap = this.nodeMap;
 
-  resolveNodeId(id: string): string {
-    const node = this.nodeMap.get(id);
-    if (node?.merged_into) {
-      return this.resolveNodeId(node.merged_into);
-    }
-    return id;
-  }
+    const validMatrix: Record<string, Record<string, EdgeType[]>> = {
+      substance: { substance: ['composed_of', 'is_a'], process: ['input'], facility: ['composed_of'] },
+      process: { substance: ['output'], facility: ['output'] },
+      equipment: { process: ['equipment_for'] },
+      facility: { substance: ['composed_of'], facility: ['is_a'] },
+    };
 
-  getChainDef(chainId: string): ChainDef | undefined {
-    return CHAIN_DEFS[chainId];
-  }
-
-  getViewableChains(): ChainDef[] {
-    return Object.values(CHAIN_DEFS).filter((c) => c.is_viewable);
-  }
-
-  getNodeChains(nodeId: string): string[] {
-    const node = this.nodeMap.get(this.resolveNodeId(nodeId));
-    return node?.chains ?? [];
-  }
-
-  getNodePrimaryChain(nodeId: string): string | undefined {
-    const node = this.nodeMap.get(this.resolveNodeId(nodeId));
-    return node?.primary_chain;
-  }
-
-  getMainAxisNodes(centerNodeId: string, chainId: string): {
-    upstream: GraphNode[][];
-    center: GraphNode;
-    downstream: GraphNode[][];
-  } {
-    const resolvedId = this.resolveNodeId(centerNodeId);
-    const center = this.nodeMap.get(resolvedId);
-    if (!center) throw new Error(`Node not found: ${centerNodeId}`);
-
-    const chainDef = CHAIN_DEFS[chainId];
-    if (!chainDef) return { upstream: [], center, downstream: [] };
-
-    const mainAxisTypes = new Set<string>();
-    for (const rel of chainDef.main_axis_relations) {
-      mainAxisTypes.add(typeof rel === 'string' ? rel : rel.type);
-    }
-
-    const upstream: GraphNode[][] = [];
-    const downstream: GraphNode[][] = [];
-
-    const bfs = (startId: string, direction: 'up' | 'down'): GraphNode[][] => {
-      const layers: GraphNode[][] = [];
-      const visited = new Set<string>([startId]);
-      let currentQueue: string[] = [startId];
-
-      while (currentQueue.length > 0) {
-        const nextQueue: string[] = [];
-        const layerNodes: GraphNode[] = [];
-
-        for (const nodeId of currentQueue) {
-          const edges = this.adjacencyList.get(nodeId) ?? [];
-          for (const edge of edges) {
-            if (!mainAxisTypes.has(edge.relation_type)) continue;
-
-            const flow = getFlowForType(edge.relation_type, chainId);
-            let neighborId: string | null = null;
-            let isForward: boolean = false;
-
-            if (flow === 'upstream_to_downstream') {
-              if (edge.source === nodeId) { neighborId = edge.target; isForward = true; }
-              else if (edge.target === nodeId) { neighborId = edge.source; isForward = false; }
-              else { neighborId = null; isForward = false; }
-            } else if (flow === 'downstream_to_upstream') {
-              if (edge.target === nodeId) { neighborId = edge.source; isForward = true; }
-              else if (edge.source === nodeId) { neighborId = edge.target; isForward = false; }
-              else { neighborId = null; isForward = false; }
-            } else {
-              neighborId = null;
-              isForward = false;
-              continue;
-            }
-
-            if (!neighborId || visited.has(neighborId)) continue;
-            visited.add(neighborId);
-
-            const goesDownstream = (direction === 'down') === isForward;
-            if (goesDownstream) {
-              const resolved = this.resolveNodeId(neighborId);
-              const neighbor = this.nodeMap.get(resolved);
-              if (neighbor) {
-                layerNodes.push(neighbor);
-                nextQueue.push(neighborId);
-              }
-            }
-          }
-        }
-
-        if (layerNodes.length > 0) layers.push(layerNodes);
-        currentQueue = nextQueue;
+    for (const edge of this.data.edges) {
+      if (!nodeIds.has(edge.source)) {
+        errors.push({ severity: 'error', code: 'DANGLING_REF', message: `边${edge.id}源节点不存在: ${edge.source}`, edgeId: edge.id });
       }
-      return layers;
-    };
-
-    return {
-      upstream: bfs(resolvedId, 'up'),
-      center,
-      downstream: bfs(resolvedId, 'down'),
-    };
-  }
-
-  getBranchNodes(mainAxisNodeIds: Set<string>, chainId: string): GraphNode[] {
-    const chainDef = CHAIN_DEFS[chainId];
-    if (!chainDef) return [];
-
-    const branchTypes = new Set<string>();
-    for (const rel of chainDef.branch_relations) {
-      branchTypes.add(typeof rel === 'string' ? rel : rel.type);
-    }
-
-    const branchNodeIds = new Set<string>();
-    for (const nodeId of Array.from(mainAxisNodeIds)) {
-      const edges = this.adjacencyList.get(nodeId) ?? [];
-      for (const edge of edges) {
-        if (!branchTypes.has(edge.relation_type)) continue;
-        const neighborId = edge.source === nodeId ? edge.target : edge.source;
-        const resolved = this.resolveNodeId(neighborId);
-        if (!mainAxisNodeIds.has(resolved)) {
-          branchNodeIds.add(resolved);
+      if (!nodeIds.has(edge.target)) {
+        errors.push({ severity: 'error', code: 'DANGLING_REF', message: `边${edge.id}目标节点不存在: ${edge.target}`, edgeId: edge.id });
+      }
+      if (edge.source === edge.target) {
+        errors.push({ severity: 'error', code: 'SELF_LOOP', message: `自环边: ${edge.id}`, edgeId: edge.id });
+      }
+      const sn = nodeMap.get(edge.source);
+      const tn = nodeMap.get(edge.target);
+      if (sn && tn) {
+        const allowed = validMatrix[sn.node_type]?.[tn.node_type] || [];
+        if (!allowed.includes(edge.edge_type)) {
+          errors.push({
+            severity: 'error',
+            code: 'TYPE_VIOLATION',
+            message: `类型违规: ${sn.name}(${sn.node_type}) --${edge.edge_type}--> ${tn.name}(${tn.node_type})`,
+            edgeId: edge.id,
+          });
         }
       }
     }
 
-    return Array.from(branchNodeIds)
-      .map((id) => this.nodeMap.get(id))
-      .filter((n): n is GraphNode => n !== undefined);
-  }
-
-  classifyEdgeForChain(edge: GraphEdge, chainId: string, mainAxisNodeIds: Set<string>): EdgeRole {
-    const chainDef = CHAIN_DEFS[chainId];
-    const relType = edge.relation_type;
-    const sourceResolved = this.resolveNodeId(edge.source);
-    const targetResolved = this.resolveNodeId(edge.target);
-    const sourceInMain = mainAxisNodeIds.has(sourceResolved);
-    const targetInMain = mainAxisNodeIds.has(targetResolved);
-
-    const flow = getFlowForType(relType, chainId);
-    let upstreamNode: string;
-    let downstreamNode: string;
-    let direction: 'upstream' | 'downstream' | 'lateral';
-
-    if (flow === 'upstream_to_downstream') {
-      upstreamNode = sourceResolved;
-      downstreamNode = targetResolved;
-      direction = 'downstream';
-    } else if (flow === 'downstream_to_upstream') {
-      upstreamNode = targetResolved;
-      downstreamNode = sourceResolved;
-      direction = 'upstream';
-    } else {
-      upstreamNode = sourceResolved;
-      downstreamNode = targetResolved;
-      direction = 'lateral';
+    const dup = new Set<string>();
+    for (const e of this.data.edges) {
+      const key = `${e.source}|${e.target}|${e.edge_type}`;
+      if (dup.has(key)) {
+        errors.push({ severity: 'warning', code: 'DUPLICATE_EDGE', message: `重复边: ${key}`, edgeId: e.id });
+      }
+      dup.add(key);
     }
 
-    if (chainDef) {
-      if (isMainAxisRelation(chainDef, relType) && sourceInMain && targetInMain) {
-        return { role: 'main_axis', direction, upstreamNode, downstreamNode };
-      }
-      if (isBranchRelation(chainDef, relType) && (sourceInMain || targetInMain)) {
-        const farNode = sourceInMain ? targetResolved : sourceResolved;
-        const farNodeObj = this.nodeMap.get(farNode);
-        const isCross = farNodeObj?.primary_chain != null && farNodeObj.primary_chain !== chainId;
-        return {
-          role: isCross ? 'cross_chain' : 'branch',
-          direction,
-          upstreamNode,
-          downstreamNode,
-        };
+    const connected = new Set<string>();
+    this.data.edges.forEach(e => { connected.add(e.source); connected.add(e.target); });
+    for (const n of this.data.nodes) {
+      if (!connected.has(n.id)) {
+        errors.push({ severity: 'error', code: 'ISOLATED_NODE', message: `孤立节点: ${n.name}`, nodeId: n.id });
       }
     }
 
-    return { role: 'outside', direction, upstreamNode, downstreamNode };
-  }
-
-  getEffectiveFlow(edge: GraphEdge, chainId?: string): RelationFlow {
-    return getFlowForType(edge.relation_type, chainId);
-  }
-
-  getNodeNeighborsByFlow(nodeId: string, chainId?: string): {
-    upstream: GraphNode[];
-    downstream: GraphNode[];
-    horizontal: GraphNode[];
-  } {
-    const resolvedId = this.resolveNodeId(nodeId);
-    const edges = this.adjacencyList.get(resolvedId) ?? [];
-    const upstream: GraphNode[] = [];
-    const downstream: GraphNode[] = [];
-    const horizontal: GraphNode[] = [];
-    const seen = new Set<string>();
-
-    for (const edge of edges) {
-      const flow = getFlowForType(edge.relation_type, chainId);
-      const neighborId = edge.source === resolvedId ? edge.target : edge.source;
-      if (seen.has(neighborId)) continue;
-      seen.add(neighborId);
-
-      const resolved = this.resolveNodeId(neighborId);
-      const neighbor = this.nodeMap.get(resolved);
-      if (!neighbor) continue;
-
-      if (flow === 'horizontal') {
-        horizontal.push(neighbor);
-      } else {
-        const isSource = edge.source === resolvedId;
-        const goesDownstream =
-          (flow === 'upstream_to_downstream' && isSource) ||
-          (flow === 'downstream_to_upstream' && !isSource);
-        if (goesDownstream) downstream.push(neighbor);
-        else upstream.push(neighbor);
-      }
-    }
-
-    return { upstream, downstream, horizontal };
-  }
-
-  getNodeChildren(parentId: string): GraphNode[] {
-    return this.childrenMap.get(parentId) ?? [];
-  }
-
-  getNodeParent(childId: string): GraphNode | undefined {
-    const child = this.nodeMap.get(childId);
-    if (!child || !child.parent_type) return undefined;
-    return this.nodeMap.get(child.parent_type);
-  }
-
-  getNodeNeighbors(
-    nodeId: string,
-    relationType?: RelationType
-  ): GraphNode[] {
-    const edges = this.adjacencyList.get(nodeId);
-    if (!edges) return [];
-
-    const neighborIds = new Set<string>();
-    for (const edge of edges) {
-      if (relationType && edge.relation_type !== relationType) continue;
-      const neighborId = edge.source === nodeId ? edge.target : edge.source;
-      neighborIds.add(neighborId);
-    }
-
-    return Array.from(neighborIds)
-      .map((id) => this.nodeMap.get(id))
-      .filter((n): n is GraphNode => n !== undefined);
-  }
-
-  getChainView(
-    nodeId: string,
-    relationType: RelationType,
-    depth: number
-  ): ChainView | undefined {
-    const centerNode = this.nodeMap.get(nodeId);
-    if (!centerNode) return undefined;
-
-    const visitedNodes = new Set<string>([nodeId]);
-    const queue: Array<{ id: string; currentDepth: number }> = [
-      { id: nodeId, currentDepth: 0 },
-    ];
-
-    while (queue.length > 0) {
-      const { id, currentDepth } = queue.shift()!;
-      if (currentDepth >= depth) continue;
-
-      const edges = this.adjacencyList.get(id) ?? [];
-      for (const edge of edges) {
-        if (edge.relation_type !== relationType) continue;
-
-        let neighborId: string | null = null;
-        if (edge.source === id) {
-          neighborId = edge.target;
-        } else if (edge.target === id) {
-          neighborId = edge.source;
+    for (const n of this.data.nodes) {
+      if (n.node_type === 'process') {
+        const inputs = (this.inEdges.get(n.id) || []).filter(e => e.edge_type === 'input');
+        const outputs = (this.outEdges.get(n.id) || []).filter(e => e.edge_type === 'output');
+        if (inputs.length === 0) {
+          errors.push({ severity: 'error', code: 'PROCESS_NO_INPUT', message: `过程无input: ${n.name}`, nodeId: n.id });
         }
-
-        if (neighborId && !visitedNodes.has(neighborId)) {
-          visitedNodes.add(neighborId);
-          queue.push({ id: neighborId, currentDepth: currentDepth + 1 });
+        if (outputs.length === 0) {
+          errors.push({ severity: 'error', code: 'PROCESS_NO_OUTPUT', message: `过程无output: ${n.name}`, nodeId: n.id });
+        }
+      }
+      if (n.external_input) {
+        const asInput = (this.inEdges.get(n.id) || []).filter(e => e.edge_type === 'output');
+        if (asInput.length > 0) {
+          errors.push({ severity: 'error', code: 'EXTERNAL_INPUT_HAS_PRODUCER', message: `外部输入节点不应有process产出它: ${n.name}`, nodeId: n.id });
         }
       }
     }
 
-    const edges = this.data.edges.filter(
-      (edge) =>
-        edge.relation_type === relationType &&
-        visitedNodes.has(edge.source) &&
-        visitedNodes.has(edge.target)
-    );
-
-    const nodes = Array.from(visitedNodes)
-      .map((id) => this.nodeMap.get(id))
-      .filter((n): n is GraphNode => n !== undefined);
-
-    return {
-      center_node: centerNode,
-      relation_type: relationType,
-      nodes,
-      edges,
-    };
-  }
-
-  getNodeChainSummary(nodeId: string): NodeChainSummary | undefined {
-    const node = this.nodeMap.get(nodeId);
-    if (!node) return undefined;
-
-    const chainCounts = new Map<string, { upstream: number; downstream: number }>();
-    const edges = this.adjacencyList.get(nodeId) ?? [];
-
-    for (const edge of edges) {
-      const rt = edge.relation_type;
-      if (!chainCounts.has(rt)) {
-        chainCounts.set(rt, { upstream: 0, downstream: 0 });
+    for (const chain of Object.values(this.data.chains)) {
+      if (chain.end_facility_id) {
+        const end = nodeMap.get(chain.end_facility_id);
+        if (!end) {
+          errors.push({ severity: 'error', code: 'CHAIN_END_NOT_FOUND', message: `链${chain.id}终点不存在: ${chain.end_facility_id}` });
+        } else if (end.node_type !== 'facility') {
+          errors.push({ severity: 'error', code: 'CHAIN_END_NOT_FACILITY', message: `链${chain.id}终点不是facility: ${end.name}(${end.node_type})` });
+        }
       }
-      const counts = chainCounts.get(rt)!;
-
-      if (edge.source === nodeId) {
-        counts.downstream++;
-      }
-      if (edge.target === nodeId) {
-        counts.upstream++;
+      for (const s of chain.start_substance_ids) {
+        const start = nodeMap.get(s);
+        if (!start) {
+          errors.push({ severity: 'error', code: 'CHAIN_START_NOT_FOUND', message: `链${chain.id}起点不存在: ${s}` });
+        }
       }
     }
 
-    const chains = Array.from(chainCounts.entries()).map(
-      ([rt, counts]) => ({
-        relation_type: rt as RelationType,
-        upstream_count: counts.upstream,
-        downstream_count: counts.downstream,
-      })
-    );
+    const metals = ['copper_ingot', 'aluminum_ingot'];
+    for (const mid of metals) {
+      const m = nodeMap.get(mid);
+      if (m && (m.chains?.length || 0) < 2) {
+        errors.push({ severity: 'warning', code: 'METAL_NOT_CROSS_CHAIN', message: `关键金属${m.name}未连接多链`, nodeId: mid });
+      }
+    }
 
-    return {
-      node_id: nodeId,
-      chains,
-    };
+    const names = new Map<string, string>();
+    for (const n of this.data.nodes) {
+      if (names.has(n.name) && names.get(n.name) !== n.id) {
+        errors.push({ severity: 'warning', code: 'NAME_COLLISION', message: `重名: ${n.name} (${names.get(n.name)} vs ${n.id})`, nodeId: n.id });
+      }
+      names.set(n.name, n.id);
+    }
+
+    return errors;
   }
 }
 
-let dataProvider: GraphDataProvider | null = null;
+let providerInstance: JsonDataProvider | null = null;
 
-export function getDataProvider(): GraphDataProvider {
-  if (!dataProvider) {
-    const graphData = graphDataJson as GraphData;
-    if (!graphData.edges) {
-      graphData.edges = [];
-    }
-    dataProvider = new JsonDataProvider(graphData);
+export function getGraphDataProvider(): GraphDataProvider {
+  if (!providerInstance) {
+    providerInstance = new JsonDataProvider(graphDataJson);
   }
-  return dataProvider;
+  return providerInstance;
 }
 
-export function setDataProvider(provider: GraphDataProvider): void {
-  dataProvider = provider;
-}
-
-export const NODE_TYPE_COLORS: Record<string, string> = {
-  material: '#00B42A',
-  process: '#FF7D00',
-  equipment: '#722ED1',
-  product: '#0FC6C2',
-  industry: '#165DFF',
-  entity: '#86909C',
-};
-
-export const NODE_TYPE_LABELS: Record<string, string> = {
-  material: '材料',
-  process: '工艺',
-  equipment: '设备',
-  product: '产品',
-  industry: '行业',
-  entity: '实体',
-};
-
-export const RELATION_TYPE_LABELS: Record<string, string> = {
-  upstream_of: '上游',
-  downstream_of: '下游',
-  raw_material_for: '原料供给',
-  equipment_for: '设备供给',
-  consumable_for: '耗材供给',
-  can_be_processed_into: '可加工为',
-  applied_in: '应用于',
-  structurally_similar_to: '结构相似',
-  made_of: '由...构成',
-  is_subclass_of: '是...子类',
-};
-
-export const RELATION_TYPE_COLORS: Record<string, string> = {
-  upstream_of: '#86909C',
-  downstream_of: '#86909C',
-  raw_material_for: '#00B42A',
-  equipment_for: '#722ED1',
-  consumable_for: '#FF7D00',
-  can_be_processed_into: '#0FC6C2',
-  applied_in: '#EB2F96',
-  structurally_similar_to: '#F53F3F',
-  made_of: '#86909C',
-  is_subclass_of: '#C9CDD4',
-};
+export { JsonDataProvider };

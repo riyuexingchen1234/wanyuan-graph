@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import { Line } from '@react-three/drei';
 import * as THREE from 'three';
-import type { GraphEdge, RelationType } from '../../lib/types';
+import type { GraphEdge } from '../../lib/types';
 import type { NodePosition } from '../../store/graphStore';
 
 interface GraphEdge3DProps {
@@ -11,27 +11,6 @@ interface GraphEdge3DProps {
   sourcePos: NodePosition;
   targetPos: NodePosition;
   depth: number;
-}
-
-const CURVE_CONFIG: Record<string, { dir: [number, number, number]; curvature: number }> = {
-  raw_material_for: { dir: [0, 1, 0], curvature: 0.15 },
-  can_be_processed_into: { dir: [0, 1, 0], curvature: 0.15 },
-  made_of: { dir: [0, 1, 0], curvature: 0.15 },
-  applied_in: { dir: [0, 0, 1], curvature: 0.25 },
-  equipment_for: { dir: [0, 0, -1], curvature: 0.25 },
-  downstream_of: { dir: [0, 1, 0.5], curvature: 0.2 },
-  upstream_of: { dir: [0, 1, -0.5], curvature: 0.2 },
-  consumable_for: { dir: [0.5, 0.5, 0], curvature: 0.2 },
-  structurally_similar_to: { dir: [0, -1, 0.5], curvature: 0.3 },
-};
-
-function getCurveConfig(relationType: RelationType) {
-  return (
-    CURVE_CONFIG[relationType] || {
-      dir: [0.5, 0.5, 0.5],
-      curvature: 0.2,
-    }
-  );
 }
 
 function getEdgeOpacity(depth: number): number {
@@ -44,20 +23,15 @@ function getEdgeOpacity(depth: number): number {
 function generateCurvePoints(
   sourcePos: NodePosition,
   targetPos: NodePosition,
-  relationType: RelationType,
   segments: number = 16
 ): [number, number, number][] {
-  const config = getCurveConfig(relationType);
-  const [dx, dy, dz] = config.dir;
-
   const start = new THREE.Vector3(sourcePos.x, sourcePos.y, sourcePos.z);
   const end = new THREE.Vector3(targetPos.x, targetPos.y, targetPos.z);
   const mid = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
 
   const distance = start.distanceTo(end);
-  const curveAmount = distance * config.curvature;
-
-  const normalDir = new THREE.Vector3(dx, dy, dz).normalize();
+  const curveAmount = distance * 0.15;
+  const normalDir = new THREE.Vector3(0, 1, 0).normalize();
   const controlPoint = mid.clone().add(normalDir.multiplyScalar(curveAmount));
 
   const curve = new THREE.QuadraticBezierCurve3(start, controlPoint, end);
@@ -74,8 +48,8 @@ function generateCurvePoints(
 
 export default function GraphEdge3D({ edge, sourcePos, targetPos, depth }: GraphEdge3DProps) {
   const points = useMemo(() => {
-    return generateCurvePoints(sourcePos, targetPos, edge.relation_type, 16);
-  }, [sourcePos, targetPos, edge.relation_type]);
+    return generateCurvePoints(sourcePos, targetPos, 16);
+  }, [sourcePos, targetPos]);
 
   const opacity = getEdgeOpacity(depth);
   const isDashed = edge.verification_status === 'proposed';

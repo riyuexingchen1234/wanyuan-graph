@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import type { GraphNode, NodeType } from '@/lib/types';
-import { NODE_TYPE_COLORS, NODE_TYPE_LABELS } from '@/lib/graph-data';
-import graphData from '@/data/graph-data.json';
+import { NODE_TYPE_COLORS, NODE_TYPE_LABELS } from '@/lib/types';
+import { getGraphDataProvider } from '@/lib/graph-data';
 
 interface SearchBarProps {
   onNodeSelect: (id: string) => void;
@@ -24,7 +24,10 @@ export default function SearchBar({ onNodeSelect, placeholder }: SearchBarProps)
   const dropdownRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const allNodes = useMemo(() => graphData.nodes as GraphNode[], []);
+  const allNodes = useMemo(() => {
+    const provider = getGraphDataProvider();
+    return provider.getGraphData().nodes;
+  }, []);
 
   const loadSearchHistory = (): string[] => {
     try {

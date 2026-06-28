@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { GraphNode, GraphEdge, RelationType } from '../lib/types';
+import type { GraphNode, GraphEdge, ChainDef } from '../lib/types';
 import { computeFocusLayout, computeAmbientLayout } from '../lib/graph-layout';
 
 export interface NodePosition {
@@ -11,22 +11,24 @@ export interface NodePosition {
 interface GraphState {
   nodes: GraphNode[];
   edges: GraphEdge[];
+  chains: ChainDef[];
   positions: Map<string, NodePosition>;
   depths: Map<string, number>;
   selectedNodeId: string | null;
+  selectedChainId: string | null;
   hoveredNodeId: string | null;
   focusNodeId: string | null;
   cameraTarget: NodePosition;
   cameraDistance: number;
   mode: 'ambient' | 'focus';
-  relationType: RelationType;
   navigationPath: string[];
   browseHistory: string[];
 
   setNodes: (nodes: GraphNode[]) => void;
   setEdges: (edges: GraphEdge[]) => void;
+  setChains: (chains: ChainDef[]) => void;
   setMode: (mode: 'ambient' | 'focus') => void;
-  setRelationType: (rt: RelationType) => void;
+  setSelectedChainId: (id: string | null) => void;
   setSelectedNodeId: (id: string | null) => void;
   setHoveredNodeId: (id: string | null) => void;
   setCameraTarget: (pos: NodePosition) => void;
@@ -44,15 +46,16 @@ interface GraphState {
 export const useGraphStore = create<GraphState>((set, get) => ({
   nodes: [],
   edges: [],
+  chains: [],
   positions: new Map(),
   depths: new Map(),
   selectedNodeId: null,
+  selectedChainId: null,
   hoveredNodeId: null,
   focusNodeId: null,
   cameraTarget: { x: 0, y: 0, z: 0 },
   cameraDistance: 30,
   mode: 'ambient',
-  relationType: 'raw_material_for' as RelationType,
   navigationPath: [],
   browseHistory: [],
 
@@ -64,13 +67,15 @@ export const useGraphStore = create<GraphState>((set, get) => ({
     set({ edges });
     get().computeLayout();
   },
+  setChains: (chains) => {
+    set({ chains });
+  },
   setMode: (mode) => {
     set({ mode });
     get().computeLayout();
   },
-  setRelationType: (rt) => {
-    set({ relationType: rt });
-    get().computeLayout();
+  setSelectedChainId: (id) => {
+    set({ selectedChainId: id });
   },
   setSelectedNodeId: (id) => set({ selectedNodeId: id }),
   setHoveredNodeId: (id) => set({ hoveredNodeId: id }),

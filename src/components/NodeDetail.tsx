@@ -1,30 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import type { GraphNode, RelationType } from '@/lib/types';
-import {
-  NODE_TYPE_COLORS,
-  NODE_TYPE_LABELS,
-  RELATION_TYPE_LABELS,
-  RELATION_TYPE_COLORS,
-} from '@/lib/graph-data';
+import type { GraphNode, GraphEdge } from '@/lib/types';
+import { NODE_TYPE_COLORS, NODE_TYPE_LABELS, EDGE_TYPE_LABELS } from '@/lib/types';
 
 interface NodeDetailProps {
   node: GraphNode | null;
-  parent?: GraphNode | null;
-  childNodes?: GraphNode[];
-  chains?: Array<{
-    relation_type: RelationType;
-    upstream_count: number;
-    downstream_count: number;
-  }>;
+  edges?: GraphEdge[];
+  allNodes?: GraphNode[];
   loading?: boolean;
   onClose: () => void;
-  onChainSelect?: (relationType: RelationType) => void;
-  onParentClick?: () => void;
-  onChildClick?: (childId: string) => void;
-  onMaterialExtensionClick?: () => void;
-  selectedChain?: RelationType | null;
+  onNodeClick?: (nodeId: string) => void;
 }
 
 function Skeleton() {
@@ -56,21 +42,19 @@ const SOURCE_TYPE_LABELS: Record<string, string> = {
   expert_interview: '专家访谈',
   official_data: '官方数据',
   encyclopedia: '百科',
+  textbook: '教材',
+  company_disclosure: '公司披露',
+  ai_suggested: 'AI建议',
   other: '其他',
 };
 
 export default function NodeDetail({
   node,
-  parent,
-  childNodes = [],
-  chains = [],
+  edges = [],
+  allNodes = [],
   loading,
   onClose,
-  onChainSelect,
-  onParentClick,
-  onChildClick,
-  onMaterialExtensionClick,
-  selectedChain,
+  onNodeClick,
 }: NodeDetailProps) {
   const [showSources, setShowSources] = useState(false);
 
@@ -91,12 +75,13 @@ export default function NodeDetail({
   }
 
   const nodeLabel = NODE_TYPE_LABELS[node.node_type] || node.node_type;
-  const hasChains = chains.length > 0;
+  const nodeColor = NODE_TYPE_COLORS[node.node_type] || '#86909C';
   const hasSources = node.sources && node.sources.length > 0;
-  const hasChildren = childNodes.length > 0;
-  const isMaterial = node.node_type === 'material';
-  const hasAttributes = node.attributes && Object.keys(node.attributes).some(
-    (k) => k !== 'cost_tier' && Object.keys((node.attributes as any)[k] || {}).length > 0
+  const hasAliases = node.aliases && node.aliases.length > 0;
+  const hasAttributes = node.attributes && Object.keys(node.attributes).length > 0;
+
+  const connectedEdges = edges.filter(
+    (e) => e.source === node.id || e.target === node.id
   );
 
   return (
@@ -118,7 +103,7 @@ export default function NodeDetail({
               <div className="flex gap-2">
                 <span
                   className="inline-flex items-center px-2 py-0.5 rounded text-xs text-white"
-                  style={{ backgroundColor: NODE_TYPE_COLORS[node.node_type] || '#86909C' }}
+                  style={{ backgroundColor: nodeColor }}
                 >
                   {nodeLabel}
                 </span>
@@ -147,252 +132,95 @@ export default function NodeDetail({
           <div className="pt-4 border-t border-gray-200">
             <div className="text-black text-sm font-medium mb-2">定义</div>
             <p className="text-gray-700 text-sm leading-relaxed">
-              {node.definition}
+              {node.definition || '暂无定义'}
             </p>
           </div>
 
-          {parent && (
-            <div className="pt-4 border-t border-gray-200">
-              <div className="text-black text-sm font-medium mb-2">父类型</div>
-              <button
-                onClick={onParentClick}
-                className="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-50 hover:bg-gray-100 rounded text-gray-700 text-sm transition-colors"
-              >
-                {parent.name}
-              </button>
-            </div>
-          )}
-
-          {hasChildren && (
-            <div className="pt-4 border-t border-gray-200">
-              <div className="text-black text-sm font-medium mb-3">
-                子类型 ({childNodes.length})
-              </div>
-              <div className="flex gap-2 flex-wrap">
-                {childNodes.map((child) => (
-                  <button
-                    key={child.id}
-                    onClick={() => onChildClick?.(child.id)}
-                    className="px-3 py-1.5 bg-gray-50 hover:bg-gray-100 rounded text-gray-700 text-sm transition-colors"
-                  >
-                    {child.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {node.aliases && node.aliases.length > 0 && (
+          {hasAliases && (
             <div className="pt-4 border-t border-gray-200">
               <div className="text-black text-sm font-medium mb-3">别名</div>
               <div className="flex gap-2 flex-wrap">
-                {node.aliases.map((alias, index) => (
-                  <div key={index} className="flex flex-col">
-                    <span className="px-2 py-1 bg-gray-50 rounded text-gray-700 text-xs">
-                      {alias.term}
-                    </span>
-                    {alias.context && (
-                      <span className="text-gray-400 text-[10px] mt-0.5">
-                        {alias.context}
-                      </span>
-                    )}
-                  </div>
+                {node.aliases!.map((alias, index) => (
+                  <span
+                    key={index}
+                    className="px-2 py-1 bg-gray-50 rounded text-gray-700 text-xs"
+                  >
+                    {alias.term}
+                  </span>
                 ))}
               </div>
             </div>
           )}
 
-          {isMaterial && hasAttributes && (
+          {hasAttributes && (
             <div className="pt-4 border-t border-gray-200">
-              <div className="text-black text-sm font-medium mb-3">
-                材料属性
-              </div>
-              <div className="space-y-3">
-                {node.attributes?.physical && Object.keys(node.attributes.physical).length > 0 && (
-                  <div className="p-3 bg-gray-50 rounded">
-                    <div className="text-gray-500 text-xs font-medium mb-2">物理性能</div>
-                    <div className="grid grid-cols-2 gap-2">
-                      {Object.entries(node.attributes.physical).map(([key, value]) => (
-                        <div key={key} className="flex justify-between items-center">
-                          <span className="text-gray-500 text-xs">{key}</span>
-                          <span className="text-gray-700 text-xs font-medium">{value}</span>
-                        </div>
-                      ))}
+              <div className="text-black text-sm font-medium mb-3">属性</div>
+              <div className="space-y-2">
+                {Object.entries(node.attributes!).map(([key, value]) => (
+                  value && (
+                    <div key={key} className="flex justify-between items-center py-1">
+                      <span className="text-gray-500 text-xs">{key}</span>
+                      <span className="text-gray-700 text-xs font-medium">{value}</span>
                     </div>
-                  </div>
-                )}
-                {node.attributes?.chemical && Object.keys(node.attributes.chemical).length > 0 && (
-                  <div className="p-3 bg-gray-50 rounded">
-                    <div className="text-gray-500 text-xs font-medium mb-2">化学性能</div>
-                    <div className="grid grid-cols-2 gap-2">
-                      {Object.entries(node.attributes.chemical).map(([key, value]) => (
-                        <div key={key} className="flex justify-between items-center">
-                          <span className="text-gray-500 text-xs">{key}</span>
-                          <span className="text-gray-700 text-xs font-medium">{value}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                {node.attributes?.process_capability && Object.keys(node.attributes.process_capability).length > 0 && (
-                  <div className="p-3 bg-gray-50 rounded">
-                    <div className="text-gray-500 text-xs font-medium mb-2">加工工艺</div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {Object.entries(node.attributes.process_capability).map(([key, value]) => (
-                        <span
-                          key={key}
-                          className={`px-2 py-0.5 rounded text-xs ${
-                            value === '支持'
-                              ? 'bg-gray-200 text-gray-700'
-                              : 'bg-gray-100 text-gray-500'
-                          }`}
-                        >
-                          {key}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                {node.attributes?.cost_tier && (
-                  <div className="flex items-center justify-between px-3 py-2 bg-gray-50 rounded">
-                    <span className="text-gray-500 text-xs">成本等级</span>
-                    <span className="text-gray-700 text-xs font-medium">
-                      {node.attributes.cost_tier}
-                    </span>
-                  </div>
-                )}
+                  )
+                ))}
               </div>
             </div>
           )}
 
-          {isMaterial && (
+          {connectedEdges.length > 0 && (
             <div className="pt-4 border-t border-gray-200">
               <div className="text-black text-sm font-medium mb-3">
-                材料属性延伸
-              </div>
-              <button
-                onClick={onMaterialExtensionClick}
-                className="w-full p-4 rounded border border-gray-200 hover:border-gray-400 transition-colors text-left"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-                      <svg
-                        className="w-5 h-5 text-gray-600"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M13 10V3L4 14h7v7l9-11h-7z"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="text-black text-sm font-medium">
-                        探索材料延伸应用
-                      </div>
-                      <div className="text-gray-500 text-xs mt-0.5">
-                        基于材料底层属性的潜在应用延伸
-                      </div>
-                    </div>
-                  </div>
-                  <svg
-                    className="w-5 h-5 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </div>
-              </button>
-            </div>
-          )}
-
-          {hasChains && (
-            <div className="pt-4 border-t border-gray-200">
-              <div className="text-black text-sm font-medium mb-3">
-                物理流动链
+                关联关系 ({connectedEdges.length})
               </div>
               <div className="space-y-2">
-                {chains.map((chain) => {
-                  const isSelected = selectedChain === chain.relation_type;
-                  const label =
-                    RELATION_TYPE_LABELS[chain.relation_type] ||
-                    chain.relation_type;
+                {connectedEdges.slice(0, 15).map((edge) => {
+                  const otherId = edge.source === node.id ? edge.target : edge.source;
+                  const otherNode = allNodes.find((n) => n.id === otherId);
+                  if (!otherNode) return null;
+                  const direction = edge.source === node.id ? '→' : '←';
+                  const edgeLabel = EDGE_TYPE_LABELS[edge.edge_type] || edge.edge_type;
                   return (
                     <button
-                      key={chain.relation_type}
-                      onClick={() => onChainSelect?.(chain.relation_type)}
-                      className={`
-                        w-full flex items-center justify-between p-3 rounded transition-colors
-                        ${isSelected
-                          ? 'bg-gray-100 border border-gray-300'
-                          : 'bg-gray-50 hover:bg-gray-100 border border-transparent'
-                        }
-                      `}
+                      key={edge.id}
+                      onClick={() => onNodeClick?.(otherId)}
+                      className="w-full text-left p-2 rounded hover:bg-gray-50 transition-colors"
                     >
-                      <div className="flex items-center gap-3">
-                        <div
-                          className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: RELATION_TYPE_COLORS[chain.relation_type] || '#86909C' }}
-                        />
-                        <span className="text-black text-sm font-medium">
-                          {label}
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-400 w-6 text-center">
+                          {direction}
+                        </span>
+                        <span className="text-sm text-black flex-1">
+                          {otherNode.name}
+                        </span>
+                        <span className="text-xs text-gray-400">
+                          {edgeLabel}
                         </span>
                       </div>
-                      <div className="flex items-center gap-3 text-xs">
-                        {chain.upstream_count > 0 && (
-                          <span className="text-gray-500">
-                            上游 {chain.upstream_count}
-                          </span>
-                        )}
-                        {chain.downstream_count > 0 && (
-                          <span className="text-gray-500">
-                            下游 {chain.downstream_count}
-                          </span>
-                        )}
-                        <svg
-                          className="w-4 h-4 text-gray-400"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                      </div>
+                      {edge.verification_status === 'proposed' && (
+                        <div className="text-xs text-gray-400 ml-8 mt-0.5">
+                          待验证
+                        </div>
+                      )}
                     </button>
                   );
                 })}
               </div>
-              <p className="text-gray-400 text-xs mt-2">点击链路查看视图</p>
             </div>
           )}
 
-          {!hasChains && (
+          {node.chains && node.chains.length > 0 && (
             <div className="pt-4 border-t border-gray-200">
-              <div className="text-black text-sm font-medium mb-3">
-                关联关系
-              </div>
-              <div className="p-4 bg-gray-50 rounded text-center">
-                <p className="text-gray-500 text-sm">暂无关系数据</p>
-                <p className="text-gray-400 text-xs mt-1">
-                  当前处于节点录入阶段，关系数据逐步补充中
-                </p>
+              <div className="text-black text-sm font-medium mb-3">所属产业链</div>
+              <div className="flex flex-wrap gap-2">
+                {node.chains.map((chainId) => (
+                  <span
+                    key={chainId}
+                    className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs"
+                  >
+                    {chainId}
+                  </span>
+                ))}
               </div>
             </div>
           )}

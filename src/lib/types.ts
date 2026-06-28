@@ -1,52 +1,32 @@
-export type NodeType = 'material' | 'process' | 'equipment' | 'product' | 'industry' | 'entity';
+export type NodeType = 'substance' | 'process' | 'equipment' | 'facility';
 
-export type NodeStage = 'draft' | 'reviewed' | 'merged';
+export type NodeStage = 'draft' | 'reviewed';
 
 export type VerificationStatus = 'verified' | 'proposed';
 
+export type EdgeType = 'input' | 'output' | 'equipment_for' | 'composed_of' | 'is_a';
+
 export type SourceType =
+  | 'encyclopedia'
+  | 'textbook'
+  | 'industry_report'
   | 'patent'
   | 'standard'
-  | 'stats_gov'
-  | 'industry_report'
-  | 'news'
-  | 'expert_interview'
   | 'official_data'
-  | 'encyclopedia'
-  | 'cninfo'
+  | 'company_disclosure'
+  | 'expert_interview'
   | 'ai_suggested'
   | 'other';
-
-export type RelationType =
-  | 'upstream_of'
-  | 'downstream_of'
-  | 'raw_material_for'
-  | 'equipment_for'
-  | 'consumable_for'
-  | 'can_be_processed_into'
-  | 'applied_in'
-  | 'structurally_similar_to'
-  | 'made_of'
-  | 'is_subclass_of';
-
-export type RelationFlow = 'upstream_to_downstream' | 'downstream_to_upstream' | 'horizontal';
-
-export type ProposedByMethod =
-  | 'expert_submission'
-  | 'user_submission'
-  | 'ai_pattern_match'
-  | 'editorial_research';
 
 export interface Source {
   source_type: SourceType;
   description: string;
   url?: string;
-  retrieved_at?: string;
+  accessed_at?: string;
 }
 
 export interface Alias {
   term: string;
-  context?: string;
   note?: string;
   source?: Source;
 }
@@ -59,75 +39,28 @@ export interface ContextualName {
 }
 
 export interface NodeAttributes {
-  physical?: Record<string, string>;
-  chemical?: Record<string, string>;
-  process_capability?: Record<string, string>;
-  cost_tier?: string;
-}
-
-export interface ProposedBy {
-  method: ProposedByMethod;
-  reasoning: string;
-  proposed_at: string;
-}
-
-export type AiSuggestionType =
-  | 'duplicate_candidate'
-  | 'alias_candidate'
-  | 'contextual_name_candidate'
-  | 'primary_chain_candidate'
-  | 'edge_candidate'
-  | 'is_subclass_candidate'
-  | 'document_title_flag';
-
-export interface AiSuggestion {
-  id: string;
-  suggestion_type: AiSuggestionType;
-  subject_ids: [string, string?];
-  payload: Record<string, unknown>;
-  confidence: number;
-  reasoning: string;
-  model: string;
-  prompt_version: string;
-  created_at: string;
-  reviewed?: 'accepted' | 'rejected' | 'modified';
-  reviewed_at?: string;
-  reviewed_by?: string;
-  review_note?: string;
-}
-
-export interface AiCallLog {
-  id: string;
-  model: string;
-  prompt_template: string;
-  prompt_version: string;
-  input_summary: string;
-  output_summary: string;
-  input_tokens: number;
-  output_tokens: number;
-  latency_ms: number;
-  created_at: string;
-  suggestion_ids: string[];
+  chemical_formula?: string;
+  purity?: string;
+  form?: string;
+  typical_temperature?: string;
+  typical_pressure?: string;
+  typical_duration?: string;
+  [key: string]: string | undefined;
 }
 
 export interface GraphNode {
   id: string;
   name: string;
-  definition: string;
   node_type: NodeType;
+  definition: string;
   stage: NodeStage;
-  parent_type: string | null;
+  external_input?: boolean;
+  attributes?: NodeAttributes;
   aliases?: Alias[];
   contextual_names?: ContextualName[];
   chains?: string[];
   primary_chain?: string;
-  merged_from?: string[];
-  merged_into?: string;
-  reference_only?: boolean;
-  attributes?: NodeAttributes;
-  description?: string;
-  sources?: Source[];
-  content_hash?: string;
+  sources: Source[];
   created_at: string;
   updated_at: string;
 }
@@ -136,92 +69,102 @@ export interface GraphEdge {
   id: string;
   source: string;
   target: string;
-  relation_type: RelationType;
+  edge_type: EdgeType;
   verification_status: VerificationStatus;
-  evidence?: Source[];
-  proposed_by?: ProposedBy;
+  evidence: Source[];
   note?: string;
-  reference_edge?: boolean;
-  content_hash?: string;
   created_at: string;
   updated_at: string;
-}
-
-export interface GraphData {
-  version?: string;
-  published_at?: string;
-  nodes: GraphNode[];
-  edges: GraphEdge[];
-}
-
-export interface ChainRelation {
-  type: RelationType;
-  flow?: RelationFlow;
 }
 
 export interface ChainDef {
   id: string;
   name: string;
   description: string;
-  main_axis_relations: (RelationType | ChainRelation)[];
-  branch_relations: (RelationType | ChainRelation)[];
-  primary_axis?: 'x' | 'y' | 'z';
-  root_node_id?: string;
-  branch_depth?: number;
-  is_viewable?: boolean;
+  start_substance_ids: string[];
+  end_facility_id: string;
+  main_path_through?: string[];
+  color: string;
+  is_viewable: boolean;
 }
 
-export interface EdgeRole {
-  role: 'main_axis' | 'branch' | 'cross_chain' | 'outside';
-  direction: 'upstream' | 'downstream' | 'lateral';
-  upstreamNode: string;
-  downstreamNode: string;
-}
-
-export interface ChainView {
-  center_node: GraphNode;
-  relation_type: RelationType;
+export interface GraphData {
+  version: string;
+  published_at: string;
+  chains: Record<string, ChainDef>;
   nodes: GraphNode[];
   edges: GraphEdge[];
 }
 
-export interface NodeChainSummary {
-  node_id: string;
-  chains: Array<{
-    relation_type: RelationType;
-    upstream_count: number;
-    downstream_count: number;
-  }>;
+export type EdgeRole = 'main_axis' | 'branch' | 'cross_chain' | 'equipment' | 'outside';
+
+export interface ValidationError {
+  severity: 'error' | 'warning';
+  code: string;
+  message: string;
+  nodeId?: string;
+  edgeId?: string;
 }
 
 export interface GraphDataProvider {
   getGraphData(): GraphData;
   getNodeById(id: string): GraphNode | undefined;
+  getEdgeById(id: string): GraphEdge | undefined;
+  getNodesByType(type: NodeType): GraphNode[];
+
   searchNodes(query: string, chainId?: string, limit?: number): GraphNode[];
   matchesSearch(node: GraphNode, query: string): boolean;
-  getNodeChildren(parentId: string): GraphNode[];
-  getNodeParent(childId: string): GraphNode | undefined;
-  getNodeNeighbors(nodeId: string, relationType?: RelationType): GraphNode[];
-  getDisplayName(nodeId: string, chainId?: string): string;
-  getNodeAliases(nodeId: string): Alias[];
-  resolveNodeId(id: string): string;
+
+  getInputs(processId: string): GraphNode[];
+  getOutputs(processId: string): GraphNode[];
+  getProcessesUsing(substanceId: string): { process: GraphNode; edge: GraphEdge }[];
+  getProcessesProducing(substanceId: string): { process: GraphNode; edge: GraphEdge }[];
+  getEquipmentForProcess(processId: string): GraphNode[];
+  getComponents(nodeId: string): GraphNode[];
+  getParentFacility(substanceId: string): GraphNode | undefined;
+
+  getUpstreamSubstances(substanceId: string, depth?: number): GraphNode[];
+  getDownstreamSubstances(substanceId: string, depth?: number): GraphNode[];
+
   getChainDef(chainId: string): ChainDef | undefined;
   getViewableChains(): ChainDef[];
   getNodeChains(nodeId: string): string[];
   getNodePrimaryChain(nodeId: string): string | undefined;
-  getMainAxisNodes(centerNodeId: string, chainId: string): {
-    upstream: GraphNode[][];
-    center: GraphNode;
-    downstream: GraphNode[][];
-  };
+  getMainAxisPath(chainId: string): { nodes: GraphNode[]; edges: GraphEdge[] };
   getBranchNodes(mainAxisNodeIds: Set<string>, chainId: string): GraphNode[];
-  classifyEdgeForChain(edge: GraphEdge, chainId: string, mainAxisNodeIds: Set<string>): EdgeRole;
-  getEffectiveFlow(edge: GraphEdge, chainId?: string): RelationFlow;
-  getNodeNeighborsByFlow(nodeId: string, chainId?: string): {
-    upstream: GraphNode[];
-    downstream: GraphNode[];
-    horizontal: GraphNode[];
-  };
-  getChainView(nodeId: string, relationType: RelationType, depth: number): ChainView | undefined;
-  getNodeChainSummary(nodeId: string): NodeChainSummary | undefined;
+  classifyEdgeForChain(
+    edge: GraphEdge,
+    chainId: string,
+    mainAxisNodeIds: Set<string>
+  ): EdgeRole;
+
+  getCrossChainNodes(chainId: string): Array<{ node: GraphNode; otherChains: string[] }>;
+
+  getDisplayName(nodeId: string, chainId?: string): string;
+
+  validateData(): ValidationError[];
 }
+
+export const EDGE_TYPE_LABELS: Record<EdgeType, string> = {
+  input: '投入',
+  output: '产出',
+  equipment_for: '使用设备',
+  composed_of: '组成',
+  is_a: '分类',
+};
+
+export const NODE_TYPE_LABELS: Record<NodeType, string> = {
+  substance: '物质/产品',
+  process: '转化过程',
+  equipment: '设备',
+  facility: '设施/系统',
+};
+
+export const NODE_TYPE_COLORS: Record<NodeType, string> = {
+  substance: '#3B82F6',
+  process: '#10B981',
+  equipment: '#F59E0B',
+  facility: '#EF4444',
+};
+
+export const EDGE_TYPE_LABELS_EXPORT: Record<EdgeType, string> = EDGE_TYPE_LABELS;

@@ -39,14 +39,6 @@ export function validateDataIntegrity(data: GraphData): ValidationResult {
     nodeIds.add(node.id);
   }
 
-  for (const node of data.nodes) {
-    if (node.parent_type && !nodeIds.has(node.parent_type)) {
-      errors.push(
-        `节点 ${node.id} 的 parent_type 指向不存在的节点: ${node.parent_type}`
-      );
-    }
-  }
-
   for (const edge of data.edges) {
     if (!nodeIds.has(edge.source)) {
       errors.push(`边 ${edge.id} 的 source 指向不存在的节点: ${edge.source}`);

@@ -1,10 +1,8 @@
 import {
   NODE_TYPE_COLORS,
   NODE_TYPE_LABELS,
-  RELATION_TYPE_COLORS,
-  RELATION_TYPE_LABELS,
-} from './graph-data';
-import type { NodeType, RelationType, VerificationStatus } from './types';
+} from './types';
+import type { NodeType, VerificationStatus } from './types';
 
 export const NODE_SIZES = {
   center: 50,
@@ -13,10 +11,6 @@ export const NODE_SIZES = {
 
 export function getNodeColor(type: NodeType): string {
   return NODE_TYPE_COLORS[type] || '#86909C';
-}
-
-export function getEdgeColor(relationType: RelationType): string {
-  return RELATION_TYPE_COLORS[relationType] || '#86909C';
 }
 
 export const DAGRE_LAYOUT = {
@@ -104,4 +98,4 @@ export const CYTOSCAPE_STYLESHEET = [
   },
 ];
 
-export { NODE_TYPE_LABELS, RELATION_TYPE_LABELS };
+export { NODE_TYPE_LABELS };
