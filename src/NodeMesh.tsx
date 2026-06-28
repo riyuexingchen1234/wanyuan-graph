@@ -75,23 +75,23 @@ export function NodeMesh({ node, physicsEngine }: NodeMeshProps) {
         />
       </mesh>
 
-      {(hovered || isSelected) && (
-        <Html
-          position={[0, 1, 0]}
-          center
-          style={{
-            color: 'white',
-            background: 'rgba(0, 0, 0, 0.8)',
-            padding: '4px 8px',
-            borderRadius: '4px',
-            fontSize: '12px',
-            whiteSpace: 'nowrap',
-            pointerEvents: 'none'
-          }}
-        >
-          {node.name}
-        </Html>
-      )}
+      <Html
+        position={[0, 1, 0]}
+        center
+        style={{
+          color: 'white',
+          background: isSelected ? 'rgba(74, 144, 226, 0.9)' : hovered ? 'rgba(0, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.6)',
+          padding: '4px 8px',
+          borderRadius: '4px',
+          fontSize: isSelected ? '14px' : '12px',
+          fontWeight: isSelected ? 'bold' : 'normal',
+          whiteSpace: 'nowrap',
+          pointerEvents: 'none',
+          transition: 'all 0.2s'
+        }}
+      >
+        {node.name}
+      </Html>
     </group>
   );
 }

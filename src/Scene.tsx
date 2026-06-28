@@ -29,6 +29,17 @@ export function Scene() {
     setPhysicsEngine(engine);
   }, [data, physicsEngine]);
 
+  // 选中节点时应用约束
+  useEffect(() => {
+    if (!physicsEngine) return;
+
+    if (selectedNodeId) {
+      physicsEngine.applyConstraints(selectedNodeId);
+    } else {
+      physicsEngine.clearConstraints();
+    }
+  }, [selectedNodeId, physicsEngine]);
+
   if (!data || !physicsEngine) return null;
 
   const handleCanvasClick = (e: any) => {

@@ -33,6 +33,7 @@ export function CameraController({ physicsEngine }: CameraControllerProps) {
     } else {
       targetPosition.current.set(0, 0, 50);
       targetLookAt.current.set(0, 0, 0);
+      currentLookAt.current.set(0, 0, 0);
       isFlying.current = true;
       setCameraMode('orbit');
     }
