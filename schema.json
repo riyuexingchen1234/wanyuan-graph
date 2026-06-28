@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "万源图谱 - 数据本体 Schema",
-  "description": "定义图谱核心数据资产的结构。v0.3 在 v0.2 基础上新增：node_type 增 demand（需求节点，核心理念第五章）、Node 增 canonical_id（跨产业合并）、Edge 增 reviewed_by/reviewed_at（审核留痕，权威根基）、relation_type 增 satisfies（满足需求）。呈现层（网站/API/分支产品）应消费此结构，而非自行定义数据格式。",
-  "version": "0.3.0",
+  "description": "定义图谱核心数据资产的结构。v0.4 在 v0.3 基础上引入：1) 两层关系分类——新增 8 大类 relation_category（抽象自 DB33/T 1322—2023 浙江省产业链图谱构建指南），relation_type 作为细粒度实现保留并扩展 4 个万源核心理念延伸类型（satisfies/structurally_similar_to/derived_from/references），每条边同时声明 category 与 type 便于按类查询；2) verification_status 从 2 档扩展为 6 档状态机（auto-extracted/proposed/disputed/deprecated/verified-community/verified-expert），并定义 allowed_transitions 状态转换规则；3) Edge 新增 dispute_history（质疑历史）、reviewer_chain（多级审核轨迹）、transitions（状态转换序列），保留 v0.3 的 reviewed_by/reviewed_at 作为最近一次审核快照；4) Node 新增 verification_status 与 last_verified_at，节点本体也具备可信度评估。v0.3 旧字段全部保留以实现向后兼容。",
+  "version": "0.4.0",
 
   "definitions": {
 
@@ -101,7 +101,17 @@
         },
 
         "created_at": { "type": "string", "format": "date-time" },
-        "updated_at": { "type": "string", "format": "date-time" }
+        "updated_at": { "type": "string", "format": "date-time" },
+
+        "verification_status": {
+          "$ref": "#/definitions/VerificationStatus",
+          "description": "【v0.4新增】节点本体的可信度（与 Edge 同 6 档状态机）。默认 proposed。废弃：deprecated。审核中：disputed。已验证：verified-community 或 verified-expert。"
+        },
+        "last_verified_at": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "【v0.4新增】节点本体最近一次被审核的时间。null 表示从未被审核过。"
+        }
       }
     },
 
@@ -128,29 +138,35 @@
             "applied_in",
             "structurally_similar_to",
             "made_of",
-            "satisfies"
+            "satisfies",
+            "derived_from",
+            "references"
           ],
-          "description": "当前已知关系类型（开放列表，可随时扩展新值）。【优先级规则】raw_material_for/equipment_for/consumable_for 等细分类型应优先使用；upstream_of/downstream_of 是泛化的物理流动兜底类型，仅在一条关系明确属于物理流动性质、但又不属于任何已有细分类型时使用——它们不是被废弃，而是'暂未被细分命名的关系'的过渡占位，不应作为默认首选，避免同一性质的关系因颗粒度选择不一致而破坏图谱内部一致性。具体含义：upstream_of/downstream_of=泛化的产业链上下游（兜底）；raw_material_for=作为原料供给；equipment_for=作为设备供给；consumable_for=作为耗材供给；can_be_processed_into=材料经工艺产出某物；applied_in=被用于某应用/场景；structurally_similar_to=横向相似性（同层跳转，潜在发现的主要载体）；made_of=由某材料构成。raw_material_for/equipment_for/consumable_for 是'物理流动链'的细分类型，对应一个节点同时挂在原料链/设备链/耗材链等不同链路上的现象。"
+          "description": "【v0.4】细粒度关系类型（开放列表，可随时扩展新值）。保留 v0.3 全部 10 个枚举值；新增 2 个万源核心理念延伸类型：derived_from（衍生于，如标准/专利衍生的节点）、references（引用，如百科条目引用某概念）。satisfies 与 structurally_similar_to 也属于万源核心理念延伸（v0.3 已纳入），故 v0.4 仍保留。【优先级规则】raw_material_for/equipment_for/consumable_for 等细分类型应优先使用；upstream_of/downstream_of 是泛化的物理流动兜底类型，仅在一条关系明确属于物理流动性质、但又不属于任何已有细分类型时使用——它们不是被废弃，而是'暂未被细分命名的关系'的过渡占位，不应作为默认首选，避免同一性质的关系因颗粒度选择不一致而破坏图谱内部一致性。具体含义：upstream_of/downstream_of=泛化的产业链上下游（兜底）；raw_material_for=作为原料供给；equipment_for=作为设备供给；consumable_for=作为耗材供给；can_be_processed_into=材料经工艺产出某物；applied_in=被用于某应用/场景；structurally_similar_to=横向相似性（同层跳转，潜在发现的主要载体）；made_of=由某材料构成；satisfies=满足某需求/要求；derived_from=衍生于（如某节点衍生自一份标准/专利）；references=引用（如百科条目引用某概念）。"
+        },
+
+        "relation_category": {
+          "$ref": "#/definitions/RelationCategory",
+          "description": "【v0.4新增】关系大类（8 类生产关系，抽象自 DB33/T 1322—2023 浙江省产业链图谱构建指南）。relation_category 可由 relation_type 推导，但允许显式声明以便按类查询；旧数据迁移时允许 null，由迁移脚本基于 relation_type 补全。"
         },
 
         "verification_status": {
-          "type": "string",
-          "enum": ["verified", "proposed"],
-          "description": "verified=已有真实案例验证，且至少一条 evidence 回溯到一级来源；proposed=有依据支持但尚未验证的潜在可能性。这是图谱可信度的核心字段，禁止默认值，每条边必须显式声明。AI 不得自行将一条边标记为 verified——这个判断权必须由人执行。"
+          "$ref": "#/definitions/VerificationStatus",
+          "description": "【v0.4】6 档可信度状态机。v0.3 旧值映射：verified→verified-expert（最高权威等级），proposed→proposed（保持不变）。这是图谱可信度的核心字段，禁止默认值，每条边必须显式声明。AI 不得自行将一条边升级到 verified-community 或 verified-expert——这个判断权必须由人或社区/专家流程执行。"
         },
 
         "evidence": {
           "type": "array",
-          "description": "支撑这条连接的证据列表。verified 状态的边必须至少有一条 evidence，且应优先回溯到一级来源（官方标准、官方统计如投入产出表、招投标公示等），二三级来源（百科、媒体转述）仅可作为交叉印证参考。proposed 状态的边应说明提出依据（即便依据是推理而非案例）。",
+          "description": "支撑这条连接的证据列表。verified-community/verified-expert 状态的边必须至少有一条 evidence，且应优先回溯到一级来源（官方标准、官方统计如投入产出表、招投标公示等），二三级来源（百科、媒体转述）仅可作为交叉印证参考。proposed/auto-extracted 状态的边应说明提出依据（即便依据是推理而非案例）。",
           "items": { "$ref": "#/definitions/Source" },
           "minItems": 0
         },
 
         "proposed_by": {
           "type": "object",
-          "description": "仅 proposed 状态适用：记录该假设的提出方式",
+          "description": "仅 proposed/auto-extracted 状态适用：记录该假设的提出方式",
           "properties": {
-            "method": { "type": "string", "enum": ["expert_submission", "user_submission", "ai_pattern_match", "editorial_research"], "description": "提出途径" },
+            "method": { "type": "string", "enum": ["expert_submission", "user_submission", "ai_pattern_match", "editorial_research", "auto_crawler"], "description": "提出途径（v0.4 增 auto_crawler 用于 auto-extracted 状态的来源）" },
             "reasoning": { "type": "string", "description": "提出该潜在连接的具体理由，例如'两者工艺参数区间重叠'" },
             "proposed_at": { "type": "string", "format": "date-time" }
           }
@@ -158,8 +174,29 @@
 
         "note": { "type": "string", "description": "补充说明，保持客观陈述，不写价值判断（如门槛高低、机会大小，这类信息属于分支产品范畴）" },
 
-        "reviewed_by": { "type": ["string", "null"], "description": "【v0.3新增】审核人标识。verified 状态的边必填，记录谁做了真伪判断。proposed 状态可为 null。这是权威性的根基：每条 verified 边都可追溯到具体审核人。AI 不得填写此字段。" },
-        "reviewed_at": { "type": ["string", "null"], "format": "date-time", "description": "【v0.3新增】审核时间。verified 状态必填。" },
+        "reviewed_by": { "type": ["string", "null"], "description": "【v0.3保留，v0.4】最近一次审核人标识快照。verified-community/verified-expert 状态必填，记录谁做了真伪判断。AI 不得填写此字段。完整审核链请见 reviewer_chain。" },
+        "reviewed_at": { "type": ["string", "null"], "format": "date-time", "description": "【v0.3保留，v0.4】最近一次审核时间快照。verified-community/verified-expert 状态必填。完整时间线请见 reviewer_chain 与 transitions。" },
+
+        "reviewer_chain": {
+          "type": "array",
+          "description": "【v0.4新增】多级审核轨迹，每条记录一个审核动作。新增审核时 append 一条 ReviewerChainEntry，不要原地修改。",
+          "items": { "$ref": "#/definitions/ReviewerChainEntry" },
+          "default": []
+        },
+
+        "dispute_history": {
+          "type": "array",
+          "description": "【v0.4新增】质疑历史，每次质疑事件追加一条 DisputeRecord。被质疑进入 disputed 状态时同步生成一条 pending 记录；裁决后回填 resolution/resolved_by/resolved_at。",
+          "items": { "$ref": "#/definitions/DisputeRecord" },
+          "default": []
+        },
+
+        "transitions": {
+          "type": "array",
+          "description": "【v0.4新增】状态转换序列，与 reviewer_chain 配套。每发生一次 verification_status 变更，追加一条 TransitionRecord。",
+          "items": { "$ref": "#/definitions/TransitionRecord" },
+          "default": []
+        },
 
         "created_at": { "type": "string", "format": "date-time" },
         "updated_at": { "type": "string", "format": "date-time" }
@@ -179,6 +216,143 @@
         "description": { "type": "string", "description": "来源的简要描述，例如'XX专利号'、'XX行业标准编号'、'国家标准全文公开系统 GB/T XXXX'" },
         "url": { "type": "string", "format": "uri", "description": "可选，原始链接" },
         "retrieved_at": { "type": "string", "format": "date-time", "description": "信息获取/核实时间，互联网内容会变化，需记录获取时点" }
+      }
+    },
+
+    "RelationCategory": {
+      "type": "string",
+      "description": "【v0.4新增】关系大类，抽象自 DB33/T 1322—2023 浙江省产业链图谱构建指南的 8 大类生产关系。relation_category 可由 relation_type 推导，但允许显式声明以便按大类查询。",
+      "enum": [
+        "production_raw_material",
+        "production_component",
+        "auxiliary_material",
+        "production_equipment",
+        "auxiliary_equipment",
+        "production_process",
+        "technical_service",
+        "product_business"
+      ],
+      "categoryDescriptions": {
+        "production_raw_material": "生产原料（DB33 类别 1）——直接构成产品的核心物质投入，如硅料之于硅片",
+        "production_component": "生产配件（DB33 类别 2）——构成产品的零部件/组件",
+        "auxiliary_material": "辅助材料（DB33 类别 3）——不构成产品本体但生产中消耗，如银浆之于光伏电池",
+        "production_equipment": "生产设备（DB33 类别 4）——直接执行生产动作的主机设备",
+        "auxiliary_equipment": "辅助设备（DB33 类别 5）——配合主设备使用的辅机/工装",
+        "production_process": "加工工艺（DB33 类别 6）——将原料/组件加工成产品的方法",
+        "technical_service": "技术服务（DB33 类别 7）——检测、认证、咨询等非物质服务",
+        "product_business": "产品业务（DB33 类别 8）——产品被销售/应用于的场景或行业"
+      }
+    },
+
+    "DisputeRecord": {
+      "type": "object",
+      "description": "【v0.4新增】质疑历史条目，记录一次质疑事件从提出到裁决的全过程。",
+      "required": ["dispute_id", "challenger_id", "challenge_type", "challenge_text", "filed_at", "resolution"],
+      "properties": {
+        "dispute_id": { "type": "string", "description": "质疑记录 uuid，全局唯一" },
+        "challenger_id": { "type": "string", "description": "质疑者标识，可以是用户 id、审核员 id 或 AI agent id" },
+        "challenge_type": {
+          "type": "string",
+          "description": "质疑类型，如 evidence_unavailable（证据不可得）、source_misquote（来源引用错误）、factual_error（事实错误）、definition_drift（定义漂移）、other（其他）"
+        },
+        "challenge_text": { "type": "string", "description": "质疑的具体说明，陈述质疑依据" },
+        "filed_at": { "type": "string", "format": "date-time", "description": "质疑提交时间" },
+        "resolution": {
+          "type": "string",
+          "enum": ["pending", "upheld", "rejected"],
+          "description": "裁决结果：pending=尚未裁决，upheld=质疑成立（边降级/废弃），rejected=质疑不成立（边恢复原状）"
+        },
+        "resolved_by": { "type": ["string", "null"], "description": "裁决人 id，pending 时为 null" },
+        "resolved_at": { "type": ["string", "null"], "format": "date-time", "description": "裁决时间，pending 时为 null" }
+      }
+    },
+
+    "ReviewerChainEntry": {
+      "type": "object",
+      "description": "【v0.4新增】多级审核轨迹条目。reviewer_chain 与 reviewed_by/reviewed_at 配合：后者记录最近一次审核，前者记录完整的审核链，便于回溯。",
+      "required": ["reviewer_id", "reviewer_role", "action", "from_status", "to_status", "reviewed_at"],
+      "properties": {
+        "reviewer_id": { "type": "string", "description": "审核人标识" },
+        "reviewer_role": {
+          "type": "string",
+          "enum": ["community", "expert", "admin"],
+          "description": "审核人角色：community=社区/众包贡献者，expert=行业专家/资质审核员，admin=管理员/系统"
+        },
+        "action": {
+          "type": "string",
+          "enum": ["approved", "downgraded", "disputed", "restored"],
+          "description": "审核动作：approved=批准/升级，downgraded=降级，disputed=提出质疑，restored=恢复（如 disputed→verified 的恢复）"
+        },
+        "from_status": { "$ref": "#/definitions/VerificationStatus", "description": "审核前状态" },
+        "to_status": { "$ref": "#/definitions/VerificationStatus", "description": "审核后状态" },
+        "reviewed_at": { "type": "string", "format": "date-time", "description": "审核时间" },
+        "note": { "type": "string", "description": "审核备注，例如证据说明、决策理由" }
+      }
+    },
+
+    "TransitionRecord": {
+      "type": "object",
+      "description": "【v0.4新增】状态转换记录，与 reviewer_chain 配套，记录该边经历的状态机迁移序列。",
+      "required": ["from", "to", "at"],
+      "properties": {
+        "from": { "$ref": "#/definitions/VerificationStatus", "description": "转换前状态" },
+        "to": { "$ref": "#/definitions/VerificationStatus", "description": "转换后状态" },
+        "at": { "type": "string", "format": "date-time", "description": "转换发生时间" },
+        "actor_id": { "type": "string", "description": "触发转换的审核人/系统 id，可选" },
+        "reason": { "type": "string", "description": "转换原因说明，可选" }
+      }
+    },
+
+    "VerificationStatus": {
+      "type": "string",
+      "description": "【v0.4新增并从 Edge 抽出】6 档可信度状态机。v0.3 旧值映射：verified→verified-expert（最高权威等级），proposed→proposed（保持不变）。",
+      "enum": [
+        "auto-extracted",
+        "proposed",
+        "disputed",
+        "deprecated",
+        "verified-community",
+        "verified-expert"
+      ],
+      "statusDescriptions": {
+        "auto-extracted": "自动化脚本抽取，未经任何人工核验",
+        "proposed": "有依据但未验证（用户/AI 提交）",
+        "disputed": "被质疑，进入复核队列，原 verified 等级暂时失效",
+        "deprecated": "已废弃，附废弃原因",
+        "verified-community": "社区/众包贡献者确认（>= 3 个独立用户附议且无有效质疑）",
+        "verified-expert": "行业专家/资质审核员确认"
+      }
+    },
+
+    "AllowedTransitions": {
+      "type": "object",
+      "description": "【v0.4新增】verification_status 的状态机转换规则。deprecated 为终态，不可转换（但允许复用同 ID 创建新版边）。任何不在下表中的转换都应被业务层拒绝。",
+      "properties": {
+        "auto-extracted": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["proposed", "deprecated"] }
+        },
+        "proposed": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["verified-community", "verified-expert", "disputed", "deprecated"] }
+        },
+        "disputed": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["verified-community", "verified-expert", "deprecated", "proposed"] }
+        },
+        "verified-community": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["disputed", "verified-expert", "deprecated"] }
+        },
+        "verified-expert": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["disputed", "deprecated"] }
+        },
+        "deprecated": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "终态：空数组表示无可允许转换（仅可创建同 ID 新边）"
+        }
       }
     }
   },

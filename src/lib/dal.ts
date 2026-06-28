@@ -286,6 +286,8 @@ export const RELATION_TYPE_LABELS: Record<RelationType, string> = {
   structurally_similar_to: '结构相似',
   made_of: '由…构成',
   satisfies: '满足',
+  derived_from: '衍生于',
+  references: '引用',
 };
 
 export const RELATION_TYPE_COLORS: Record<RelationType, string> = {
@@ -299,6 +301,8 @@ export const RELATION_TYPE_COLORS: Record<RelationType, string> = {
   structurally_similar_to: '#F53F3F',
   made_of: '#86909C',
   satisfies: '#165DFF',
+  derived_from: '#A0D911',
+  references: '#9254DE',
 };
 
 /** 主链关系类型——初始视图与「主链」按钮均使用它。 */
