@@ -1,26 +1,44 @@
 import { useFrame, useThree } from '@react-three/fiber';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useGraphStore } from './store';
 import * as THREE from 'three';
 
 export function CameraController() {
   const { camera } = useThree();
-  const cameraTarget = useGraphStore(state => state.cameraTarget);
+  const selectedNodeId = useGraphStore(state => state.selectedNodeId);
+  const nodePositions = useGraphStore(state => state.nodePositions);
+  
   const targetPosition = useRef(new THREE.Vector3(0, 0, 30));
   const targetLookAt = useRef(new THREE.Vector3(0, 0, 0));
   const currentLookAt = useRef(new THREE.Vector3(0, 0, 0));
   
-  useFrame(() => {
-    if (cameraTarget) {
-      targetPosition.set(...cameraTarget.position);
-      targetLookAt.set(...cameraTarget.lookAt);
+  // 当选中节点变化时，计算相机目标位置
+  useEffect(() => {
+    if (!selectedNodeId || !nodePositions) {
+      // 全局视图
+      targetPosition.current.set(0, 0, 50);
+      targetLookAt.current.set(0, 0, 0);
+      return;
     }
     
-    // 平滑插值相机位置
-    camera.position.lerp(targetPosition, 0.05);
+    const nodePos = nodePositions.get(selectedNodeId);
+    if (!nodePos) return;
+    
+    // 相机飞向节点前方
+    const nodePosition = new THREE.Vector3(nodePos.x, nodePos.y, nodePos.z);
+    const cameraOffset = new THREE.Vector3(0, 0, 15); // 节点前方15单位
+    const cameraPosition = nodePosition.clone().add(cameraOffset);
+    
+    targetPosition.current.copy(cameraPosition);
+    targetLookAt.current.copy(nodePosition);
+  }, [selectedNodeId, nodePositions]);
+  
+  useFrame(() => {
+    // 平滑插值相机位置（缓动效果）
+    camera.position.lerp(targetPosition.current, 0.08);
     
     // 平滑插值相机朝向
-    currentLookAt.current.lerp(targetLookAt, 0.05);
+    currentLookAt.current.lerp(targetLookAt.current, 0.08);
     camera.lookAt(currentLookAt.current);
   });
   

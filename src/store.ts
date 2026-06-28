@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Node, Relationship, Chain, NodePosition, GraphData } from './types';
+import { Relationship, NodePosition, GraphData } from './types';
 
 interface GraphState {
   data: GraphData | null;

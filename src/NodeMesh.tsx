@@ -10,7 +10,7 @@ interface NodeMeshProps {
 }
 
 export function NodeMesh({ node }: NodeMeshProps) {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const groupRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
   
   const nodePositions = useGraphStore(state => state.nodePositions);
@@ -23,8 +23,8 @@ export function NodeMesh({ node }: NodeMeshProps) {
   
   // 平滑移动到目标位置
   useFrame(() => {
-    if (meshRef.current) {
-      meshRef.current.position.lerp(
+    if (groupRef.current) {
+      groupRef.current.position.lerp(
         new THREE.Vector3(position.x, position.y, position.z),
         0.1
       );
@@ -62,9 +62,8 @@ export function NodeMesh({ node }: NodeMeshProps) {
   };
   
   return (
-    <group>
+    <group ref={groupRef}>
       <mesh
-        ref={meshRef}
         onClick={handleClick}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
@@ -77,23 +76,23 @@ export function NodeMesh({ node }: NodeMeshProps) {
         />
       </mesh>
       
-      {(hovered || isSelected) && (
-        <Html
-          position={[position.x, position.y + 1.2, position.z]}
-          center
-          style={{
-            color: 'white',
-            background: 'rgba(0, 0, 0, 0.8)',
-            padding: '4px 8px',
-            borderRadius: '4px',
-            fontSize: '12px',
-            whiteSpace: 'nowrap',
-            pointerEvents: 'none'
-          }}
-        >
-          {node.name}
-        </Html>
-      )}
+      <Html
+        position={[0, 1.2, 0]}
+        center
+        style={{
+          color: isSelected ? '#fff' : hovered ? '#fff' : 'rgba(255, 255, 255, 0.7)',
+          background: isSelected ? 'rgba(0, 0, 0, 0.9)' : hovered ? 'rgba(0, 0, 0, 0.85)' : 'rgba(0, 0, 0, 0.5)',
+          padding: isSelected || hovered ? '6px 10px' : '3px 6px',
+          borderRadius: '4px',
+          fontSize: isSelected || hovered ? '13px' : '11px',
+          fontWeight: isSelected ? 'bold' : 'normal',
+          whiteSpace: 'nowrap',
+          pointerEvents: 'none',
+          transition: 'all 0.2s ease'
+        }}
+      >
+        {node.name}
+      </Html>
     </group>
   );
 }

@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { Scene } from './Scene';
+import { InfoPanel } from './InfoPanel';
+import { HelpOverlay } from './HelpOverlay';
 import { useGraphStore } from './store';
 import { sampleData } from './data';
 
@@ -11,8 +13,10 @@ function App() {
   }, [setData]);
   
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
+    <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
       <Scene />
+      <InfoPanel />
+      <HelpOverlay />
     </div>
   );
 }
