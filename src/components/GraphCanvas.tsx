@@ -145,6 +145,8 @@ export default function GraphCanvas({
 
     let removed = false;
     cy.nodes().forEach((n) => {
+      // halo 节点由选中态 effect 管理，不参与 diff 同步
+      if (n.data('isHalo')) return;
       if (!desiredNodeIds.has(n.id())) {
         cy.remove(n);
         removed = true;
@@ -213,6 +215,15 @@ export default function GraphCanvas({
         : ({ name: 'grid' } as cytoscape.LayoutOptions);
       cy.layout(layoutOpts).run();
       cy.fit(undefined, 60);
+      // 布局后重置中心节点和 halo 位置
+      if (selectedNodeId) {
+        const sel = cy.getElementById(selectedNodeId);
+        const halo = cy.getElementById(`__halo_${selectedNodeId}`);
+        if (sel.length && halo.length) {
+          const pos = sel.position();
+          halo.position(pos);
+        }
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodes, edges]);
@@ -222,15 +233,65 @@ export default function GraphCanvas({
     const cy = cyRef.current;
     if (!cy || !isMountedRef.current) return;
     cy.nodes().removeClass('center');
+    cy.nodes().removeClass('center-halo');
     cy.$(':selected').unselect();
     if (selectedNodeId) {
       const sel = cy.getElementById(selectedNodeId);
       if (sel && sel.length) {
         sel.addClass('center');
         sel.select();
+        // 同步位置添加 halo 节点
+        const pos = sel.position();
+        const haloId = `__halo_${selectedNodeId}`;
+        const existingHalo = cy.getElementById(haloId);
+        if (existingHalo.length) {
+          existingHalo.position(pos);
+        } else {
+          cy.add({
+            group: 'nodes',
+            data: { id: haloId, name: '', isHalo: true },
+            position: { x: pos.x, y: pos.y },
+            classes: 'center-halo',
+            grabbable: false,
+            pannable: true,
+            selectable: false,
+          });
+        }
       }
     }
+    // 清理其他 halo
+    cy.nodes('[?isHalo]').forEach((h) => {
+      if (!selectedNodeId || h.id() !== `__halo_${selectedNodeId}`) {
+        cy.remove(h);
+      }
+    });
   }, [selectedNodeId]);
+
+  // 脉冲动画：toggle halo 节点的 border-opacity 实现呼吸效果
+  useEffect(() => {
+    const cy = cyRef.current;
+    if (!cy || !selectedNodeId) return;
+    const haloId = `__halo_${selectedNodeId}`;
+    let toggle = false;
+    const id = setInterval(() => {
+      const halo = cy.getElementById(haloId);
+      if (!halo || !halo.length) return;
+      toggle = !toggle;
+      halo.style('border-opacity', toggle ? 0.55 : 0.15);
+      halo.style('width', toggle ? 60 : 52);
+      halo.style('height', toggle ? 60 : 52);
+    }, 700);
+    return () => clearInterval(id);
+  }, [selectedNodeId]);
+
+  // 销毁时清理所有 halo 节点
+  useEffect(() => {
+    return () => {
+      const cy = cyRef.current;
+      if (!cy) return;
+      cy.nodes('[?isHalo]').remove();
+    };
+  }, []);
 
   return (
     <div className="relative w-full h-full overflow-hidden bg-surface-1">

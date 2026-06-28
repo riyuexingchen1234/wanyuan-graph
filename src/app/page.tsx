@@ -1,11 +1,12 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import SearchBar from '../components/SearchBar';
 import EdgeReviewerList from '../components/EdgeReviewerList';
 import EdgeChallenger from '../components/EdgeChallenger';
 import StatusLegend from '../components/StatusLegend';
+import TwoDOnboarding from '../components/TwoDOnboarding';
 import { useGraphStore } from '../store/graphStore';
 import type { GraphEdge, GraphNode, NodeType } from '@/lib/types';
 import {
@@ -76,9 +77,21 @@ export default function Home() {
   } = useGraphStore();
 
   const [hover, setHover] = useState<EdgeHoverInfo | null>(null);
+  // 2D 视图首次进入引导：每次从 galaxy 切到 detail 时显示一次
+  const [onboardingVisible, setOnboardingVisible] = useState(false);
+  // 记录上次进入 detail 时的 selectedNodeId，避免同节点重复触发
+  const lastShownNodeRef = useRef<string | null>(null);
 
   const provider = useMemo(() => getDataProvider(), []);
   const mainChainIds = useMemo(() => getMainChainNodeIds(), []);
+
+  // 监听 viewMode + selectedNodeId 变化：进入 2D 时弹引导
+  useEffect(() => {
+    if (viewMode === 'detail' && selectedNodeId && lastShownNodeRef.current !== selectedNodeId) {
+      setOnboardingVisible(true);
+      lastShownNodeRef.current = selectedNodeId;
+    }
+  }, [viewMode, selectedNodeId]);
 
   // 把服务端加载的边灌入客户端 store（供审核员面板做状态机操作）
   useEffect(() => {
@@ -246,6 +259,18 @@ export default function Home() {
               </svg>
               返回星云
             </button>
+            {/* 帮助按钮：随时重新打开 2D 引导卡 */}
+            <button
+              onClick={() => {
+                setOnboardingVisible(true);
+                if (selectedNode) lastShownNodeRef.current = selectedNode.id;
+              }}
+              className="h-[44px] w-[44px] inline-flex items-center justify-center rounded-arco-md bg-white border border-line-1 shadow-arco-1 text-ink-2 hover:text-arco-primary hover:border-arco-primary/40 transition-colors text-arco-lg font-bold"
+              title="查看 2D 视图引导"
+              aria-label="查看 2D 视图引导"
+            >
+              ?
+            </button>
             <div className="w-[320px]">
               <SearchBar onNodeSelect={handleNodeSelect} />
             </div>
@@ -278,6 +303,13 @@ export default function Home() {
           />
           {/* 2D 视图右下角状态图例：只在微观层显示 */}
           {viewMode === 'detail' && <StatusLegend />}
+          {/* 2D 视图首次进入引导：点击新节点时弹一次 */}
+          {viewMode === 'detail' && onboardingVisible && selectedNode && (
+            <TwoDOnboarding
+              node={selectedNode}
+              onClose={() => setOnboardingVisible(false)}
+            />
+          )}
           {hover && (
             <div
               className="absolute z-40 pointer-events-none bg-white border border-line-1 rounded-arco-md shadow-arco-3 px-3 py-2 max-w-[280px]"

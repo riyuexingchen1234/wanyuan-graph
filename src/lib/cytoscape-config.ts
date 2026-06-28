@@ -95,8 +95,32 @@ export const CYTOSCAPE_STYLESHEET = [
       height: NODE_SIZES.center,
       'font-size': 13,
       'font-weight': 700,
-      'border-width': 3,
+      'border-width': 4,
+      'border-color': '#165DFF',
       'z-index': 30,
+      'transition-property':
+        'border-width, border-color, background-color, width, height',
+      'transition-duration': '300ms',
+    },
+  },
+  // 中心节点的脉冲外圈：单独的 halo 节点（位置重合在中心节点后）
+  {
+    selector: 'node.center-halo',
+    style: {
+      shape: 'ellipse',
+      'background-color': '#165DFF',
+      'background-opacity': 0,
+      'border-width': 3,
+      'border-color': '#165DFF',
+      'border-opacity': 0.35,
+      width: NODE_SIZES.center + 4,
+      height: NODE_SIZES.center + 4,
+      label: '',
+      'text-opacity': 0,
+      events: 'no',
+      'z-index': 5,
+      'transition-property': 'border-opacity, width, height',
+      'transition-duration': '1200ms',
     },
   },
   {

@@ -1420,16 +1420,36 @@
       "source": "industry-silver-paste",
       "target": "material-silver-paste-sp",
       "relation_type": "upstream_of",
-      "verification_status": "proposed",
+      "verification_status": "verified-community",
       "proposed_by": {
         "method": "editorial_research",
         "reasoning": "银浆产业包含银浆生产",
         "proposed_at": "2026-06-27T08:08:44Z"
       },
-      "reviewed_by": null,
-      "reviewed_at": null,
+      "reviewed_by": "principal-demo",
+      "reviewed_at": "2026-06-28T05:15:39.682Z",
       "created_at": "2026-06-27T08:08:44Z",
-      "updated_at": "2026-06-27T08:08:44Z"
+      "updated_at": "2026-06-28T05:15:39.682Z",
+      "transitions": [
+        {
+          "from": "proposed",
+          "to": "verified-community",
+          "at": "2026-06-28T05:15:39.682Z",
+          "actor_id": "principal-demo",
+          "reason": "UI 触发: proposed → verified-community"
+        }
+      ],
+      "reviewer_chain": [
+        {
+          "reviewer_id": "principal-demo",
+          "reviewer_role": "community",
+          "action": "approved",
+          "from_status": "proposed",
+          "to_status": "verified-community",
+          "reviewed_at": "2026-06-28T05:15:39.682Z",
+          "note": "UI 触发: proposed → verified-community"
+        }
+      ]
     },
     {
       "id": "sp-1",
@@ -1625,8 +1645,16 @@
       ],
       "dispute_history": [],
       "transitions": [
-        {"from": "auto-extracted", "to": "proposed", "at": "2026-06-27T08:08:44Z"},
-        {"from": "proposed", "to": "verified-community", "at": "2026-06-28T00:00:00Z"}
+        {
+          "from": "auto-extracted",
+          "to": "proposed",
+          "at": "2026-06-27T08:08:44Z"
+        },
+        {
+          "from": "proposed",
+          "to": "verified-community",
+          "at": "2026-06-28T00:00:00Z"
+        }
       ],
       "created_at": "2026-06-27T08:08:44Z",
       "updated_at": "2026-06-28T00:00:00Z"
@@ -1681,8 +1709,16 @@
       ],
       "dispute_history": [],
       "transitions": [
-        {"from": "auto-extracted", "to": "proposed", "at": "2026-06-27T08:08:44Z"},
-        {"from": "proposed", "to": "verified-community", "at": "2026-06-28T00:00:00Z"}
+        {
+          "from": "auto-extracted",
+          "to": "proposed",
+          "at": "2026-06-27T08:08:44Z"
+        },
+        {
+          "from": "proposed",
+          "to": "verified-community",
+          "at": "2026-06-28T00:00:00Z"
+        }
       ],
       "created_at": "2026-06-27T08:08:44Z",
       "updated_at": "2026-06-28T00:00:00Z"
@@ -1737,8 +1773,16 @@
       ],
       "dispute_history": [],
       "transitions": [
-        {"from": "auto-extracted", "to": "proposed", "at": "2026-06-27T08:08:44Z"},
-        {"from": "proposed", "to": "verified-community", "at": "2026-06-28T00:00:00Z"}
+        {
+          "from": "auto-extracted",
+          "to": "proposed",
+          "at": "2026-06-27T08:08:44Z"
+        },
+        {
+          "from": "proposed",
+          "to": "verified-community",
+          "at": "2026-06-28T00:00:00Z"
+        }
       ],
       "created_at": "2026-06-27T08:08:44Z",
       "updated_at": "2026-06-28T00:00:00Z"
