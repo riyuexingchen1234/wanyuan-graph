@@ -39,9 +39,9 @@ export class PhysicsEngine {
 
     if (isPaused) return;
 
-    const springK = 0.01;
-    const repulsionK = 100;
-    const damping = 0.95;
+    const springK = 0.1;  // 增强弹簧力
+    const repulsionK = 50;  // 减弱斥力
+    const damping = 0.9;
 
     const nodeEntries = Array.from(this.nodes.entries());
     const forces = new Map<string, THREE.Vector3>();
