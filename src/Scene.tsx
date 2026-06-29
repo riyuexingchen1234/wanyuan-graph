@@ -1,11 +1,29 @@
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars } from '@react-three/drei';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useGraphStore } from './store';
 import { NodeMesh } from './NodeMesh';
 import { RelationshipLines } from './RelationshipLines';
 import { CameraController } from './CameraController';
 import { PhysicsEngine } from './PhysicsEngine';
+import * as THREE from 'three';
+
+function RotatingGroup({ children }: { children: React.ReactNode }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const selectedNodeId = useGraphStore(state => state.selectedNodeId);
+  const hoveredNodeId = useGraphStore(state => state.hoveredNodeId);
+  const isDragging = useGraphStore(state => state.isDragging);
+  const cameraMode = useGraphStore(state => state.cameraMode);
+
+  useFrame((_, delta) => {
+    if (!groupRef.current) return;
+    if (selectedNodeId || hoveredNodeId || isDragging || cameraMode === 'flying') return;
+    
+    groupRef.current.rotation.y += delta * 0.08;
+  });
+
+  return <group ref={groupRef}>{children}</group>;
+}
 
 export function Scene() {
   const data = useGraphStore(state => state.data);
@@ -45,19 +63,21 @@ export function Scene() {
 
       <CameraController physicsEngine={physicsEngine} />
 
-      <RelationshipLines
-        data={data}
-        physicsEngine={physicsEngine}
-        selectedNodeId={selectedNodeId}
-      />
-
-      {data.nodes.map(node => (
-        <NodeMesh
-          key={node.id}
-          node={node}
+      <RotatingGroup>
+        <RelationshipLines
+          data={data}
           physicsEngine={physicsEngine}
+          selectedNodeId={selectedNodeId}
         />
-      ))}
+
+        {data.nodes.map(node => (
+          <NodeMesh
+            key={node.id}
+            node={node}
+            physicsEngine={physicsEngine}
+          />
+        ))}
+      </RotatingGroup>
 
       <OrbitControls
         enabled={cameraMode !== 'flying'}
