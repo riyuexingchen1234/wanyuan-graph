@@ -1,4 +1,4 @@
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Stars } from '@react-three/drei';
 import { useEffect, useRef, useState } from 'react';
 import { useGraphStore } from './store';
@@ -80,6 +80,7 @@ export function Scene() {
       </RotatingGroup>
 
       <OrbitControls
+        makeDefault
         enabled={cameraMode !== 'flying'}
         enablePan={true}
         enableZoom={true}

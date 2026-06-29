@@ -19,6 +19,43 @@ export class PhysicsEngine {
     return new THREE.Vector3(0, 0, 1);
   }
 
+  getMainChainId(nodeId: string): string | null {
+    return this.nodeMainChain.get(nodeId) || null;
+  }
+
+  getNodeChainDirection(nodeId: string): THREE.Vector3 {
+    const chainId = this.nodeMainChain.get(nodeId);
+    if (!chainId) return new THREE.Vector3(0, 0, 1);
+    
+    const chain = this.chains.find(c => c.id === chainId);
+    if (!chain) return new THREE.Vector3(0, 0, 1);
+    
+    const idx = chain.nodeIds.indexOf(nodeId);
+    if (idx < 0) return new THREE.Vector3(0, 0, 1);
+    
+    let nextPos: THREE.Vector3 | undefined;
+    let prevPos: THREE.Vector3 | undefined;
+    
+    if (idx < chain.nodeIds.length - 1) {
+      nextPos = this.nodes.get(chain.nodeIds[idx + 1]);
+    }
+    if (idx > 0) {
+      prevPos = this.nodes.get(chain.nodeIds[idx - 1]);
+    }
+    
+    const nodePos = this.nodes.get(nodeId);
+    if (!nodePos) return new THREE.Vector3(0, 0, 1);
+    
+    if (nextPos) {
+      return new THREE.Vector3().subVectors(nextPos, nodePos).normalize();
+    }
+    if (prevPos) {
+      return new THREE.Vector3().subVectors(nodePos, prevPos).normalize();
+    }
+    
+    return new THREE.Vector3(0, 0, 1);
+  }
+
   getChainAnchor(nodeId: string): string | null {
     const chainId = this.nodeMainChain.get(nodeId);
     if (!chainId) return null;
@@ -155,6 +192,11 @@ export class PhysicsEngine {
 
     this.nodes.set(rootNodeId, new THREE.Vector3(0, 0, 0));
     placed.add(rootNodeId);
+    
+    const rootChain = this.chains.find(c => c.nodeIds.includes(rootNodeId));
+    if (rootChain) {
+      this.nodeMainChain.set(rootNodeId, rootChain.id);
+    }
 
     const queue: string[] = [rootNodeId];
     const processed = new Set<string>();
