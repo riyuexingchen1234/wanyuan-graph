@@ -28,6 +28,16 @@ export class PhysicsEngine {
     return dirs;
   }
 
+  private getChainsAtNode(nodeId: string): string[] {
+    const result: string[] = [];
+    for (const chain of this.chains) {
+      if (chain.nodeIds.includes(nodeId)) {
+        result.push(chain.id);
+      }
+    }
+    return result;
+  }
+
   private computeLayout() {
     this.nodes.clear();
     this.nodeMainChain.clear();
@@ -35,19 +45,15 @@ export class PhysicsEngine {
 
     if (this.chains.length === 0) return;
 
-    const nodeChainCount: Map<string, number> = new Map();
+    let hubNodeId = this.chains[0].nodeIds[0];
+    let maxChains = 0;
     for (const chain of this.chains) {
       for (const nodeId of chain.nodeIds) {
-        nodeChainCount.set(nodeId, (nodeChainCount.get(nodeId) || 0) + 1);
-      }
-    }
-
-    let hubNodeId = this.chains[0].nodeIds[0];
-    let maxCount = 0;
-    for (const [nodeId, count] of nodeChainCount) {
-      if (count > maxCount) {
-        maxCount = count;
-        hubNodeId = nodeId;
+        const count = this.getChainsAtNode(nodeId).length;
+        if (count > maxChains) {
+          maxChains = count;
+          hubNodeId = nodeId;
+        }
       }
     }
     this.hubNodeId = hubNodeId;
@@ -55,46 +61,42 @@ export class PhysicsEngine {
     const hubPos = new THREE.Vector3(0, 0, 0);
     this.nodes.set(hubNodeId, hubPos);
 
-    const hubChains: { chain: Chain; dir: THREE.Vector3 }[] = [];
-    for (const chain of this.chains) {
-      if (chain.nodeIds.includes(hubNodeId)) {
-        hubChains.push({ chain, dir: new THREE.Vector3() });
-      }
-    }
-
-    const sphereDirs = this.fibonacciSphere(Math.max(hubChains.length * 2, 10));
+    const hubChains = this.getChainsAtNode(hubNodeId);
+    
+    const totalDirs = hubChains.length * 2;
+    const sphereDirs = this.fibonacciSphere(Math.max(totalDirs + 4, 20));
     const usedDirs: THREE.Vector3[] = [];
+    const chainDirMap = new Map<string, THREE.Vector3>();
 
-    for (let i = 0; i < hubChains.length; i++) {
-      let bestIdx = 0;
+    for (const cid of hubChains) {
+      let bestDir = sphereDirs[0];
       let bestMinAngle = 0;
 
-      for (let di = 0; di < sphereDirs.length; di++) {
-        const candidate = sphereDirs[di];
+      for (const candidate of sphereDirs) {
         let minAngle = Math.PI;
-
         for (const used of usedDirs) {
           const dot = Math.max(-1, Math.min(1, candidate.dot(used)));
           minAngle = Math.min(minAngle, Math.acos(dot));
         }
-
         if (minAngle > bestMinAngle) {
           bestMinAngle = minAngle;
-          bestIdx = di;
+          bestDir = candidate.clone();
         }
       }
 
-      const dir = sphereDirs[bestIdx].clone();
-      hubChains[i].dir.copy(dir);
-      usedDirs.push(dir.clone());
-      usedDirs.push(dir.clone().negate());
+      chainDirMap.set(cid, bestDir.clone());
+      usedDirs.push(bestDir.clone());
+      usedDirs.push(bestDir.clone().negate());
     }
 
-    for (const { chain, dir } of hubChains) {
+    const hubChainList = this.chains.filter(c => c.nodeIds.includes(hubNodeId));
+    this.nodeMainChain.set(hubNodeId, hubChainList[0].id);
+
+    for (const chain of hubChainList) {
+      const dir = chainDirMap.get(chain.id)!;
       this.chainDirections.set(chain.id, dir.clone());
 
       const hubIdx = chain.nodeIds.indexOf(hubNodeId);
-      this.nodeMainChain.set(hubNodeId, chain.id);
 
       for (let i = hubIdx + 1; i < chain.nodeIds.length; i++) {
         const nodeId = chain.nodeIds[i];
@@ -113,45 +115,10 @@ export class PhysicsEngine {
         this.nodeMainChain.set(nodeId, chain.id);
       }
     }
-
-    for (const chain of this.chains) {
-      if (this.chainDirections.has(chain.id)) continue;
-
-      const dir = new THREE.Vector3(
-        Math.random() - 0.5,
-        Math.random() - 0.5,
-        Math.random() - 0.5
-      ).normalize();
-      const midIdx = Math.floor(chain.nodeIds.length / 2);
-      const origin = new THREE.Vector3(
-        (Math.random() - 0.5) * 40,
-        (Math.random() - 0.5) * 40,
-        (Math.random() - 0.5) * 40
-      );
-
-      this.chainDirections.set(chain.id, dir);
-      for (let i = 0; i < chain.nodeIds.length; i++) {
-        const nodeId = chain.nodeIds[i];
-        if (!this.nodes.has(nodeId)) {
-          const offset = (i - midIdx) * this.spacing;
-          const pos = origin.clone().add(dir.clone().multiplyScalar(offset));
-          this.nodes.set(nodeId, pos);
-          this.nodeMainChain.set(nodeId, chain.id);
-        }
-      }
-    }
   }
 
   getNodePosition(nodeId: string): THREE.Vector3 | null {
     return this.nodes.get(nodeId) || null;
-  }
-
-  getChainDirection(nodeId: string): THREE.Vector3 {
-    const chainId = this.nodeMainChain.get(nodeId);
-    if (chainId) {
-      return this.chainDirections.get(chainId) || new THREE.Vector3(0, 0, 1);
-    }
-    return new THREE.Vector3(0, 0, 1);
   }
 
   getMainChainId(nodeId: string): string | null {
@@ -160,6 +127,14 @@ export class PhysicsEngine {
 
   getHubNodeId(): string {
     return this.hubNodeId;
+  }
+
+  getChainsContainingNode(nodeId: string): string[] {
+    return this.getChainsAtNode(nodeId);
+  }
+
+  getChainById(chainId: string): Chain | undefined {
+    return this.chains.find(c => c.id === chainId);
   }
 
   getNodeChainDirection(nodeId: string): THREE.Vector3 {

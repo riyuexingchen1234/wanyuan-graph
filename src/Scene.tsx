@@ -1,4 +1,4 @@
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars } from '@react-three/drei';
 import { useEffect, useRef, useState } from 'react';
 import { useGraphStore } from './store';
@@ -28,6 +28,7 @@ function RotatingGroup({ children }: { children: React.ReactNode }) {
 export function Scene() {
   const data = useGraphStore(state => state.data);
   const selectedNodeId = useGraphStore(state => state.selectedNodeId);
+  const hoveredNodeId = useGraphStore(state => state.hoveredNodeId);
   const selectNode = useGraphStore(state => state.selectNode);
   const setDragging = useGraphStore(state => state.setDragging);
   const cameraMode = useGraphStore(state => state.cameraMode);
@@ -50,6 +51,35 @@ export function Scene() {
     }
   };
 
+  const highlightedChains = new Set<string>();
+  if (selectedNodeId) {
+    for (const cid of physicsEngine.getChainsContainingNode(selectedNodeId)) {
+      highlightedChains.add(cid);
+    }
+  }
+  if (hoveredNodeId) {
+    for (const cid of physicsEngine.getChainsContainingNode(hoveredNodeId)) {
+      highlightedChains.add(cid);
+    }
+  }
+
+  const highlightedNodes = new Set<string>();
+  for (const cid of highlightedChains) {
+    const chain = physicsEngine.getChainById(cid);
+    if (chain) {
+      for (const nid of chain.nodeIds) {
+        highlightedNodes.add(nid);
+      }
+    }
+  }
+
+  const sharedNodes = new Set<string>();
+  for (const node of data.nodes) {
+    if (physicsEngine.getChainsContainingNode(node.id).length > 1) {
+      sharedNodes.add(node.id);
+    }
+  }
+
   return (
     <Canvas
       camera={{ position: [0, 0, 50], fov: 60 }}
@@ -68,6 +98,7 @@ export function Scene() {
           data={data}
           physicsEngine={physicsEngine}
           selectedNodeId={selectedNodeId}
+          hoveredNodeId={hoveredNodeId}
         />
 
         {data.nodes.map(node => (
@@ -75,6 +106,8 @@ export function Scene() {
             key={node.id}
             node={node}
             physicsEngine={physicsEngine}
+            isHighlighted={highlightedNodes.has(node.id)}
+            isShared={sharedNodes.has(node.id)}
           />
         ))}
       </RotatingGroup>

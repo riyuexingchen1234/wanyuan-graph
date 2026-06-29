@@ -8,9 +8,11 @@ import { PhysicsEngine } from './PhysicsEngine';
 interface NodeMeshProps {
   node: Node;
   physicsEngine: PhysicsEngine;
+  isHighlighted: boolean;
+  isShared: boolean;
 }
 
-export function NodeMesh({ node, physicsEngine }: NodeMeshProps) {
+export function NodeMesh({ node, physicsEngine, isHighlighted, isShared }: NodeMeshProps) {
   const [hovered, setHovered] = useState(false);
 
   const selectNode = useGraphStore(state => state.selectNode);
@@ -45,43 +47,59 @@ export function NodeMesh({ node, physicsEngine }: NodeMeshProps) {
       case 'process': return '#50c878';
       case 'product': return '#ffa500';
       case 'demand': return '#da70d6';
-      case 'entity': return '#ffffff';
+      case 'entity': return '#e8e8e8';
       default: return '#ffffff';
     }
   };
 
   const isSelected = selectedNodeId === node.id;
-  const scale = isSelected ? 1.6 : hovered ? 1.2 : 1;
+  const baseSize = isShared ? 0.7 : 0.5;
+  const scale = isSelected ? 1.8 : hovered ? 1.4 : isHighlighted ? 1.1 : 1;
 
   return (
     <group position={position}>
       <mesh
+        scale={scale}
         onClick={handleClick}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
-        scale={scale}
       >
-        <sphereGeometry args={[0.5, 16, 16]} />
+        <sphereGeometry args={[baseSize, 24, 24]} />
         <meshStandardMaterial
           color={getColor()}
           emissive={getColor()}
-          emissiveIntensity={hovered ? 0.5 : 0.2}
+          emissiveIntensity={isSelected ? 0.8 : hovered ? 0.5 : isHighlighted ? 0.3 : 0.15}
+          transparent={!isHighlighted && !isSelected && !hovered}
+          opacity={isHighlighted || isSelected || hovered ? 1 : 0.7}
         />
       </mesh>
 
+      {isHighlighted && (
+        <mesh>
+          <sphereGeometry args={[baseSize * 1.5, 24, 24]} />
+          <meshBasicMaterial
+            color={getColor()}
+            transparent
+            opacity={0.15}
+          />
+        </mesh>
+      )}
+
       <Html
-        position={[0, 1, 0]}
+        position={[0, baseSize + 0.3, 0]}
         center
         style={{
           color: 'white',
-          background: isSelected ? 'rgba(74, 144, 226, 0.9)' : hovered ? 'rgba(0, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.6)',
-          padding: '4px 8px',
+          background: isSelected ? 'rgba(74, 144, 226, 0.95)' : hovered ? 'rgba(0, 0, 0, 0.95)' : isHighlighted ? 'rgba(102, 204, 255, 0.25)' : 'rgba(0, 0, 0, 0.5)',
+          padding: '4px 10px',
           borderRadius: '4px',
-          fontSize: isSelected ? '14px' : '12px',
-          fontWeight: isSelected ? 'bold' : 'normal',
+          fontSize: isSelected ? '15px' : '13px',
+          fontWeight: isSelected ? 'bold' : isHighlighted ? '600' : 'normal',
           whiteSpace: 'nowrap',
           pointerEvents: 'none',
-          transition: 'all 0.2s'
+          transition: 'all 0.2s',
+          textShadow: isHighlighted ? '0 0 8px rgba(102, 204, 255, 0.5)' : 'none',
+          border: isHighlighted ? '1px solid rgba(102, 204, 255, 0.5)' : 'none',
         }}
       >
         {node.name}
