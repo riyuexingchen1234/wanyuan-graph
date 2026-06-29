@@ -1,197 +1,235 @@
 import * as THREE from 'three';
+import { Chain } from './types';
+
+interface NodeState {
+  position: THREE.Vector3;
+  velocity: THREE.Vector3;
+}
 
 export class PhysicsEngine {
-  private nodes: Map<string, { position: THREE.Vector3; velocity: THREE.Vector3 }> = new Map();
-  private relationships: Array<{ source: string; target: string }> = [];
-  private constraints: Map<string, THREE.Vector3> = new Map();
-  private rotationTime = 0;
+  private nodes: Map<string, NodeState> = new Map();
+  private chains: Chain[] = [];
+  private chainDirections: Map<string, THREE.Vector3> = new Map();
+  private nodeChainIndex: Map<string, Map<string, number>> = new Map();
+  private rotationAngle = 0;
 
   initializeNodes(nodeIds: string[]) {
-    nodeIds.forEach((id, index) => {
-      const angle = (index / nodeIds.length) * Math.PI * 2;
-      const radius = 15 + Math.random() * 8;
-
+    this.nodes.clear();
+    nodeIds.forEach((id) => {
       this.nodes.set(id, {
         position: new THREE.Vector3(
-          Math.cos(angle) * radius,
-          (Math.random() - 0.5) * 15,
-          Math.sin(angle) * radius
+          (Math.random() - 0.5) * 10,
+          (Math.random() - 0.5) * 10,
+          (Math.random() - 0.5) * 10
         ),
         velocity: new THREE.Vector3(0, 0, 0)
       });
     });
   }
 
-  setRelationships(rels: Array<{ source: string; target: string }>) {
-    this.relationships = rels;
+  setChains(chains: Chain[]) {
+    this.chains = chains;
+    this.computeLayout();
   }
 
   getNodePosition(nodeId: string): THREE.Vector3 | undefined {
     return this.nodes.get(nodeId)?.position;
   }
 
-  applyConstraints(selectedNodeId: string) {
-    this.constraints.clear();
-
-    // BFS 找上游（反向边）
-    const upstream = new Map<string, number>();
-    const queue = [selectedNodeId];
-    const visited = new Set<string>([selectedNodeId]);
-
-    while (queue.length > 0) {
-      const current = queue.shift()!;
-      const dist = upstream.get(current) ?? 0;
-
-      for (const rel of this.relationships) {
-        if (rel.target === current && !visited.has(rel.source)) {
-          visited.add(rel.source);
-          upstream.set(rel.source, dist + 1);
-          queue.push(rel.source);
-        }
+  getChainDirection(nodeId: string): THREE.Vector3 {
+    for (const chain of this.chains) {
+      if (chain.nodeIds.includes(nodeId)) {
+        return this.chainDirections.get(chain.id) || new THREE.Vector3(0, 0, 1);
       }
     }
-
-    // BFS 找下游（正向边）
-    const downstream = new Map<string, number>();
-    const queue2 = [selectedNodeId];
-    const visited2 = new Set<string>([selectedNodeId]);
-
-    while (queue2.length > 0) {
-      const current = queue2.shift()!;
-      const dist = downstream.get(current) ?? 0;
-
-      for (const rel of this.relationships) {
-        if (rel.source === current && !visited2.has(rel.target)) {
-          visited2.add(rel.target);
-          downstream.set(rel.target, dist + 1);
-          queue2.push(rel.target);
-        }
-      }
-    }
-
-    // 设置约束位置：上游在左，下游在右
-    upstream.forEach((dist, nodeId) => {
-      if (nodeId === selectedNodeId) return;
-      this.constraints.set(nodeId, new THREE.Vector3(
-        -dist * 8,
-        (dist - 1) * 2,
-        0
-      ));
-    });
-
-    downstream.forEach((dist, nodeId) => {
-      if (nodeId === selectedNodeId) return;
-      this.constraints.set(nodeId, new THREE.Vector3(
-        dist * 8,
-        (dist - 1) * 2,
-        0
-      ));
-    });
-
-    // 选中节点本身居中
-    this.constraints.set(selectedNodeId, new THREE.Vector3(0, 0, 0));
+    return new THREE.Vector3(0, 0, 1);
   }
 
-  clearConstraints() {
-    this.constraints.clear();
+  getChainAnchor(nodeId: string): string | null {
+    for (const chain of this.chains) {
+      if (chain.nodeIds.includes(nodeId)) {
+        const sharedNodes = this.getSharedNodes(chain);
+        return sharedNodes.length > 0 ? sharedNodes[0] : chain.nodeIds[0];
+      }
+    }
+    return null;
+  }
+
+  private getSharedNodes(chain: Chain): string[] {
+    const shared: string[] = [];
+    for (const nodeId of chain.nodeIds) {
+      const chainCount = this.chains.filter(c => c.nodeIds.includes(nodeId)).length;
+      if (chainCount > 1) {
+        shared.push(nodeId);
+      }
+    }
+    return shared;
+  }
+
+  private computeLayout() {
+    if (this.chains.length === 0) return;
+
+    const nodeSpacing = 6;
+
+    // 1. 为每个锚点收集经过它的链
+    const anchorChains: Map<string, Chain[]> = new Map();
+    for (const chain of this.chains) {
+      const sharedNodes = this.getSharedNodes(chain);
+      const anchor = sharedNodes.length > 0 ? sharedNodes[0] : chain.nodeIds[0];
+      if (!anchorChains.has(anchor)) {
+        anchorChains.set(anchor, []);
+      }
+      anchorChains.get(anchor)!.push(chain);
+    }
+
+    // 2. 为每个锚点的链分配斐波那契球面方向
+    anchorChains.forEach((chainsAtAnchor, _anchor) => {
+      const directions = this.fibonacciSphereDirections(chainsAtAnchor.length);
+      chainsAtAnchor.forEach((chain, i) => {
+        this.chainDirections.set(chain.id, directions[i]);
+      });
+    });
+
+    // 3. 沿链方向放置节点
+    const nodePositions: Map<string, THREE.Vector3[]> = new Map();
+
+    for (const chain of this.chains) {
+      const direction = this.chainDirections.get(chain.id)!;
+      const sharedNodes = this.getSharedNodes(chain);
+      const anchorId = sharedNodes.length > 0 ? sharedNodes[0] : chain.nodeIds[0];
+      const anchorIdx = chain.nodeIds.indexOf(anchorId);
+      const anchorPos = this.nodes.get(anchorId)?.position || new THREE.Vector3(0, 0, 0);
+
+      for (let i = 0; i < chain.nodeIds.length; i++) {
+        const nodeId = chain.nodeIds[i];
+        const offset = (i - anchorIdx) * nodeSpacing;
+        const pos = anchorPos.clone().add(direction.clone().multiplyScalar(offset));
+
+        if (!nodePositions.has(nodeId)) {
+          nodePositions.set(nodeId, []);
+        }
+        nodePositions.get(nodeId)!.push(pos);
+
+        // 记录节点在链中的索引
+        if (!this.nodeChainIndex.has(nodeId)) {
+          this.nodeChainIndex.set(nodeId, new Map());
+        }
+        this.nodeChainIndex.get(nodeId)!.set(chain.id, i);
+      }
+    }
+
+    // 4. 多链节点取平均位置
+    nodePositions.forEach((positions, nodeId) => {
+      const avg = new THREE.Vector3();
+      for (const pos of positions) {
+        avg.add(pos);
+      }
+      avg.divideScalar(positions.length);
+
+      const node = this.nodes.get(nodeId);
+      if (node) {
+        node.position.copy(avg);
+        node.velocity.set(0, 0, 0);
+      }
+    });
+  }
+
+  private fibonacciSphereDirections(count: number): THREE.Vector3[] {
+    const directions: THREE.Vector3[] = [];
+    const goldenRatio = (1 + Math.sqrt(5)) / 2;
+
+    for (let i = 0; i < count; i++) {
+      const y = 1 - (i / (count - 1 || 1)) * 2;
+      const radiusAtY = Math.sqrt(1 - y * y);
+      const theta = 2 * Math.PI * i / goldenRatio;
+
+      const x = Math.cos(theta) * radiusAtY;
+      const z = Math.sin(theta) * radiusAtY;
+
+      directions.push(new THREE.Vector3(x, y, z).normalize());
+    }
+
+    return directions;
   }
 
   step(delta: number, isPaused: boolean) {
-    const clampedDelta = Math.min(delta, 0.05);
+    const dt = Math.min(delta, 0.05);
+    if (dt <= 0) return;
 
-    // 公转（仅在无约束时）
-    if (this.constraints.size === 0) {
-      this.rotationTime += clampedDelta;
-      const rotationSpeed = 0.08;
-      const rotationAngle = rotationSpeed * clampedDelta;
-      this.applyGlobalRotation(rotationAngle);
-    }
+    // 公转
+    this.rotationAngle += dt * 0.08;
+    this.applyGlobalRotation(dt * 0.08);
 
-    // 物理模拟（暂停时跳过）
     if (isPaused) return;
 
-    const springK = 0.15;
-    const repulsionK = 80;
-    const damping = 0.88;
-    const centerK = 0.002;
-
-    const nodeEntries = Array.from(this.nodes.entries());
+    const entries = Array.from(this.nodes.entries());
     const forces = new Map<string, THREE.Vector3>();
+    entries.forEach(([id]) => forces.set(id, new THREE.Vector3()));
 
-    nodeEntries.forEach(([nodeId]) => {
-      forces.set(nodeId, new THREE.Vector3(0, 0, 0));
-    });
+    const springK = 0.3;
+    const repulsionK = 120;
+    const damping = 0.85;
+    const centerK = 0.003;
+    const restLength = 6;
 
-    // 约束力（最强，优先保证排列效果）
-    this.constraints.forEach((targetPos, nodeId) => {
-      const node = this.nodes.get(nodeId);
-      if (!node) return;
+    // 弹簧力：同链相邻节点
+    for (const chain of this.chains) {
+      for (let i = 0; i < chain.nodeIds.length - 1; i++) {
+        const a = chain.nodeIds[i];
+        const b = chain.nodeIds[i + 1];
+        const nodeA = this.nodes.get(a);
+        const nodeB = this.nodes.get(b);
+        if (!nodeA || !nodeB) continue;
 
-      const diff = new THREE.Vector3().subVectors(targetPos, node.position);
-      const distance = diff.length();
+        const diff = new THREE.Vector3().subVectors(nodeB.position, nodeA.position);
+        const dist = diff.length();
+        if (dist < 0.01) continue;
 
-      if (distance > 0.1) {
-        const force = diff.normalize().multiplyScalar(distance * 0.5);
-        forces.get(nodeId)!.add(force);
-      }
-    });
-
-    // 节点间作用力
-    for (let i = 0; i < nodeEntries.length; i++) {
-      for (let j = i + 1; j < nodeEntries.length; j++) {
-        const [nodeId, node] = nodeEntries[i];
-        const [otherId, other] = nodeEntries[j];
-
-        const diff = new THREE.Vector3().subVectors(node.position, other.position);
-        const distance = diff.length();
-
-        if (distance < 0.1) continue;
-
-        const hasConnection = this.relationships.some(
-          rel => (rel.source === nodeId && rel.target === otherId) ||
-                 (rel.target === nodeId && rel.source === otherId)
-        );
-
-        let forceMagnitude = 0;
-
-        if (hasConnection) {
-          const restLength = 6;
-          const displacement = distance - restLength;
-          forceMagnitude = -springK * displacement;
-        } else if (distance < 12) {
-          forceMagnitude = repulsionK / (distance * distance);
-        }
-
-        if (forceMagnitude !== 0) {
-          const force = diff.normalize().multiplyScalar(forceMagnitude);
-          forces.get(nodeId)!.add(force);
-          forces.get(otherId)!.sub(force);
-        }
+        const displacement = dist - restLength;
+        const force = diff.normalize().multiplyScalar(springK * displacement);
+        forces.get(a)!.add(force);
+        forces.get(b)!.sub(force);
       }
     }
 
-    // 向心力（防止节点飘太远）
-    nodeEntries.forEach(([nodeId, node]) => {
-      const centerForce = node.position.clone().negate().multiplyScalar(centerK);
-      forces.get(nodeId)!.add(centerForce);
-    });
+    // 斥力：所有节点对
+    for (let i = 0; i < entries.length; i++) {
+      for (let j = i + 1; j < entries.length; j++) {
+        const [idA, nodeA] = entries[i];
+        const [idB, nodeB] = entries[j];
 
-    // 更新速度和位置
-    nodeEntries.forEach(([nodeId, node]) => {
-      const force = forces.get(nodeId)!;
-      node.velocity.add(force.multiplyScalar(clampedDelta)).multiplyScalar(damping);
-      node.position.add(node.velocity.clone().multiplyScalar(clampedDelta));
-    });
+        const diff = new THREE.Vector3().subVectors(nodeA.position, nodeB.position);
+        const dist = diff.length();
+        if (dist < 0.1 || dist > 25) continue;
+
+        const forceMag = repulsionK / (dist * dist);
+        const force = diff.normalize().multiplyScalar(forceMag);
+        forces.get(idA)!.add(force);
+        forces.get(idB)!.sub(force);
+      }
+    }
+
+    // 向心力
+    for (const [id, node] of entries) {
+      forces.get(id)!.add(node.position.clone().negate().multiplyScalar(centerK));
+    }
+
+    // 积分
+    for (const [id, node] of entries) {
+      const force = forces.get(id)!;
+      node.velocity.add(force.multiplyScalar(dt)).multiplyScalar(damping);
+      node.position.add(node.velocity.clone().multiplyScalar(dt));
+    }
   }
 
   private applyGlobalRotation(angle: number) {
     const cos = Math.cos(angle);
     const sin = Math.sin(angle);
 
-    this.nodes.forEach(node => {
+    for (const node of this.nodes.values()) {
       const x = node.position.x * cos - node.position.z * sin;
       const z = node.position.x * sin + node.position.z * cos;
       node.position.set(x, node.position.y, z);
-    });
+    }
   }
 }

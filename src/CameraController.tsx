@@ -22,11 +22,19 @@ export function CameraController({ physicsEngine }: CameraControllerProps) {
     if (selectedNodeId && physicsEngine) {
       const nodePos = physicsEngine.getNodePosition(selectedNodeId);
       if (nodePos) {
-        const cameraOffset = new THREE.Vector3(0, 0, 15);
-        const desiredPosition = nodePos.clone().add(cameraOffset);
+        // 沿链的反方向后退，看向锚点
+        const chainDir = physicsEngine.getChainDirection(selectedNodeId);
+        const anchorId = physicsEngine.getChainAnchor(selectedNodeId);
+        const anchorPos = anchorId ? physicsEngine.getNodePosition(anchorId) : null;
 
-        targetPosition.current.copy(desiredPosition);
-        targetLookAt.current.copy(nodePos);
+        // 相机位置：从节点位置沿链反方向后退 20 个单位
+        const cameraPos = nodePos.clone().sub(chainDir.clone().multiplyScalar(20));
+        // 稍微抬高，获得更好的视角
+        cameraPos.y += 5;
+
+        targetPosition.current.copy(cameraPos);
+        targetLookAt.current.copy(anchorPos || nodePos);
+        currentLookAt.current.copy(targetLookAt.current);
         isFlying.current = true;
         setCameraMode('flying');
       }
@@ -42,22 +50,14 @@ export function CameraController({ physicsEngine }: CameraControllerProps) {
   useFrame(() => {
     if (!isFlying.current) return;
 
-    // 平滑插值相机位置
-    camera.position.lerp(targetPosition.current, 0.08);
-
-    // 平滑插值相机朝向
-    currentLookAt.current.lerp(targetLookAt.current, 0.08);
+    camera.position.lerp(targetPosition.current, 0.06);
+    currentLookAt.current.lerp(targetLookAt.current, 0.06);
     camera.lookAt(currentLookAt.current);
 
-    // 检查是否接近目标
     const distance = camera.position.distanceTo(targetPosition.current);
     if (distance < 0.5) {
       isFlying.current = false;
-      if (selectedNodeId) {
-        setCameraMode('focused');
-      } else {
-        setCameraMode('orbit');
-      }
+      setCameraMode(selectedNodeId ? 'focused' : 'orbit');
     }
   });
 

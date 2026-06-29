@@ -23,22 +23,9 @@ export function Scene() {
 
     const engine = new PhysicsEngine();
     engine.initializeNodes(data.nodes.map(n => n.id));
-    engine.setRelationships(
-      data.relationships.map(r => ({ source: r.sourceId, target: r.targetId }))
-    );
+    engine.setChains(data.chains);
     setPhysicsEngine(engine);
   }, [data, physicsEngine]);
-
-  // 选中节点时应用约束
-  useEffect(() => {
-    if (!physicsEngine) return;
-
-    if (selectedNodeId) {
-      physicsEngine.applyConstraints(selectedNodeId);
-    } else {
-      physicsEngine.clearConstraints();
-    }
-  }, [selectedNodeId, physicsEngine]);
 
   if (!data || !physicsEngine) return null;
 
