@@ -85,10 +85,12 @@ export function Scene() {
         enablePan={true}
         enableZoom={true}
         enableRotate={true}
-        minDistance={5}
-        maxDistance={200}
+        minDistance={2}
+        maxDistance={500}
         minPolarAngle={0}
         maxPolarAngle={Math.PI}
+        enableDamping={true}
+        dampingFactor={0.05}
         onStart={() => setDragging(true)}
         onEnd={() => setDragging(false)}
       />

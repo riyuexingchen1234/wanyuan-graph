@@ -15,10 +15,11 @@ export function CameraController({ physicsEngine }: CameraControllerProps) {
 
   const targetPosition = useRef(new THREE.Vector3(0, 0, 50));
   const targetLookAt = useRef(new THREE.Vector3(0, 0, 0));
-  const targetUp = useRef(new THREE.Vector3(0, 1, 0));
-  const currentLookAt = useRef(new THREE.Vector3(0, 0, 0));
-  const currentUp = useRef(new THREE.Vector3(0, 1, 0));
   const isFlying = useRef(false);
+
+  const flyStartPos = useRef(new THREE.Vector3());
+  const flyStartLookAt = useRef(new THREE.Vector3());
+  const flyProgress = useRef(0);
 
   useEffect(() => {
     if (selectedNodeId && physicsEngine) {
@@ -27,36 +28,40 @@ export function CameraController({ physicsEngine }: CameraControllerProps) {
         const chainDir = physicsEngine.getNodeChainDirection(selectedNodeId);
         const worldUp = new THREE.Vector3(0, 1, 0);
 
-        const rightDir = chainDir.clone();
-        const upComponent = rightDir.dot(worldUp);
-        rightDir.add(worldUp.clone().multiplyScalar(-upComponent));
-        if (rightDir.length() < 0.01) {
-          rightDir.set(1, 0, 0);
+        const horizontalDir = chainDir.clone();
+        horizontalDir.y = 0;
+        if (horizontalDir.length() < 0.01) {
+          horizontalDir.set(1, 0, 0);
         }
-        rightDir.normalize();
+        horizontalDir.normalize();
 
-        const forwardDir = worldUp.clone().cross(rightDir);
-        forwardDir.normalize();
+        const sideDir = new THREE.Vector3()
+          .crossVectors(horizontalDir, worldUp)
+          .normalize();
 
         const cameraDistance = 30;
+        const cameraHeight = 8;
+
         const cameraPos = nodePos.clone()
-          .sub(forwardDir.clone().multiplyScalar(cameraDistance))
-          .add(worldUp.clone().multiplyScalar(3));
+          .add(sideDir.clone().multiplyScalar(cameraDistance))
+          .add(worldUp.clone().multiplyScalar(cameraHeight));
+
+        flyStartPos.current.copy(camera.position);
+        flyStartLookAt.current.copy(controls?.target || new THREE.Vector3());
+        flyProgress.current = 0;
 
         targetPosition.current.copy(cameraPos);
         targetLookAt.current.copy(nodePos);
-        targetUp.current.copy(worldUp);
-        currentLookAt.current.copy(targetLookAt.current);
-        currentUp.current.copy(targetUp.current);
         isFlying.current = true;
         setCameraMode('flying');
       }
     } else {
-      targetPosition.current.set(0, 0, 50);
+      flyStartPos.current.copy(camera.position);
+      flyStartLookAt.current.copy(controls?.target || new THREE.Vector3());
+      flyProgress.current = 0;
+
+      targetPosition.current.set(0, 15, 50);
       targetLookAt.current.set(0, 0, 0);
-      targetUp.current.set(0, 1, 0);
-      currentLookAt.current.set(0, 0, 0);
-      currentUp.current.set(0, 1, 0);
       isFlying.current = true;
       setCameraMode('orbit');
     }
@@ -65,23 +70,38 @@ export function CameraController({ physicsEngine }: CameraControllerProps) {
   useFrame(() => {
     if (!isFlying.current) return;
 
-    camera.position.lerp(targetPosition.current, 0.06);
-    currentLookAt.current.lerp(targetLookAt.current, 0.06);
-    currentUp.current.lerp(targetUp.current, 0.06);
-    currentUp.current.normalize();
-    
-    camera.up.copy(currentUp.current);
-    camera.lookAt(currentLookAt.current);
+    flyProgress.current = Math.min(flyProgress.current + 0.025, 1);
+    const t = flyProgress.current;
+    const easeT = t < 0.5
+      ? 2 * t * t
+      : 1 - Math.pow(-2 * t + 2, 2) / 2;
 
-    const distance = camera.position.distanceTo(targetPosition.current);
-    if (distance < 0.5) {
+    const midPoint = new THREE.Vector3()
+      .lerpVectors(flyStartPos.current, targetPosition.current, 0.5);
+    const dist = flyStartPos.current.distanceTo(targetPosition.current);
+    midPoint.y += dist * 0.2;
+
+    const a = new THREE.Vector3().lerpVectors(flyStartPos.current, midPoint, easeT);
+    const b = new THREE.Vector3().lerpVectors(midPoint, targetPosition.current, easeT);
+    camera.position.lerpVectors(a, b, easeT);
+
+    const lookAt = new THREE.Vector3().lerpVectors(
+      flyStartLookAt.current,
+      targetLookAt.current,
+      easeT
+    );
+    camera.lookAt(lookAt);
+
+    if (controls) {
+      controls.target.copy(lookAt);
+    }
+
+    if (t >= 1) {
       isFlying.current = false;
-      
       if (controls) {
         controls.target.copy(targetLookAt.current);
         controls.update();
       }
-      
       setCameraMode(selectedNodeId ? 'focused' : 'orbit');
     }
   });

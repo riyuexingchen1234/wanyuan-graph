@@ -2,84 +2,106 @@ import { GraphData } from './types';
 
 export const sampleData: GraphData = {
   nodes: [
-    { id: '1', name: '1', type: 'material', description: '节点1', credibility: 'verified', sources: ['测试数据'] },
-    { id: '2', name: '2', type: 'process', description: '节点2', credibility: 'verified', sources: ['测试数据'] },
-    { id: '3', name: '3', type: 'material', description: '节点3 - 链1和链2的共享节点', credibility: 'verified', sources: ['测试数据'] },
-    { id: '4', name: '4', type: 'process', description: '节点4 - 链1和链3的共享节点', credibility: 'verified', sources: ['测试数据'] },
-    { id: '5', name: '5', type: 'entity', description: '节点5', credibility: 'verified', sources: ['测试数据'] },
-    { id: '6', name: '6', type: 'demand', description: '节点6', credibility: 'verified', sources: ['测试数据'] },
-
-    { id: 'a', name: 'a', type: 'material', description: '节点a', credibility: 'verified', sources: ['测试数据'] },
-    { id: 'b', name: 'b', type: 'process', description: '节点b', credibility: 'verified', sources: ['测试数据'] },
-    { id: 'c', name: 'c', type: 'entity', description: '节点c', credibility: 'verified', sources: ['测试数据'] },
-    { id: 'd', name: 'd', type: 'entity', description: '节点d', credibility: 'verified', sources: ['测试数据'] },
-    { id: 'e', name: 'e', type: 'demand', description: '节点e', credibility: 'verified', sources: ['测试数据'] },
-
-    { id: 'f', name: 'f', type: 'material', description: '节点f', credibility: 'verified', sources: ['测试数据'] },
-    { id: 'g', name: 'g', type: 'process', description: '节点g', credibility: 'verified', sources: ['测试数据'] },
-    { id: 'h', name: 'h', type: 'entity', description: '节点h', credibility: 'verified', sources: ['测试数据'] },
-    { id: 'i', name: 'i', type: 'demand', description: '节点i', credibility: 'verified', sources: ['测试数据'] },
-
-    { id: 'j', name: 'j', type: 'material', description: '节点j', credibility: 'verified', sources: ['测试数据'] },
-    { id: 'k', name: 'k', type: 'process', description: '节点k', credibility: 'verified', sources: ['测试数据'] },
-    { id: 'l', name: 'l', type: 'entity', description: '节点l', credibility: 'verified', sources: ['测试数据'] },
-    { id: 'm', name: 'm', type: 'entity', description: '节点m', credibility: 'verified', sources: ['测试数据'] },
-    { id: 'n', name: 'n', type: 'demand', description: '节点n', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'c1', name: '材料甲', type: 'material', description: '基础材料甲', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'c2', name: '材料乙', type: 'material', description: '基础材料乙', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'c3', name: '材料丙', type: 'material', description: '基础材料丙', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'c4', name: '材料丁', type: 'material', description: '基础材料丁', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'c5', name: '材料戊', type: 'material', description: '基础材料戊', credibility: 'verified', sources: ['测试数据'] },
+    
+    { id: 'hub', name: '中心枢纽', type: 'process', description: '5条产业链在此交汇，形成米字形', credibility: 'verified', sources: ['测试数据'] },
+    
+    { id: 'p1', name: '加工1', type: 'process', description: '加工环节1', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'p2', name: '加工2', type: 'process', description: '加工环节2', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'p3', name: '加工3', type: 'process', description: '加工环节3', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'p4', name: '加工4', type: 'process', description: '加工环节4', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'p5', name: '加工5', type: 'process', description: '加工环节5', credibility: 'verified', sources: ['测试数据'] },
+    
+    { id: 'f1', name: '工厂A', type: 'entity', description: '制造工厂A', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'f2', name: '工厂B', type: 'entity', description: '制造工厂B', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'f3', name: '工厂C', type: 'entity', description: '制造工厂C', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'f4', name: '工厂D', type: 'entity', description: '制造工厂D', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'f5', name: '工厂E', type: 'entity', description: '制造工厂E', credibility: 'verified', sources: ['测试数据'] },
+    
+    { id: 'b1', name: '品牌α', type: 'entity', description: '品牌/渠道α', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'b2', name: '品牌β', type: 'entity', description: '品牌/渠道β', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'b3', name: '品牌γ', type: 'entity', description: '品牌/渠道γ', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'b4', name: '品牌δ', type: 'entity', description: '品牌/渠道δ', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'b5', name: '品牌ε', type: 'entity', description: '品牌/渠道ε', credibility: 'verified', sources: ['测试数据'] },
+    
+    { id: 'd1', name: '需求Ⅰ', type: 'demand', description: '终端需求Ⅰ', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'd2', name: '需求Ⅱ', type: 'demand', description: '终端需求Ⅱ', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'd3', name: '需求Ⅲ', type: 'demand', description: '终端需求Ⅲ', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'd4', name: '需求Ⅳ', type: 'demand', description: '终端需求Ⅳ', credibility: 'verified', sources: ['测试数据'] },
+    { id: 'd5', name: '需求Ⅴ', type: 'demand', description: '终端需求Ⅴ', credibility: 'verified', sources: ['测试数据'] },
   ],
 
   relationships: [
-    { id: 'r1-1', sourceId: '1', targetId: '2', type: 'supply', strength: 0.9, description: '1→2', credibility: 'verified', chainId: 'chain-1' },
-    { id: 'r1-2', sourceId: '2', targetId: '3', type: 'supply', strength: 0.9, description: '2→3', credibility: 'verified', chainId: 'chain-1' },
-    { id: 'r1-3', sourceId: '3', targetId: '4', type: 'supply', strength: 0.9, description: '3→4', credibility: 'verified', chainId: 'chain-1' },
-    { id: 'r1-4', sourceId: '4', targetId: '5', type: 'supply', strength: 0.8, description: '4→5', credibility: 'verified', chainId: 'chain-1' },
-    { id: 'r1-5', sourceId: '5', targetId: '6', type: 'demand', strength: 0.7, description: '5→6', credibility: 'verified', chainId: 'chain-1' },
+    { id: 'r1-1', sourceId: 'c1', targetId: 'hub', type: 'supply', strength: 0.9, description: '材料甲→中心枢纽', credibility: 'verified', chainId: 'chain-1' },
+    { id: 'r1-2', sourceId: 'hub', targetId: 'p1', type: 'supply', strength: 0.9, description: '中心枢纽→加工1', credibility: 'verified', chainId: 'chain-1' },
+    { id: 'r1-3', sourceId: 'p1', targetId: 'f1', type: 'supply', strength: 0.8, description: '加工1→工厂A', credibility: 'verified', chainId: 'chain-1' },
+    { id: 'r1-4', sourceId: 'f1', targetId: 'b1', type: 'supply', strength: 0.8, description: '工厂A→品牌α', credibility: 'verified', chainId: 'chain-1' },
+    { id: 'r1-5', sourceId: 'b1', targetId: 'd1', type: 'demand', strength: 0.7, description: '品牌α→需求Ⅰ', credibility: 'verified', chainId: 'chain-1' },
 
-    { id: 'r2-1', sourceId: 'a', targetId: 'b', type: 'supply', strength: 0.9, description: 'a→b', credibility: 'verified', chainId: 'chain-2' },
-    { id: 'r2-2', sourceId: 'b', targetId: '3', type: 'supply', strength: 0.9, description: 'b→3', credibility: 'verified', chainId: 'chain-2' },
-    { id: 'r2-3', sourceId: '3', targetId: 'c', type: 'supply', strength: 0.9, description: '3→c', credibility: 'verified', chainId: 'chain-2' },
-    { id: 'r2-4', sourceId: 'c', targetId: 'd', type: 'supply', strength: 0.8, description: 'c→d', credibility: 'verified', chainId: 'chain-2' },
-    { id: 'r2-5', sourceId: 'd', targetId: 'e', type: 'demand', strength: 0.7, description: 'd→e', credibility: 'verified', chainId: 'chain-2' },
+    { id: 'r2-1', sourceId: 'c2', targetId: 'hub', type: 'supply', strength: 0.9, description: '材料乙→中心枢纽', credibility: 'verified', chainId: 'chain-2' },
+    { id: 'r2-2', sourceId: 'hub', targetId: 'p2', type: 'supply', strength: 0.9, description: '中心枢纽→加工2', credibility: 'verified', chainId: 'chain-2' },
+    { id: 'r2-3', sourceId: 'p2', targetId: 'f2', type: 'supply', strength: 0.8, description: '加工2→工厂B', credibility: 'verified', chainId: 'chain-2' },
+    { id: 'r2-4', sourceId: 'f2', targetId: 'b2', type: 'supply', strength: 0.8, description: '工厂B→品牌β', credibility: 'verified', chainId: 'chain-2' },
+    { id: 'r2-5', sourceId: 'b2', targetId: 'd2', type: 'demand', strength: 0.7, description: '品牌β→需求Ⅱ', credibility: 'verified', chainId: 'chain-2' },
 
-    { id: 'r3-1', sourceId: 'f', targetId: 'g', type: 'supply', strength: 0.9, description: 'f→g', credibility: 'verified', chainId: 'chain-3' },
-    { id: 'r3-2', sourceId: 'g', targetId: '4', type: 'supply', strength: 0.9, description: 'g→4', credibility: 'verified', chainId: 'chain-3' },
-    { id: 'r3-3', sourceId: '4', targetId: 'h', type: 'supply', strength: 0.9, description: '4→h', credibility: 'verified', chainId: 'chain-3' },
-    { id: 'r3-4', sourceId: 'h', targetId: 'i', type: 'demand', strength: 0.7, description: 'h→i', credibility: 'verified', chainId: 'chain-3' },
+    { id: 'r3-1', sourceId: 'c3', targetId: 'hub', type: 'supply', strength: 0.9, description: '材料丙→中心枢纽', credibility: 'verified', chainId: 'chain-3' },
+    { id: 'r3-2', sourceId: 'hub', targetId: 'p3', type: 'supply', strength: 0.9, description: '中心枢纽→加工3', credibility: 'verified', chainId: 'chain-3' },
+    { id: 'r3-3', sourceId: 'p3', targetId: 'f3', type: 'supply', strength: 0.8, description: '加工3→工厂C', credibility: 'verified', chainId: 'chain-3' },
+    { id: 'r3-4', sourceId: 'f3', targetId: 'b3', type: 'supply', strength: 0.8, description: '工厂C→品牌γ', credibility: 'verified', chainId: 'chain-3' },
+    { id: 'r3-5', sourceId: 'b3', targetId: 'd3', type: 'demand', strength: 0.7, description: '品牌γ→需求Ⅲ', credibility: 'verified', chainId: 'chain-3' },
 
-    { id: 'r4-1', sourceId: 'j', targetId: 'k', type: 'supply', strength: 0.9, description: 'j→k', credibility: 'verified', chainId: 'chain-4' },
-    { id: 'r4-2', sourceId: 'k', targetId: '2', type: 'supply', strength: 0.9, description: 'k→2', credibility: 'verified', chainId: 'chain-4' },
-    { id: 'r4-3', sourceId: '2', targetId: 'l', type: 'supply', strength: 0.9, description: '2→l', credibility: 'verified', chainId: 'chain-4' },
-    { id: 'r4-4', sourceId: 'l', targetId: 'm', type: 'supply', strength: 0.8, description: 'l→m', credibility: 'verified', chainId: 'chain-4' },
-    { id: 'r4-5', sourceId: 'm', targetId: 'n', type: 'demand', strength: 0.7, description: 'm→n', credibility: 'verified', chainId: 'chain-4' },
+    { id: 'r4-1', sourceId: 'c4', targetId: 'hub', type: 'supply', strength: 0.9, description: '材料丁→中心枢纽', credibility: 'verified', chainId: 'chain-4' },
+    { id: 'r4-2', sourceId: 'hub', targetId: 'p4', type: 'supply', strength: 0.9, description: '中心枢纽→加工4', credibility: 'verified', chainId: 'chain-4' },
+    { id: 'r4-3', sourceId: 'p4', targetId: 'f4', type: 'supply', strength: 0.8, description: '加工4→工厂D', credibility: 'verified', chainId: 'chain-4' },
+    { id: 'r4-4', sourceId: 'f4', targetId: 'b4', type: 'supply', strength: 0.8, description: '工厂D→品牌δ', credibility: 'verified', chainId: 'chain-4' },
+    { id: 'r4-5', sourceId: 'b4', targetId: 'd4', type: 'demand', strength: 0.7, description: '品牌δ→需求Ⅳ', credibility: 'verified', chainId: 'chain-4' },
+
+    { id: 'r5-1', sourceId: 'c5', targetId: 'hub', type: 'supply', strength: 0.9, description: '材料戊→中心枢纽', credibility: 'verified', chainId: 'chain-5' },
+    { id: 'r5-2', sourceId: 'hub', targetId: 'p5', type: 'supply', strength: 0.9, description: '中心枢纽→加工5', credibility: 'verified', chainId: 'chain-5' },
+    { id: 'r5-3', sourceId: 'p5', targetId: 'f5', type: 'supply', strength: 0.8, description: '加工5→工厂E', credibility: 'verified', chainId: 'chain-5' },
+    { id: 'r5-4', sourceId: 'f5', targetId: 'b5', type: 'supply', strength: 0.8, description: '工厂E→品牌ε', credibility: 'verified', chainId: 'chain-5' },
+    { id: 'r5-5', sourceId: 'b5', targetId: 'd5', type: 'demand', strength: 0.7, description: '品牌ε→需求Ⅴ', credibility: 'verified', chainId: 'chain-5' },
   ],
 
   chains: [
     {
       id: 'chain-1',
-      name: '产业链1',
-      description: '1-2-3-4-5-6',
-      nodeIds: ['1', '2', '3', '4', '5', '6'],
-      demandType: '需求6'
+      name: '产业链一',
+      description: '材料甲 → 中心枢纽 → 加工1 → 工厂A → 品牌α → 需求Ⅰ',
+      nodeIds: ['c1', 'hub', 'p1', 'f1', 'b1', 'd1'],
+      demandType: '需求Ⅰ'
     },
     {
       id: 'chain-2',
-      name: '产业链2',
-      description: 'a-b-3-c-d-e',
-      nodeIds: ['a', 'b', '3', 'c', 'd', 'e'],
-      demandType: '需求e'
+      name: '产业链二',
+      description: '材料乙 → 中心枢纽 → 加工2 → 工厂B → 品牌β → 需求Ⅱ',
+      nodeIds: ['c2', 'hub', 'p2', 'f2', 'b2', 'd2'],
+      demandType: '需求Ⅱ'
     },
     {
       id: 'chain-3',
-      name: '产业链3',
-      description: 'f-g-4-h-i',
-      nodeIds: ['f', 'g', '4', 'h', 'i'],
-      demandType: '需求i'
+      name: '产业链三',
+      description: '材料丙 → 中心枢纽 → 加工3 → 工厂C → 品牌γ → 需求Ⅲ',
+      nodeIds: ['c3', 'hub', 'p3', 'f3', 'b3', 'd3'],
+      demandType: '需求Ⅲ'
     },
     {
       id: 'chain-4',
-      name: '产业链4',
-      description: 'j-k-2-l-m-n',
-      nodeIds: ['j', 'k', '2', 'l', 'm', 'n'],
-      demandType: '需求n'
+      name: '产业链四',
+      description: '材料丁 → 中心枢纽 → 加工4 → 工厂D → 品牌δ → 需求Ⅳ',
+      nodeIds: ['c4', 'hub', 'p4', 'f4', 'b4', 'd4'],
+      demandType: '需求Ⅳ'
+    },
+    {
+      id: 'chain-5',
+      name: '产业链五',
+      description: '材料戊 → 中心枢纽 → 加工5 → 工厂E → 品牌ε → 需求Ⅴ',
+      nodeIds: ['c5', 'hub', 'p5', 'f5', 'b5', 'd5'],
+      demandType: '需求Ⅴ'
     },
   ]
 };
