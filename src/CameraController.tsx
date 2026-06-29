@@ -22,15 +22,21 @@ export function CameraController({ physicsEngine }: CameraControllerProps) {
     if (selectedNodeId && physicsEngine) {
       const nodePos = physicsEngine.getNodePosition(selectedNodeId);
       if (nodePos) {
-        // 沿链的反方向后退，看向锚点
         const chainDir = physicsEngine.getChainDirection(selectedNodeId);
         const anchorId = physicsEngine.getChainAnchor(selectedNodeId);
         const anchorPos = anchorId ? physicsEngine.getNodePosition(anchorId) : null;
 
-        // 相机位置：从节点位置沿链反方向后退 20 个单位
-        const cameraPos = nodePos.clone().sub(chainDir.clone().multiplyScalar(20));
-        // 稍微抬高，获得更好的视角
-        cameraPos.y += 5;
+        const upVector = new THREE.Vector3(0, 1, 0);
+        let perpendicular = new THREE.Vector3().crossVectors(chainDir, upVector);
+        if (perpendicular.length() < 0.1) {
+          perpendicular = new THREE.Vector3(1, 0, 0);
+        }
+        perpendicular.normalize();
+
+        const cameraDistance = 30;
+        const cameraPos = nodePos.clone()
+          .add(perpendicular.multiplyScalar(cameraDistance))
+          .add(upVector.clone().multiplyScalar(8));
 
         targetPosition.current.copy(cameraPos);
         targetLookAt.current.copy(anchorPos || nodePos);
