@@ -6,7 +6,6 @@ import { NodeMesh } from './NodeMesh';
 import { RelationshipLines } from './RelationshipLines';
 import { CameraController } from './CameraController';
 import { PhysicsEngine } from './PhysicsEngine';
-import { PhysicsSimulation } from './PhysicsSimulation';
 
 export function Scene() {
   const data = useGraphStore(state => state.data);
@@ -17,12 +16,10 @@ export function Scene() {
 
   const [physicsEngine, setPhysicsEngine] = useState<PhysicsEngine | null>(null);
 
-  // 初始化物理引擎
   useEffect(() => {
     if (!data || physicsEngine) return;
 
     const engine = new PhysicsEngine();
-    engine.initializeNodes(data.nodes.map(n => n.id));
     engine.setChains(data.chains);
     setPhysicsEngine(engine);
   }, [data, physicsEngine]);
@@ -46,8 +43,13 @@ export function Scene() {
 
       <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade />
 
-      <PhysicsSimulation physicsEngine={physicsEngine} />
       <CameraController physicsEngine={physicsEngine} />
+
+      <RelationshipLines
+        data={data}
+        physicsEngine={physicsEngine}
+        selectedNodeId={selectedNodeId}
+      />
 
       {data.nodes.map(node => (
         <NodeMesh
@@ -57,19 +59,15 @@ export function Scene() {
         />
       ))}
 
-      <RelationshipLines
-        data={data}
-        physicsEngine={physicsEngine}
-        selectedNodeId={selectedNodeId}
-      />
-
       <OrbitControls
         enabled={cameraMode !== 'flying'}
         enablePan={true}
         enableZoom={true}
         enableRotate={true}
         minDistance={5}
-        maxDistance={100}
+        maxDistance={200}
+        minPolarAngle={0}
+        maxPolarAngle={Math.PI}
         onStart={() => setDragging(true)}
         onEnd={() => setDragging(false)}
       />

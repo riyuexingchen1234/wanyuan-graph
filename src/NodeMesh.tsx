@@ -1,5 +1,4 @@
-import { useRef, useState } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useMemo, useState } from 'react';
 import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { Node } from './types';
@@ -12,21 +11,15 @@ interface NodeMeshProps {
 }
 
 export function NodeMesh({ node, physicsEngine }: NodeMeshProps) {
-  const meshRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
 
   const selectNode = useGraphStore(state => state.selectNode);
   const setHoveredNode = useGraphStore(state => state.setHoveredNode);
   const selectedNodeId = useGraphStore(state => state.selectedNodeId);
 
-  useFrame(() => {
-    if (!meshRef.current) return;
-
-    const position = physicsEngine.getNodePosition(node.id);
-    if (position) {
-      meshRef.current.position.copy(position);
-    }
-  });
+  const position = useMemo(() => {
+    return physicsEngine.getNodePosition(node.id) || new THREE.Vector3(0, 0, 0);
+  }, [node.id, physicsEngine]);
 
   const handleClick = (e: any) => {
     e.stopPropagation();
@@ -58,16 +51,17 @@ export function NodeMesh({ node, physicsEngine }: NodeMeshProps) {
   };
 
   const isSelected = selectedNodeId === node.id;
+  const scale = isSelected ? 1.6 : hovered ? 1.2 : 1;
 
   return (
-    <group>
+    <group position={position}>
       <mesh
-        ref={meshRef}
         onClick={handleClick}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
+        scale={scale}
       >
-        <sphereGeometry args={[isSelected ? 0.8 : hovered ? 0.6 : 0.5, 32, 32]} />
+        <sphereGeometry args={[0.5, 16, 16]} />
         <meshStandardMaterial
           color={getColor()}
           emissive={getColor()}
