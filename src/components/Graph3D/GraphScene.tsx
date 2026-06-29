@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
+import * as THREE from 'three';
 import Starfield from './Starfield';
 import StarNode from './StarNode';
 import FlowBand from './FlowBand';
@@ -17,8 +18,15 @@ function SceneContent() {
   const chains = useGraphStore((s) => s.chains);
   const positions = useGraphStore((s) => s.positions);
   const initialCameraTarget = useGraphStore((s) => s.initialCameraTarget);
+  const graphGroupRef = useRef<THREE.Group>(null);
 
   useCameraFlight();
+
+  useFrame((_, delta) => {
+    if (graphGroupRef.current) {
+      graphGroupRef.current.rotation.y += delta * 0.03;
+    }
+  });
 
   const validEdges = useMemo(() => {
     return edges.filter((e) => positions.has(e.source) && positions.has(e.target));
@@ -37,17 +45,19 @@ function SceneContent() {
 
       <Starfield />
 
-      {validEdges.map((edge) => (
-        <FlowBand key={edge.id} edgeId={edge.id} />
-      ))}
+      <group ref={graphGroupRef} rotation={[-0.2, 0, 0]}>
+        {validEdges.map((edge) => (
+          <FlowBand key={edge.id} edgeId={edge.id} />
+        ))}
 
-      {validNodes.map((node) => (
-        <StarNode key={node.id} nodeId={node.id} />
-      ))}
+        {validNodes.map((node) => (
+          <StarNode key={node.id} nodeId={node.id} />
+        ))}
 
-      {chains.map((chain) => (
-        <ChainLabel key={chain.id} chainId={chain.id} />
-      ))}
+        {chains.map((chain) => (
+          <ChainLabel key={chain.id} chainId={chain.id} />
+        ))}
+      </group>
 
       <OrbitControls
         makeDefault
@@ -106,7 +116,7 @@ export default function GraphScene() {
 
   return (
     <Canvas
-      camera={{ position: initialCameraPosition as Vec3, fov: 60, near: 0.1, far: 500 }}
+      camera={{ position: initialCameraPosition as Vec3, fov: 70, near: 0.1, far: 500 }}
       gl={{ antialias: true, powerPreference: 'high-performance', alpha: false }}
       dpr={[1, 2]}
       onPointerMissed={() => {}}

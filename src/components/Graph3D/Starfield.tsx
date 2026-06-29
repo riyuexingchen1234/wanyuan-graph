@@ -9,7 +9,7 @@ interface StarfieldProps {
   radius?: number;
 }
 
-export default function Starfield({ count = 2000, radius = 150 }: StarfieldProps) {
+export default function Starfield({ count = 1200, radius = 150 }: StarfieldProps) {
   const pointsRef = useRef<THREE.Points>(null);
 
   const [positions, colors] = useMemo(() => {
@@ -33,7 +33,7 @@ export default function Starfield({ count = 2000, radius = 150 }: StarfieldProps
 
   useFrame((_, delta) => {
     if (pointsRef.current) {
-      pointsRef.current.rotation.y += delta * 0.005;
+      pointsRef.current.rotation.y += delta * 0.002;
     }
   });
 
@@ -50,7 +50,7 @@ export default function Starfield({ count = 2000, radius = 150 }: StarfieldProps
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.3}
+        size={0.25}
         sizeAttenuation
         vertexColors
         transparent

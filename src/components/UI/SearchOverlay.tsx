@@ -53,6 +53,12 @@ export default function SearchOverlay() {
     closeSearch();
   }, [flyTo, closeSearch]);
 
+  const handleResultClick = useCallback((e: React.MouseEvent, node: GraphNode) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleSelect(node);
+  }, [handleSelect]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === '/' && !open) {
@@ -105,8 +111,8 @@ export default function SearchOverlay() {
         </button>
       )}
       {open && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[420px] max-w-[90vw]">
-          <div className="bg-black/70 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden shadow-2xl">
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[420px] max-w-[90vw]" style={{ pointerEvents: 'auto' }}>
+          <div className="bg-black/70 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden shadow-2xl" style={{ pointerEvents: 'auto' }}>
             <div className="flex items-center gap-3 px-5 py-3 border-b border-white/10">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/50 flex-shrink-0">
                 <circle cx="11" cy="11" r="8" />
@@ -120,19 +126,21 @@ export default function SearchOverlay() {
                 placeholder="输入节点名称搜索..."
                 className="flex-1 bg-transparent text-white placeholder-white/30 outline-none text-sm"
                 autoComplete="off"
+                style={{ pointerEvents: 'auto' }}
               />
               <span className="text-xs text-white/30">ESC</span>
             </div>
             {results.length > 0 && (
-              <div className="max-h-80 overflow-y-auto py-1">
+              <div className="max-h-80 overflow-y-auto py-1" style={{ pointerEvents: 'auto' }}>
                 {results.map((node, idx) => (
                   <button
                     key={node.id}
-                    onClick={() => handleSelect(node)}
+                    onMouseDown={(e) => handleResultClick(e, node)}
                     onMouseEnter={() => setSelectedIndex(idx)}
                     className={`w-full text-left px-5 py-2.5 flex items-center gap-3 transition-colors ${
                       idx === selectedIndex ? 'bg-white/10' : 'hover:bg-white/5'
                     }`}
+                    style={{ pointerEvents: 'auto' }}
                   >
                     <div
                       className="w-2.5 h-2.5 rounded-full flex-shrink-0"

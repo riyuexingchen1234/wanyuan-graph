@@ -86,6 +86,10 @@ export default function StarNode({ nodeId }: StarNodeProps) {
   const crossRingRef = useRef<THREE.Mesh>(null);
   const facilityRingRef = useRef<THREE.Mesh>(null);
   const glowRef = useRef<THREE.Mesh>(null);
+  const spriteRef = useRef<THREE.Sprite>(null);
+  const spriteMatRef = useRef<THREE.SpriteMaterial>(null);
+  const hitMeshRef = useRef<THREE.Mesh>(null);
+  const lastLodLevelRef = useRef(-1);
   const { camera } = useThree();
 
   const info = useMemo(() => {
@@ -117,11 +121,16 @@ export default function StarNode({ nodeId }: StarNodeProps) {
     }
   }, [info]);
 
+  const hitRadius = useMemo(() => {
+    if (!info) return 1;
+    return info.radius * 4;
+  }, [info]);
+
   useFrame((state, delta) => {
-    if (!info || !meshRef.current || !matRef.current || !groupRef.current) return;
+    if (!info || !groupRef.current) return;
 
     const worldPos = new THREE.Vector3();
-    meshRef.current.getWorldPosition(worldPos);
+    groupRef.current.getWorldPosition(worldPos);
     const camDist = camera.position.distanceTo(worldPos);
 
     let lodLevel = 0;
@@ -130,7 +139,9 @@ export default function StarNode({ nodeId }: StarNodeProps) {
     else if (camDist > 18) lodLevel = 2;
     else lodLevel = 3;
 
-    const mat = matRef.current;
+    const lodChanged = lastLodLevelRef.current !== lodLevel;
+    lastLodLevelRef.current = lodLevel;
+
     const r = info.radius;
 
     if (lodLevel === 0) {
@@ -140,34 +151,53 @@ export default function StarNode({ nodeId }: StarNodeProps) {
     groupRef.current.visible = true;
 
     if (lodLevel === 1) {
-      mat.color.copy(info.color);
-      mat.emissive.copy(info.color);
-      mat.emissiveIntensity = 1.0;
-      mat.opacity = 0.95;
-      mat.transparent = true;
-      meshRef.current.scale.setScalar(r * 0.3);
-      if (glowRef.current) glowRef.current.visible = false;
-      if (crossRingRef.current) crossRingRef.current.visible = false;
-      if (facilityRingRef.current) facilityRingRef.current.visible = false;
-      if (labelGroupRef.current) labelGroupRef.current.visible = false;
+      if (lodChanged) {
+        if (meshRef.current) meshRef.current.visible = false;
+        if (glowRef.current) glowRef.current.visible = false;
+        if (crossRingRef.current) crossRingRef.current.visible = false;
+        if (facilityRingRef.current) facilityRingRef.current.visible = false;
+        if (labelGroupRef.current) labelGroupRef.current.visible = false;
+        if (spriteRef.current && spriteMatRef.current) {
+          spriteRef.current.visible = true;
+          spriteMatRef.current.color.copy(info.color);
+        }
+      }
+      if (spriteRef.current) {
+        const spriteScale = r * 0.8 * (1 + Math.sin(state.clock.elapsedTime * 2) * 0.15);
+        spriteRef.current.scale.setScalar(spriteScale);
+      }
+      if (hitMeshRef.current) {
+        hitMeshRef.current.scale.setScalar(Math.max(hitRadius * 2, r * 8));
+      }
       return;
     }
 
+    if (lodChanged) {
+      if (spriteRef.current) spriteRef.current.visible = false;
+      if (meshRef.current) meshRef.current.visible = true;
+    }
+
     const scaleMult = isSelected ? 1.4 : isHovered ? 1.2 : 1;
-    meshRef.current.scale.setScalar(r * scaleMult);
-    mat.color.copy(info.color);
-    mat.emissive.copy(info.emissive);
-    mat.emissiveIntensity = isSelected ? info.emissiveIntensity * 2.5 : isHovered ? info.emissiveIntensity * 1.5 : info.emissiveIntensity;
-    mat.transparent = false;
-    mat.opacity = 1;
-    mat.metalness = 0.3;
-    mat.roughness = 0.5;
+    if (meshRef.current && matRef.current) {
+      if (lodChanged) {
+        matRef.current.color.copy(info.color);
+        matRef.current.emissive.copy(info.emissive);
+        matRef.current.metalness = 0.3;
+        matRef.current.roughness = 0.5;
+        matRef.current.transparent = false;
+        matRef.current.opacity = 1;
+      }
+      meshRef.current.scale.setScalar(r * scaleMult);
+      matRef.current.emissiveIntensity = isSelected ? info.emissiveIntensity * 2.5 : isHovered ? info.emissiveIntensity * 1.5 : info.emissiveIntensity;
+    }
 
     if (glowRef.current && glowMatRef.current) {
       glowRef.current.visible = true;
       const glowScale = r * 2.2 * scaleMult * (1 + Math.sin(state.clock.elapsedTime * 2) * 0.08);
       glowRef.current.scale.setScalar(glowScale);
-      glowMatRef.current.color.copy(info.color);
+      if (lodChanged) {
+        glowMatRef.current.color.copy(info.color);
+      }
       glowMatRef.current.opacity = isSelected ? 0.3 : isHovered ? 0.22 : 0.12;
     }
 
@@ -175,8 +205,10 @@ export default function StarNode({ nodeId }: StarNodeProps) {
       crossRingRef.current.visible = true;
       crossRingRef.current.rotation.z += delta * 0.4;
       crossRingRef.current.rotation.x += delta * 0.15;
-      crossRingMatRef.current.opacity = lodLevel === 3 ? 0.55 : 0.25;
       crossRingRef.current.scale.setScalar(r * 2.2);
+      if (lodChanged) {
+        crossRingMatRef.current.opacity = lodLevel === 3 ? 0.55 : 0.25;
+      }
     } else if (crossRingRef.current) {
       crossRingRef.current.visible = false;
     }
@@ -186,13 +218,19 @@ export default function StarNode({ nodeId }: StarNodeProps) {
       facilityRingRef.current.rotation.z += delta * 0.25;
       const pulse = 1 + Math.sin(state.clock.elapsedTime * 1.5) * 0.12;
       facilityRingRef.current.scale.setScalar(r * 2.8 * pulse);
-      facilityRingMatRef.current.color.copy(info.chainColor);
+      if (lodChanged) {
+        facilityRingMatRef.current.color.copy(info.chainColor);
+      }
     } else if (facilityRingRef.current) {
       facilityRingRef.current.visible = false;
     }
 
     if (labelGroupRef.current) {
       labelGroupRef.current.visible = lodLevel >= 3;
+    }
+
+    if (hitMeshRef.current) {
+      hitMeshRef.current.scale.setScalar(hitRadius * scaleMult);
     }
   });
 
@@ -226,12 +264,12 @@ export default function StarNode({ nodeId }: StarNodeProps) {
 
   return (
     <group ref={groupRef} position={[info.pos.x, info.pos.y, info.pos.z]}>
+      <sprite ref={spriteRef} visible={false} scale={[info.radius, info.radius, 1]}>
+        <spriteMaterial ref={spriteMatRef} color={info.color} transparent opacity={0.95} depthWrite={false} blending={THREE.AdditiveBlending} />
+      </sprite>
       <mesh
         ref={meshRef}
         geometry={geometry}
-        onClick={handleClick as unknown as (e: THREE.Event) => void}
-        onPointerOver={handlePointerOver as unknown as (e: THREE.Event) => void}
-        onPointerOut={handlePointerOut as unknown as (e: THREE.Event) => void}
       >
         <meshStandardMaterial ref={matRef} color={info.color} emissive={info.emissive} emissiveIntensity={info.emissiveIntensity} metalness={0.3} roughness={0.5} />
       </mesh>
@@ -272,6 +310,15 @@ export default function StarNode({ nodeId }: StarNodeProps) {
           />
         </mesh>
       )}
+      <mesh
+        ref={hitMeshRef}
+        onClick={handleClick as unknown as (e: THREE.Event) => void}
+        onPointerOver={handlePointerOver as unknown as (e: THREE.Event) => void}
+        onPointerOut={handlePointerOut as unknown as (e: THREE.Event) => void}
+      >
+        <sphereGeometry args={[1, 8, 8]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+      </mesh>
       <group ref={labelGroupRef} visible={false} position={[0, info.radius * 2.8, 0]}>
         <Html
           distanceFactor={15}

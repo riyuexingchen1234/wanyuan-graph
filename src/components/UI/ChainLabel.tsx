@@ -39,9 +39,13 @@ export default function ChainLabel({ chainId }: ChainLabelProps) {
 
   useFrame(() => {
     if (!groupRef.current) return;
-    const dist = camera.position.distanceTo(
-      new THREE.Vector3(labelPos[0], labelPos[1], labelPos[2])
-    );
+    const worldPos = new THREE.Vector3();
+    groupRef.current.getWorldPosition(worldPos);
+    const dist = camera.position.distanceTo(worldPos);
+    if (dist > 50) {
+      groupRef.current.visible = false;
+      return;
+    }
     let opacity = 0;
     if (dist < 40) {
       opacity = Math.min(1, (40 - dist) / 15);

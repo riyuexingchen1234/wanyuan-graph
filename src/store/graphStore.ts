@@ -59,8 +59,8 @@ function computeInitialCamera(nodes: GraphNode[], positions: Map<string, NodePos
   const sizeY = maxY - minY;
   const sizeZ = maxZ - minZ;
   const maxDim = Math.max(sizeX, sizeY, sizeZ, 30);
-  const dist = maxDim * 1.3;
-  return { position: [cx, cy + dist * 0.25, cz + dist], target: [cx, cy, cz] };
+  const dist = maxDim * 0.9;
+  return { position: [cx, cy + dist * 0.4, cz + dist], target: [cx, cy, cz] };
 }
 
 function pcaMainDirection(nodes: GraphNode[], positions: Map<string, NodePosition>): Vec3 {
